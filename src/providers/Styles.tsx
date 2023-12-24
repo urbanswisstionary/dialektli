@@ -17,7 +17,7 @@ const StylesProvider: FC<StylesProviderProps> = ({ children }) => (
             "--Transition-duration": "0.3s", // set to `none` to disable transition
 
             "--background-color": "rgba(255 255 255 / 0.2)",
-            "--background-color-dark": "#13131866",
+            "--background-color-dark": "#131318cc",
           },
         }}
       />
