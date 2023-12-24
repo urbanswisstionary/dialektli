@@ -23,10 +23,6 @@ const AuthLayout: FC<PropsWithChildren> = ({
         display: "flex",
         justifyContent: "flex-end",
         backdropFilter: "blur(12px)",
-        backgroundColor: "var(--background-color)",
-        [theme.getColorSchemeSelector("dark")]: {
-          backgroundColor: "var(--background-color-dark)",
-        },
       })}
     >
       <Box

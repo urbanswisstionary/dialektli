@@ -10,6 +10,7 @@ import { FC, FormEvent } from "react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import Button from "@/ui/Button";
+import PasswordInput from "./passwordInput";
 
 interface FormElements extends HTMLFormControlsCollection {
   email: HTMLInputElement;
@@ -30,19 +31,15 @@ const SigninForm: FC = () => {
         const data = {
           email: formElements.email.value,
           password: formElements.password.value,
-          persistent: formElements.persistent.checked,
         };
-        signIn("credentials", { data });
+        signIn("credentials", data);
       }}
     >
       <FormControl required>
         <FormLabel>Email</FormLabel>
         <Input type="email" name="email" />
       </FormControl>
-      <FormControl required>
-        <FormLabel>Password</FormLabel>
-        <Input type="password" name="password" />
-      </FormControl>
+      <PasswordInput required />
       <Stack gap={4} sx={{ mt: 2 }}>
         <Box
           sx={{
