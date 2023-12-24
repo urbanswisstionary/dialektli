@@ -9,7 +9,7 @@ const StylesProvider: FC<StylesProviderProps> = ({ children }) => (
     <CssVarsProvider defaultMode="dark" disableTransitionOnChange>
       <CssBaseline />
       <GlobalStyles
-        styles={{
+        styles={(theme) => ({
           ":root": {
             "--Auth-forms-breakpoint": "769px", // forms will stretch when viewport is below `769px`
             "--Cover-width": "50vw", // must be `vw` only
@@ -19,7 +19,31 @@ const StylesProvider: FC<StylesProviderProps> = ({ children }) => (
             "--background-color": "rgba(255 255 255 / 0.2)",
             "--background-color-dark": "#131318cc",
           },
-        }}
+          "*": {
+            boxSizing: "border-box",
+            padding: 0,
+            margin: 0,
+          },
+          "html, body": {
+            maxWidth: "100vw",
+            overflowX: "hidden",
+          },
+          body: {
+            background: "var(--background-color)",
+          },
+          a: {
+            color: "inherit",
+            textDecoration: "none",
+          },
+          [theme.getColorSchemeSelector("dark")]: {
+            html: {
+              colorScheme: "dark",
+            },
+            body: {
+              background: "var(--background-color-dark)",
+            },
+          },
+        })}
       />
       {children}
     </CssVarsProvider>
