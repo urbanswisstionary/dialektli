@@ -8,9 +8,7 @@ import image0_0 from "../../../public/assets/image0_0.jpg";
 import image1_0 from "../../../public/assets/image1_0.jpg";
 import Header from "@/features/Auth/header";
 
-const AuthLayout: FC<PropsWithChildren> = ({
-  children,
-}) => (
+const AuthLayout: FC<PropsWithChildren> = ({ children }) => (
   <>
     <Box
       sx={(theme) => ({
@@ -23,10 +21,6 @@ const AuthLayout: FC<PropsWithChildren> = ({
         display: "flex",
         justifyContent: "flex-end",
         backdropFilter: "blur(12px)",
-        backgroundColor: "var(--background-color)",
-        [theme.getColorSchemeSelector("dark")]: {
-          backgroundColor: "var(--background-color-dark)",
-        },
       })}
     >
       <Box
