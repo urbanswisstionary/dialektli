@@ -8,9 +8,7 @@ import image0_0 from "../../../public/assets/image0_0.jpg";
 import image1_0 from "../../../public/assets/image1_0.jpg";
 import Header from "@/features/Auth/header";
 
-const AuthLayout: FC<PropsWithChildren> = ({
-  children,
-}) => (
+const AuthLayout: FC<PropsWithChildren> = ({ children }) => (
   <>
     <Box
       sx={(theme) => ({

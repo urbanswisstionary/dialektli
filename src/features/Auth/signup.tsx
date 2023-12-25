@@ -2,11 +2,12 @@ import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 
-import { FC, FormEvent, useState } from "react";
+import { FC, FormEvent, useCallback, useState } from "react";
 import { Box, FormHelperText } from "@mui/joy";
 import Button from "@/ui/Button";
 import PasswordInput from "./passwordInput";
 import { signIn } from "next-auth/react";
+import { useReCaptcha } from "next-recaptcha-v3";
 
 interface FormElements extends HTMLFormControlsCollection {
   name: HTMLInputElement;
@@ -19,24 +20,30 @@ interface SignupFormElement extends HTMLFormElement {
 }
 
 const SigninForm: FC = () => {
+  const { executeRecaptcha } = useReCaptcha();
   const [passwordError, setPasswordError] = useState<string | undefined>();
+
+  const onSubmit = useCallback(
+    async (e: FormEvent<SignupFormElement>) => {
+      e.preventDefault();
+
+      const formElements = e.currentTarget.elements;
+      if (formElements.password.value !== formElements.passwordRepeat.value) {
+        setPasswordError("Passwords do not match");
+      } else {
+        const data = {
+          name: formElements.name.value,
+          email: formElements.email.value,
+          password: formElements.password.value,
+          recaptchaToken: await executeRecaptcha("sign_up"),
+        };
+        signIn("credentials", data);
+      }
+    },
+    [executeRecaptcha]
+  );
   return (
-    <form
-      onSubmit={(event: FormEvent<SignupFormElement>) => {
-        event.preventDefault();
-        const formElements = event.currentTarget.elements;
-        if (formElements.password.value !== formElements.passwordRepeat.value) {
-          setPasswordError("Passwords do not match");
-        } else {
-          const data = {
-            name: formElements.name.value,
-            email: formElements.email.value,
-            password: formElements.password.value,
-          };
-          signIn("credentials", data);
-        }
-      }}
-    >
+    <form onSubmit={onSubmit}>
       <FormControl required>
         <FormLabel>Name</FormLabel>
         <Input name="name" />
@@ -47,11 +54,7 @@ const SigninForm: FC = () => {
       </FormControl>
 
       <PasswordInput required error={passwordError} />
-      <PasswordInput
-        required
-        name="passwordRepeat"
-        error={passwordError}
-      />
+      <PasswordInput required name="passwordRepeat" error={passwordError} />
 
       <FormHelperText id="email-helper-text">
         We&apos;ll never share your information.

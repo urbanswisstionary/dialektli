@@ -3,8 +3,9 @@ import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 
-import { FC, FormEvent } from "react";
+import { FC, FormEvent, useCallback } from "react";
 import Button from "@/ui/Button";
+import { useReCaptcha } from "next-recaptcha-v3";
 
 interface FormElements extends HTMLFormControlsCollection {
   email: HTMLInputElement;
@@ -14,16 +15,24 @@ interface ResetPasswordFormElement extends HTMLFormElement {
 }
 
 const ResetPasswordForm: FC = () => {
-  if (process.env.NODE_ENV !== "development") return null;
+  const { executeRecaptcha } = useReCaptcha();
+
+  const onSubmit = useCallback(
+    async (e: FormEvent<ResetPasswordFormElement>) => {
+      e.preventDefault();
+
+      const formElements = e.currentTarget.elements;
+
+      const data = {
+        email: formElements.email.value,
+        recaptchaToken: await executeRecaptcha("reset_password"),
+      };
+      console.log("reset password", { data });
+    },
+    [executeRecaptcha]
+  );
   return (
-    <form
-      onSubmit={(event: FormEvent<ResetPasswordFormElement>) => {
-        event.preventDefault();
-        const formElements = event.currentTarget.elements;
-        const data = { email: formElements.email.value };
-        console.log("reset password", { data });
-      }}
-    >
+    <form onSubmit={onSubmit}>
       <FormControl required>
         <FormLabel>Email</FormLabel>
         <Input type="email" name="email" />

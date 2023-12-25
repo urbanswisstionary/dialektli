@@ -10,6 +10,7 @@ import AuthLayout from "@/features/Auth/layout";
 import { NextPage } from "next";
 import Divider from "@/ui/Divider";
 import Button from "@/ui/Button";
+import RecaptchaProvider from "@/providers/Recaptcha";
 
 const SigninPage: NextPage = () => {
   const { data: session } = useSession();
@@ -17,24 +18,29 @@ const SigninPage: NextPage = () => {
   console.log(session);
 
   return (
-    <AuthLayout>
-      <Stack gap={1}>
-        <Typography level="h3">Sign in</Typography>
-        <Typography level="body-sm">
-          already have an account?{" "}
-          <JoiLink component={Link} href="/account/signup" level="title-sm">
-            Sign up!
-          </JoiLink>
-        </Typography>
-      </Stack>
-      <Stack gap={4}>
-        <SigninForm />
-      </Stack>
-      <Divider>or</Divider>
-      <Button startDecorator={<GoogleIcon />} onClick={() => signIn("google")}>
-        Continue with Google
-      </Button>
-    </AuthLayout>
+    <RecaptchaProvider>
+      <AuthLayout>
+        <Stack gap={1}>
+          <Typography level="h3">Sign in</Typography>
+          <Typography level="body-sm">
+            already have an account?{" "}
+            <JoiLink component={Link} href="/account/signup" level="title-sm">
+              Sign up!
+            </JoiLink>
+          </Typography>
+        </Stack>
+        <Stack gap={4}>
+          <SigninForm />
+        </Stack>
+        <Divider>or</Divider>
+        <Button
+          startDecorator={<GoogleIcon />}
+          onClick={() => signIn("google")}
+        >
+          Continue with Google
+        </Button>
+      </AuthLayout>
+    </RecaptchaProvider>
   );
 };
 

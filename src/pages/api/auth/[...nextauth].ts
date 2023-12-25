@@ -15,7 +15,23 @@ import { randomUUID } from "crypto";
 
 import Cookies from "cookies";
 
-const { GOOGLE_CLIENT_ID = "", GOOGLE_CLIENT_SECRET = "" } = process.env;
+const {
+  GOOGLE_CLIENT_ID = "",
+  GOOGLE_CLIENT_SECRET = "",
+  RECAPTCHA_SECRETE_KEY = "",
+} = process.env;
+
+const verifyRecaptcha = async (token: string) => {
+  const secretKey = RECAPTCHA_SECRETE_KEY;
+
+  var verificationUrl =
+    "https://www.google.com/recaptcha/api/siteverify?secret=" +
+    secretKey +
+    "&response=" +
+    token;
+
+  return await fetch(verificationUrl, { method: "POST" });
+};
 
 const getAdapter = (req: NextApiRequest, res: NextApiResponse): Adapter => ({
   ...PrismaAdapter(prisma),
@@ -67,9 +83,25 @@ export default async function handler(
           name: { label: "Name", type: "name", placeholder: "Name" },
           email: { label: "Email", type: "email", placeholder: "Email" },
           password: { label: "Password", type: "password" },
+          recaptchaToken: { label: "Recaptcha", type: "recaptcha" },
         },
-        async authorize(credentials, req) {
+        async authorize(credentials, authReq) {
           if (!credentials) return null;
+
+          try {
+            const recaptchaToken = credentials.recaptchaToken;
+            const recaptcharesponse = await verifyRecaptcha(recaptchaToken);
+            const recaptchaData = await recaptcharesponse.json();
+
+            if (!recaptchaData.success || recaptchaData.score < 0.5)
+              throw new Error("Recaptcha failed");
+          } catch (error) {
+            console.error(error);
+            res.json({
+              status: "error",
+              message: "Something went wrong, please try again.",
+            });
+          }
           const { name, email, password } = credentials;
 
           let user = await prisma.user.findUnique({ where: { email } });
