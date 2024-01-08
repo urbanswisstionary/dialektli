@@ -18,6 +18,10 @@ const StylesProvider: FC<StylesProviderProps> = ({ children }) => (
 
             "--background-color": "rgba(255 255 255 / 0.2)",
             "--background-color-dark": "#131318cc",
+            "--Header-height": "52px",
+            [theme.breakpoints.up("md")]: {
+              "--Header-height": "0px",
+            },
           },
           "*": {
             boxSizing: "border-box",

@@ -96,6 +96,8 @@ model User {
     role          Role      @default(USER)
     likes         Like[]
     dislikes      Dislike[]
+
+    country       String?
 }
 
 model VerificationToken {
