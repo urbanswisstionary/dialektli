@@ -1,5 +1,5 @@
-import { FC } from "react";
-import JoiButton, { ButtonProps as JoiButtonProps } from "@mui/joy/Button";
+import { FC } from "react"
+import JoiButton, { ButtonProps as JoiButtonProps } from "@mui/joy/Button"
 
 const Button: FC<JoiButtonProps> = ({
   variant = "soft",
@@ -8,6 +8,6 @@ const Button: FC<JoiButtonProps> = ({
   ...props
 }) => (
   <JoiButton variant={variant} color={color} fullWidth={fullWidth} {...props} />
-);
+)
 
-export default Button;
+export default Button

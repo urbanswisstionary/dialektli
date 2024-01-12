@@ -1,10 +1,10 @@
-import { FC } from "react";
-import Image from "next/image";
-import Box from "@mui/joy/Box";
-import IconButton from "@mui/joy/IconButton";
-import Typography from "@mui/joy/Typography";
-import ColorSchemeToggle from "@/ui/ColorSchemeToggle";
-import Link from "next/link";
+import { FC } from "react"
+import Image from "next/image"
+import Box from "@mui/joy/Box"
+import IconButton from "@mui/joy/IconButton"
+import Typography from "@mui/joy/Typography"
+import ColorSchemeToggle from "@/ui/ColorSchemeToggle"
+import Link from "next/link"
 
 const Header: FC = () => (
   <Box
@@ -31,6 +31,6 @@ const Header: FC = () => (
     </Box>
     <ColorSchemeToggle />
   </Box>
-);
+)
 
-export default Header;
+export default Header

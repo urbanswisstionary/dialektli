@@ -8,15 +8,44 @@ datasource db {
     directUrl = env("DATABASE_URL_NON_POOLING") // uses a direct connection
 }
 
-// schema.prisma
+generator pothos {
+    provider     = "prisma-pothos-types"
+    clientOutput = "@prisma/client"
+    output       = "../generated/pothos-types.ts"
+}
+
+model Like {
+    post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+    postId    String
+    author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+    authorId  String
+    createdAt DateTime @default(now())
+
+    @@unique([postId, authorId])
+    @@index([postId, authorId])
+}
+
+model Dislike {
+    post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+    postId    String
+    author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+    authorId  String
+    createdAt DateTime @default(now())
+
+    @@unique([postId, authorId])
+    @@index([postId, authorId])
+}
 
 model Post {
-    id        String  @id @default(cuid())
+    id        String    @id @default(cuid())
     title     String
     content   String?
-    published Boolean @default(false)
-    author    User?   @relation(fields: [authorId], references: [id])
+    examples  String[]
+    published Boolean   @default(false)
+    author    User?     @relation(fields: [authorId], references: [id])
     authorId  String?
+    likes     Like[]
+    dislikes  Dislike[]
 }
 
 model Account {
@@ -60,10 +89,13 @@ model User {
     emailVerified DateTime?
     password      String?
     image         String?
+    bio           String?
     posts         Post[]
     accounts      Account[]
     sessions      Session[]
     role          Role      @default(USER)
+    likes         Like[]
+    dislikes      Dislike[]
 }
 
 model VerificationToken {

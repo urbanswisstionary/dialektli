@@ -1,17 +1,17 @@
-import Box from "@mui/joy/Box";
+import Box from "@mui/joy/Box"
 
-import Typography from "@mui/joy/Typography";
-import Stack from "@mui/joy/Stack";
+import Typography from "@mui/joy/Typography"
+import Stack from "@mui/joy/Stack"
 
-import { FC, PropsWithChildren } from "react";
-import image0_0 from "../../../public/assets/image0_0.jpg";
-import image1_0 from "../../../public/assets/image1_0.jpg";
-import Header from "@/features/Auth/header";
+import { FC, PropsWithChildren } from "react"
+import image0_0 from "../../../public/assets/image0_0.jpg"
+import image1_0 from "../../../public/assets/image1_0.jpg"
+import Header from "@/features/Auth/header"
 
 const AuthLayout: FC<PropsWithChildren> = ({ children }) => (
   <>
     <Box
-      sx={(theme) => ({
+      sx={{
         width:
           "clamp(calc(100vw - var(--Cover-width)), calc(var(--Auth-forms-breakpoint) - 100vw), 100vw)",
         transition: "width var(--Transition-duration)",
@@ -21,7 +21,7 @@ const AuthLayout: FC<PropsWithChildren> = ({ children }) => (
         display: "flex",
         justifyContent: "flex-end",
         backdropFilter: "blur(12px)",
-      })}
+      }}
     >
       <Box
         sx={{
@@ -69,9 +69,9 @@ const AuthLayout: FC<PropsWithChildren> = ({ children }) => (
     </Box>
     <BackgroundImage />
   </>
-);
+)
 
-export default AuthLayout;
+export default AuthLayout
 
 const BackgroundImage: FC = () => (
   <Box
@@ -95,4 +95,4 @@ const BackgroundImage: FC = () => (
       },
     })}
   />
-);
+)

@@ -1,8 +1,8 @@
-import { ReCaptchaProvider as GoogleReCaptchaV3Provider } from "next-recaptcha-v3";
+import { ReCaptchaProvider as GoogleReCaptchaV3Provider } from "next-recaptcha-v3"
 
-import { FC, PropsWithChildren } from "react";
+import { FC, PropsWithChildren } from "react"
 
-const reCaptchaKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? "";
+const reCaptchaKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? ""
 
 const RecaptchaProvider: FC<PropsWithChildren> = ({ children }) => (
   <GoogleReCaptchaV3Provider
@@ -13,6 +13,6 @@ const RecaptchaProvider: FC<PropsWithChildren> = ({ children }) => (
   >
     {children}
   </GoogleReCaptchaV3Provider>
-);
+)
 
-export default RecaptchaProvider;
+export default RecaptchaProvider

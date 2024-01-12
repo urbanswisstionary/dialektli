@@ -1,5 +1,5 @@
-import SvgIcon from "@mui/joy/SvgIcon";
-import { FC } from "react";
+import SvgIcon from "@mui/joy/SvgIcon"
+import { FC } from "react"
 
 const GoogleIcon: FC = () => (
   <SvgIcon fontSize="xl">
@@ -22,6 +22,6 @@ const GoogleIcon: FC = () => (
       />
     </g>
   </SvgIcon>
-);
+)
 
-export default GoogleIcon;
+export default GoogleIcon
