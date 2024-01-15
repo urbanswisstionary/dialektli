@@ -1,20 +1,24 @@
-import type { Session } from "next-auth";
-import { FC, PropsWithChildren } from "react";
-import AuthProvider from "./Auth";
-import StylesProvider from "./Styles";
-import HeadProvider from "./Head";
+import { FC, PropsWithChildren } from "react"
+import AuthProvider, { AuthProviderProps } from "./Auth"
+import StylesProvider from "./Styles"
+import HeadProvider from "./Head"
+import ApolloClientProvider, { ApolloClientProviderProps } from "./Apollo"
 
-type ProviderProps = PropsWithChildren<{
-  session: Session;
-}>;
+export type ProviderProps = AuthProviderProps & ApolloClientProviderProps
 
-const Providers: FC<ProviderProps> = ({ children, session }) => (
+const Providers: FC<PropsWithChildren<ProviderProps>> = ({
+  children,
+  session,
+  apollo,
+}) => (
   <>
-    <HeadProvider />
-    <AuthProvider session={session}>
-      <StylesProvider>{children}</StylesProvider>
-    </AuthProvider>
+    <ApolloClientProvider apollo={apollo}>
+      <HeadProvider />
+      <AuthProvider session={session}>
+        <StylesProvider>{children}</StylesProvider>
+      </AuthProvider>
+    </ApolloClientProvider>
   </>
-);
+)
 
-export default Providers;
+export default Providers

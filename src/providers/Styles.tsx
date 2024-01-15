@@ -1,9 +1,9 @@
-import { CssVarsProvider } from "@mui/joy/styles";
-import { FC, PropsWithChildren } from "react";
-import GlobalStyles from "@mui/joy/GlobalStyles";
-import CssBaseline from "@mui/joy/CssBaseline";
+import { CssVarsProvider } from "@mui/joy/styles"
+import { FC, PropsWithChildren } from "react"
+import GlobalStyles from "@mui/joy/GlobalStyles"
+import CssBaseline from "@mui/joy/CssBaseline"
 
-type StylesProviderProps = PropsWithChildren;
+type StylesProviderProps = PropsWithChildren
 const StylesProvider: FC<StylesProviderProps> = ({ children }) => (
   <>
     <CssVarsProvider defaultMode="dark" disableTransitionOnChange>
@@ -48,6 +48,6 @@ const StylesProvider: FC<StylesProviderProps> = ({ children }) => (
       {children}
     </CssVarsProvider>
   </>
-);
+)
 
-export default StylesProvider;
+export default StylesProvider

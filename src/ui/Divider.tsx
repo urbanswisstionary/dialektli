@@ -1,9 +1,9 @@
-import MuiDivider from "@mui/joy/Divider";
+import MuiDivider from "@mui/joy/Divider"
 
-import { FC, PropsWithChildren } from "react";
+import { FC, PropsWithChildren } from "react"
 
 const Divider: FC<PropsWithChildren> = ({ children }) => (
   <MuiDivider>{children}</MuiDivider>
-);
+)
 
-export default Divider;
+export default Divider

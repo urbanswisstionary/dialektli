@@ -1,21 +1,21 @@
-import FormControl from "@mui/joy/FormControl";
-import FormLabel from "@mui/joy/FormLabel";
-import Input, { InputProps } from "@mui/joy/Input";
+import FormControl from "@mui/joy/FormControl"
+import FormLabel from "@mui/joy/FormLabel"
+import Input from "@mui/joy/Input"
 
-import { FC, useState, MouseEvent } from "react";
-import { FormHelperText, IconButton } from "@mui/joy";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { FC, useState, MouseEvent } from "react"
+import { FormHelperText, IconButton } from "@mui/joy"
+import { Visibility, VisibilityOff } from "@mui/icons-material"
 
 const PasswordInput: FC<{
-  required?: boolean;
-  name?: string;
-  error?: string;
+  required?: boolean
+  name?: string
+  error?: string
 }> = ({ required, name = "password", error }) => {
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false)
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleClickShowPassword = () => setShowPassword((show) => !show)
   const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) =>
-    event.preventDefault();
+    event.preventDefault()
 
   return (
     <FormControl required={required} error={!!error}>
@@ -38,7 +38,7 @@ const PasswordInput: FC<{
         <FormHelperText id="password-error-message">{error}</FormHelperText>
       ) : null}
     </FormControl>
-  );
-};
+  )
+}
 
-export default PasswordInput;
+export default PasswordInput

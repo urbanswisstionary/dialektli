@@ -1,36 +1,37 @@
-import Box from "@mui/joy/Box";
-import FormControl from "@mui/joy/FormControl";
-import FormLabel from "@mui/joy/FormLabel";
-import Input from "@mui/joy/Input";
+import Box from "@mui/joy/Box"
+import FormControl from "@mui/joy/FormControl"
+import FormLabel from "@mui/joy/FormLabel"
+import Input from "@mui/joy/Input"
 
-import { FC, FormEvent, useCallback } from "react";
-import Button from "@/ui/Button";
-import { useReCaptcha } from "next-recaptcha-v3";
+import { FC, FormEvent, useCallback } from "react"
+import Button from "@/ui/Button"
+import { useReCaptcha } from "next-recaptcha-v3"
 
 interface FormElements extends HTMLFormControlsCollection {
-  email: HTMLInputElement;
+  email: HTMLInputElement
 }
 interface ResetPasswordFormElement extends HTMLFormElement {
-  readonly elements: FormElements;
+  readonly elements: FormElements
 }
 
 const ResetPasswordForm: FC = () => {
-  const { executeRecaptcha } = useReCaptcha();
+  const { executeRecaptcha } = useReCaptcha()
 
   const onSubmit = useCallback(
     async (e: FormEvent<ResetPasswordFormElement>) => {
-      e.preventDefault();
+      e.preventDefault()
 
-      const formElements = e.currentTarget.elements;
+      const formElements = e.currentTarget.elements
 
       const data = {
         email: formElements.email.value,
         recaptchaToken: await executeRecaptcha("reset_password"),
-      };
-      console.log("reset password", { data });
+      }
+      // eslint-disable-next-line no-console
+      console.info("reset password", { data })
     },
-    [executeRecaptcha]
-  );
+    [executeRecaptcha],
+  )
   return (
     <form onSubmit={onSubmit}>
       <FormControl required>
@@ -41,7 +42,7 @@ const ResetPasswordForm: FC = () => {
         <Button type="submit">Reset Password</Button>
       </Box>
     </form>
-  );
-};
+  )
+}
 
-export default ResetPasswordForm;
+export default ResetPasswordForm

@@ -1,22 +1,22 @@
-import JoiLink from "@mui/joy/Link";
-import Link from "next/link";
+import JoiLink from "@mui/joy/Link"
+import Link from "next/link"
 
-import Typography from "@mui/joy/Typography";
-import Stack from "@mui/joy/Stack";
+import Typography from "@mui/joy/Typography"
+import Stack from "@mui/joy/Stack"
 
-import GoogleIcon from "@/ui/icons/GoogleIcon";
-import { useSession, signIn, signOut } from "next-auth/react";
-import SignupForm from "@/features/Auth/signup";
-import AuthLayout from "@/features/Auth/layout";
-import { NextPage } from "next";
-import Divider from "@/ui/Divider";
-import Button from "@/ui/Button";
-import RecaptchaProvider from "@/providers/Recaptcha";
+import GoogleIcon from "@/ui/icons/GoogleIcon"
+import { useSession, signIn, signOut } from "next-auth/react"
+import SignupForm from "@/features/Auth/signup"
+import AuthLayout from "@/features/Auth/layout"
+import { NextPage } from "next"
+import Divider from "@/ui/Divider"
+import Button from "@/ui/Button"
+import RecaptchaProvider from "@/providers/Recaptcha"
 
 const SignupPage: NextPage = () => {
-  const { data: session } = useSession();
-
-  console.log(session);
+  const { data: session } = useSession()
+  // eslint-disable-next-line no-console
+  console.log(session)
 
   return (
     <RecaptchaProvider>
@@ -43,7 +43,7 @@ const SignupPage: NextPage = () => {
         </Button>
       </AuthLayout>
     </RecaptchaProvider>
-  );
-};
+  )
+}
 
-export default SignupPage;
+export default SignupPage

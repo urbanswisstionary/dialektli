@@ -1,42 +1,42 @@
-import Box from "@mui/joy/Box";
-import FormControl from "@mui/joy/FormControl";
-import FormLabel from "@mui/joy/FormLabel";
-import JoiLink from "@mui/joy/Link";
-import Input from "@mui/joy/Input";
-import Stack from "@mui/joy/Stack";
+import Box from "@mui/joy/Box"
+import FormControl from "@mui/joy/FormControl"
+import FormLabel from "@mui/joy/FormLabel"
+import JoiLink from "@mui/joy/Link"
+import Input from "@mui/joy/Input"
+import Stack from "@mui/joy/Stack"
 
-import { FC, FormEvent, useCallback } from "react";
-import { signIn } from "next-auth/react";
-import Link from "next/link";
-import Button from "@/ui/Button";
-import PasswordInput from "./passwordInput";
-import { useReCaptcha } from "next-recaptcha-v3";
+import { FC, FormEvent, useCallback } from "react"
+import { signIn } from "next-auth/react"
+import Link from "next/link"
+import Button from "@/ui/Button"
+import PasswordInput from "./passwordInput"
+import { useReCaptcha } from "next-recaptcha-v3"
 
 interface FormElements extends HTMLFormControlsCollection {
-  email: HTMLInputElement;
-  password: HTMLInputElement;
+  email: HTMLInputElement
+  password: HTMLInputElement
 }
 interface SigninFormElement extends HTMLFormElement {
-  readonly elements: FormElements;
+  readonly elements: FormElements
 }
 
 const SigninForm: FC = () => {
-  const { executeRecaptcha } = useReCaptcha();
+  const { executeRecaptcha } = useReCaptcha()
 
   const onSubmit = useCallback(
     async (e: FormEvent<SigninFormElement>) => {
-      e.preventDefault();
+      e.preventDefault()
 
-      const formElements = e.currentTarget.elements;
+      const formElements = e.currentTarget.elements
       const data = {
         email: formElements.email.value,
         password: formElements.password.value,
         recaptchaToken: await executeRecaptcha("sign_in"),
-      };
-      signIn("credentials", data);
+      }
+      signIn("credentials", data)
     },
-    [executeRecaptcha]
-  );
+    [executeRecaptcha],
+  )
   return (
     <form onSubmit={onSubmit}>
       <FormControl required>
@@ -63,7 +63,7 @@ const SigninForm: FC = () => {
         <Button type="submit">Sign in</Button>
       </Stack>
     </form>
-  );
-};
+  )
+}
 
-export default SigninForm;
+export default SigninForm

@@ -1,12 +1,12 @@
-import { FC } from "react";
-import Head from "next/head";
+import { FC } from "react"
+import Head from "next/head"
 
 const defailtHeadData = {
   name: "Urbanswisstionary",
   short_name: "urbanswisstionary",
   description:
     "It's a place to share current (colloquial) Swiss German words, sayings, phrases, that sort of thing",
-};
+}
 const HeadProvider: FC = () => (
   <Head>
     <title>{defailtHeadData.name}</title>
@@ -19,6 +19,6 @@ const HeadProvider: FC = () => (
     <meta property="og:title" content={defailtHeadData.name} />
     <meta property="og:description" content={defailtHeadData.description} />
   </Head>
-);
+)
 
-export default HeadProvider;
+export default HeadProvider

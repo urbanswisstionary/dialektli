@@ -1,17 +1,17 @@
-import Typography from "@mui/joy/Typography";
-import Stack from "@mui/joy/Stack";
+import Typography from "@mui/joy/Typography"
+import Stack from "@mui/joy/Stack"
 
-import { useSession } from "next-auth/react";
-import AuthLayout from "@/features/Auth/layout";
-import { NextPage } from "next";
+import { useSession } from "next-auth/react"
+import AuthLayout from "@/features/Auth/layout"
+import { NextPage } from "next"
 
-import ResetPasswordForm from "@/features/Auth/resetPassword";
-import RecaptchaProvider from "@/providers/Recaptcha";
+import ResetPasswordForm from "@/features/Auth/resetPassword"
+import RecaptchaProvider from "@/providers/Recaptcha"
 
 const SigninPage: NextPage = () => {
-  const { data: session } = useSession();
-
-  console.log(session);
+  const { data: session } = useSession()
+  // eslint-disable-next-line no-console
+  console.log(session)
 
   return (
     <RecaptchaProvider>
@@ -24,7 +24,7 @@ const SigninPage: NextPage = () => {
         </Stack>
       </AuthLayout>
     </RecaptchaProvider>
-  );
-};
+  )
+}
 
-export default SigninPage;
+export default SigninPage

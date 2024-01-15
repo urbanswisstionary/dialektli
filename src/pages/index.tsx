@@ -1,11 +1,15 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
+import Head from "next/head"
+import Image from "next/image"
+import { Inter } from "next/font/google"
+import styles from "@/styles/Home.module.css"
+import useMe from "@/hooks/useMe"
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] })
 
 export default function Home() {
+  const me = useMe().me
+  console.log({ me })
+
   return (
     <>
       <Head>
@@ -26,7 +30,7 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              By{' '}
+              By{" "}
               <Image
                 src="/vercel.svg"
                 alt="Vercel Logo"
