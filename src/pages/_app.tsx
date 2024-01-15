@@ -46,9 +46,7 @@ const withApolloClient = withApollo(
 
       new HttpLink({
         uri: `${
-          typeof window === "undefined"
-            ? "http://localhost:3000" //`${process.env.ROOT_URL}`
-            : ""
+          typeof window === "undefined" ? `${process.env.VERCEL_URL}` : ""
         }/api/graphql`,
         credentials: "include",
         // credentials: 'same-origin',
