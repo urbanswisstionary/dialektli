@@ -22,7 +22,7 @@ const ResetApolloOnLangChange: FC<{
       apollo.resetStore()
       lastLang.current = router?.locale
     }
-  }, [router?.locale])
+  }, [apollo, router?.locale])
 
   return null
 }
@@ -46,8 +46,6 @@ const ApolloClientProvider: FC<
 export const withApolloClient = withApollo(
   ({ initialState, router }) => {
     const headerLink = setContext(async (_, { headers }) => {
-      console.log("boobs", process.env.ROOT_URL)
-
       return {
         headers: {
           ...headers,
