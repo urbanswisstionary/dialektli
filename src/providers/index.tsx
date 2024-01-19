@@ -10,9 +10,10 @@ const Providers: FC<PropsWithChildren<ProviderProps>> = ({
   children,
   session,
   apollo,
+  router,
 }) => (
   <>
-    <ApolloClientProvider apollo={apollo}>
+    <ApolloClientProvider apollo={apollo} router={router}>
       <HeadProvider />
       <AuthProvider session={session}>
         <StylesProvider>{children}</StylesProvider>
