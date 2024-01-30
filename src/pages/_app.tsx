@@ -17,11 +17,14 @@ const App: FC<AppProps & Pick<ProviderProps, "apollo">> = ({
   Component,
   pageProps,
   apollo,
-}) => (
-  <Providers session={pageProps?.session} apollo={apollo}>
-    <Component {...pageProps} />
-  </Providers>
-)
+  router,
+}) => {
+  return (
+    <Providers session={pageProps?.session} apollo={apollo} router={router}>
+      <Component {...pageProps} />
+    </Providers>
+  )
+}
 
 const withApolloClient = withApollo(
   ({ initialState, router }) => {
@@ -40,7 +43,6 @@ const withApolloClient = withApollo(
           typeof window === "undefined" ? `${process.env.VERCEL_URL}` : ""
         }/api/graphql`,
         credentials: "include",
-        // credentials: 'same-origin',
       }),
     ])
 

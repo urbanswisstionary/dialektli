@@ -4,12 +4,14 @@ import {
   ApolloProvider,
   HttpLink,
   InMemoryCache,
+  NormalizedCacheObject,
 } from "@apollo/client"
+
 import { setContext } from "@apollo/client/link/context"
 import { getDataFromTree } from "@apollo/client/react/ssr"
-import { NextRouter, useRouter } from "next/router"
+import { NextRouter, Router } from "next/router"
 import { FC, PropsWithChildren, useRef, useEffect } from "react"
-import withApollo from "next-with-apollo"
+import withApollo, { InitApolloOptions } from "next-with-apollo"
 
 const ResetApolloOnLangChange: FC<{
   apollo: ApolloClient<unknown>
@@ -29,11 +31,12 @@ const ResetApolloOnLangChange: FC<{
 
 export type ApolloClientProviderProps = {
   apollo: ApolloClient<unknown>
+  router: Router
 }
 const ApolloClientProvider: FC<
   PropsWithChildren<ApolloClientProviderProps>
-> = ({ children, apollo }) => {
-  const router = useRouter()
+> = ({ children, apollo, router }) => {
+  // const router = useRouter()
 
   return (
     <>
@@ -44,7 +47,7 @@ const ApolloClientProvider: FC<
 }
 
 export const withApolloClient = withApollo(
-  ({ initialState, router }) => {
+  ({ initialState, router }: InitApolloOptions<NormalizedCacheObject>) => {
     const headerLink = setContext(async (_, { headers }) => {
       return {
         headers: {
@@ -58,7 +61,7 @@ export const withApolloClient = withApollo(
       headerLink,
 
       new HttpLink({
-        uri: `${typeof window === "undefined" ? `${process.env.ROOT_URL}` : ""}/api/graphql`,
+        uri: `${typeof window === "undefined" ? `http${process.env.NODE_ENV === "production" ? "s" : ""}//${process.env.VERCEL_URL}` : ""}/api/graphql`,
         credentials: "include",
         // credentials: 'same-origin',
       }),

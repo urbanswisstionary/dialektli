@@ -31,12 +31,14 @@ builder.prismaObject("User", {
     dislikesCount: t.int({
       resolve: ({ id }) => prisma.dislike.count({ where: { authorId: id } }),
     }),
+    country: t.exposeString("country", { nullable: true }),
+    canton: t.exposeString("canton", { nullable: true }),
   }),
 })
 builder.queryFields((t) => ({
   me: t.prismaField({
     type: "User",
-    shield: permissions.isMe,
+    shield: permissions.isAuthenticated,
     resolve: (query, _root, _args, { session }) =>
       prisma.user.findUniqueOrThrow({
         ...query,
@@ -65,17 +67,19 @@ const CreateUserInput = builder.inputType("CreateUserInput", {
     name: t.string(),
     image: t.string(),
     bio: t.string(),
+    country: t.string(),
+    canton: t.string(),
   }),
 })
 
 const UpdateUserInput = builder.inputType("UpdateUserInput", {
   fields: (t) => ({
     id: t.string({ required: true }),
-    title: t.string(),
-    content: t.string(),
-    examples: t.stringList(),
-    published: t.boolean(),
-    emailVerified: t.field({ type: "DateTime" }),
+    name: t.string(),
+    image: t.string(),
+    bio: t.string(),
+    country: t.string(),
+    canton: t.string(),
   }),
 })
 const UserIdInput = builder.inputType("UserIdInput", {
@@ -94,13 +98,19 @@ builder.mutationFields((t) => ({
   }),
   updateUser: t.prismaField({
     type: "User",
-    shield: permissions.isAdminOrMe,
+    shield: allow,
     nullable: true,
     args: { data: t.arg({ type: UpdateUserInput, required: true }) },
-    resolve: async (query, _root, { data }, { session }, _info) => {
+    resolve: async (
+      query,
+      _root,
+      { data: { id: userId, ...data } },
+      { session },
+      _info,
+    ) => {
       if (!session?.user) throw new Error("Not allowed")
       const user = await prisma.user.findUnique({
-        where: { id: data.id },
+        where: { id: userId },
         select: { id: true },
       })
       if (user?.id !== session.user.id && session.user.role !== Role.ADMIN)
@@ -108,8 +118,8 @@ builder.mutationFields((t) => ({
 
       return prisma.user.update({
         ...query,
-        where: { id: data.id },
-        data: {},
+        where: { id: userId },
+        data,
       })
     },
   }),

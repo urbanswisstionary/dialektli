@@ -31,8 +31,8 @@ export const isAdmin = rule({ cache: "contextual" })(async (
 export const isMe = rule({
   cache: "strict",
   fragment: "fragment UserId on User { id }",
-})(({ id }, _, { session }: Context) => {
-  return id === session?.user?.id
+})(({ email }, _, { session }: Context) => {
+  return email === session?.user?.email
 })
 
 export const isAdminOrMe = race(isAdmin, isMe)

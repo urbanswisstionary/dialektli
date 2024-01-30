@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] })
 
 export default function Home() {
   const me = useMe().me
-  console.log({ me })
+  console.log(me)
 
   return (
     <>

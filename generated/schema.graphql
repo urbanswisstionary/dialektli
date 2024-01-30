@@ -6,6 +6,8 @@ input CreatePostInput {
 
 input CreateUserInput {
   bio: String
+  canton: String
+  country: String
   email: String!
   image: String
   name: String
@@ -90,16 +92,18 @@ input UpdatePostInput {
 }
 
 input UpdateUserInput {
-  content: String
-  emailVerified: DateTime
-  examples: [String!]
+  bio: String
+  canton: String
+  country: String
   id: String!
-  published: Boolean
-  title: String
+  image: String
+  name: String
 }
 
 type User {
   bio: String
+  canton: String
+  country: String
   dislikes: [Dislike!]!
   dislikesCount: Int!
   email: String!
