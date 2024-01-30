@@ -6,6 +6,7 @@ input CreatePostInput {
 
 input CreateUserInput {
   bio: String
+  canton: String
   country: String
   email: String!
   image: String
@@ -92,6 +93,7 @@ input UpdatePostInput {
 
 input UpdateUserInput {
   bio: String
+  canton: String
   country: String
   id: String!
   image: String
@@ -100,6 +102,7 @@ input UpdateUserInput {
 
 type User {
   bio: String
+  canton: String
   country: String
   dislikes: [Dislike!]!
   dislikesCount: Int!

@@ -32,6 +32,7 @@ builder.prismaObject("User", {
       resolve: ({ id }) => prisma.dislike.count({ where: { authorId: id } }),
     }),
     country: t.exposeString("country", { nullable: true }),
+    canton: t.exposeString("canton", { nullable: true }),
   }),
 })
 builder.queryFields((t) => ({
@@ -67,6 +68,7 @@ const CreateUserInput = builder.inputType("CreateUserInput", {
     image: t.string(),
     bio: t.string(),
     country: t.string(),
+    canton: t.string(),
   }),
 })
 
@@ -77,6 +79,7 @@ const UpdateUserInput = builder.inputType("UpdateUserInput", {
     image: t.string(),
     bio: t.string(),
     country: t.string(),
+    canton: t.string(),
   }),
 })
 const UserIdInput = builder.inputType("UserIdInput", {

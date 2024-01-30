@@ -11,6 +11,7 @@ export const MeFragment = graphql(/* GraphQL */ `
     image
     bio
     country
+    canton
     likesCount
     dislikesCount
   }

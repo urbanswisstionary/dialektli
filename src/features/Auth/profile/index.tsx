@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import * as React from "react"
+import { FC, useState, useEffect } from "react"
 import AspectRatio from "@mui/joy/AspectRatio"
 import Box from "@mui/joy/Box"
 import Button from "@mui/joy/Button"
@@ -8,7 +8,6 @@ import FormControl from "@mui/joy/FormControl"
 import FormLabel from "@mui/joy/FormLabel"
 import FormHelperText from "@mui/joy/FormHelperText"
 import Input from "@mui/joy/Input"
-// import IconButton from "@mui/joy/IconButton"
 import Textarea from "@mui/joy/Textarea"
 import Stack from "@mui/joy/Stack"
 import Select from "@mui/joy/Select"
@@ -19,28 +18,29 @@ import CardActions from "@mui/joy/CardActions"
 import CardOverflow from "@mui/joy/CardOverflow"
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded"
 import BadgeIcon from "@mui/icons-material/Badge"
-// import EditRoundedIcon from "@mui/icons-material/EditRounded"
-import CountrySelector from "./countrySelector"
 import useMe, { useUpdateUserMutation } from "@/hooks/useMe"
 import { useRouter } from "next/router"
 import { MeFragmentFragment, Role, UpdateUserInput } from "@@/generated/graphql"
 import { isEqual } from "lodash"
+import SelectLocation from "./SelectLocation"
 
 const bioInputMaxLength = 220
 
 export default function MyProfile() {
   const router = useRouter()
   const { updateUser } = useUpdateUserMutation()
-  const myData = useMe()
-  const [me, updateMyProfile] = React.useState<Partial<MeFragmentFragment>>(
-    myData.me ?? {},
+  const me = useMe()
+  const [profile, updateProfile] = useState<Partial<MeFragmentFragment>>(
+    me.me ?? {},
   )
-  React.useEffect(() => {
-    if (myData.me) updateMyProfile(myData.me)
-  }, [myData.me])
-  if (myData.loading) return <>Loading..</>
-  if (!myData.loading && !me) {
-    router.push("signin")
+  useEffect(() => {
+    if (me.me) updateProfile(me.me)
+  }, [me.me])
+  if (me.loading) return <>Loading..</>
+  console.log("me", me)
+
+  if (!me.loading && !profile) {
+    router.push("/account/signin")
     return <>Redirecting..</>
   }
 
@@ -48,15 +48,14 @@ export default function MyProfile() {
     <form
       onSubmit={(e) => {
         e.preventDefault()
-        if (!me.id) return
+        if (!profile.id) return
         const updateUserInput: UpdateUserInput = {
-          id: me.id,
-          name: me.name,
-          // email: me.email,
-          bio: me.bio,
-          // role: me.role,
-          image: me.image,
-          country: me.country,
+          id: profile.id,
+          name: profile.name,
+          bio: profile.bio,
+          image: profile.image,
+          country: profile.country,
+          canton: profile.canton,
         }
         updateUser(updateUserInput)
       }}
@@ -107,29 +106,12 @@ export default function MyProfile() {
                     maxHeight={108}
                     sx={{ flex: 1, minWidth: 108, borderRadius: "100%" }}
                   >
-                    {me?.image ? (
-                      <img src={me.image} loading="lazy" alt="me" />
+                    {profile?.image ? (
+                      <img src={profile.image} loading="lazy" alt="me" />
                     ) : (
                       <>no image</>
                     )}
                   </AspectRatio>
-                  {/* <IconButton
-                aria-label="upload new picture"
-                size="sm"
-                variant="outlined"
-                color="neutral"
-                sx={{
-                  bgcolor: "background.body",
-                  position: "absolute",
-                  zIndex: 2,
-                  borderRadius: "50%",
-                  left: 100,
-                  top: 170,
-                  boxShadow: "sm",
-                }}
-              >
-                <EditRoundedIcon />
-              </IconButton> */}
                 </Stack>
                 <Stack spacing={1} sx={{ flexGrow: 1 }}>
                   <FormLabel>Name</FormLabel>
@@ -145,9 +127,9 @@ export default function MyProfile() {
                     <Input
                       size="sm"
                       placeholder="Name"
-                      value={me?.name ?? ""}
+                      value={profile?.name ?? ""}
                       onChange={({ currentTarget }) =>
-                        updateMyProfile((prev) => ({
+                        updateProfile((prev) => ({
                           ...prev,
                           name: currentTarget.value ?? "",
                         }))
@@ -156,15 +138,15 @@ export default function MyProfile() {
                   </FormControl>
                 </Stack>
               </Stack>
-              {me?.role && me.role === Role.Admin ? (
+              {profile?.role && profile.role === Role.Admin ? (
                 <FormControl>
                   <FormLabel>Role</FormLabel>
                   <Select
                     size="sm"
                     endDecorator={<BadgeIcon />}
-                    value={me.role}
+                    value={profile.role}
                     onChange={(_e, role) => {
-                      if (role) updateMyProfile((prev) => ({ ...prev, role }))
+                      if (role) updateProfile((prev) => ({ ...prev, role }))
                     }}
                   >
                     {Object.entries(Role).map(([key, value]) => (
@@ -183,9 +165,9 @@ export default function MyProfile() {
                   endDecorator={<EmailRoundedIcon />}
                   sx={{ flexGrow: 1 }}
                   placeholder="email"
-                  value={me?.email}
+                  value={profile?.email}
                   onChange={({ currentTarget }) =>
-                    updateMyProfile((prev) => ({
+                    updateProfile((prev) => ({
                       ...prev,
                       email: currentTarget.value ?? "",
                     }))
@@ -193,17 +175,34 @@ export default function MyProfile() {
                   disabled
                 />
               </FormControl>
-              <div>
-                <CountrySelector
-                  value={me.country}
-                  onChange={(countryCode) =>
-                    updateMyProfile((prev) => ({
-                      ...prev,
-                      country: countryCode as string,
-                    }))
-                  }
-                />
-              </div>
+              <Stack gap={2}>
+                <div>
+                  <SelectLocation
+                    mode="country"
+                    value={profile.country}
+                    onChange={(countryCode) =>
+                      updateProfile((prev) => ({
+                        ...prev,
+                        country: countryCode as string,
+                      }))
+                    }
+                  />
+                </div>
+                {profile.country === "CH" ? (
+                  <div>
+                    <SelectLocation
+                      mode="canton"
+                      value={profile.canton}
+                      onChange={(cantonCode) =>
+                        updateProfile((prev) => ({
+                          ...prev,
+                          canton: cantonCode as string,
+                        }))
+                      }
+                    />
+                  </div>
+                ) : null}
+              </Stack>
               <div>
                 <CardOverflow>
                   <Box>
@@ -216,18 +215,18 @@ export default function MyProfile() {
                     size="sm"
                     minRows={4}
                     sx={{ mt: 1.5 }}
-                    value={me?.bio ?? ""}
+                    value={profile?.bio ?? ""}
                     slotProps={{ textarea: { maxLength: bioInputMaxLength } }}
                     onChange={({ currentTarget }) =>
-                      updateMyProfile((prev) => ({
+                      updateProfile((prev) => ({
                         ...prev,
                         bio: currentTarget.value ?? "",
                       }))
                     }
                   />
                   <FormHelperText sx={{ mt: 0.75, fontSize: "xs" }}>
-                    {bioInputMaxLength - (me?.bio?.length ?? 0)} character
-                    {bioInputMaxLength - (me?.bio?.length ?? 0) === 1
+                    {bioInputMaxLength - (profile?.bio?.length ?? 0)} character
+                    {bioInputMaxLength - (profile?.bio?.length ?? 0) === 1
                       ? ""
                       : "s"}{" "}
                     left
@@ -244,15 +243,15 @@ export default function MyProfile() {
                   size="sm"
                   variant="outlined"
                   color="neutral"
-                  disabled={isEqual(me, myData.me)}
-                  onClick={() => updateMyProfile(myData.me ?? {})}
+                  disabled={isEqual(profile, me.me)}
+                  onClick={() => updateProfile(me.me ?? {})}
                 >
                   Cancel
                 </Button>
                 <Button
                   size="sm"
                   variant="solid"
-                  disabled={isEqual(me, myData.me)}
+                  disabled={isEqual(profile, me.me)}
                   type="submit"
                 >
                   Save

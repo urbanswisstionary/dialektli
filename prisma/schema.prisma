@@ -97,7 +97,8 @@ model User {
     likes         Like[]
     dislikes      Dislike[]
 
-    country       String?
+    country String?
+    canton  String?
 }
 
 model VerificationToken {
