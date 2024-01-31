@@ -19,20 +19,23 @@ export const isAdmin = rule({ cache: "contextual" })(async (
   _info,
 ) => {
   if (!session?.user?.email) return false
-
-  return prisma.user
-    .findUnique({
-      where: { email: session.user.email },
-      select: { role: true },
-    })
-    .then((user) => user?.role === Role.Admin)
+  const user = await prisma.user.findUnique({
+    where: { email: session.user.email },
+    select: { role: true },
+  })
+  return user?.role === Role.Admin
 })
 
 export const isMe = rule({
-  cache: "strict",
-  fragment: "fragment UserId on User { id }",
-})(({ email }, _, { session }: Context) => {
-  return email === session?.user?.email
+  cache: "contextual",
+})(async (_, __, { session }: Context) => {
+  if (!session?.user?.email) return false
+
+  const user = await prisma.user.findUnique({
+    where: { email: session.user.email },
+    select: { email: true },
+  })
+  return user?.email === session?.user?.email
 })
 
 export const isAdminOrMe = race(isAdmin, isMe)
