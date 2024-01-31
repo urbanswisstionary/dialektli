@@ -11,7 +11,10 @@
     "postinstall": "prisma generate",
     "generate:types": "graphql-codegen",
     "generate:types:watch": "graphql-codegen --watch",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:generate": "prisma generate",
+    "prisma:studio": "prisma studio"
   },
   "prisma": {
     "seed": "ts-node --transpile-only ./prisma/seed/index.ts"
