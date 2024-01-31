@@ -1,7 +1,7 @@
-import type { FC, PropsWithChildren } from "react";
-import Box from "@mui/joy/Box";
-import Sidebar from "./sidebar";
-import Header from "./header";
+import type { FC, PropsWithChildren } from "react"
+import Box from "@mui/joy/Box"
+import Sidebar from "./sidebar"
+import Header from "./header"
 
 const Layout: FC<PropsWithChildren> = ({ children }) => {
   return (
@@ -18,7 +18,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
             flex: 1,
             display: "flex",
             flexDirection: "column",
-            minWidth: 0,
+            minWidth: "380px",
             height: "100dvh",
             gap: 1,
             overflow: "auto",
@@ -28,7 +28,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
         </Box>
       </Box>
     </>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout

@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@apollo/client"
-import { MeQuery, UpdateUserInput } from "../../generated/graphql"
+import { MeQuery, Role, UpdateUserInput } from "../../generated/graphql"
 import { getFragmentData, graphql } from "../../generated"
 
 export const MeFragment = graphql(/* GraphQL */ `
@@ -32,27 +32,7 @@ export const ME_QUERY = graphql(/* GraphQL */ `
   }
 `)
 
-export const useUpdateUserMutation = () => {
-  const [updateUser, { data, loading, error }] = useMutation(
-    graphql(/* GraphQL */ `
-      mutation UpdateUser($data: UpdateUserInput!) {
-        updateUser(data: $data) {
-          ...MeFragment
-        }
-      }
-    `),
-  )
-
-  return {
-    updateUser: async (userData: UpdateUserInput) =>
-      await updateUser({ variables: { data: userData } }),
-    data,
-    loading,
-    error,
-  }
-}
-
-const useMe = () => {
+export const useMe = () => {
   const { data, refetch, ...props } = useQuery(ME_QUERY, {
     fetchPolicy: "cache-and-network",
   })
@@ -64,4 +44,44 @@ const useMe = () => {
   }
 }
 
-export default useMe
+export const useUpdateUserMutation = () => {
+  const [updateUser, { data, loading, error }] = useMutation(
+    graphql(/* GraphQL */ `
+      mutation UpdateUser($data: UpdateUserInput!) {
+        updateUser(data: $data) {
+          ...MeFragment
+        }
+      }
+    `),
+    { refetchQueries: [{ query: ME_QUERY }] },
+  )
+
+  return {
+    updateUser: async (userData: UpdateUserInput) =>
+      await updateUser({ variables: { data: userData } }),
+    data,
+    loading,
+    error,
+  }
+}
+
+export const useChangeUserRoleMutation = () => {
+  const [changeUserRole, { data, loading, error }] = useMutation(
+    graphql(/* GraphQL */ `
+      mutation ChangeUserRole($userId: String!, $role: Role!) {
+        changeUserRole(userId: $userId, role: $role) {
+          ...MeFragment
+        }
+      }
+    `),
+    { refetchQueries: [{ query: ME_QUERY }] },
+  )
+
+  return {
+    changeUserRole: async (variables: { userId: string; role: Role }) =>
+      await changeUserRole({ variables }),
+    data,
+    loading,
+    error,
+  }
+}

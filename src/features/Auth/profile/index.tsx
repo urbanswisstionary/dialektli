@@ -1,45 +1,39 @@
 /* eslint-disable @next/next/no-img-element */
 import { FC, useState, useEffect } from "react"
-import AspectRatio from "@mui/joy/AspectRatio"
 import Box from "@mui/joy/Box"
 import Button from "@mui/joy/Button"
 import Divider from "@mui/joy/Divider"
-import FormControl from "@mui/joy/FormControl"
-import FormLabel from "@mui/joy/FormLabel"
-import FormHelperText from "@mui/joy/FormHelperText"
-import Input from "@mui/joy/Input"
-import Textarea from "@mui/joy/Textarea"
+
 import Stack from "@mui/joy/Stack"
-import Select from "@mui/joy/Select"
-import Option from "@mui/joy/Option"
 import Typography from "@mui/joy/Typography"
 import Card from "@mui/joy/Card"
 import CardActions from "@mui/joy/CardActions"
 import CardOverflow from "@mui/joy/CardOverflow"
-import EmailRoundedIcon from "@mui/icons-material/EmailRounded"
-import BadgeIcon from "@mui/icons-material/Badge"
-import useMe, { useUpdateUserMutation } from "@/hooks/useMe"
+import { useMe, useUpdateUserMutation } from "@/hooks/useMe"
 import { useRouter } from "next/router"
 import { MeFragmentFragment, Role, UpdateUserInput } from "@@/generated/graphql"
 import { isEqual } from "lodash"
-import SelectLocation from "./SelectLocation"
+import SelectLocation from "./components/selectLocation"
+import ImageInput from "./components/imageInput"
+import NameInput from "./components/nameInput"
+import RoleInput from "./components/roleInput"
+import EmailInput from "./components/emailInput"
+import BioInput from "./components/bioInput"
 
-const bioInputMaxLength = 220
-
-export default function MyProfile() {
+const MyProfile: FC = () => {
   const router = useRouter()
-  const { updateUser } = useUpdateUserMutation()
-  const me = useMe()
+  const { updateUser, loading: updateUserIsLoading } = useUpdateUserMutation()
+
+  const { me, loading: meLoading } = useMe()
   const [profile, updateProfile] = useState<Partial<MeFragmentFragment>>(
-    me.me ?? {},
+    me ?? {},
   )
   useEffect(() => {
-    if (me.me) updateProfile(me.me)
-  }, [me.me])
-  if (me.loading) return <>Loading..</>
-  console.log("me", me)
+    if (me) updateProfile(me)
+  }, [me])
+  if (meLoading) return <>Loading..</>
 
-  if (!me.loading && !profile) {
+  if (!meLoading && !profile) {
     router.push("/account/signin")
     return <>Redirecting..</>
   }
@@ -60,21 +54,21 @@ export default function MyProfile() {
         updateUser(updateUserInput)
       }}
     >
-      <Box sx={{ flex: 1, width: "100%" }}>
+      {/* <Box sx={{ flex: 1, width: "100%" }}>
         <Box
           sx={{
             position: "sticky",
             top: 0,
             bgcolor: "background.body",
-            zIndex: 9995,
+            // zIndex: 9995,
           }}
-        >
+        > */}
           <Box sx={{ px: { xs: 2, md: 6 }, py: 1 }}>
             <Typography level="h2" component="h1" sx={{ mt: 1, mb: 2 }}>
               My profile
             </Typography>
           </Box>
-        </Box>
+        {/* </Box> */}
         <Stack
           spacing={4}
           sx={{
@@ -101,138 +95,57 @@ export default function MyProfile() {
             >
               <Stack direction="row" spacing={2}>
                 <Stack direction="column" spacing={1}>
-                  <AspectRatio
-                    ratio="1"
-                    maxHeight={108}
-                    sx={{ flex: 1, minWidth: 108, borderRadius: "100%" }}
-                  >
-                    {profile?.image ? (
-                      <img src={profile.image} loading="lazy" alt="me" />
-                    ) : (
-                      <>no image</>
-                    )}
-                  </AspectRatio>
+                  <ImageInput value={profile?.image} />
                 </Stack>
                 <Stack spacing={1} sx={{ flexGrow: 1 }}>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl
-                    sx={{
-                      display: {
-                        sm: "flex-column",
-                        md: "flex-row",
-                      },
-                      gap: 2,
-                    }}
-                  >
-                    <Input
-                      size="sm"
-                      placeholder="Name"
-                      value={profile?.name ?? ""}
-                      onChange={({ currentTarget }) =>
-                        updateProfile((prev) => ({
-                          ...prev,
-                          name: currentTarget.value ?? "",
-                        }))
-                      }
-                    />
-                  </FormControl>
+                  <NameInput
+                    name={profile?.name}
+                    onChange={(name) =>
+                      updateProfile((prev) => ({ ...prev, name }))
+                    }
+                  />
                 </Stack>
               </Stack>
               {profile?.role && profile.role === Role.Admin ? (
-                <FormControl>
-                  <FormLabel>Role</FormLabel>
-                  <Select
-                    size="sm"
-                    endDecorator={<BadgeIcon />}
-                    value={profile.role}
-                    onChange={(_e, role) => {
-                      if (role) updateProfile((prev) => ({ ...prev, role }))
-                    }}
-                  >
-                    {Object.entries(Role).map(([key, value]) => (
-                      <Option key={key} value={value}>
-                        {key}
-                      </Option>
-                    ))}
-                  </Select>
-                </FormControl>
+                <RoleInput
+                  role={profile.role}
+                  onChange={(role) =>
+                    updateProfile((prev) => ({ ...prev, role }))
+                  }
+                />
               ) : null}
-              <FormControl sx={{ flexGrow: 1 }}>
-                <FormLabel>Email</FormLabel>
-                <Input
-                  size="sm"
-                  type="email"
-                  endDecorator={<EmailRoundedIcon />}
-                  sx={{ flexGrow: 1 }}
-                  placeholder="email"
-                  value={profile?.email}
-                  onChange={({ currentTarget }) =>
+              <EmailInput
+                email={profile?.email ?? ""}
+                onChange={(email) =>
+                  updateProfile((prev) => ({ ...prev, email }))
+                }
+              />
+              <SelectLocation
+                mode="country"
+                value={profile.country}
+                onChange={(countryCode) =>
+                  updateProfile((prev) => ({
+                    ...prev,
+                    country: countryCode as string,
+                  }))
+                }
+              />
+              {profile.country === "CH" ? (
+                <SelectLocation
+                  mode="canton"
+                  value={profile.canton}
+                  onChange={(cantonCode) =>
                     updateProfile((prev) => ({
                       ...prev,
-                      email: currentTarget.value ?? "",
+                      canton: cantonCode as string,
                     }))
                   }
-                  disabled
                 />
-              </FormControl>
-              <Stack gap={2}>
-                <div>
-                  <SelectLocation
-                    mode="country"
-                    value={profile.country}
-                    onChange={(countryCode) =>
-                      updateProfile((prev) => ({
-                        ...prev,
-                        country: countryCode as string,
-                      }))
-                    }
-                  />
-                </div>
-                {profile.country === "CH" ? (
-                  <div>
-                    <SelectLocation
-                      mode="canton"
-                      value={profile.canton}
-                      onChange={(cantonCode) =>
-                        updateProfile((prev) => ({
-                          ...prev,
-                          canton: cantonCode as string,
-                        }))
-                      }
-                    />
-                  </div>
-                ) : null}
-              </Stack>
-              <div>
-                <CardOverflow>
-                  <Box>
-                    <Typography level="title-md">Bio</Typography>
-                    <Typography level="body-sm">
-                      Write a short introduction to be displayed on your profile
-                    </Typography>
-                  </Box>
-                  <Textarea
-                    size="sm"
-                    minRows={4}
-                    sx={{ mt: 1.5 }}
-                    value={profile?.bio ?? ""}
-                    slotProps={{ textarea: { maxLength: bioInputMaxLength } }}
-                    onChange={({ currentTarget }) =>
-                      updateProfile((prev) => ({
-                        ...prev,
-                        bio: currentTarget.value ?? "",
-                      }))
-                    }
-                  />
-                  <FormHelperText sx={{ mt: 0.75, fontSize: "xs" }}>
-                    {bioInputMaxLength - (profile?.bio?.length ?? 0)} character
-                    {bioInputMaxLength - (profile?.bio?.length ?? 0) === 1
-                      ? ""
-                      : "s"}{" "}
-                    left
-                  </FormHelperText>
-                </CardOverflow>
-              </div>
+              ) : null}
+              <BioInput
+                bio={profile?.bio ?? ""}
+                onChange={(bio) => updateProfile((prev) => ({ ...prev, bio }))}
+              />
             </Stack>
 
             <CardOverflow
@@ -243,15 +156,16 @@ export default function MyProfile() {
                   size="sm"
                   variant="outlined"
                   color="neutral"
-                  disabled={isEqual(profile, me.me)}
-                  onClick={() => updateProfile(me.me ?? {})}
+                  disabled={isEqual(profile, me) || updateUserIsLoading}
+                  onClick={() => updateProfile(me ?? {})}
                 >
                   Cancel
                 </Button>
                 <Button
                   size="sm"
                   variant="solid"
-                  disabled={isEqual(profile, me.me)}
+                  disabled={isEqual(profile, me)}
+                  loading={updateUserIsLoading}
                   type="submit"
                 >
                   Save
@@ -260,7 +174,9 @@ export default function MyProfile() {
             </CardOverflow>
           </Card>
         </Stack>
-      </Box>
+     {/* </Box> */}
     </form>
   )
 }
+
+export default MyProfile

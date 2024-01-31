@@ -1,6 +1,7 @@
 import { Role } from "@prisma/client"
 import { builder } from "../builder"
 import prisma from "../../lib/prisma"
+import { ApolloError } from "@apollo/client"
 import { allow } from "graphql-shield"
 import * as permissions from "../permissions"
 
@@ -98,7 +99,7 @@ builder.mutationFields((t) => ({
   }),
   updateUser: t.prismaField({
     type: "User",
-    shield: allow,
+    shield: permissions.isAdminOrMe,
     nullable: true,
     args: { data: t.arg({ type: UpdateUserInput, required: true }) },
     resolve: async (
@@ -108,13 +109,16 @@ builder.mutationFields((t) => ({
       { session },
       _info,
     ) => {
-      if (!session?.user) throw new Error("Not allowed")
+      if (!session?.user) throw new ApolloError({ errorMessage: "Not allowed" })
       const user = await prisma.user.findUnique({
         where: { id: userId },
-        select: { id: true },
+        select: { email: true },
       })
-      if (user?.id !== session.user.id && session.user.role !== Role.ADMIN)
-        throw new Error("Not allowed")
+      if (
+        user?.email !== session.user.email &&
+        session.user.role !== Role.ADMIN
+      )
+        throw new ApolloError({ errorMessage: "Not allowed" })
 
       return prisma.user.update({
         ...query,
@@ -132,9 +136,11 @@ builder.mutationFields((t) => ({
       role: t.arg({ type: "Role", required: true }),
     },
     resolve: async (query, _root, { userId, role }, { session }, _info) => {
-      if (!session?.user) throw new Error("Not allowed")
+      if (!session?.user) throw new ApolloError({ errorMessage: "Not allowed" })
       if (session.user.role !== Role.ADMIN)
-        throw new Error("Only admins are allowed to change roles")
+        throw new ApolloError({
+          errorMessage: "Only admins are allowed to change roles",
+        })
       return prisma.user.update({
         ...query,
         where: { id: userId },
@@ -148,10 +154,10 @@ builder.mutationFields((t) => ({
     nullable: true,
     args: { data: t.arg({ type: UserIdInput, required: true }) },
     resolve: async (query, _root, { data: { userId } }, { session }) => {
-      if (!session?.user) throw new Error("Not allowed")
+      if (!session?.user) throw new ApolloError({ errorMessage: "Not allowed" })
       const user = await prisma.user.findUnique({ where: { id: userId } })
       if (user?.id !== session.user.id && session.user.role !== Role.ADMIN)
-        throw new Error("Not allowed")
+        throw new ApolloError({ errorMessage: "Not allowed" })
 
       return prisma.user.delete({ ...query, where: { id: userId } })
     },

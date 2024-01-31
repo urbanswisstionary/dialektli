@@ -17,7 +17,7 @@ const SelectLocation: FC<
   FormControlProps & {
     value: string | null | undefined
     // eslint-disable-next-line no-unused-vars
-    onChange: (locationCode?: string) => void
+    onChange: (locationCode: string | null) => void
     mode: "canton" | "country"
   }
 > = ({ value, onChange, mode, sx, ...props }) => {
@@ -28,36 +28,44 @@ const SelectLocation: FC<
   )
   if (!mode) return null
   return (
-    <FormControl
-      {...props}
-      sx={[{ display: { sm: "contents" } }, ...(Array.isArray(sx) ? sx : [sx])]}
-    >
-      <FormLabel>{mode === "canton" ? "Canton" : "Country"}</FormLabel>
-      <Autocomplete
-        size="sm"
-        autoHighlight
-        isOptionEqualToValue={(option, value) => option.code === value?.code}
-        value={valueIndex === -1 ? null : options[valueIndex]}
-        onChange={(_e, canton) => {
-          if (onChange) onChange(canton?.code)
-        }}
-        options={options}
-        renderOption={(optionProps, option) => (
-          <AutocompleteOption {...optionProps}>
-            <ListItemDecorator>
-              <AspectRatio ratio="1" sx={{ minWidth: 20, borderRadius: "50%" }}>
-                <Flag mode={mode} code={option.code.toLowerCase()} />
-              </AspectRatio>
-            </ListItemDecorator>
-            {option.label}
-          </AutocompleteOption>
-        )}
-        slotProps={{ input: { autoComplete: "new-password" } }} // disable autocomplete and autofill
-        startDecorator={
-          value ? <Flag mode={mode} code={value.toLowerCase()} /> : null
-        }
-      />
-    </FormControl>
+    <div>
+      <FormControl
+        {...props}
+        sx={[
+          { display: { sm: "contents" } },
+          ...(Array.isArray(sx) ? sx : [sx]),
+        ]}
+      >
+        <FormLabel>{mode === "canton" ? "Canton" : "Country"}</FormLabel>
+        <Autocomplete
+          size="sm"
+          autoHighlight
+          isOptionEqualToValue={(option, value) => option.code === value?.code}
+          value={valueIndex === -1 ? null : options[valueIndex]}
+          onChange={(_e, canton) => {
+            if (onChange) onChange(canton?.code ?? null)
+          }}
+          options={options}
+          renderOption={(optionProps, option) => (
+            <AutocompleteOption {...optionProps}>
+              <ListItemDecorator>
+                <AspectRatio
+                  ratio="1"
+                  sx={{ minWidth: 20, borderRadius: "50%" }}
+                >
+                  <Flag mode={mode} code={option.code.toLowerCase()} />
+                </AspectRatio>
+              </ListItemDecorator>
+              {option.label}
+            </AutocompleteOption>
+          )}
+          slotProps={{ input: { autoComplete: "new-password" } }} // disable autocomplete and autofill
+          startDecorator={
+            value ? <Flag mode={mode} code={value.toLowerCase()} /> : null
+          }
+        />
+      </FormControl>
+    </div>
   )
 }
 
