@@ -35,16 +35,12 @@ export type ApolloClientProviderProps = {
 }
 const ApolloClientProvider: FC<
   PropsWithChildren<ApolloClientProviderProps>
-> = ({ children, apollo, router }) => {
-  // const router = useRouter()
-
-  return (
-    <>
-      <ResetApolloOnLangChange apollo={apollo} router={router} />
-      <ApolloProvider client={apollo}>{children}</ApolloProvider>
-    </>
-  )
-}
+> = ({ children, apollo, router }) => (
+  <>
+    <ResetApolloOnLangChange apollo={apollo} router={router} />
+    <ApolloProvider client={apollo}>{children}</ApolloProvider>
+  </>
+)
 
 export const withApolloClient = withApollo(
   ({ initialState, router }: InitApolloOptions<NormalizedCacheObject>) => {
@@ -71,6 +67,14 @@ export const withApolloClient = withApollo(
       link,
       ssrMode: typeof window === "undefined",
       cache: new InMemoryCache().restore(initialState || {}),
+      defaultOptions: {
+        query: {
+          errorPolicy: "all",
+        },
+        mutate: {
+          errorPolicy: "all",
+        },
+      },
     }) as any
   },
   { getDataFromTree },
