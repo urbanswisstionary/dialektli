@@ -1,14 +1,12 @@
 import Box from "@mui/joy/Box"
-
-import Typography from "@mui/joy/Typography"
 import Stack from "@mui/joy/Stack"
-
-import { FC, PropsWithChildren } from "react"
+import type { FC, PropsWithChildren } from "react"
 import image0_0 from "../../../public/assets/image0_0.jpg"
 import image1_0 from "../../../public/assets/image1_0.jpg"
-import Header from "@/features/Auth/header"
+import Header from "./header"
+import Footer from "./footer"
 
-const AuthLayout: FC<PropsWithChildren> = ({ children }) => (
+const LayoutWithImage: FC<PropsWithChildren> = ({ children }) => (
   <>
     <Box
       sx={{
@@ -23,6 +21,7 @@ const AuthLayout: FC<PropsWithChildren> = ({ children }) => (
         backdropFilter: "blur(12px)",
       }}
     >
+      <Header hideSidebar />
       <Box
         sx={{
           display: "flex",
@@ -35,12 +34,11 @@ const AuthLayout: FC<PropsWithChildren> = ({ children }) => (
           margin: "0 auto",
         }}
       >
-        <Header />
         <Box
           component="main"
           sx={{
             mb: "auto",
-            py: 2,
+            pt: 10,
             pb: 5,
             display: "flex",
             flexDirection: "column",
@@ -60,18 +58,14 @@ const AuthLayout: FC<PropsWithChildren> = ({ children }) => (
             {children}
           </Stack>
         </Box>
-        <Box component="footer" sx={{ py: 3 }}>
-          <Typography level="body-xs" textAlign="center">
-            © UrbanSwisstionary {new Date().getFullYear()}
-          </Typography>
-        </Box>
+        <Footer />
       </Box>
     </Box>
     <BackgroundImage />
   </>
 )
 
-export default AuthLayout
+export default LayoutWithImage
 
 const BackgroundImage: FC = () => (
   <Box

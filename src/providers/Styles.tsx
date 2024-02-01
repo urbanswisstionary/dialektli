@@ -1,5 +1,5 @@
 import { CssVarsProvider } from "@mui/joy/styles"
-import { FC, PropsWithChildren } from "react"
+import type { FC, PropsWithChildren } from "react"
 import GlobalStyles from "@mui/joy/GlobalStyles"
 import CssBaseline from "@mui/joy/CssBaseline"
 
@@ -19,8 +19,13 @@ const StylesProvider: FC<StylesProviderProps> = ({ children }) => (
             "--background-color": "rgba(255 255 255 / 0.2)",
             "--background-color-dark": "#131318cc",
             "--Header-height": "52px",
+            "--Header-padding-left": "0px",
             [theme.breakpoints.up("md")]: {
-              "--Header-height": "0px",
+              "--Header-padding-left": "0px",
+            },
+            "--Sidebar-width": "220px",
+            [theme.breakpoints.up("lg")]: {
+              "--Sidebar-width": "240px",
             },
           },
           "*": {

@@ -63,118 +63,115 @@ const MyProfile: FC = () => {
             // zIndex: 9995,
           }}
         > */}
-          <Box sx={{ px: { xs: 2, md: 6 }, py: 1 }}>
-            <Typography level="h2" component="h1" sx={{ mt: 1, mb: 2 }}>
-              My profile
+      <Box sx={{ px: { xs: 2, md: 6 }, py: 1 }}>
+        <Typography level="h2" component="h1" sx={{ mt: 1, mb: 2 }}>
+          My profile
+        </Typography>
+      </Box>
+      {/* </Box> */}
+      <Stack
+        spacing={4}
+        sx={{
+          display: "flex",
+          maxWidth: "800px",
+          mx: "auto",
+          px: { xs: 2, md: 6 },
+          py: { xs: 2, md: 3 },
+        }}
+      >
+        <Card>
+          <Box sx={{ mb: 1 }}>
+            <Typography level="title-md">Personal info</Typography>
+            <Typography level="body-sm">
+              Customize how your profile information will apper to the networks.
             </Typography>
           </Box>
-        {/* </Box> */}
-        <Stack
-          spacing={4}
-          sx={{
-            display: "flex",
-            maxWidth: "800px",
-            mx: "auto",
-            px: { xs: 2, md: 6 },
-            py: { xs: 2, md: 3 },
-          }}
-        >
-          <Card>
-            <Box sx={{ mb: 1 }}>
-              <Typography level="title-md">Personal info</Typography>
-              <Typography level="body-sm">
-                Customize how your profile information will apper to the
-                networks.
-              </Typography>
-            </Box>
-            <Divider />
-            <Stack
-              direction="column"
-              spacing={2}
-              sx={{ display: { xs: "flex" }, my: 1 }}
-            >
-              <Stack direction="row" spacing={2}>
-                <Stack direction="column" spacing={1}>
-                  <ImageInput value={profile?.image} />
-                </Stack>
-                <Stack spacing={1} sx={{ flexGrow: 1 }}>
-                  <NameInput
-                    name={profile?.name}
-                    onChange={(name) =>
-                      updateProfile((prev) => ({ ...prev, name }))
-                    }
-                  />
-                </Stack>
+          <Divider />
+          <Stack
+            direction="column"
+            spacing={2}
+            sx={{ display: { xs: "flex" }, my: 1 }}
+          >
+            <Stack direction="row" spacing={2}>
+              <Stack direction="column" spacing={1}>
+                <ImageInput value={profile?.image} />
               </Stack>
-              {profile?.role && profile.role === Role.Admin ? (
-                <RoleInput
-                  role={profile.role}
-                  onChange={(role) =>
-                    updateProfile((prev) => ({ ...prev, role }))
+              <Stack spacing={1} sx={{ flexGrow: 1 }}>
+                <NameInput
+                  name={profile?.name}
+                  onChange={(name) =>
+                    updateProfile((prev) => ({ ...prev, name }))
                   }
                 />
-              ) : null}
-              <EmailInput
-                email={profile?.email ?? ""}
-                onChange={(email) =>
-                  updateProfile((prev) => ({ ...prev, email }))
+              </Stack>
+            </Stack>
+            {profile?.role && profile.role === Role.Admin ? (
+              <RoleInput
+                role={profile.role}
+                onChange={(role) =>
+                  updateProfile((prev) => ({ ...prev, role }))
                 }
               />
+            ) : null}
+            <EmailInput
+              email={profile?.email ?? ""}
+              onChange={(email) =>
+                updateProfile((prev) => ({ ...prev, email }))
+              }
+            />
+            <SelectLocation
+              mode="country"
+              value={profile.country}
+              onChange={(countryCode) =>
+                updateProfile((prev) => ({
+                  ...prev,
+                  country: countryCode as string,
+                }))
+              }
+            />
+            {profile.country === "CH" ? (
               <SelectLocation
-                mode="country"
-                value={profile.country}
-                onChange={(countryCode) =>
+                mode="canton"
+                value={profile.canton}
+                onChange={(cantonCode) =>
                   updateProfile((prev) => ({
                     ...prev,
-                    country: countryCode as string,
+                    canton: cantonCode as string,
                   }))
                 }
               />
-              {profile.country === "CH" ? (
-                <SelectLocation
-                  mode="canton"
-                  value={profile.canton}
-                  onChange={(cantonCode) =>
-                    updateProfile((prev) => ({
-                      ...prev,
-                      canton: cantonCode as string,
-                    }))
-                  }
-                />
-              ) : null}
-              <BioInput
-                bio={profile?.bio ?? ""}
-                onChange={(bio) => updateProfile((prev) => ({ ...prev, bio }))}
-              />
-            </Stack>
+            ) : null}
+            <BioInput
+              bio={profile?.bio ?? ""}
+              onChange={(bio) => updateProfile((prev) => ({ ...prev, bio }))}
+            />
+          </Stack>
 
-            <CardOverflow
-              sx={{ borderTop: "1px solid", borderColor: "divider" }}
-            >
-              <CardActions sx={{ alignSelf: "flex-end", pt: 2 }}>
-                <Button
-                  size="sm"
-                  variant="outlined"
-                  color="neutral"
-                  disabled={isEqual(profile, me) || updateUserIsLoading}
-                  onClick={() => updateProfile(me ?? {})}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  size="sm"
-                  variant="solid"
-                  disabled={isEqual(profile, me)}
-                  loading={updateUserIsLoading}
-                  type="submit"
-                >
-                  Save
-                </Button>
-              </CardActions>
-            </CardOverflow>
-          </Card>
-        </Stack>
-     {/* </Box> */}
+          <CardOverflow sx={{ borderTop: "1px solid", borderColor: "divider" }}>
+            <CardActions sx={{ alignSelf: "flex-end", pt: 2 }}>
+              <Button
+                size="sm"
+                variant="outlined"
+                color="neutral"
+                disabled={isEqual(profile, me) || updateUserIsLoading}
+                onClick={() => updateProfile(me ?? {})}
+              >
+                Cancel
+              </Button>
+              <Button
+                size="sm"
+                variant="solid"
+                disabled={isEqual(profile, me)}
+                loading={updateUserIsLoading}
+                type="submit"
+              >
+                Save
+              </Button>
+            </CardActions>
+          </CardOverflow>
+        </Card>
+      </Stack>
+      {/* </Box> */}
     </form>
   )
 }
