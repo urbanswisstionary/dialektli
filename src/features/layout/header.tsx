@@ -1,7 +1,7 @@
 import IconButton from "@mui/joy/IconButton"
 import Sheet from "@mui/joy/Sheet"
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded"
-import { toggleSidebar } from "./utils"
+import { toggleSidebar } from "./sidebar.utils"
 import type { FC } from "react"
 import Typography from "@mui/joy/Typography"
 import ColorSchemeToggle from "@/ui/ColorSchemeToggle"
