@@ -15,6 +15,7 @@
     "incremental": true,
     "paths": {
       "@/*": ["./src/*"],
+      "@@/generated": ["./generated/index.ts"],
       "@@/generated/*": ["./generated/*"]
     }
   },
