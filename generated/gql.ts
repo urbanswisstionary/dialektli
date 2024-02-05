@@ -17,6 +17,9 @@ const documents = {
     "\n  query Me {\n    me {\n      ...MeFragment\n    }\n  }\n": types.MeDocument,
     "\n      mutation UpdateUser($data: UpdateUserInput!) {\n        updateUser(data: $data) {\n          ...MeFragment\n        }\n      }\n    ": types.UpdateUserDocument,
     "\n      mutation ChangeUserRole($userId: String!, $role: Role!) {\n        changeUserRole(userId: $userId, role: $role) {\n          ...MeFragment\n        }\n      }\n    ": types.ChangeUserRoleDocument,
+    "\n  fragment PostFragment on Post {\n    id\n    author {\n      id\n      name\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    dislikesCount\n  }\n": types.PostFragmentFragmentDoc,
+    "\n  query PostsQuery($q: String) {\n    posts(q: $q) {\n      id\n      title\n    }\n  }\n": types.PostsQueryDocument,
+    "\n  query Posts {\n    posts {\n      ...PostFragment\n    }\n  }\n": types.PostsDocument,
 };
 
 /**
@@ -49,6 +52,18 @@ export function graphql(source: "\n      mutation UpdateUser($data: UpdateUserIn
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n      mutation ChangeUserRole($userId: String!, $role: Role!) {\n        changeUserRole(userId: $userId, role: $role) {\n          ...MeFragment\n        }\n      }\n    "): (typeof documents)["\n      mutation ChangeUserRole($userId: String!, $role: Role!) {\n        changeUserRole(userId: $userId, role: $role) {\n          ...MeFragment\n        }\n      }\n    "];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  fragment PostFragment on Post {\n    id\n    author {\n      id\n      name\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    dislikesCount\n  }\n"): (typeof documents)["\n  fragment PostFragment on Post {\n    id\n    author {\n      id\n      name\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    dislikesCount\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query PostsQuery($q: String) {\n    posts(q: $q) {\n      id\n      title\n    }\n  }\n"): (typeof documents)["\n  query PostsQuery($q: String) {\n    posts(q: $q) {\n      id\n      title\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query Posts {\n    posts {\n      ...PostFragment\n    }\n  }\n"): (typeof documents)["\n  query Posts {\n    posts {\n      ...PostFragment\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};
