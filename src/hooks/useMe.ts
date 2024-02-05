@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@apollo/client"
-import { MeQuery, Role, UpdateUserInput } from "../../generated/graphql"
-import { getFragmentData, graphql } from "../../generated"
+import { MeQuery, Role, UpdateUserInput } from "@@/generated/graphql"
+import { getFragmentData, graphql } from "@@/generated"
 
 export const MeFragment = graphql(/* GraphQL */ `
   fragment MeFragment on User {
