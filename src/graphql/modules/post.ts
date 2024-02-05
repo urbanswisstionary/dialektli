@@ -68,14 +68,14 @@ builder.queryFields((t) => ({
     args: {
       q: t.arg.string(),
     },
-    resolve: async (query, _root, { q }, _ctx, _info) => {
-      return prisma.post.findMany({
+    resolve: async (query, _root, { q }, _ctx, _info) =>
+      prisma.post.findMany({
         ...query,
-        where: q
-          ? { OR: [{ title: { contains: q } }, { content: { contains: q } }] }
-          : undefined,
-      })
-    },
+        where: {
+          published: true,
+          title: q ? { contains: q, mode: "insensitive" } : undefined,
+        },
+      }),
   }),
 }))
 
