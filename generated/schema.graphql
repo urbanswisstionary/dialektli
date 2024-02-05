@@ -112,6 +112,8 @@ type User {
   image: String
   likes: [Like!]!
   likesCount: Int!
+  myPublishedPostsCount: Int!
+  myUnpublishedPostsCount: Int!
   name: String
   posts: [Post!]!
   role: Role!

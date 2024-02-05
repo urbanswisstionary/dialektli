@@ -4,7 +4,7 @@ import FormControl from "@mui/joy/FormControl"
 import { usePostsQuery } from "@/hooks/usePosts"
 import { useRouter } from "next/router"
 import { setQueryOnPage } from "@/utils/setQueryOnPage"
-import { Search } from "@mui/icons-material"
+import Search from "@mui/icons-material/Search"
 
 const SearchPostsInput: FC = () => {
   const router = useRouter()

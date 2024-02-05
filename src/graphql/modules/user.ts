@@ -34,6 +34,14 @@ builder.prismaObject("User", {
     }),
     country: t.exposeString("country", { nullable: true }),
     canton: t.exposeString("canton", { nullable: true }),
+    myPublishedPostsCount: t.int({
+      resolve: (parent) =>
+        prisma.post.count({ where: { authorId: parent.id, published: true } }),
+    }),
+    myUnpublishedPostsCount: t.int({
+      resolve: async (parent) =>
+        prisma.post.count({ where: { authorId: parent.id, published: false } }),
+    }),
   }),
 })
 builder.queryFields((t) => ({

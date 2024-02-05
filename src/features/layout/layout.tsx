@@ -12,7 +12,7 @@ const Layout: FC<PropsWithChildren<{ hideSidebar?: boolean }>> = ({
     <>
       <Box sx={{ display: "flex", overflow: "hidden" }}>
         {hideSidebar ? null : <Sidebar />}
-        <Header />
+        <Header hideSidebar={hideSidebar} />
         <Box
           component="main"
           className="MainContent"
@@ -23,12 +23,16 @@ const Layout: FC<PropsWithChildren<{ hideSidebar?: boolean }>> = ({
             flexDirection: "column",
             minWidth: "380px",
             minHeight: "100dvh",
+            padding: "var(--main-padding)",
+            margin: "0 auto",
+            maxWidth: "1024px",
+            width: "100%",
             gap: 1,
             overflow: "auto",
             position: "relative",
             top: hideSidebar
-              ? "calc(0.25rem + var(--Header-height))"
-              : { xs: "calc(0.25rem + var(--Header-height))", md: 0 },
+              ? "var(--Header-height)"
+              : { xs: "var(--Header-height)", md: 0 },
           }}
         >
           {children}

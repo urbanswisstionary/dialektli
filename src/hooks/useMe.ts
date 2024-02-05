@@ -14,6 +14,12 @@ export const MeFragment = graphql(/* GraphQL */ `
     canton
     likesCount
     dislikesCount
+    posts {
+      id
+      title
+    }
+    myPublishedPostsCount
+    myUnpublishedPostsCount
   }
 `)
 const getMe = (data?: MeQuery) => {

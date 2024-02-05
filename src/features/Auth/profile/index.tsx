@@ -29,20 +29,21 @@ const MyProfile: FC = () => {
     me ?? {},
   )
   useEffect(() => {
-    if (me) updateProfile(me)
+    updateProfile(me ?? {})
   }, [me])
   if (meLoading) return <>Loading..</>
 
-  if (!meLoading && !profile) {
-    router.push("/account/signin")
+  if (!meLoading && !profile.id) {
+    router.push("/")
     return <>Redirecting..</>
   }
+  console.log("profile", profile)
 
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault()
-        if (!profile.id) return
+        if (!profile || !profile.id) return
         const updateUserInput: UpdateUserInput = {
           id: profile.id,
           name: profile.name,
@@ -54,21 +55,12 @@ const MyProfile: FC = () => {
         updateUser(updateUserInput)
       }}
     >
-      {/* <Box sx={{ flex: 1, width: "100%" }}>
-        <Box
-          sx={{
-            position: "sticky",
-            top: 0,
-            bgcolor: "background.body",
-            // zIndex: 9995,
-          }}
-        > */}
       <Box sx={{ px: { xs: 2, md: 6 }, py: 1 }}>
         <Typography level="h2" component="h1" sx={{ mt: 1, mb: 2 }}>
           My profile
         </Typography>
       </Box>
-      {/* </Box> */}
+
       <Stack
         spacing={4}
         sx={{
@@ -105,14 +97,6 @@ const MyProfile: FC = () => {
                 />
               </Stack>
             </Stack>
-            {profile?.role && profile.role === Role.Admin ? (
-              <RoleInput
-                role={profile.role}
-                onChange={(role) =>
-                  updateProfile((prev) => ({ ...prev, role }))
-                }
-              />
-            ) : null}
             <EmailInput
               email={profile?.email ?? ""}
               onChange={(email) =>

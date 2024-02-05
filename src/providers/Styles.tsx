@@ -6,7 +6,7 @@ import CssBaseline from "@mui/joy/CssBaseline"
 type StylesProviderProps = PropsWithChildren
 const StylesProvider: FC<StylesProviderProps> = ({ children }) => (
   <>
-    <CssVarsProvider defaultMode="dark" disableTransitionOnChange>
+    <CssVarsProvider disableTransitionOnChange>
       <CssBaseline />
       <GlobalStyles
         styles={(theme) => ({
@@ -18,15 +18,16 @@ const StylesProvider: FC<StylesProviderProps> = ({ children }) => (
 
             "--background-color": "rgba(255 255 255 / 0.2)",
             "--background-color-dark": "#131318cc",
-            "--Header-height": "52px",
+            "--Header-height": "3rem",
             "--Header-padding-left": "0px",
             [theme.breakpoints.up("md")]: {
               "--Header-padding-left": "0px",
             },
-            "--Sidebar-width": "220px",
+            "--Sidebar-width": "15rem",
             [theme.breakpoints.up("lg")]: {
-              "--Sidebar-width": "240px",
+              "--Sidebar-width": "20rem",
             },
+            "--main-padding": "1rem",
           },
           "*": {
             boxSizing: "border-box",
@@ -37,6 +38,7 @@ const StylesProvider: FC<StylesProviderProps> = ({ children }) => (
             maxWidth: "100vw",
             overflowX: "hidden",
           },
+
           body: {
             background: "var(--background-color)",
           },

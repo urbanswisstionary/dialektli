@@ -19,7 +19,7 @@ const SigninPage: NextPage = () => (
           onClick={() =>
             signIn("google", {
               redirect: true,
-              callbackUrl: "/account/profile",
+              callbackUrl: "/",
             })
           }
         >
