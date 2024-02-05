@@ -7,9 +7,11 @@ const reCaptchaKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? ""
 const RecaptchaProvider: FC<PropsWithChildren> = ({ children }) => (
   <GoogleReCaptchaV3Provider
     reCaptchaKey={reCaptchaKey}
-    async={false}
-    defer={false}
+    async={true}
+    defer={true}
     nonce={undefined}
+    useRecaptchaNet
+    useEnterprise
   >
     {children}
   </GoogleReCaptchaV3Provider>
