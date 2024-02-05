@@ -18,6 +18,7 @@ type SidebarOptionProps = {
   nested?: boolean
   nestedOptions?: SidebarOptionProps[]
   defaultExpanded?: boolean
+  firstOfType?: boolean
 }
 
 const SidebarOption: FC<SidebarOptionProps> = ({
@@ -31,20 +32,14 @@ const SidebarOption: FC<SidebarOptionProps> = ({
   nested,
   defaultExpanded,
   nestedOptions = [],
+  firstOfType,
 }) =>
   hide ? null : nested ? (
     <ListItem nested={nested}>
       <Toggler
         defaultExpanded={defaultExpanded}
         renderToggle={({ open, setOpen }) => (
-          <SidebarOption
-            label={label}
-            startDecorator={startDecorator}
-            endDecorator={
-              <KeyboardArrowDownIcon
-                sx={{ transform: open ? "rotate(180deg)" : "none" }}
-              />
-            }
+          <ListItemButton
             disabled={disabled}
             onClick={() => {
               if (onClick && process.env.NODE_ENV !== "production") {
@@ -54,18 +49,30 @@ const SidebarOption: FC<SidebarOptionProps> = ({
               }
               setOpen(!open)
             }}
-          />
+          >
+            {startDecorator}
+            <ListItemContent>
+              <Typography level="title-sm">{label}</Typography>
+            </ListItemContent>
+            <KeyboardArrowDownIcon
+              sx={{ transform: open ? "rotate(180deg)" : "none" }}
+            />
+          </ListItemButton>
         )}
       >
-        <List sx={{ gap: 0.5, ":first-child": { mt: 0.5 } }}>
+        <List sx={{ gap: 0.5 }}>
           {nestedOptions.map((props, i) => (
-            <SidebarOption key={i} {...props} />
+            <SidebarOption key={i} {...props} firstOfType={!i} />
           ))}
         </List>
       </Toggler>
     </ListItem>
   ) : (
-    <ListItem>
+    <ListItem
+      sx={{
+        ":first-of-type": firstOfType ? { mt: 0.5 } : undefined,
+      }}
+    >
       <ListItemButton
         selected={selected}
         disabled={selected || disabled}
