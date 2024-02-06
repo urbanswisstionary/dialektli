@@ -1,6 +1,4 @@
 import { FC } from "react"
-import Box from "@mui/joy/Box"
-import FormHelperText from "@mui/joy/FormHelperText"
 import FormControl, { FormControlProps } from "@mui/joy/FormControl"
 import Textarea from "@mui/joy/Textarea"
 import Typography from "@mui/joy/Typography"
@@ -17,24 +15,25 @@ const BioInput: FC<
   const charsLeft = bioInputMaxLength - bio.length
   return (
     <FormControl {...formControlProps}>
-      <Box>
-        <Typography level="title-md">Bio</Typography>
-        <Typography level="body-sm">
-          Write a short introduction to be displayed on your profile
-        </Typography>
-      </Box>
+      <Typography level="title-md">Bio</Typography>
+      <Typography level="body-sm">
+        Write a short introduction to be displayed on your profile
+      </Typography>
       <Textarea
         size="sm"
         minRows={4}
+        maxRows={6}
         sx={{ mt: 1.5 }}
         value={bio}
         slotProps={{ textarea: { maxLength: bioInputMaxLength } }}
         onChange={({ currentTarget }) => onChange(currentTarget.value)}
+        endDecorator={
+          <Typography level="body-xs" sx={{ ml: "auto", mr: 0.5 }}>
+            {charsLeft} character
+            {charsLeft === 1 ? "" : "s"} left
+          </Typography>
+        }
       />
-      <FormHelperText sx={{ mt: 0.75, fontSize: "xs" }}>
-        {charsLeft} character
-        {charsLeft === 1 ? "" : "s"} left
-      </FormHelperText>
     </FormControl>
   )
 }
