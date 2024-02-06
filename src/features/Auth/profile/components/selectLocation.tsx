@@ -14,10 +14,9 @@ type LocationOption = {
 }
 
 const SelectLocation: FC<
-  FormControlProps & {
+  Omit<FormControlProps, "value" | "onChange"> & {
     value: string | null | undefined
-    // eslint-disable-next-line no-unused-vars
-    onChange: (locationCode: string | null) => void
+    onChange: (_locationCode: string | null) => void
     mode: "canton" | "country"
   }
 > = ({ value, onChange, mode, sx, ...props }) => {

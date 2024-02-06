@@ -1,24 +1,16 @@
-/* eslint-disable @next/next/no-img-element */
-import { FC, useState, useEffect } from "react"
+import { FC, useState, useMemo } from "react"
 import Box from "@mui/joy/Box"
-import Button from "@mui/joy/Button"
-import Divider from "@mui/joy/Divider"
-
 import Stack from "@mui/joy/Stack"
 import Typography from "@mui/joy/Typography"
-import Card from "@mui/joy/Card"
-import CardActions from "@mui/joy/CardActions"
-import CardOverflow from "@mui/joy/CardOverflow"
 import { useMe, useUpdateUserMutation } from "@/hooks/useMe"
 import { useRouter } from "next/router"
-import { MeFragmentFragment, Role, UpdateUserInput } from "@@/generated/graphql"
-import { isEqual } from "lodash"
+import { MeFragmentFragment, UpdateUserInput } from "@@/generated/graphql"
 import SelectLocation from "./components/selectLocation"
 import ImageInput from "./components/imageInput"
 import NameInput from "./components/nameInput"
-import RoleInput from "./components/roleInput"
 import EmailInput from "./components/emailInput"
 import BioInput from "./components/bioInput"
+import Card from "@/ui/Card"
 
 const MyProfile: FC = () => {
   const router = useRouter()
@@ -28,135 +20,105 @@ const MyProfile: FC = () => {
   const [profile, updateProfile] = useState<Partial<MeFragmentFragment>>(
     me ?? {},
   )
-  useEffect(() => {
-    updateProfile(me ?? {})
-  }, [me])
+  const changesFound = useMemo(() => {
+    const updatedFields = Object.keys(profile) as (keyof MeFragmentFragment)[]
+    if (!me || !updatedFields.length) return false
+    return updatedFields.some((key) => profile[key] !== me[key])
+  }, [profile, me])
+
   if (meLoading) return <>Loading..</>
 
-  if (!meLoading && !profile.id) {
+  if (!me?.id) {
     router.push("/")
     return <>Redirecting..</>
   }
-  console.log("profile", profile)
-
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault()
-        if (!profile || !profile.id) return
-        const updateUserInput: UpdateUserInput = {
-          id: profile.id,
-          name: profile.name,
-          bio: profile.bio,
-          image: profile.image,
-          country: profile.country,
-          canton: profile.canton,
-        }
-        updateUser(updateUserInput)
-      }}
-    >
+    <>
       <Box sx={{ px: { xs: 2, md: 6 }, py: 1 }}>
         <Typography level="h2" component="h1" sx={{ mt: 1, mb: 2 }}>
           My profile
         </Typography>
       </Box>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
 
-      <Stack
-        spacing={4}
-        sx={{
-          display: "flex",
-          maxWidth: "800px",
-          mx: "auto",
-          px: { xs: 2, md: 6 },
-          py: { xs: 2, md: 3 },
+          if (!changesFound) return
+          const updateUserInput: UpdateUserInput = {
+            id: me.id,
+            name: profile.name,
+            bio: profile.bio,
+            image: profile.image,
+            country: profile.country,
+            canton: profile.canton,
+          }
+          updateUser(updateUserInput)
         }}
       >
-        <Card>
-          <Box sx={{ mb: 1 }}>
-            <Typography level="title-md">Personal info</Typography>
-            <Typography level="body-sm">
-              Customize how your profile information will apper to the networks.
-            </Typography>
-          </Box>
-          <Divider />
-          <Stack
-            direction="column"
-            spacing={2}
-            sx={{ display: { xs: "flex" }, my: 1 }}
-          >
-            <Stack direction="row" spacing={2}>
-              <Stack direction="column" spacing={1}>
-                <ImageInput value={profile?.image} />
-              </Stack>
-              <Stack spacing={1} sx={{ flexGrow: 1 }}>
-                <NameInput
-                  name={profile?.name}
-                  onChange={(name) =>
-                    updateProfile((prev) => ({ ...prev, name }))
-                  }
-                />
-              </Stack>
-            </Stack>
-            <EmailInput
-              email={profile?.email ?? ""}
-              onChange={(email) =>
-                updateProfile((prev) => ({ ...prev, email }))
-              }
-            />
-            <SelectLocation
-              mode="country"
-              value={profile.country}
-              onChange={(countryCode) =>
-                updateProfile((prev) => ({
-                  ...prev,
-                  country: countryCode as string,
-                }))
-              }
-            />
-            {profile.country === "CH" ? (
-              <SelectLocation
-                mode="canton"
-                value={profile.canton}
-                onChange={(cantonCode) =>
-                  updateProfile((prev) => ({
-                    ...prev,
-                    canton: cantonCode as string,
-                  }))
+        <Card
+          title="Personal info"
+          description="Customize how your profile information will apper to the networks."
+          actions={{
+            save: {
+              type: "submit",
+              disabled: !changesFound,
+              loading: updateUserIsLoading,
+            },
+            cancel: {
+              disabled: !changesFound || updateUserIsLoading,
+              onClick: () => updateProfile({}),
+            },
+          }}
+        >
+          <Stack direction="row" spacing={2} alignItems="center">
+            <Box>
+              <ImageInput value={me.image} />
+            </Box>
+            <Box sx={{ flex: 1 }}>
+              <NameInput
+                id="name"
+                value={profile?.name ?? me.name}
+                onChange={(name) =>
+                  updateProfile((prev) => ({ ...prev, name }))
                 }
               />
-            ) : null}
-            <BioInput
-              bio={profile?.bio ?? ""}
-              onChange={(bio) => updateProfile((prev) => ({ ...prev, bio }))}
-            />
+            </Box>
           </Stack>
-
-          <CardOverflow sx={{ borderTop: "1px solid", borderColor: "divider" }}>
-            <CardActions sx={{ alignSelf: "flex-end", pt: 2 }}>
-              <Button
-                size="sm"
-                variant="outlined"
-                color="neutral"
-                disabled={isEqual(profile, me) || updateUserIsLoading}
-                onClick={() => updateProfile(me ?? {})}
-              >
-                Cancel
-              </Button>
-              <Button
-                size="sm"
-                variant="solid"
-                disabled={isEqual(profile, me)}
-                loading={updateUserIsLoading}
-                type="submit"
-              >
-                Save
-              </Button>
-            </CardActions>
-          </CardOverflow>
+          <EmailInput
+            id="email"
+            value={me.email}
+            onChange={(_email) => {
+              // updateProfile((prev) => ({ ...prev, email }))
+            }}
+            disabled
+          />
+          <SelectLocation
+            id="country"
+            mode="country"
+            value={profile.country !== undefined ? profile.country : me.country}
+            onChange={(country) =>
+              updateProfile((prev) => ({ ...prev, country }))
+            }
+          />
+          {(me.country === "CH" && profile.country === undefined) || // render canton select element if me.country is "CH" profile does not have a "country" key at all
+          profile.country === "CH" ? (
+            <SelectLocation
+              id="canton"
+              mode="canton"
+              value={profile.canton !== undefined ? profile.canton : me.canton}
+              onChange={(canton) =>
+                updateProfile((prev) => ({ ...prev, canton }))
+              }
+            />
+          ) : null}
+          <BioInput
+            id="bio"
+            value={profile?.bio !== undefined ? profile?.bio : me.bio}
+            onChange={(bio) => updateProfile((prev) => ({ ...prev, bio }))}
+          />
         </Card>
-      </Stack>
-      {/* </Box> */}
-    </form>
+      </form>
+    </>
   )
 }
 

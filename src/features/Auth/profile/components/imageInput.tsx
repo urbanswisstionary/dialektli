@@ -3,7 +3,7 @@ import { FC } from "react"
 import { AspectRatio } from "@mui/joy"
 
 const ImageInput: FC<{
-  value?: string | null
+  value: string | null | undefined
 }> = ({ value }) => {
   return (
     <AspectRatio

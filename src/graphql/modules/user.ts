@@ -113,7 +113,7 @@ builder.mutationFields((t) => ({
     resolve: async (
       query,
       _root,
-      { data: { id: userId, ...data } },
+      { data: { id: userId, country, canton, ...data } },
       { session },
       _info,
     ) => {
@@ -131,7 +131,7 @@ builder.mutationFields((t) => ({
       return prisma.user.update({
         ...query,
         where: { id: userId },
-        data,
+        data: { ...data, country, canton: country === "CH" ? canton : null },
       })
     },
   }),
