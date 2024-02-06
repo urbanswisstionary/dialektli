@@ -17,6 +17,7 @@ const NameInput: FC<
         { display: { sm: "flex-column", md: "flex-row" } },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
+      id="name"
     >
       <FormLabel>Name</FormLabel>
       <Input
@@ -24,6 +25,8 @@ const NameInput: FC<
         placeholder="Name"
         value={value ?? ""}
         onChange={({ currentTarget }) => onChange(currentTarget.value)}
+        autoComplete="on"
+        name="name"
       />
     </FormControl>
   )

@@ -10,7 +10,7 @@ const EmailInput: FC<
     onChange: (_email: string) => void
   }
 > = ({ value, onChange, ...formControlProps }) => (
-  <FormControl {...formControlProps}>
+  <FormControl {...formControlProps} id="email">
     <FormLabel>Email</FormLabel>
     <Input
       size="sm"
@@ -19,6 +19,8 @@ const EmailInput: FC<
       placeholder="email"
       value={value ?? ""}
       onChange={({ currentTarget }) => onChange(currentTarget.value)}
+      autoComplete="on"
+      name="email"
     />
   </FormControl>
 )

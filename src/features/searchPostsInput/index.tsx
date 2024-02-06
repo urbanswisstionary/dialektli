@@ -1,12 +1,12 @@
 import { FC, useState } from "react"
 import Autocomplete from "@mui/joy/Autocomplete"
-import FormControl from "@mui/joy/FormControl"
+import FormControl, { FormControlProps } from "@mui/joy/FormControl"
 import { usePostsQuery } from "@/hooks/usePosts"
 import { useRouter } from "next/router"
 import { setQueryOnPage } from "@/utils/setQueryOnPage"
 import Search from "@mui/icons-material/Search"
 
-const SearchPostsInput: FC = () => {
+const SearchPostsInput: FC<FormControlProps> = (formControlProps) => {
   const router = useRouter()
 
   const [searchState, setSearchState] = useState<string>("")
@@ -18,7 +18,7 @@ const SearchPostsInput: FC = () => {
   }[] = data?.posts ?? previousData?.posts ?? []
 
   return (
-    <FormControl>
+    <FormControl {...formControlProps} id="searchPosts">
       <Autocomplete
         placeholder="Search"
         options={options}
