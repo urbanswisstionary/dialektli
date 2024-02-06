@@ -2,8 +2,7 @@ import { FC, useState, useMemo } from "react"
 import Box from "@mui/joy/Box"
 import Stack from "@mui/joy/Stack"
 import Typography from "@mui/joy/Typography"
-import { useMe, useUpdateUserMutation } from "@/hooks/useMe"
-import { useRouter } from "next/router"
+import { useUpdateUserMutation } from "@/hooks/useMe"
 import { MeFragmentFragment, UpdateUserInput } from "@@/generated/graphql"
 import SelectLocation from "./components/selectLocation"
 import ImageInput from "./components/imageInput"
@@ -12,11 +11,9 @@ import EmailInput from "./components/emailInput"
 import BioInput from "./components/bioInput"
 import Card from "@/ui/Card"
 
-const MyProfile: FC = () => {
-  const router = useRouter()
+const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
   const { updateUser, loading: updateUserIsLoading } = useUpdateUserMutation()
 
-  const { me, loading: meLoading } = useMe()
   const [profile, updateProfile] = useState<Partial<MeFragmentFragment>>(
     me ?? {},
   )
@@ -26,12 +23,6 @@ const MyProfile: FC = () => {
     return updatedFields.some((key) => profile[key] !== me[key])
   }, [profile, me])
 
-  if (meLoading) return <>Loading..</>
-
-  if (!me?.id) {
-    router.push("/")
-    return <>Redirecting..</>
-  }
   return (
     <>
       <Box sx={{ px: { xs: 2, md: 6 }, py: 1 }}>
