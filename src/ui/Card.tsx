@@ -1,11 +1,11 @@
-import { FC, useState, useEffect, PropsWithChildren } from "react"
+import type { FC } from "react"
 import Box from "@mui/joy/Box"
 import Button from "@mui/joy/Button"
 import Divider from "@mui/joy/Divider"
 
 import Stack from "@mui/joy/Stack"
 import Typography from "@mui/joy/Typography"
-import JoyCard from "@mui/joy/Card"
+import JoyCard, { CardProps as JoyCardProps } from "@mui/joy/Card"
 import CardActions from "@mui/joy/CardActions"
 import CardOverflow from "@mui/joy/CardOverflow"
 
@@ -23,13 +23,14 @@ type CardProps = {
   description?: string
   title?: string
 }
-const Card: FC<PropsWithChildren<CardProps>> = ({
+const Card: FC<JoyCardProps & CardProps> = ({
   actions,
   children,
   description,
   title,
+  ...joyCardProps
 }) => (
-  <JoyCard>
+  <JoyCard {...joyCardProps}>
     {title || description ? (
       <>
         <Box sx={{ mb: 1 }}>
