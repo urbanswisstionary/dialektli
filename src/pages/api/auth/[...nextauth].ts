@@ -30,26 +30,26 @@ const {
 
 const getAdapter = (_req: NextApiRequest, _res: NextApiResponse): Adapter => ({
   ...PrismaAdapter(prisma),
-  async getSessionAndUser(sessionToken) {
-    const userAndSession = await prisma.session.findUnique({
-      where: { sessionToken },
-      include: {
-        user: {
-          select: {
-            id: true,
-            email: true,
-            emailVerified: true,
-            name: true,
-            image: true,
-            role: true,
-          },
-        },
-      },
-    })
-    if (!userAndSession) return null
-    const { user, ...session } = userAndSession
-    return { user, session }
-  },
+  // async getSessionAndUser(sessionToken) {
+  //   const userAndSession = await prisma.session.findUnique({
+  //     where: { sessionToken },
+  //     include: {
+  //       user: {
+  //         select: {
+  //           id: true,
+  //           email: true,
+  //           emailVerified: true,
+  //           name: true,
+  //           image: true,
+  //           role: true,
+  //         },
+  //       },
+  //     },
+  //   })
+  //   if (!userAndSession) return null
+  //   const { user, ...session } = userAndSession
+  //   return { user, session }
+  // },
 })
 
 const session: SessionOptions = {
