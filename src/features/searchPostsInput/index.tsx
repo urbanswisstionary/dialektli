@@ -1,4 +1,4 @@
-import type { FC } from "react"
+import { useState, type FC } from "react"
 import Autocomplete from "@mui/joy/Autocomplete"
 import FormControl, { FormControlProps } from "@mui/joy/FormControl"
 import { usePostsQuery } from "@/hooks/usePosts"
@@ -17,20 +17,19 @@ const SearchPostsInput: FC<FormControlProps> = (formControlProps) => {
   const router = useRouter()
   const query = router.query as Query
   const { data, previousData } = usePostsQuery(query.q ?? "", !query.q?.length)
-
-  const options: Option[] = query.q?.length
-    ? data?.posts ?? previousData?.posts ?? []
-    : []
+  const [selectedOption, setSelectedOption] = useState<Option | null>(null) // store selected option to prevent a no known option error getting logged to the console
+  const options: Option[] = data?.posts ?? previousData?.posts ?? []
 
   return (
     <FormControl {...formControlProps} id="searchPosts">
       <Autocomplete
         placeholder="Search"
-        options={options}
+        options={selectedOption ? [selectedOption] : options}
         groupBy={(option) => option.title[0]?.toUpperCase()}
         getOptionLabel={(option) => option.title}
-        onChange={(_, value) => {
-          if (value?.id) router.push(`/post/${value.id}`)
+        onChange={(_, option) => {
+          setSelectedOption(option)
+          if (option?.id) router.push(`/post/${option.id}`)
         }}
         startDecorator={<Search sx={{ padding: "2px" }} />}
         blurOnSelect
