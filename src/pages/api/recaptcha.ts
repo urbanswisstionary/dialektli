@@ -18,11 +18,13 @@ export default async function handler(
 ) {
   try {
     const token = req.body
-    verifyRecaptcha(token)
-      .then((res) => res.json())
-      .then((data) =>
-        res.status(data.success && data.score >= 0.5 ? 200 : 500).end(),
-      )
+
+    const verifyRecaptchaRes = await verifyRecaptcha(token)
+    const data = await verifyRecaptchaRes.json()
+
+    res
+      .status(data.success && data.score >= 0.5 ? 200 : 400)
+      .end((data["error-codes" as keyof typeof verifyRecaptchaRes] ?? [])[0])
   } catch (error) {
     res.status(500).json({ name: "failed parsing body" })
   }
