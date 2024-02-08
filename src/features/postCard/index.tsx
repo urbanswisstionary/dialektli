@@ -18,8 +18,6 @@ import { PostFragmentFragment } from "@@/generated/graphql"
 import PostCardActionButton from "./components/actionButton"
 import PostCardExample from "./components/examples"
 
-const postId = "clsbx3n52000711a0mar6tdnm"
-
 type PostCardProps = {
   post: PostFragmentFragment
   disableActions?: boolean
@@ -29,10 +27,7 @@ const PostCard: FC<PostCardProps> = ({ post, disableActions }) => {
     "like" | "dislike" | "flag" | null
   >(null)
 
-  const { postAction, loading: postActionLoading } = usePostAction(postId)
-  const [state, setState] = useState({
-    flagPost: false,
-  })
+  const { postAction, loading: postActionLoading } = usePostAction(post.id)
 
   const onActionClick = (action: "like" | "dislike" | "flag") => {
     setActionClicked(action)
@@ -46,15 +41,11 @@ const PostCard: FC<PostCardProps> = ({ post, disableActions }) => {
 
         <PostCardActionButton
           color="warning"
-          onClick={() =>
-            setState((prev) => ({
-              ...prev,
-              flagPost: !prev.flagPost,
-            }))
-          }
+          onClick={() => onActionClick("flag")}
           disabled={disableActions}
+          loading={actionClicked === "flag" && postActionLoading}
         >
-          {state.flagPost ? <FlagIcon /> : <FlagTwoToneIcon />}
+          {post.flaggedByMe ? <FlagIcon /> : <FlagTwoToneIcon />}
         </PostCardActionButton>
       </Stack>
 
