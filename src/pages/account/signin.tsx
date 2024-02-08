@@ -9,8 +9,7 @@ import Button from "@/ui/Button"
 const SigninPage: NextPage = () => {
   const onClick = () => {
     signIn("google", {
-      redirect: true,
-      callbackUrl: "/",
+      callbackUrl: `${window?.location?.origin}`,
     })
   }
 
