@@ -30,6 +30,7 @@ export const PostFragment = graphql(/* GraphQL */ `
     likedByMe
     dislikesCount
     dislikedByMe
+    flaggedByMe
   }
 `)
 
@@ -66,7 +67,16 @@ export const useCreatePostMutation = () => {
   )
 
   return {
-    createPost: (data: CreatePostInput) => createPost({ variables: { data } }),
+    createPost: (
+      data: CreatePostInput,
+      onCompletedCallback?: (_postId?: string) => void,
+    ) =>
+      createPost({
+        variables: { data },
+        onCompleted: (data) => {
+          if (onCompletedCallback) onCompletedCallback(data.createPost?.id)
+        },
+      }),
     ...mutationResult,
   }
 }

@@ -1,5 +1,6 @@
 input CreatePostInput {
   authorId: String
+  canton: String
   content: String
   examples: [String!]
   title: String!
@@ -110,6 +111,7 @@ enum Role {
 }
 
 input UpdatePostInput {
+  canton: String
   content: String
   examples: [String!]
   id: String!

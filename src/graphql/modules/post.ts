@@ -286,10 +286,6 @@ builder.mutationFields((t) => ({
     },
     resolve: async (_root, { data: { postId, ...data } }, { session }) => {
       if (!session?.user) return false
-      if (Object.keys(data).length !== 1)
-        throw new ApolloError({
-          errorMessage: "Please pass one action, and one actions only!",
-        })
 
       const authorId = session.user.id
 
@@ -312,64 +308,57 @@ builder.mutationFields((t) => ({
             : "flag" in data
               ? "flag"
               : null
-
-      switch (true) {
-        case !!action && action !== "flag": {
-          if (action === "like") {
-            const likedPost = await prisma.post.update({
-              where: { id: postId },
-              data: {
-                likes: !post.likes.length // not yet liked
-                  ? {
-                      connectOrCreate: {
-                        where: { postId_authorId: { authorId, postId } },
-                        create: { author: { connect: { id: authorId } } },
-                      },
-                    }
-                  : { delete: { postId_authorId: { authorId, postId } } },
-                dislikes: post.dislikes.length
-                  ? { delete: { postId_authorId: { authorId, postId } } }
-                  : undefined,
-              },
-            })
-            return !!likedPost
-          }
-          if (action === "dislike") {
-            const dislikedPost = await prisma.post.update({
-              where: { id: postId },
-              data: {
-                dislikes: !post.dislikes.length // not yet disliked
-                  ? {
-                      connectOrCreate: {
-                        where: { postId_authorId: { authorId, postId } },
-                        create: { author: { connect: { id: authorId } } },
-                      },
-                    }
-                  : { delete: { postId_authorId: { authorId, postId } } },
-                likes: post.likes.length
-                  ? { delete: { postId_authorId: { authorId, postId } } }
-                  : undefined,
-              },
-            })
-            return !!dislikedPost
-          }
-          return false
-        }
-        case action === "flag": {
-          const flaggedPost = await prisma.post.update({
+      const postId_authorId = { postId, authorId }
+      switch (action) {
+        case "like": {
+          const updatedPost = await prisma.post.update({
             where: { id: postId },
-            data: {
-              flagged: !post.flagged.length // not yet flagged
-                ? {
+            data: post.likes.length
+              ? { likes: { delete: { postId_authorId } } }
+              : {
+                  likes: {
                     connectOrCreate: {
-                      where: { postId_authorId: { authorId, postId } },
-                      create: { author: { connect: { id: authorId } } },
+                      create: { authorId },
+                      where: { postId_authorId },
                     },
-                  }
-                : { delete: { postId_authorId: { authorId, postId } } },
-            },
+                  },
+                  dislikes: { delete: { postId_authorId } },
+                },
           })
-          return !!flaggedPost
+          return !!updatedPost
+        }
+        case "dislike": {
+          const updatedPost = await prisma.post.update({
+            where: { id: postId },
+            data: post.dislikes.length
+              ? { dislikes: { delete: { postId_authorId } } }
+              : {
+                  dislikes: {
+                    connectOrCreate: {
+                      create: { authorId },
+                      where: { postId_authorId },
+                    },
+                  },
+                  likes: { delete: { postId_authorId } },
+                },
+          })
+          return !!updatedPost
+        }
+        case "flag": {
+          const updatedPost = await prisma.post.update({
+            where: { id: postId },
+            data: post.flagged.length
+              ? { flagged: { delete: { postId_authorId } } }
+              : {
+                  flagged: {
+                    connectOrCreate: {
+                      create: { authorId },
+                      where: { postId_authorId },
+                    },
+                  },
+                },
+          })
+          return !!updatedPost
         }
         default:
           return false

@@ -18,7 +18,7 @@ const documents = {
     "\n      mutation UpdateUser($data: UpdateUserInput!) {\n        updateUser(data: $data) {\n          ...MeFragment\n        }\n      }\n    ": types.UpdateUserDocument,
     "\n      mutation ChangeUserRole($userId: String!, $role: Role!) {\n        changeUserRole(userId: $userId, role: $role) {\n          ...MeFragment\n        }\n      }\n    ": types.ChangeUserRoleDocument,
     "\n  query PostsQuery($q: String) {\n    posts(q: $q) {\n      id\n      title\n    }\n  }\n": types.PostsQueryDocument,
-    "\n  fragment PostFragment on Post {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    likedByMe\n    dislikesCount\n    dislikedByMe\n  }\n": types.PostFragmentFragmentDoc,
+    "\n  fragment PostFragment on Post {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    likedByMe\n    dislikesCount\n    dislikedByMe\n    flaggedByMe\n  }\n": types.PostFragmentFragmentDoc,
     "\n      query Posts($q: String, $offset: Int, $limit: Int) {\n        postsWithCount(q: $q, offset: $offset, limit: $limit) {\n          posts {\n            ...PostFragment\n          }\n          count\n        }\n      }\n    ": types.PostsDocument,
     "\n      mutation CreatePost($data: CreatePostInput!) {\n        createPost(data: $data) {\n          id\n        }\n      }\n    ": types.CreatePostDocument,
     "\n  query Post($data: PostIdInput!) {\n    post(data: $data) {\n      id\n      ...PostFragment\n    }\n  }\n": types.PostDocument,
@@ -62,7 +62,7 @@ export function graphql(source: "\n  query PostsQuery($q: String) {\n    posts(q
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  fragment PostFragment on Post {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    likedByMe\n    dislikesCount\n    dislikedByMe\n  }\n"): (typeof documents)["\n  fragment PostFragment on Post {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    likedByMe\n    dislikesCount\n    dislikedByMe\n  }\n"];
+export function graphql(source: "\n  fragment PostFragment on Post {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    likedByMe\n    dislikesCount\n    dislikedByMe\n    flaggedByMe\n  }\n"): (typeof documents)["\n  fragment PostFragment on Post {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    likedByMe\n    dislikesCount\n    dislikedByMe\n    flaggedByMe\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
