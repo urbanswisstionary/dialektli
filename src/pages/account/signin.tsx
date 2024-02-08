@@ -5,10 +5,12 @@ import { signIn } from "next-auth/react"
 import LayoutWithImage from "@/features/layout/layoutWithImage"
 import type { NextPage } from "next"
 import Button from "@/ui/Button"
+import { useRouter } from "next/router"
 
 const SigninPage: NextPage = () => {
   const onClick = () => {
     signIn("google", {
+      redirect: false,
       callbackUrl: `${window?.location?.origin}`,
     })
   }
