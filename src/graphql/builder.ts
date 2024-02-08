@@ -9,7 +9,9 @@ import { SupportedLanguage } from "@/utils/getUserLang"
 import ShieldPlugin from "./shield-plugin"
 import SimpleObjectsPlugin from "@pothos/plugin-simple-objects"
 
-const prisma = new PrismaClient({})
+const prisma = new PrismaClient({
+  log: ["info", "warn"],
+})
 
 export const builder = new SchemaBuilder<{
   PrismaTypes: PrismaTypes
