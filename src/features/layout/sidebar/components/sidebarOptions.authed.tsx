@@ -24,7 +24,6 @@ import { setQueryOnPage } from "@/utils/setQueryOnPage"
 import RecentActorsIcon from "@mui/icons-material/RecentActors"
 import PersonAddIcon from "@mui/icons-material/PersonAdd"
 import SidebarOption from "./sidebarOption"
-import { get } from "lodash"
 
 type Query = ParsedUrlQuery & {
   values?: "all" | "published" | "unpublished"

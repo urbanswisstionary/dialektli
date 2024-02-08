@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from "react"
+import type { FC } from "react"
 import Autocomplete from "@mui/joy/Autocomplete"
 import FormControl, { FormControlProps } from "@mui/joy/FormControl"
 import { usePostsQuery } from "@/hooks/usePosts"
