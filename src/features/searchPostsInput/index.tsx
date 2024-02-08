@@ -8,15 +8,19 @@ import { setQueryOnPage } from "@/utils/setQueryOnPage"
 import { ParsedUrlQuery } from "querystring"
 
 type Query = ParsedUrlQuery & { q: string }
+type Option = {
+  __typename?: "Post"
+  id: string
+  title: string
+}
 const SearchPostsInput: FC<FormControlProps> = (formControlProps) => {
   const router = useRouter()
   const query = router.query as Query
   const { data, previousData } = usePostsQuery(query.q ?? "", !query.q?.length)
 
-  const options: {
-    id: string
-    title: string
-  }[] = query.q?.length ? data?.posts ?? previousData?.posts ?? [] : []
+  const options: Option[] = query.q?.length
+    ? data?.posts ?? previousData?.posts ?? []
+    : []
 
   return (
     <FormControl {...formControlProps} id="searchPosts">
@@ -42,5 +46,3 @@ const SearchPostsInput: FC<FormControlProps> = (formControlProps) => {
 }
 
 export default SearchPostsInput
-
-type Option = { id: string; title: string }
