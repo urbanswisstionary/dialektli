@@ -9,11 +9,13 @@ import Logo from "@/ui/Logo"
 import Box from "@mui/joy/Box"
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded"
 import { useRouter } from "next/router"
+import { useMe } from "@/hooks/useMe"
 
 const signinPagePathname = "/account/signin"
 
 const Header: FC<{ hideSidebar?: boolean }> = ({ hideSidebar }) => {
   const router = useRouter()
+  const { loading: MeLoading } = useMe()
   return (
     <Sheet
       sx={{
@@ -45,7 +47,7 @@ const Header: FC<{ hideSidebar?: boolean }> = ({ hideSidebar }) => {
             href={signinPagePathname}
             passHref
             style={{ width: "100%" }}
-            hidden={router.pathname === signinPagePathname}
+            hidden={router.pathname === signinPagePathname || MeLoading}
           >
             <IconButton
               title="Sign In"

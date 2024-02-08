@@ -7,6 +7,7 @@ import FormLabel from "@mui/joy/FormLabel"
 import ListItemDecorator from "@mui/joy/ListItemDecorator"
 
 import { FC, useMemo } from "react"
+import FormHelperText from "@mui/joy/FormHelperText"
 
 type LocationOption = {
   code: string
@@ -18,8 +19,9 @@ const SelectLocation: FC<
     value: string | null | undefined
     onChange: (_locationCode: string | null) => void
     mode: "canton" | "country"
+    helperText?: string
   }
-> = ({ value, onChange, mode, sx, ...props }) => {
+> = ({ value, onChange, mode, helperText, sx, ...props }) => {
   const options = useMemo(() => getOptions(mode), [mode])
   const valueIndex = useMemo(
     () => options.findIndex((c) => c.code === value),
@@ -63,6 +65,7 @@ const SelectLocation: FC<
             value ? <Flag mode={mode} code={value.toLowerCase()} /> : null
           }
         />
+        <FormHelperText>{helperText}</FormHelperText>
       </FormControl>
     </div>
   )

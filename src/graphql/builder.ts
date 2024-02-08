@@ -7,6 +7,8 @@ import { DateTimeResolver, JSONResolver } from "graphql-scalars"
 import { Session } from "next-auth"
 import { SupportedLanguage } from "@/utils/getUserLang"
 import ShieldPlugin from "./shield-plugin"
+import SimpleObjectsPlugin from "@pothos/plugin-simple-objects"
+
 const prisma = new PrismaClient({})
 
 export const builder = new SchemaBuilder<{
@@ -21,7 +23,7 @@ export const builder = new SchemaBuilder<{
     lang: SupportedLanguage
   }
 }>({
-  plugins: [PrismaPlugin, ShieldPlugin],
+  plugins: [PrismaPlugin, ShieldPlugin, SimpleObjectsPlugin],
   prisma: {
     client: prisma,
     dmmf: Prisma.dmmf, // Because the prisma client is loaded dynamically, we need to explicitly provide the some information about the prisma schema

@@ -1,33 +1,113 @@
 import type { FC } from "react"
-import Button from "@mui/joy/Button"
 import Card from "@mui/joy/Card"
-import IconButton from "@mui/joy/IconButton"
-import LinearProgress from "@mui/joy/LinearProgress"
 import Typography from "@mui/joy/Typography"
 import Stack from "@mui/joy/Stack"
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded"
+import { usePostAction } from "@/hooks/usePosts"
+import Box from "@mui/joy/Box"
+import CardActions from "@mui/joy/CardActions"
+import CardOverflow from "@mui/joy/CardOverflow"
+import Avatar from "@mui/joy/Avatar"
+import { useState } from "react"
+import ThumbUpRoundedIcon from "@mui/icons-material/ThumbUpRounded"
+import ThumbUpTwoToneIcon from "@mui/icons-material/ThumbUpTwoTone"
+import ThumbDownRoundedIcon from "@mui/icons-material/ThumbDownRounded"
+import ThumbDownTwoToneIcon from "@mui/icons-material/ThumbDownTwoTone"
+import FlagIcon from "@mui/icons-material/Flag"
+import FlagTwoToneIcon from "@mui/icons-material/FlagTwoTone"
+import { PostFragmentFragment } from "@@/generated/graphql"
+import PostCardActionButton from "./components/actionButton"
+import PostCardExample from "./components/examples"
 
-const PostCard: FC = () => (
-  <Card
-    invertedColors
-    variant="soft"
-    color="warning"
-    size="sm"
-    sx={{ boxShadow: "none" }}
-  >
-    <Stack direction="row" justifyContent="space-between" alignItems="center">
-      <Typography level="title-sm">Used space</Typography>
-      <IconButton size="sm">
-        <CloseRoundedIcon />
-      </IconButton>
-    </Stack>
-    <Typography level="body-xs">
-      Your team has used 80% of your available space. Need more?
-    </Typography>
-    <LinearProgress variant="outlined" value={80} determinate sx={{ my: 1 }} />
-    <Button size="sm" variant="solid">
-      Upgrade plan
-    </Button>
-  </Card>
-)
+const postId = "clsbx3n52000711a0mar6tdnm"
+
+type PostCardProps = {
+  post: PostFragmentFragment
+  disableActions?: boolean
+}
+const PostCard: FC<PostCardProps> = ({ post, disableActions }) => {
+  const [actionClicked, setActionClicked] = useState<
+    "like" | "dislike" | "flag" | null
+  >(null)
+
+  const { postAction, loading: postActionLoading } = usePostAction(postId)
+  const [state, setState] = useState({
+    flagPost: false,
+  })
+
+  const onActionClick = (action: "like" | "dislike" | "flag") => {
+    setActionClicked(action)
+    postAction(action, () => setActionClicked(null))
+  }
+
+  return (
+    <Card size="md">
+      <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Typography level="title-lg">{post?.title}</Typography>
+
+        <PostCardActionButton
+          color="warning"
+          onClick={() =>
+            setState((prev) => ({
+              ...prev,
+              flagPost: !prev.flagPost,
+            }))
+          }
+          disabled={disableActions}
+        >
+          {state.flagPost ? <FlagIcon /> : <FlagTwoToneIcon />}
+        </PostCardActionButton>
+      </Stack>
+
+      <Typography mb={2} level="body-xs">
+        {post?.content}
+      </Typography>
+
+      <PostCardExample examples={post?.examples} />
+
+      <CardOverflow
+        sx={{ borderTop: "1px solid", borderColor: "divider", px: 2 }}
+      >
+        <CardActions sx={{ justifyContent: "space-between" }}>
+          <Box sx={{ display: "flex", gap: 1.5 }}>
+            {post?.author.image ? (
+              <Avatar src={post?.author.image} alt={post?.author.name ?? ""} />
+            ) : null}
+            <div>
+              <Typography level="body-xs">Author:</Typography>
+              <Typography level="body-sm">
+                {post?.author.name ?? "annonymus"}
+              </Typography>
+            </div>
+          </Box>
+          <Box sx={{ display: "flex", gap: 1.5, paddingInline: 2 }}>
+            <PostCardActionButton
+              onClick={() => onActionClick("dislike")}
+              badgeContent={post?.dislikesCount}
+              loading={actionClicked === "dislike" && postActionLoading}
+              disabled={disableActions}
+            >
+              {post?.dislikedByMe ? (
+                <ThumbDownRoundedIcon />
+              ) : (
+                <ThumbDownTwoToneIcon />
+              )}
+            </PostCardActionButton>
+            <PostCardActionButton
+              onClick={() => onActionClick("like")}
+              badgeContent={post?.likesCount}
+              loading={actionClicked === "like" && postActionLoading}
+              disabled={disableActions}
+            >
+              {post?.likedByMe ? (
+                <ThumbUpRoundedIcon color="inherit" />
+              ) : (
+                <ThumbUpTwoToneIcon />
+              )}
+            </PostCardActionButton>
+          </Box>
+        </CardActions>
+      </CardOverflow>
+    </Card>
+  )
+}
 export default PostCard

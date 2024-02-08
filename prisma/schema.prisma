@@ -36,6 +36,17 @@ model Dislike {
     @@index([postId, authorId])
 }
 
+model Flag {
+    post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+    postId    String
+    author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+    authorId  String
+    createdAt DateTime @default(now())
+
+    @@unique([postId, authorId])
+    @@index([postId, authorId])
+}
+
 model Post {
     id        String    @id @default(cuid())
     title     String
@@ -46,6 +57,10 @@ model Post {
     authorId  String?
     likes     Like[]
     dislikes  Dislike[]
+    createdAt DateTime  @default(now())
+    updatedAt DateTime? @updatedAt
+    flagged   Flag[]
+    canton    String?
 }
 
 model Account {
@@ -99,6 +114,7 @@ model User {
 
     country String?
     canton  String?
+    flags   Flag[]
 }
 
 model VerificationToken {

@@ -1,4 +1,5 @@
 input CreatePostInput {
+  authorId: String
   content: String
   examples: [String!]
   title: String!
@@ -26,6 +27,14 @@ type Dislike {
   postId: ID!
 }
 
+type Flag {
+  author: User!
+  authorId: ID!
+  createdAt: DateTime!
+  post: Post!
+  postId: ID!
+}
+
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
@@ -43,37 +52,54 @@ type Mutation {
   changeUserRole(role: Role!, userId: String!): User
   createPost(data: CreatePostInput!): Post
   createUser(data: CreateUserInput!): User
-  deleteDislike(data: PostIdInput!): Dislike
-  deleteLike(data: PostIdInput!): Like
   deletePost(data: PostIdInput!): Post
   deleteUser(data: UserIdInput!): User
-  dislikePost(data: PostIdInput!): Dislike
-  likePost(data: PostIdInput!): Post
+  postAction(data: PostActionInput!): Boolean!
   updatePost(data: UpdatePostInput!): Post
   updateUser(data: UpdateUserInput!): User
 }
 
 type Post {
   author: User!
+  canton: String
   content: String
+  createdAt: DateTime!
+  dislikedByMe: Boolean!
   dislikes: [Dislike!]!
   dislikesCount: Int!
   examples: [String!]!
+  flagged: [Flag!]!
+  flaggedByMe: Boolean!
   id: ID!
+  likedByMe: Boolean!
   likes: [Like!]!
   likesCount: Int!
   published: Boolean!
   title: String!
+  updatedAt: DateTime
+}
+
+input PostActionInput {
+  dislike: Boolean
+  flag: Boolean
+  like: Boolean
+  postId: String!
 }
 
 input PostIdInput {
   postId: String!
 }
 
+type PostsWithCount {
+  count: Int!
+  posts: [Post!]!
+}
+
 type Query {
   me: User!
   post(data: PostIdInput!): Post
   posts(q: String): [Post!]
+  postsWithCount(limit: Int, offset: Int, q: String): PostsWithCount
   user(email: String!): User!
   users: [User!]!
 }
@@ -108,6 +134,7 @@ type User {
   dislikesCount: Int!
   email: String!
   emailVerified: DateTime
+  flags: [Flag!]!
   id: ID!
   image: String
   likes: [Like!]!

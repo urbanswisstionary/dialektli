@@ -6,6 +6,7 @@ import Typography from "@mui/joy/Typography"
 import Toggler from "@/ui/Toggler"
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"
 import List from "@mui/joy/List"
+import Link from "next/link"
 
 type SidebarOptionProps = {
   hide?: boolean
@@ -19,6 +20,7 @@ type SidebarOptionProps = {
   nestedOptions?: SidebarOptionProps[]
   defaultExpanded?: boolean
   firstOfType?: boolean
+  link?: string
 }
 
 const SidebarOption: FC<SidebarOptionProps> = ({
@@ -33,6 +35,7 @@ const SidebarOption: FC<SidebarOptionProps> = ({
   defaultExpanded,
   nestedOptions = [],
   firstOfType,
+  link,
 }) =>
   hide ? null : nested ? (
     <ListItem nested={nested}>
@@ -72,6 +75,8 @@ const SidebarOption: FC<SidebarOptionProps> = ({
       sx={{
         ":first-of-type": firstOfType ? { mt: 0.5 } : undefined,
       }}
+      component={link ? Link : "div"}
+      href={link}
     >
       <ListItemButton
         selected={selected}

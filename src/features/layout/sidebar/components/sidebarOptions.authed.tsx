@@ -24,6 +24,7 @@ import { setQueryOnPage } from "@/utils/setQueryOnPage"
 import RecentActorsIcon from "@mui/icons-material/RecentActors"
 import PersonAddIcon from "@mui/icons-material/PersonAdd"
 import SidebarOption from "./sidebarOption"
+import { get } from "lodash"
 
 type Query = ParsedUrlQuery & {
   values?: "all" | "published" | "unpublished"
@@ -44,19 +45,22 @@ const AuthedSidebarOptions: FC<{
 }> = ({ me, isAdmin }) => {
   const router = useRouter()
   const query = router.query as Query
-
-  const onClickHandler = ({ values, users }: Query = {}) => {
+  const isProfilePage = router.pathname === profilePagePathname
+  const getLink = ({ values, users }: Query = {}) => {
+    if (isProfilePage) return
     const urlParam = values
       ? `?values=${values}`
       : users
         ? `?users=${users}`
         : ""
-    router.pathname !== profilePagePathname
-      ? router.push(`${profilePagePathname}${urlParam}`)
-      : setQueryOnPage(router, {
-          users: users ?? [],
-          values: values ?? [],
-        })
+    return `${profilePagePathname}${urlParam}`
+  }
+  const onClickHandler = ({ values, users }: Query = {}) => {
+    if (!isProfilePage) return
+    setQueryOnPage(router, {
+      users: users ?? [],
+      values: values ?? [],
+    })
   }
   return (
     <>
@@ -82,18 +86,16 @@ const AuthedSidebarOptions: FC<{
           <SidebarOption
             label="My Profile"
             startDecorator={<AssignmentIndIcon />}
-            selected={
-              router.pathname === profilePagePathname &&
-              !Object.keys(query).length
-            }
+            selected={isProfilePage && !Object.keys(query).length}
             onClick={onClickHandler}
+            link={getLink()}
           />
 
           <SidebarOption
             hide={!isAdmin}
             label="Dashboard"
             startDecorator={<DashboardRoundedIcon />}
-            onClick={() => router.push("admin/dashboard")}
+            link="/admin/dashboard"
             disabled
           />
           <SidebarOption
@@ -106,6 +108,7 @@ const AuthedSidebarOptions: FC<{
                 label: "All",
                 selected: query.values === "all",
                 onClick: () => onClickHandler({ values: "all" }),
+                link: getLink({ values: "all" }),
                 startDecorator: <AssignmentRoundedIcon />,
                 endDecorator: (
                   <ChipCounter
@@ -119,6 +122,7 @@ const AuthedSidebarOptions: FC<{
                 label: "Published",
                 selected: query.values === "published",
                 onClick: () => onClickHandler({ values: "published" }),
+                link: getLink({ values: "published" }),
                 startDecorator: <CheckCircleRoundedIcon />,
                 endDecorator: <ChipCounter count={me.myPublishedPostsCount} />,
               },
@@ -126,6 +130,7 @@ const AuthedSidebarOptions: FC<{
                 label: "Unpublished",
                 selected: query.values === "unpublished",
                 onClick: () => onClickHandler({ values: "unpublished" }),
+                link: getLink({ values: "unpublished" }),
                 startDecorator: <UnpublishedRoundedIcon />,
                 endDecorator: (
                   <ChipCounter count={me.myUnpublishedPostsCount} />
@@ -145,12 +150,14 @@ const AuthedSidebarOptions: FC<{
                 label: "Create a new user",
                 selected: query.users === "new",
                 onClick: () => onClickHandler({ users: "new" }),
+                link: getLink({ users: "new" }),
                 startDecorator: <PersonAddIcon />,
               },
               {
                 label: "Roles & permission",
                 selected: query.users === "permissions",
                 onClick: () => onClickHandler({ users: "permissions" }),
+                link: getLink({ users: "permissions" }),
                 startDecorator: <RecentActorsIcon />,
               },
             ]}

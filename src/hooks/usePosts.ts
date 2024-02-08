@@ -1,23 +1,8 @@
 import { graphql } from "@@/generated"
-import { useQuery } from "@apollo/client"
+import { CreatePostInput } from "@@/generated/graphql"
+import { useMutation, useQuery } from "@apollo/client"
 
-export const PostFragment = graphql(/* GraphQL */ `
-  fragment PostFragment on Post {
-    id
-    author {
-      id
-      name
-    }
-    title
-    content
-    examples
-    published
-    likesCount
-    dislikesCount
-  }
-`)
-
-const PostsQueryQuery = graphql(/* GraphQL */ `
+const PostsQuery = graphql(/* GraphQL */ `
   query PostsQuery($q: String) {
     posts(q: $q) {
       id
@@ -26,14 +11,98 @@ const PostsQueryQuery = graphql(/* GraphQL */ `
   }
 `)
 
-export const usePostsQuery = (q: string) =>
-  useQuery(PostsQueryQuery, { variables: { q }, skip: !q.length })
+export const usePostsQuery = (q: string, skip?: boolean) =>
+  useQuery(PostsQuery, { variables: { q }, skip })
 
-const PostsQuery = graphql(/* GraphQL */ `
-  query Posts {
-    posts {
+export const PostFragment = graphql(/* GraphQL */ `
+  fragment PostFragment on Post {
+    id
+    author {
+      id
+      name
+      image
+    }
+    title
+    content
+    examples
+    published
+    likesCount
+    likedByMe
+    dislikesCount
+    dislikedByMe
+  }
+`)
+
+export const usePosts = ({
+  q,
+  offset,
+  limit,
+}: { q?: string; offset?: number; limit?: number } = {}) =>
+  useQuery(
+    graphql(/* GraphQL */ `
+      query Posts($q: String, $offset: Int, $limit: Int) {
+        postsWithCount(q: $q, offset: $offset, limit: $limit) {
+          posts {
+            ...PostFragment
+          }
+          count
+        }
+      }
+    `),
+    {
+      variables: { q, offset, limit },
+    },
+  )
+
+export const useCreatePostMutation = () => {
+  const [createPost, mutationResult] = useMutation(
+    graphql(/* GraphQL */ `
+      mutation CreatePost($data: CreatePostInput!) {
+        createPost(data: $data) {
+          id
+        }
+      }
+    `),
+  )
+
+  return {
+    createPost: (data: CreatePostInput) => createPost({ variables: { data } }),
+    ...mutationResult,
+  }
+}
+
+const PostQuery = graphql(/* GraphQL */ `
+  query Post($data: PostIdInput!) {
+    post(data: $data) {
+      id
       ...PostFragment
     }
   }
 `)
-export const usePosts = () => useQuery(PostsQuery)
+
+export const usePost = (postId: string) =>
+  useQuery(PostQuery, { variables: { data: { postId } }, skip: !postId })
+
+export const usePostAction = (postId: string) => {
+  const [postAction, mutationResult] = useMutation(
+    graphql(/* GraphQL */ `
+      mutation PostAction($data: PostActionInput!) {
+        postAction(data: $data)
+      }
+    `),
+    { refetchQueries: [{ query: PostQuery, variables: { data: { postId } } }] },
+  )
+  return {
+    postAction: (
+      action: "like" | "dislike" | "flag",
+      onCompletedCallback?: () => void,
+    ) =>
+      postAction({
+        variables: { data: { postId, [action]: true } },
+        onCompleted: () => {
+          if (onCompletedCallback) onCompletedCallback()
+        },
+      }),
+    ...mutationResult,
+  }
+}

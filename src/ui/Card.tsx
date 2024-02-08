@@ -1,4 +1,4 @@
-import type { FC } from "react"
+import type { FC, ReactNode } from "react"
 import Box from "@mui/joy/Box"
 import Button from "@mui/joy/Button"
 import Divider from "@mui/joy/Divider"
@@ -7,33 +7,40 @@ import Stack from "@mui/joy/Stack"
 import Typography from "@mui/joy/Typography"
 import JoyCard, { CardProps as JoyCardProps } from "@mui/joy/Card"
 import CardActions from "@mui/joy/CardActions"
-import CardOverflow from "@mui/joy/CardOverflow"
+import CardOverflow, { CardOverflowProps } from "@mui/joy/CardOverflow"
+import { omit } from "lodash"
 
 type ActionButtonProps = {
   disabled?: boolean
   loading?: boolean
   onClick?: () => void
+  title?: string | null
+}
+type CardActions = {
+  cancel?: ActionButtonProps
+  save?: ActionButtonProps & { type?: "submit" }
 }
 
 type CardProps = {
-  actions?: {
-    cancel?: ActionButtonProps
-    save?: ActionButtonProps & { type?: "submit" }
-  }
-  description?: string
-  title?: string
+  actions?: CardActions
+  description?: string | null
+  title?: string | null
 }
 const Card: FC<JoyCardProps & CardProps> = ({
   actions,
   children,
   description,
   title,
+  sx,
   ...joyCardProps
 }) => (
-  <JoyCard {...joyCardProps}>
+  <JoyCard
+    {...joyCardProps}
+    sx={[{ padding: 0 }, ...(Array.isArray(sx) ? sx : [sx])]}
+  >
     {title || description ? (
       <>
-        <Box sx={{ mb: 1 }}>
+        <Box sx={{ mb: 1, p: 2 }}>
           {title ? <Typography level="title-md">{title}</Typography> : null}
           {description ? (
             <Typography level="body-sm">{description}</Typography>
@@ -45,14 +52,23 @@ const Card: FC<JoyCardProps & CardProps> = ({
     <Stack
       direction="column"
       spacing={2}
-      sx={{ display: { xs: "flex" }, my: 1 }}
+      sx={{ display: { xs: "flex" }, my: 1, px: 2 }}
     >
       {children}
     </Stack>
 
     {actions ? (
-      <CardOverflow sx={{ borderTop: "1px solid", borderColor: "divider" }}>
-        <CardActions sx={{ alignSelf: "flex-end", pt: 2 }}>
+      <CardOverflow
+        sx={{ borderTop: "1px solid", borderColor: "divider", p: 2 }}
+      >
+        <CardActions
+          sx={{
+            alignSelf: "flex-end",
+            pt: 2,
+            gap: 1,
+            "> * ": { textTransform: "capitalize" },
+          }}
+        >
           {actions.cancel ? (
             <Button
               size="sm"
@@ -64,7 +80,7 @@ const Card: FC<JoyCardProps & CardProps> = ({
                 if (actions.cancel?.onClick) actions.cancel.onClick()
               }}
             >
-              Cancel
+              {actions.cancel.title ?? "cancel"}
             </Button>
           ) : null}
           {actions.save ? (
@@ -79,7 +95,7 @@ const Card: FC<JoyCardProps & CardProps> = ({
                   actions.save.onClick()
               }}
             >
-              Save
+              {actions.save.title ?? "submit"}
             </Button>
           ) : null}
         </CardActions>

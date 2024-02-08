@@ -42,6 +42,7 @@ builder.prismaObject("User", {
       resolve: async (parent) =>
         prisma.post.count({ where: { authorId: parent.id, published: false } }),
     }),
+    flags: t.relation("flags"),
   }),
 })
 builder.queryFields((t) => ({

@@ -1,5 +1,5 @@
 /* eslint-disable */
-import type { Prisma, Like, Dislike, Post, Account, Session, User, VerificationToken } from "@prisma/client";
+import type { Prisma, Like, Dislike, Flag, Post, Account, Session, User, VerificationToken } from "@prisma/client";
 export default interface PrismaTypes {
     Like: {
         Name: "Like";
@@ -47,6 +47,29 @@ export default interface PrismaTypes {
             };
         };
     };
+    Flag: {
+        Name: "Flag";
+        Shape: Flag;
+        Include: Prisma.FlagInclude;
+        Select: Prisma.FlagSelect;
+        OrderBy: Prisma.FlagOrderByWithRelationInput;
+        WhereUnique: Prisma.FlagWhereUniqueInput;
+        Where: Prisma.FlagWhereInput;
+        Create: {};
+        Update: {};
+        RelationName: "post" | "author";
+        ListRelations: never;
+        Relations: {
+            post: {
+                Shape: Post;
+                Name: "Post";
+            };
+            author: {
+                Shape: User;
+                Name: "User";
+            };
+        };
+    };
     Post: {
         Name: "Post";
         Shape: Post;
@@ -57,8 +80,8 @@ export default interface PrismaTypes {
         Where: Prisma.PostWhereInput;
         Create: {};
         Update: {};
-        RelationName: "author" | "likes" | "dislikes";
-        ListRelations: "likes" | "dislikes";
+        RelationName: "author" | "likes" | "dislikes" | "flagged";
+        ListRelations: "likes" | "dislikes" | "flagged";
         Relations: {
             author: {
                 Shape: User | null;
@@ -71,6 +94,10 @@ export default interface PrismaTypes {
             dislikes: {
                 Shape: Dislike[];
                 Name: "Dislike";
+            };
+            flagged: {
+                Shape: Flag[];
+                Name: "Flag";
             };
         };
     };
@@ -122,8 +149,8 @@ export default interface PrismaTypes {
         Where: Prisma.UserWhereInput;
         Create: {};
         Update: {};
-        RelationName: "posts" | "accounts" | "sessions" | "likes" | "dislikes";
-        ListRelations: "posts" | "accounts" | "sessions" | "likes" | "dislikes";
+        RelationName: "posts" | "accounts" | "sessions" | "likes" | "dislikes" | "flags";
+        ListRelations: "posts" | "accounts" | "sessions" | "likes" | "dislikes" | "flags";
         Relations: {
             posts: {
                 Shape: Post[];
@@ -144,6 +171,10 @@ export default interface PrismaTypes {
             dislikes: {
                 Shape: Dislike[];
                 Name: "Dislike";
+            };
+            flags: {
+                Shape: Flag[];
+                Name: "Flag";
             };
         };
     };
