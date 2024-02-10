@@ -149,14 +149,14 @@ export default interface PrismaTypes {
         Where: Prisma.UserWhereInput;
         Create: {};
         Update: {};
-        RelationName: "posts" | "Account" | "sessions" | "likes" | "dislikes" | "flags";
-        ListRelations: "posts" | "Account" | "sessions" | "likes" | "dislikes" | "flags";
+        RelationName: "posts" | "accounts" | "sessions" | "likes" | "dislikes" | "flags";
+        ListRelations: "posts" | "accounts" | "sessions" | "likes" | "dislikes" | "flags";
         Relations: {
             posts: {
                 Shape: Post[];
                 Name: "Post";
             };
-            Account: {
+            accounts: {
                 Shape: Account[];
                 Name: "Account";
             };

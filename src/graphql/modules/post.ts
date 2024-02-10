@@ -309,59 +309,69 @@ builder.mutationFields((t) => ({
               ? "flag"
               : null
       const postId_authorId = { postId, authorId }
-      switch (action) {
-        case "like": {
-          const updatedPost = await prisma.post.update({
-            where: { id: postId },
-            data: post.likes.length
-              ? { likes: { delete: { postId_authorId } } }
-              : {
-                  likes: {
-                    connectOrCreate: {
-                      create: { authorId },
-                      where: { postId_authorId },
+      try {
+        switch (action) {
+          case "like": {
+            const updatedPost = await prisma.post.update({
+              where: { id: postId },
+              data: post.likes.length
+                ? { likes: { delete: { postId_authorId } } }
+                : {
+                    likes: {
+                      connectOrCreate: {
+                        create: { authorId },
+                        where: { postId_authorId },
+                      },
+                    },
+                    dislikes: post.dislikes.length
+                      ? { delete: { postId_authorId } }
+                      : undefined,
+                  },
+            })
+
+            return !!updatedPost
+          }
+          case "dislike": {
+            const updatedPost = await prisma.post.update({
+              where: { id: postId },
+              data: post.dislikes.length
+                ? { dislikes: { delete: { postId_authorId } } }
+                : {
+                    dislikes: {
+                      connectOrCreate: {
+                        create: { authorId },
+                        where: { postId_authorId },
+                      },
+                    },
+                    likes: post.likes.length
+                      ? { delete: { postId_authorId } }
+                      : undefined,
+                  },
+            })
+            return !!updatedPost
+          }
+          case "flag": {
+            const updatedPost = await prisma.post.update({
+              where: { id: postId },
+              data: post.flagged.length
+                ? { flagged: { delete: { postId_authorId } } }
+                : {
+                    flagged: {
+                      connectOrCreate: {
+                        create: { authorId },
+                        where: { postId_authorId },
+                      },
                     },
                   },
-                  dislikes: { delete: { postId_authorId } },
-                },
-          })
-          return !!updatedPost
+            })
+            return !!updatedPost
+          }
+          default:
+            return false
         }
-        case "dislike": {
-          const updatedPost = await prisma.post.update({
-            where: { id: postId },
-            data: post.dislikes.length
-              ? { dislikes: { delete: { postId_authorId } } }
-              : {
-                  dislikes: {
-                    connectOrCreate: {
-                      create: { authorId },
-                      where: { postId_authorId },
-                    },
-                  },
-                  likes: { delete: { postId_authorId } },
-                },
-          })
-          return !!updatedPost
-        }
-        case "flag": {
-          const updatedPost = await prisma.post.update({
-            where: { id: postId },
-            data: post.flagged.length
-              ? { flagged: { delete: { postId_authorId } } }
-              : {
-                  flagged: {
-                    connectOrCreate: {
-                      create: { authorId },
-                      where: { postId_authorId },
-                    },
-                  },
-                },
-          })
-          return !!updatedPost
-        }
-        default:
-          return false
+      } catch (error) {
+        console.log(error)
+        return false
       }
     },
   }),

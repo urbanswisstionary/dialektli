@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-    provider = "mongodb"
-    url      = env("DATABASE_URL")
+    provider  = "postgresql"
+    url       = env("POSTGRES_URL") // uses connection pooling
+    directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 generator pothos {
@@ -14,47 +15,49 @@ generator pothos {
 }
 
 model Like {
-    id        String   @id @default(auto()) @map("_id") @db.ObjectId
-    post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-    postId    String   @db.ObjectId
-    author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
-    authorId  String   @db.ObjectId
-    createdAt DateTime @default(now())
+    post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+    postId    String
+    author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+    authorId  String
+    createdAt DateTime  @default(now())
+    updatedAt DateTime? @updatedAt
 
-    @@unique([postId, authorId], name: "postId_authorId")
+    @@id([postId, authorId])
+    @@unique([postId, authorId])
 }
 
 model Dislike {
-    id        String   @id @default(auto()) @map("_id") @db.ObjectId
-    post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-    postId    String   @db.ObjectId
-    author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
-    authorId  String   @db.ObjectId
-    createdAt DateTime @default(now())
+    post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+    postId    String
+    author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+    authorId  String
+    createdAt DateTime  @default(now())
+    updatedAt DateTime? @updatedAt
 
-    @@unique([postId, authorId], name: "postId_authorId")
+    @@id([postId, authorId])
+    @@unique([postId, authorId])
 }
 
 model Flag {
-    id        String   @id @default(auto()) @map("_id") @db.ObjectId
-    post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-    postId    String   @db.ObjectId
-    author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
-    authorId  String   @db.ObjectId
-    createdAt DateTime @default(now())
+    post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+    postId    String
+    author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+    authorId  String
+    createdAt DateTime  @default(now())
+    updatedAt DateTime? @updatedAt
 
-    @@unique([postId, authorId], name: "postId_authorId")
+    @@id([postId, authorId])
+    @@unique([postId, authorId])
 }
 
 model Post {
-    id String @id @default(auto()) @map("_id") @db.ObjectId
-
+    id        String    @id @default(cuid())
     title     String
     content   String?
     examples  String[]
     published Boolean   @default(true)
     author    User?     @relation(fields: [authorId], references: [id])
-    authorId  String?   @db.ObjectId
+    authorId  String?
     likes     Like[]
     dislikes  Dislike[]
     createdAt DateTime  @default(now())
@@ -64,11 +67,11 @@ model Post {
 }
 
 model Account {
-    id                 String  @id @default(auto()) @map("_id") @db.ObjectId
-    userId             String  @map("user_id") @db.ObjectId
+    id                 String  @id @default(cuid())
+    userId             String  @map("user_id")
     type               String
     provider           String
-    providerAccountId  String  @map("provider_account_id")
+    providerAccountId  String
     refresh_token      String?
     access_token       String?
     expires_at         Int?
@@ -85,11 +88,10 @@ model Account {
 }
 
 model Session {
-    id String @id @default(auto()) @map("_id") @db.ObjectId
-
+    id           String   @id @default(cuid())
     sessionToken String   @unique @map("session_token")
-    userId       String   @db.ObjectId
-    expires      DateTime @map("expiresAt")
+    userId       String
+    expires      DateTime
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -99,32 +101,30 @@ enum Role {
 }
 
 model User {
-    id String @id @default(auto()) @map("_id") @db.ObjectId
-
+    id            String    @id @default(cuid())
     name          String?
     email         String    @unique
     createdAt     DateTime  @default(now())
-    emailVerified DateTime? @map("verifiedAt")
+    emailVerified DateTime?
     password      String?
     image         String?
     bio           String?
     posts         Post[]
-    Account       Account[]
+    accounts      Account[]
     sessions      Session[]
     role          Role      @default(USER)
     likes         Like[]
     dislikes      Dislike[]
-
-    country String?
-    canton  String?
-    flags   Flag[]
+    country       String?
+    canton        String?
+    flags         Flag[]
 }
 
 model VerificationToken {
-    id         String   @id @default(auto()) @map("_id") @db.ObjectId
+    id         Int      @id @default(autoincrement())
     identifier String
     token      String   @unique
-    expires    DateTime @map("expiresAt")
+    expires    DateTime
 
     @@unique([identifier, token])
 }
