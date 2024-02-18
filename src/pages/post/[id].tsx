@@ -11,50 +11,37 @@ import SearchPostsInput from "@/features/searchPostsInput"
 import Link from "next/link"
 import IconButton from "@mui/joy/IconButton"
 import AddIcon from "@mui/icons-material/Add"
+import EditPostForm from "@/features/postForm/editPostForm"
 
 type Query = ParsedUrlQuery & { id: string }
 
 const PostPage: NextPage = () => {
-  const { me } = useMe()
+  const { me, isAdmin, loading: loadingMe } = useMe()
   const router = useRouter()
   const { id } = router.query as Query
 
-  const { data: postData, loading: postDataLoading } = usePost(id)
+  const { data: postData, loading: loadingPost } = usePost(id)
 
-  if (postDataLoading) return <>Loading...</>
-
+  if (loadingMe || loadingPost) return <>Loading...</>
   const post = getFragmentData(PostFragment, postData?.post)
 
-  if (!post) {
+  if (!me) {
+    router.push("/account/signin")
+    return <>Redirecting...</>
+  }
+  if (!post || (!!me && me.id !== post?.author.id && !isAdmin)) {
     router.push("/")
-    return <>Post not found</>
+    return <>{!post ? "Post not found" : "unauthorized"}...</>
   }
 
   return (
     <Layout hideSidebar={!me}>
-        <Box
-        sx={{
-          mt: 2.5,
-          mb: 5,
-          display: "flex",
-          flexDirection: "row",
-          gap: "1rem",
-        }}
-      >
-        <SearchPostsInput sx={{ flex: 1 }} />
-        <Link href={"/post/new"} passHref>
-          <IconButton
-            title="New Post"
-            variant="outlined"
-            color="neutral"
-            size="md"
-          >
-            <AddIcon />
-          </IconButton>
-        </Link>
-      </Box>
-      <Box sx={{ height: "100%" }}>
-        <PostCard post={post} disableActions={!me} />
+      <Box my={5}>
+        {me.id === post.author.id ? (
+          <EditPostForm post={post} />
+        ) : (
+          <PostCard post={post} disableActions={!me} />
+        )}
       </Box>
     </Layout>
   )

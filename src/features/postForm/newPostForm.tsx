@@ -1,6 +1,6 @@
 import { FC, FormEventHandler, useState } from "react"
 import Card from "@/ui/Card"
-import ReviewGuidelines from "@/features/newPostForm/components/reviewGuidelines"
+import ReviewGuidelines from "@/features/postForm/components/reviewGuidelines"
 import WordInput from "./components/wordInput"
 import WordDescriptionInput from "./components/wordDescriptionInput"
 import WordExamplesInput from "./components/wordExamplesInput"
@@ -92,6 +92,7 @@ const NewPostForm: FC = () => {
             onChange={(value) => {
               onValueChange("title", value)
             }}
+            label="New Value"
             required
             sx={{ pt: 1 }}
             disabled={!!createPostData?.createPost?.id}
@@ -110,6 +111,7 @@ const NewPostForm: FC = () => {
             onChange={(value) => {
               onValueChange("content", value)
             }}
+            label="Description"
             required
             sx={{ pt: 1 }}
             disabled={!!createPostData?.createPost?.id}

@@ -43,8 +43,9 @@ const StylesProvider: FC<StylesProviderProps> = ({ children }) => (
               margin: 0,
             },
             "html, body": {
-              maxWidth: "100vw",
-              overflowX: "hidden",
+              width: "100%",
+              height: "100%",
+              overflow: "hidden",
             },
 
             body: {

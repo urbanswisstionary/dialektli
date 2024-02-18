@@ -8,7 +8,6 @@ import List from "@mui/joy/List"
 import { listItemButtonClasses } from "@mui/joy/ListItemButton"
 import Typography from "@mui/joy/Typography"
 import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded"
-import AssignmentRoundedIcon from "@mui/icons-material/AssignmentRounded"
 import UnpublishedRoundedIcon from "@mui/icons-material/UnpublishedRounded"
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd"
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded"
@@ -26,8 +25,7 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd"
 import SidebarOption from "./sidebarOption"
 
 type Query = ParsedUrlQuery & {
-  values?: "all" | "published" | "unpublished"
-  users?: "new" | "permissions"
+  view?: "posts" | "users"
 }
 
 const profilePagePathname = "/account/profile"
@@ -45,21 +43,14 @@ const AuthedSidebarOptions: FC<{
   const router = useRouter()
   const query = router.query as Query
   const isProfilePage = router.pathname === profilePagePathname
-  const getLink = ({ values, users }: Query = {}) => {
+  const getLink = ({ view }: Query = {}) => {
     if (isProfilePage) return
-    const urlParam = values
-      ? `?values=${values}`
-      : users
-        ? `?users=${users}`
-        : ""
+    const urlParam = view ? `?view=${view}` : ""
     return `${profilePagePathname}${urlParam}`
   }
-  const onClickHandler = ({ values, users }: Query = {}) => {
+  const onClickHandler = ({ view }: Query = {}) => {
     if (!isProfilePage) return
-    setQueryOnPage(router, {
-      users: users ?? [],
-      values: values ?? [],
-    })
+    setQueryOnPage(router, { view: view ?? [] })
   }
   return (
     <>
@@ -98,17 +89,17 @@ const AuthedSidebarOptions: FC<{
             disabled
           />
           <SidebarOption
-            label="My Values"
-            startDecorator={<AllInboxIcon />}
+            label="Dashboard"
+            startDecorator={<DashboardRoundedIcon />}
             nested
             defaultExpanded={!!query.values}
             nestedOptions={[
               {
-                label: "All",
-                selected: query.values === "all",
-                onClick: () => onClickHandler({ values: "all" }),
-                link: getLink({ values: "all" }),
-                startDecorator: <AssignmentRoundedIcon />,
+                label: "My Values",
+                startDecorator: <AllInboxIcon />,
+                selected: query.view === "posts",
+                onClick: () => onClickHandler({ view: "posts" }),
+                link: getLink({ view: "posts" }),
                 endDecorator: (
                   <ChipCounter
                     count={
@@ -119,17 +110,17 @@ const AuthedSidebarOptions: FC<{
               },
               {
                 label: "Published",
-                selected: query.values === "published",
-                onClick: () => onClickHandler({ values: "published" }),
-                link: getLink({ values: "published" }),
+                selected: query.view === "posts",
+                onClick: () => onClickHandler({ view: "posts" }),
+                link: getLink({ view: "posts" }),
                 startDecorator: <CheckCircleRoundedIcon />,
                 endDecorator: <ChipCounter count={me.myPublishedPostsCount} />,
               },
               {
                 label: "Unpublished",
-                selected: query.values === "unpublished",
-                onClick: () => onClickHandler({ values: "unpublished" }),
-                link: getLink({ values: "unpublished" }),
+                selected: query.view === "posts",
+                onClick: () => onClickHandler({ view: "posts" }),
+                link: getLink({ view: "posts" }),
                 startDecorator: <UnpublishedRoundedIcon />,
                 endDecorator: (
                   <ChipCounter count={me.myUnpublishedPostsCount} />
@@ -147,16 +138,16 @@ const AuthedSidebarOptions: FC<{
             nestedOptions={[
               {
                 label: "Create a new user",
-                selected: query.users === "new",
-                onClick: () => onClickHandler({ users: "new" }),
-                link: getLink({ users: "new" }),
+                selected: query.view === "users",
+                onClick: () => onClickHandler({ view: "users" }),
+                link: getLink({ view: "users" }),
                 startDecorator: <PersonAddIcon />,
               },
               {
                 label: "Roles & permission",
-                selected: query.users === "permissions",
-                onClick: () => onClickHandler({ users: "permissions" }),
-                link: getLink({ users: "permissions" }),
+                selected: query.view === "users",
+                onClick: () => onClickHandler({ view: "users" }),
+                link: getLink({ view: "users" }),
                 startDecorator: <RecentActorsIcon />,
               },
             ]}

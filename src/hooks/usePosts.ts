@@ -1,18 +1,10 @@
 import { graphql } from "@@/generated"
-import { CreatePostInput } from "@@/generated/graphql"
+import {
+  CreatePostInput,
+  PostWithCountQueryMode,
+  UpdatePostInput,
+} from "@@/generated/graphql"
 import { useMutation, useQuery } from "@apollo/client"
-
-const PostsQuery = graphql(/* GraphQL */ `
-  query PostsQuery($q: String) {
-    posts(q: $q) {
-      id
-      title
-    }
-  }
-`)
-
-export const usePostsQuery = (q: string, skip?: boolean) =>
-  useQuery(PostsQuery, { variables: { q }, skip })
 
 export const PostFragment = graphql(/* GraphQL */ `
   fragment PostFragment on Post {
@@ -31,6 +23,26 @@ export const PostFragment = graphql(/* GraphQL */ `
     dislikesCount
     dislikedByMe
     flaggedByMe
+
+    createdAt
+    updatedAt
+    canton
+  }
+`)
+
+const PostsQuery = graphql(/* GraphQL */ `
+  query Posts(
+    $q: String
+    $offset: Int
+    $limit: Int
+    $mode: PostWithCountQueryMode!
+  ) {
+    postsWithCount(q: $q, offset: $offset, limit: $limit, mode: $mode) {
+      posts {
+        ...PostFragment
+      }
+      count
+    }
   }
 `)
 
@@ -38,22 +50,13 @@ export const usePosts = ({
   q,
   offset,
   limit,
-}: { q?: string; offset?: number; limit?: number } = {}) =>
-  useQuery(
-    graphql(/* GraphQL */ `
-      query Posts($q: String, $offset: Int, $limit: Int) {
-        postsWithCount(q: $q, offset: $offset, limit: $limit) {
-          posts {
-            ...PostFragment
-          }
-          count
-        }
-      }
-    `),
-    {
-      variables: { q, offset, limit },
-    },
-  )
+  mode,
+}: {
+  q?: string
+  offset?: number
+  limit?: number
+  mode: PostWithCountQueryMode
+}) => useQuery(PostsQuery, { variables: { q, offset, limit, mode } })
 
 export const useCreatePostMutation = () => {
   const [createPost, mutationResult] = useMutation(
@@ -64,6 +67,19 @@ export const useCreatePostMutation = () => {
         }
       }
     `),
+    {
+      awaitRefetchQueries: true,
+      refetchQueries: () => [
+        { query: PostsQuery, variables: { mode: PostWithCountQueryMode.All } },
+      ],
+      update: (cache, { data }) => {
+        if (data?.createPost) {
+          cache.modify({
+            fields: { postsWithCount: (_existingPosts = []) => {} },
+          })
+        }
+      },
+    },
   )
 
   return {
@@ -75,6 +91,76 @@ export const useCreatePostMutation = () => {
         variables: { data },
         onCompleted: (data) => {
           if (onCompletedCallback) onCompletedCallback(data.createPost?.id)
+        },
+      }),
+    ...mutationResult,
+  }
+}
+
+export const useUpdatePostMutations = () => {
+  const [updatePost, mutationResult] = useMutation(
+    graphql(/* GraphQL */ `
+      mutation UpdatePost($data: UpdatePostInput!) {
+        updatePost(data: $data) {
+          id
+        }
+      }
+    `),
+  )
+  return {
+    updatePost: (data: UpdatePostInput, onCompletedCallback?: () => void) =>
+      updatePost({
+        variables: { data },
+        onCompleted: () => {
+          if (onCompletedCallback) onCompletedCallback()
+        },
+        refetchQueries: [
+          { query: PostQuery, variables: { data: { postId: data.id } } },
+        ],
+        update: (cache, { data }) => {
+          if (data?.updatePost) {
+            cache.modify({
+              fields: {
+                postsWithCount: (_existingPosts = []) => {},
+              },
+            })
+          }
+        },
+      }),
+    ...mutationResult,
+  }
+}
+
+export const useDeletePostMutation = () => {
+  const [deletePost, mutationResult] = useMutation(
+    graphql(/* GraphQL */ `
+      mutation DeletePost($data: PostIdInput!) {
+        deletePost(data: $data) {
+          id
+        }
+      }
+    `),
+    {
+      awaitRefetchQueries: true,
+      refetchQueries: () => [{ query: PostsQuery }],
+      update: (cache, { data }) => {
+        if (data?.deletePost) {
+          cache.modify({
+            fields: {
+              postsWithCount: (_existingPosts = []) => {},
+            },
+          })
+        }
+      },
+    },
+  )
+
+  return {
+    deletePost: (postId: string, onCompletedCallback?: () => void) =>
+      deletePost({
+        variables: { data: { postId } },
+        onCompleted: () => {
+          if (onCompletedCallback) onCompletedCallback()
         },
       }),
     ...mutationResult,

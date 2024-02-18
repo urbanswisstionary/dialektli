@@ -1,4 +1,4 @@
-import { Post, Prisma, Role } from "@prisma/client"
+import { Prisma, Role } from "@prisma/client"
 import { builder } from "../builder"
 import prisma from "../../lib/prisma"
 import { allow } from "graphql-shield"
@@ -95,6 +95,10 @@ const PostsWithCountType = builder.simpleObject("PostsWithCount", {
   }),
 })
 
+const PostWithCountQueryMode = builder.enumType("PostWithCountQueryMode", {
+  values: ["exclude_unpublished", "all"] as const,
+})
+
 builder.queryFields((t) => ({
   post: t.prismaField({
     type: "Post",
@@ -137,11 +141,12 @@ builder.queryFields((t) => ({
       q: t.arg.string(),
       offset: t.arg.int(),
       limit: t.arg.int(),
+      mode: t.arg({ type: PostWithCountQueryMode, required: true }),
     },
-    resolve: async (_root, { q, offset, limit }, _ctx, _info) => {
+    resolve: async (_root, { q, offset, limit, mode }, _ctx, _info) => {
       const postsWhere: Prisma.PostFindManyArgs = {
         where: {
-          published: true,
+          published: mode === "all" ? undefined : true,
           title: q ? { contains: q, mode: "insensitive" } : undefined,
         },
       }
@@ -232,28 +237,33 @@ builder.mutationFields((t) => ({
     nullable: true,
     args: { data: t.arg({ type: UpdatePostInput, required: true }) },
     resolve: async (query, _root, { data }, { session }, _info) => {
-      if (!session?.user) throw new ApolloError({ errorMessage: "Not allowed" })
-      const post = await prisma.post.findUnique({
-        where: { id: data.id },
-        select: { authorId: true },
-      })
-      if (
-        post?.authorId !== session.user.id &&
-        session.user.role !== Role.ADMIN
-      )
-        throw new ApolloError({ errorMessage: "Not allowed" })
+      try {
+        if (!session?.user)
+          throw new ApolloError({ errorMessage: "Not allowed" })
+        const post = await prisma.post.findUnique({
+          where: { id: data.id },
+          select: { authorId: true },
+        })
+        if (
+          post?.authorId !== session.user.id &&
+          session.user.role !== Role.ADMIN
+        )
+          throw new ApolloError({ errorMessage: "Not allowed" })
 
-      return prisma.post.update({
-        ...query,
-        where: { id: data.id },
-        data: {
-          title: data.title ?? undefined,
-          content: data.content ?? undefined,
-          examples: data.examples ?? undefined,
-          published: data.published ?? undefined,
-          canton: data.canton !== undefined ? data.canton : undefined,
-        },
-      })
+        return prisma.post.update({
+          ...query,
+          where: { id: data.id },
+          data: {
+            title: data.title ?? undefined,
+            content: data.content ?? undefined,
+            examples: data.examples ?? undefined,
+            published: data.published ?? undefined,
+            canton: data.canton !== undefined ? data.canton : undefined,
+          },
+        })
+      } catch (error) {
+        console.error(error)
+      }
     },
   }),
   deletePost: t.prismaField({
@@ -263,20 +273,24 @@ builder.mutationFields((t) => ({
     args: { data: t.arg({ type: PostIdInput, required: true }) },
     resolve: async (query, _root, { data: { postId } }, { session }) => {
       if (!session?.user) throw new ApolloError({ errorMessage: "Not allowed" })
-      const post = await prisma.post.findUnique({
-        where: { id: postId },
-        select: { authorId: true },
-      })
-      if (
-        post?.authorId !== session.user.id ||
-        session.user.role !== Role.ADMIN
-      )
-        throw new ApolloError({ errorMessage: "Not allowed" })
+      try {
+        const post = await prisma.post.findFirstOrThrow({
+          where: { id: postId },
+          select: { authorId: true },
+        })
+        if (
+          post?.authorId !== session.user.id &&
+          session.user.role !== Role.ADMIN
+        )
+          throw new ApolloError({ errorMessage: "Not allowed" })
 
-      return prisma.post.delete({
-        ...query,
-        where: { id: postId },
-      })
+        return prisma.post.delete({
+          ...query,
+          where: { id: postId },
+        })
+      } catch (error) {
+        console.error(error)
+      }
     },
   }),
   postAction: t.boolean({

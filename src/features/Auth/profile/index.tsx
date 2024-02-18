@@ -12,7 +12,7 @@ import BioInput from "./components/bioInput"
 import Card from "@/ui/Card"
 
 const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
-  const { updateUser, loading: updateUserIsLoading } = useUpdateUserMutation()
+  const { updateUser, loading: updateUserLoading } = useUpdateUserMutation()
 
   const [profile, updateProfile] = useState<Partial<MeFragmentFragment>>(
     me ?? {},
@@ -53,10 +53,10 @@ const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
             save: {
               type: "submit",
               disabled: !changesFound,
-              loading: updateUserIsLoading,
+              loading: updateUserLoading,
             },
             cancel: {
-              disabled: !changesFound || updateUserIsLoading,
+              disabled: !changesFound || updateUserLoading,
               onClick: () => updateProfile({}),
             },
           }}

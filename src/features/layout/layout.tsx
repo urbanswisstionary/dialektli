@@ -10,7 +10,15 @@ const Layout: FC<PropsWithChildren<{ hideSidebar?: boolean }>> = ({
 }) => {
   return (
     <>
-      <Box sx={{ display: "flex", overflow: "hidden" }}>
+      <Box
+        sx={{
+          maxWidth: "100vw",
+          maxHeight: "100vh",
+          display: "flex",
+          overflowY: "hidden",
+          overflowX: "auto",
+        }}
+      >
         {hideSidebar ? null : <Sidebar />}
         <Header hideSidebar={hideSidebar} />
         <Box

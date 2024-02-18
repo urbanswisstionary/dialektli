@@ -7,10 +7,11 @@ const WordInput: FC<
   Omit<FormControlProps, "value" | "onChange"> & {
     value: string
     onChange: (_value: string) => void
+    label?: string
   }
-> = ({ value, onChange, ...formControlProps }) => (
+> = ({ value, onChange, label, ...formControlProps }) => (
   <FormControl {...formControlProps}>
-    <FormLabel>New Word</FormLabel>
+    {label ? <FormLabel>{label}</FormLabel> : null}
     <Input
       size="lg"
       value={value}

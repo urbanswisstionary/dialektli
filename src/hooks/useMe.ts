@@ -22,6 +22,8 @@ export const MeFragment = graphql(/* GraphQL */ `
     myUnpublishedPostsCount
   }
 `)
+
+
 const getMe = (data?: MeQuery) => {
   const me = getFragmentData(MeFragment, data?.me)
   return {

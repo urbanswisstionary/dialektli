@@ -13,6 +13,7 @@ import { getFragmentData } from "@@/generated"
 
 import Pagination from "@mui/material/Pagination"
 import { useState } from "react"
+import { PostWithCountQueryMode } from "@@/generated/graphql"
 
 const defaultPostsPerPage = 10
 const Home: NextPage = () => {
@@ -21,6 +22,7 @@ const Home: NextPage = () => {
   const data = usePosts({
     offset: (page - 1) * defaultPostsPerPage,
     limit: defaultPostsPerPage,
+    mode: PostWithCountQueryMode.ExcludeUnpublished,
   }).data?.postsWithCount
 
   const posts = getFragmentData(PostFragment, data?.posts)

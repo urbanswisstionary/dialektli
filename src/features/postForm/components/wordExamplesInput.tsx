@@ -15,19 +15,7 @@ const WordExamplesInput: FC<{
   disabled?: boolean
 }> = ({ values, onChange, disabled }) => (
   <>
-    <Box display="flex" justifyContent="space-between">
-      <FormLabel sx={{ pt: 1, pb: 0 }}>Examples</FormLabel>
-      <IconButton
-        title="Add another example"
-        variant="outlined"
-        color="neutral"
-        size="md"
-        disabled={values.length > 2 || disabled}
-        onClick={() => onChange([...values, ""])}
-      >
-        <AddIcon />
-      </IconButton>
-    </Box>
+    <FormLabel sx={{ pt: 1, pb: 0 }}>Examples</FormLabel>
     {values.map((example, i) => (
       <WordExampleInput
         key={i}
@@ -47,7 +35,26 @@ const WordExamplesInput: FC<{
         disabled={disabled}
       />
     ))}
-    <FormHelperText>You can add up to 3 examples.</FormHelperText>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "space-between",
+        pl: 1,
+        pr: 1.5,
+      }}
+    >
+      <FormHelperText>You can add up to 3 examples.</FormHelperText>
+      <IconButton
+        title="Add another example"
+        variant="outlined"
+        color="neutral"
+        size="md"
+        disabled={values.length > 2 || disabled}
+        onClick={() => onChange([...values, ""])}
+      >
+        <AddIcon />
+      </IconButton>
+    </Box>
   </>
 )
 
