@@ -1,4 +1,3 @@
-import PostsTable from "@/features/Auth/postTable"
 import Layout from "@/features/layout/layout"
 import { useMe } from "@/hooks/useMe"
 import { NextPage } from "next"
@@ -7,6 +6,9 @@ import { useRouter } from "next/router"
 import type { ParsedUrlQuery } from "querystring"
 
 const MyProfile = dynamic(() => import("@/features/Auth/profile"), {
+  ssr: false,
+})
+const PostsTable = dynamic(() => import("@/features/Auth/postTable"), {
   ssr: false,
 })
 

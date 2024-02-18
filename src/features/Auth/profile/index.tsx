@@ -11,17 +11,30 @@ import EmailInput from "./components/emailInput"
 import BioInput from "./components/bioInput"
 import Card from "@/ui/Card"
 
+type EditProfileState = {
+  name?: string
+  bio?: string
+  image?: string
+  country?: string
+  canton?: string
+}
+
 const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
   const { updateUser, loading: updateUserLoading } = useUpdateUserMutation()
+  const [editProfileState, setEditProfileState] = useState<EditProfileState>({})
 
-  const [profile, updateProfile] = useState<Partial<MeFragmentFragment>>(
-    me ?? {},
-  )
   const changesFound = useMemo(() => {
-    const updatedFields = Object.keys(profile) as (keyof MeFragmentFragment)[]
+    const updatedFields = Object.keys(
+      editProfileState,
+    ) as (keyof EditProfileState)[]
     if (!me || !updatedFields.length) return false
-    return updatedFields.some((key) => profile[key] !== me[key])
-  }, [profile, me])
+    return updatedFields.some((key) => editProfileState[key] !== me[key])
+  }, [editProfileState, me])
+
+  const onChange = <K extends keyof EditProfileState>(
+    key: K,
+    value: EditProfileState[K] | null,
+  ) => setEditProfileState((prev) => ({ ...prev, [key]: value }))
 
   return (
     <>
@@ -37,11 +50,11 @@ const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
           if (!changesFound) return
           const updateUserInput: UpdateUserInput = {
             id: me.id,
-            name: profile.name,
-            bio: profile.bio,
-            image: profile.image,
-            country: profile.country,
-            canton: profile.canton,
+            name: editProfileState.name,
+            bio: editProfileState.bio,
+            image: editProfileState.image,
+            country: editProfileState.country,
+            canton: editProfileState.canton,
           }
           updateUser(updateUserInput)
         }}
@@ -57,7 +70,7 @@ const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
             },
             cancel: {
               disabled: !changesFound || updateUserLoading,
-              onClick: () => updateProfile({}),
+              onClick: () => setEditProfileState({}),
             },
           }}
         >
@@ -68,10 +81,12 @@ const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
             <Box sx={{ flex: 1 }}>
               <NameInput
                 id="name"
-                value={profile?.name ?? me.name}
-                onChange={(name) =>
-                  updateProfile((prev) => ({ ...prev, name }))
+                value={
+                  editProfileState?.name !== undefined
+                    ? editProfileState?.name
+                    : me.name
                 }
+                onChange={(name) => onChange("name", name)}
               />
             </Box>
           </Stack>
@@ -86,26 +101,34 @@ const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
           <SelectLocation
             id="country"
             mode="country"
-            value={profile.country !== undefined ? profile.country : me.country}
-            onChange={(country) =>
-              updateProfile((prev) => ({ ...prev, country }))
+            value={
+              editProfileState.country !== undefined
+                ? editProfileState.country
+                : me.country
             }
+            onChange={(country) => onChange("country", country)}
           />
-          {(me.country === "CH" && profile.country === undefined) || // render canton select element if me.country is "CH" profile does not have a "country" key at all
-          profile.country === "CH" ? (
+          {(me.country === "CH" && editProfileState.country === undefined) || // render canton select element if me.country is "CH" profile does not have a "country" key at all
+          editProfileState.country === "CH" ? (
             <SelectLocation
               id="canton"
               mode="canton"
-              value={profile.canton !== undefined ? profile.canton : me.canton}
-              onChange={(canton) =>
-                updateProfile((prev) => ({ ...prev, canton }))
+              value={
+                editProfileState.canton !== undefined
+                  ? editProfileState.canton
+                  : me.canton
               }
+              onChange={(canton) => onChange("canton", canton)}
             />
           ) : null}
           <BioInput
             id="bio"
-            value={profile?.bio !== undefined ? profile?.bio : me.bio}
-            onChange={(bio) => updateProfile((prev) => ({ ...prev, bio }))}
+            value={
+              editProfileState?.bio !== undefined
+                ? editProfileState?.bio
+                : me.bio
+            }
+            onChange={(bio) => onChange("bio", bio)}
           />
         </Card>
       </form>

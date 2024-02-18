@@ -13,8 +13,9 @@ import { setQueryOnPage } from "@/utils/setQueryOnPage"
 import Snackbar from "@mui/joy/Snackbar"
 import ErrorRoundedIcon from "@mui/icons-material/ErrorRounded"
 import Button from "@mui/joy/Button"
+import { ParsedUrlQuery } from "querystring"
 
-type Query = {
+type Query = ParsedUrlQuery & {
   title?: string
   content?: string
   examples?: string[]

@@ -5,7 +5,7 @@ import WordDescriptionInput from "./components/wordDescriptionInput"
 import WordExamplesInput from "./components/wordExamplesInput"
 import { useUpdatePostMutations } from "@/hooks/usePosts"
 import SelectLocation from "../Auth/profile/components/selectLocation"
-import { PostFragmentFragment } from "@@/generated/graphql"
+import { PostFragmentFragment, UpdatePostInput } from "@@/generated/graphql"
 import isEqual from "lodash/isEqual"
 import Box from "@mui/joy/Box"
 import Typography from "@mui/joy/Typography"
@@ -26,9 +26,7 @@ const EditPostForm: FC<{ post: PostFragmentFragment }> = ({ post }) => {
   const [editPostState, setEditPostState] = useState<EditPostState>({})
 
   const changesFound = useMemo(() => {
-    const updatedFields = Object.keys(
-      editPostState,
-    ) as (keyof typeof editPostState)[]
+    const updatedFields = Object.keys(editPostState) as (keyof EditPostState)[]
     if (!updatedFields.length) return false
     return updatedFields.some(
       (key) =>
@@ -43,7 +41,7 @@ const EditPostForm: FC<{ post: PostFragmentFragment }> = ({ post }) => {
     )
   }, [editPostState, post])
 
-  const onValueChange = <K extends keyof EditPostState>(
+  const onChange = <K extends keyof EditPostState>(
     key: K,
     value: EditPostState[K] | null,
   ) => setEditPostState((prev) => ({ ...prev, [key]: value }))
@@ -54,13 +52,14 @@ const EditPostForm: FC<{ post: PostFragmentFragment }> = ({ post }) => {
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
     if (preventSubmit) return
-    updatePost({
+    const updatePostInput: UpdatePostInput = {
       id: post.id,
       title: editPostState.title,
       content: editPostState.content,
       canton: editPostState.canton,
       examples: editPostState.examples,
-    })
+    }
+    updatePost(updatePostInput)
   }
 
   return (
@@ -92,7 +91,7 @@ const EditPostForm: FC<{ post: PostFragmentFragment }> = ({ post }) => {
                 ? editPostState.title
                 : post.title
             }
-            onChange={(value) => onValueChange("title", value)}
+            onChange={(title) => onChange("title", title)}
             required
             sx={{ pt: 1 }}
             disabled={disableFields}
@@ -105,7 +104,7 @@ const EditPostForm: FC<{ post: PostFragmentFragment }> = ({ post }) => {
                 ? editPostState.canton
                 : post.canton
             }
-            onChange={(canton) => onValueChange("canton", canton)}
+            onChange={(canton) => onChange("canton", canton)}
             helperText="Select the canton where the word is used"
             disabled={disableFields}
           />
@@ -115,7 +114,7 @@ const EditPostForm: FC<{ post: PostFragmentFragment }> = ({ post }) => {
                 ? editPostState.content
                 : post.content) ?? ""
             }
-            onChange={(value) => onValueChange("content", value)}
+            onChange={(value) => onChange("content", value)}
             label="Description"
             required
             sx={{ pt: 1 }}
@@ -130,7 +129,7 @@ const EditPostForm: FC<{ post: PostFragmentFragment }> = ({ post }) => {
                   ? post.examples
                   : [""]) ?? [""]
             }
-            onChange={(examples) => onValueChange("examples", examples)}
+            onChange={(examples) => onChange("examples", examples)}
             disabled={disableFields}
           />
         </Card>
