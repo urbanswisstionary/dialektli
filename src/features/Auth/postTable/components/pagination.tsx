@@ -3,6 +3,8 @@ import Pagination from "@mui/material/Pagination"
 import Box from "@mui/joy/Box"
 import Select from "@mui/joy/Select"
 import Option from "@mui/joy/Option"
+import useMediaQuery from "@mui/material/useMediaQuery"
+import { useTheme } from "@mui/joy"
 
 type TablePaginationProps = {
   totalPages?: number
@@ -12,7 +14,7 @@ type TablePaginationProps = {
   onItemsPerPageChange?: (_itemsPerPage: number) => void
 }
 
-const itemsPerPageOptions = [5, 10, 20, 50]
+const itemsPerPageOptions = [10, 20, 50]
 
 const TablePagination: FC<TablePaginationProps> = ({
   totalPages = 1,
@@ -20,45 +22,48 @@ const TablePagination: FC<TablePaginationProps> = ({
   onChange,
   itemsPerPage,
   onItemsPerPageChange,
-}) => (
-  <Box
-    sx={{
-      display: "flex",
-      justifyContent: "space-between",
-      overflow: "hidden",
-    }}
-  >
-    <Pagination
-      count={totalPages}
-      shape="rounded"
-      variant="outlined"
-      boundaryCount={1}
-      page={currentPage}
-      onChange={(_event, value) => {
-        if (onChange) onChange(value - 1)
+}) => {
+  const moreThanSm = useMediaQuery(useTheme().breakpoints.up("sm"))
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "space-between",
+        overflow: "hidden",
       }}
-      showFirstButton
-      showLastButton
-      siblingCount={1}
-      disabled={totalPages <= 1}
-    />
-    {itemsPerPage ? (
-      <Select
-        size="sm"
-        value={itemsPerPage}
-        onChange={(_, value) => {
-          if (onItemsPerPageChange && value) onItemsPerPageChange(value)
+    >
+      <Pagination
+        count={totalPages}
+        shape="rounded"
+        variant="outlined"
+        boundaryCount={moreThanSm ? 1 : 0}
+        page={currentPage}
+        onChange={(_event, value) => {
+          if (onChange) onChange(value)
         }}
+        showFirstButton
+        showLastButton
+        siblingCount={moreThanSm ? 1 : 0}
         disabled={totalPages <= 1}
-      >
-        {itemsPerPageOptions.map((item) => (
-          <Option key={item} value={item}>
-            {item}
-          </Option>
-        ))}
-      </Select>
-    ) : null}
-  </Box>
-)
+      />
+      {itemsPerPage ? (
+        <Select
+          size="sm"
+          value={itemsPerPage}
+          onChange={(_, value) => {
+            if (onItemsPerPageChange && value) onItemsPerPageChange(value)
+          }}
+        >
+          {itemsPerPageOptions.map((item) => (
+            <Option key={item} value={item}>
+              {item}
+            </Option>
+          ))}
+        </Select>
+      ) : null}
+    </Box>
+  )
+}
 
 export default TablePagination

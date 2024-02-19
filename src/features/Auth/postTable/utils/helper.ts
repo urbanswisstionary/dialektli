@@ -1,16 +1,21 @@
 import dayjs from "dayjs"
 import { sortingFns, FilterFn, SortingFn } from "@tanstack/react-table"
 import { rankItem, compareItems } from "@tanstack/match-sorter-utils"
-import type { PostFragmentFragment } from "@@/generated/graphql"
+import type { AdminPostFragmentFragment } from "@@/generated/graphql"
 
-
-export const formatDate = (d?: string | Date | null): string | null => {
-  if (!d) return null
-  const date = dayjs(d)
-  return date.isValid() ? date.format("MMM D, YYYY") : "Invalid Date"
+export const formatDate = ({
+  date,
+  format = "MMM D, YYYY",
+}: {
+  date?: string | Date | null
+  format?: string
+}): string | null => {
+  if (!date) return null
+  const d = dayjs(date)
+  return d.isValid() ? d.format(format) : "Invalid Date"
 }
 
-export const fuzzyFilter: FilterFn<PostFragmentFragment> = (
+export const fuzzyFilter: FilterFn<AdminPostFragmentFragment> = (
   row,
   columnId,
   value,
@@ -26,7 +31,7 @@ export const fuzzyFilter: FilterFn<PostFragmentFragment> = (
   return itemRank.passed
 }
 
-export const fuzzySort: SortingFn<PostFragmentFragment> = (
+export const fuzzySort: SortingFn<AdminPostFragmentFragment> = (
   rowA,
   rowB,
   columnId,

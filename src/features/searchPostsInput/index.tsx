@@ -23,7 +23,9 @@ const useSearchPostsQuery = (q: string, skip?: boolean) =>
     graphql(/* GraphQL */ `
       query SearchPosts($q: String) {
         posts(q: $q) {
-          ...PostOptionFragment
+          posts {
+            ...PostOptionFragment
+          }
         }
       }
     `),
@@ -40,8 +42,10 @@ const SearchPostsInput: FC<FormControlProps> = (formControlProps) => {
   const [selectedOption, setSelectedOption] =
     useState<PostOptionFragmentFragment | null>(null) // store selected option to prevent a no known option error getting logged to the console
   const options =
-    getFragmentData(PostOptionFragment, data?.posts ?? previousData?.posts) ??
-    []
+    getFragmentData(
+      PostOptionFragment,
+      data?.posts?.posts ?? previousData?.posts?.posts,
+    ) ?? []
 
   return (
     <FormControl {...formControlProps} id="searchPosts">

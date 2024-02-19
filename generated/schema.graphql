@@ -91,21 +91,16 @@ input PostIdInput {
   postId: String!
 }
 
-enum PostWithCountQueryMode {
-  all
-  exclude_unpublished
-}
-
 type PostsWithCount {
   count: Int!
   posts: [Post!]!
 }
 
 type Query {
+  adminPosts: PostsWithCount
   me: User!
   post(data: PostIdInput!): Post
-  posts(q: String): [Post!]
-  postsWithCount(limit: Int, mode: PostWithCountQueryMode!, offset: Int, q: String): PostsWithCount
+  posts(canton: String, limit: Int, offset: Int, q: String): PostsWithCount
   user(email: String!): User!
   users: [User!]!
 }

@@ -19,7 +19,7 @@ const Layout: FC<PropsWithChildren<{ hideSidebar?: boolean }>> = ({
           sx={{
             display: "flex",
             flexDirection: "column",
-            minWidth: "380px",
+            minWidth: "350px",
             padding: "var(--main-padding)",
             width: "100%",
             height: hideSidebar

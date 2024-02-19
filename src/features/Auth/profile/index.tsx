@@ -4,11 +4,11 @@ import Stack from "@mui/joy/Stack"
 import Typography from "@mui/joy/Typography"
 import { useUpdateUserMutation } from "@/hooks/useMe"
 import { MeFragmentFragment, UpdateUserInput } from "@@/generated/graphql"
-import SelectLocation from "./components/selectLocation"
 import ImageInput from "./components/imageInput"
 import NameInput from "./components/nameInput"
 import EmailInput from "./components/emailInput"
 import BioInput from "./components/bioInput"
+import SelectLocation from "@/features/Auth/profile/components/selectLocation"
 import Card from "@/ui/Card"
 
 type EditProfileState = {

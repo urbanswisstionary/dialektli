@@ -1,30 +1,35 @@
 import { FC, useMemo } from "react"
 import { Column } from "@tanstack/react-table"
 import Autocomplete from "@mui/joy/Autocomplete"
+import SelectLocationOption from "../../profile/components/selectLocationOption"
+import Flag from "@/ui/Flag"
+import AutocompleteOption from "@mui/joy/AutocompleteOption"
+import Typography from "@mui/joy/Typography"
 
 type ColumnFilterProps = {
   column: Column<any, unknown>
 }
 
 const ColumnFilter: FC<ColumnFilterProps> = ({ column }) => {
-  const columnFilterValue = column.getFilterValue() ?? null
+  const columnFilterValue = (column.getFilterValue() ?? null) as string | null
 
   const { sortedUniqueValues, uniqueValuesSize } = useMemo(
     () => {
       const uniqueValues = column.getFacetedUniqueValues()
       return {
         uniqueValuesSize: uniqueValues.size,
-        sortedUniqueValues: Array.from(uniqueValues.keys()).sort(),
+        sortedUniqueValues: Array.from(uniqueValues.keys()).sort() as string[],
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [column.getFacetedUniqueValues()],
   )
+
   return (
     <Autocomplete
-      options={sortedUniqueValues as string[]}
-      value={columnFilterValue as string | null}
-      placeholder={`Search ${uniqueValuesSize} ${column.id === "createdAt" || column.id === "updatedAt" ? "date" : column.id}${uniqueValuesSize > 1 ? "s" : ""}`}
+      options={sortedUniqueValues}
+      value={columnFilterValue}
+      placeholder={`(${uniqueValuesSize}) Value${uniqueValuesSize > 1 ? "s" : ""}`}
       blurOnSelect
       clearOnEscape
       autoComplete
@@ -36,7 +41,28 @@ const ColumnFilter: FC<ColumnFilterProps> = ({ column }) => {
       variant="plain"
       sx={{ padding: "0 0.5rem" }}
       size="sm"
-      slotProps={{ input: { sx: { maxWidth: "80%" } } }}
+      slotProps={{
+        listbox: { sx: { minWidth: "20ch" } },
+      }}
+      startDecorator={
+        column.id === "canton" && columnFilterValue ? (
+          <Flag mode={"canton"} code={columnFilterValue.toLowerCase()} />
+        ) : null
+      }
+      renderOption={(optionProps, option) =>
+        column.id === "canton" ? (
+          <SelectLocationOption
+            {...optionProps}
+            mode="canton"
+            label={option}
+            flagCode={option.toLowerCase()}
+          />
+        ) : (
+          <AutocompleteOption {...optionProps}>
+            <Typography noWrap>{option}</Typography>
+          </AutocompleteOption>
+        )
+      }
       disabled={uniqueValuesSize <= 1}
     />
   )

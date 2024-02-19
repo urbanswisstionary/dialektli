@@ -1,7 +1,7 @@
 import type { FC } from "react"
 import Box from "@mui/joy/Box"
 import RowMenu from "./rowMenu"
-import type { PostFragmentFragment } from "@@/generated/graphql"
+import type { AdminPostFragmentFragment } from "@@/generated/graphql"
 import { formatDate } from "../utils/helper"
 import PostStatusChip from "./postStatusChip"
 import Typography from "@mui/joy/Typography"
@@ -9,12 +9,13 @@ import ListItem from "@mui/joy/ListItem"
 import ListItemContent from "@mui/joy/ListItemContent"
 import ListItemDecorator from "@mui/joy/ListItemDecorator"
 
-const PostListItem: FC<{ post: PostFragmentFragment }> = ({ post }) => (
+const PostListItem: FC<{ post: AdminPostFragmentFragment }> = ({ post }) => (
   <ListItem
     sx={{
       display: "flex",
       justifyContent: "space-between",
       alignItems: "start",
+      pr: 1,
     }}
   >
     <ListItemContent sx={{ display: "flex", gap: 2, alignItems: "start" }}>
@@ -32,17 +33,20 @@ const PostListItem: FC<{ post: PostFragmentFragment }> = ({ post }) => (
         </Typography>
         <Box sx={{ my: 1 }}>
           <Typography level="body-xs">
-            <b>Created At:</b> {formatDate(post.createdAt)}
+            <b>Created At:</b> {formatDate({ date: post.createdAt })}
           </Typography>
 
           <Typography level="body-xs">
-            <b>Last Updated:</b> {formatDate(post.updatedAt)}
+            <b>Last Updated:</b> {formatDate({ date: post.updatedAt })}
           </Typography>
         </Box>
       </ListItemContent>
     </ListItemContent>
 
-    <PostStatusChip status={post.published ? "published" : "unpublished"} />
+    <PostStatusChip
+      width="100px"
+      status={post.published ? "published" : "unpublished"}
+    />
   </ListItem>
 )
 export default PostListItem

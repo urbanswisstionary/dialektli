@@ -1,16 +1,12 @@
 import type { FC } from "react"
 import Avatar from "@mui/joy/Avatar"
 import Box from "@mui/joy/Box"
-import Chip from "@mui/joy/Chip"
 import Divider from "@mui/joy/Divider"
 import IconButton from "@mui/joy/IconButton"
 import List from "@mui/joy/List"
 import { listItemButtonClasses } from "@mui/joy/ListItemButton"
 import Typography from "@mui/joy/Typography"
-import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded"
-import UnpublishedRoundedIcon from "@mui/icons-material/UnpublishedRounded"
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd"
-import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded"
 import GroupRoundedIcon from "@mui/icons-material/GroupRounded"
 import SupportRoundedIcon from "@mui/icons-material/SupportRounded"
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded"
@@ -29,12 +25,6 @@ type Query = ParsedUrlQuery & {
 }
 
 const profilePagePathname = "/account/profile"
-
-const ChipCounter: FC<{ count: number }> = ({ count }) => (
-  <Chip size="sm" color="primary" variant="outlined">
-    {count}
-  </Chip>
-)
 
 const AuthedSidebarOptions: FC<{
   me: MeFragmentFragment
@@ -80,43 +70,12 @@ const AuthedSidebarOptions: FC<{
             onClick={onClickHandler}
             link={getLink()}
           />
-
-          <SidebarOption
-            hide={!isAdmin}
-            label="Dashboard"
-            startDecorator={<DashboardRoundedIcon />}
-            link="/admin/dashboard"
-            disabled
-          />
           <SidebarOption
             label="My Values"
             startDecorator={<AllInboxIcon />}
             selected={query.view === "posts"}
             onClick={() => onClickHandler({ view: "posts" })}
             link={getLink({ view: "posts" })}
-            nested
-            defaultExpanded
-            endDecorator={
-              <ChipCounter
-                count={me.myPublishedPostsCount + me.myUnpublishedPostsCount}
-              />
-            }
-            nestedOptions={[
-              {
-                label: "Published",
-                disabled: true,
-                startDecorator: <CheckCircleRoundedIcon />,
-                endDecorator: <ChipCounter count={me.myPublishedPostsCount} />,
-              },
-              {
-                label: "Unpublished",
-                disabled: true,
-                startDecorator: <UnpublishedRoundedIcon />,
-                endDecorator: (
-                  <ChipCounter count={me.myUnpublishedPostsCount} />
-                ),
-              },
-            ]}
           />
           <SidebarOption
             hide={!isAdmin}

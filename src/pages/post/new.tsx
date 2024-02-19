@@ -8,7 +8,7 @@ const NewPost: NextPage = () => {
 
   return (
     <Layout hideSidebar={!me}>
-      <NewPostForm />
+      <NewPostForm authorId={me?.id} />
     </Layout>
   )
 }

@@ -55,7 +55,7 @@ model Post {
     title     String
     content   String?
     examples  String[]
-    published Boolean   @default(true)
+    published Boolean   @default(false)
     author    User?     @relation(fields: [authorId], references: [id])
     authorId  String?
     likes     Like[]

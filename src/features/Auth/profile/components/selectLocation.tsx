@@ -1,13 +1,10 @@
-/* eslint-disable @next/next/no-img-element */
 import Autocomplete from "@mui/joy/Autocomplete"
-import AutocompleteOption from "@mui/joy/AutocompleteOption"
-import AspectRatio from "@mui/joy/AspectRatio"
 import FormControl, { FormControlProps } from "@mui/joy/FormControl"
 import FormLabel from "@mui/joy/FormLabel"
-import ListItemDecorator from "@mui/joy/ListItemDecorator"
-
 import { FC, useMemo } from "react"
 import FormHelperText from "@mui/joy/FormHelperText"
+import Flag from "@/ui/Flag"
+import SelectLocationOption from "./selectLocationOption"
 
 type LocationOption = {
   code: string
@@ -20,8 +17,9 @@ const SelectLocation: FC<
     onChange: (_locationCode: string | null) => void
     mode: "canton" | "country"
     helperText?: string
+    label?: string | false
   }
-> = ({ value, onChange, mode, helperText, sx, ...props }) => {
+> = ({ value, onChange, mode, label, helperText, sx, ...props }) => {
   const options = useMemo(() => getOptions(mode), [mode])
   const valueIndex = useMemo(
     () => options.findIndex((c) => c.code === value),
@@ -37,7 +35,11 @@ const SelectLocation: FC<
           ...(Array.isArray(sx) ? sx : [sx]),
         ]}
       >
-        <FormLabel>{mode === "canton" ? "Canton" : "Country"}</FormLabel>
+        {label !== false ? (
+          <FormLabel sx={{ textTransform: "capitalize" }}>
+            {label ?? mode}
+          </FormLabel>
+        ) : null}
         <Autocomplete
           size="sm"
           autoHighlight
@@ -48,19 +50,13 @@ const SelectLocation: FC<
           }}
           options={options}
           renderOption={(optionProps, option) => (
-            <AutocompleteOption {...optionProps}>
-              <ListItemDecorator>
-                <AspectRatio
-                  ratio="1"
-                  sx={{ minWidth: 20, borderRadius: "50%" }}
-                >
-                  <Flag mode={mode} code={option.code.toLowerCase()} />
-                </AspectRatio>
-              </ListItemDecorator>
-              {option.label}
-            </AutocompleteOption>
+            <SelectLocationOption
+              {...optionProps}
+              mode={mode}
+              label={option.label}
+              flagCode={option.code.toLowerCase()}
+            />
           )}
-          slotProps={{ input: { autoComplete: "new-password" } }} // disable autocomplete and autofill
           startDecorator={
             value ? <Flag mode={mode} code={value.toLowerCase()} /> : null
           }
@@ -70,22 +66,6 @@ const SelectLocation: FC<
     </div>
   )
 }
-
-const Flag: FC<{ code: string; mode: "canton" | "country" }> = ({
-  code,
-  mode,
-}) =>
-  mode === "country" ? (
-    <img
-      loading="lazy"
-      width={20}
-      srcSet={`https://flagcdn.com/w40/${code}.png 2x`}
-      src={`https://flagcdn.com/w20/${code}.png`}
-      alt=""
-    />
-  ) : (
-    <img loading="lazy" width={20} src={`/assets/cantons/${code}.svg`} alt="" />
-  )
 
 export default SelectLocation
 

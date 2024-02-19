@@ -25,15 +25,16 @@ const TableHead: FC<{ headerGroups: HeaderGroup<any>[] }> = ({
                 <Typography
                   component={header.id === "select" ? "div" : "p"}
                   level="title-md"
-                  sx={
+                  sx={[
+                    { justifyContent: "center" },
                     header.column.getCanSort()
                       ? {
                           cursor: "pointer",
                           userSelect: "none",
                           paddingLeft: "0.5rem",
                         }
-                      : {}
-                  }
+                      : {},
+                  ]}
                   onClick={header.column.getToggleSortingHandler()}
                   endDecorator={
                     <ArrowDropDownIcon

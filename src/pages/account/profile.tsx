@@ -1,8 +1,11 @@
 import Layout from "@/features/layout/layout"
 import { useMe } from "@/hooks/useMe"
 import { setQueryOnPage } from "@/utils/setQueryOnPage"
+import Link from "@mui/joy/Link"
 import { NextPage } from "next"
 import dynamic from "next/dynamic"
+import NextLink from "next/link"
+
 import { useRouter } from "next/router"
 import type { ParsedUrlQuery } from "querystring"
 
@@ -24,22 +27,27 @@ const ProfilePage: NextPage = () => {
 
   if (meLoading) return <>Loading..</>
 
-  if (!me?.id) {
-    router.push("/")
-    return <>Redirecting..</>
-  }
-
   if (query.view && query.view !== "posts" && !isAdmin)
     setQueryOnPage(router, { view: [] })
 
   return (
     <Layout>
-      {query.view === "posts" ? (
-        <PostsTable me={me} />
-      ) : query.view === "users" && isAdmin ? (
-        <h1>Users: {query.users}</h1>
+      {me ? (
+        query.view === "posts" ? (
+          <PostsTable me={me} />
+        ) : query.view === "users" && isAdmin ? (
+          <h1>Users: {query.users}</h1>
+        ) : (
+          <MyProfile me={me} />
+        )
       ) : (
-        <MyProfile me={me} />
+        <>
+          User not found, try to{" "}
+          <Link component={NextLink} href={"/account/signin"}>
+            sign in
+          </Link>{" "}
+          again
+        </>
       )}
     </Layout>
   )

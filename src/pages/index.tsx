@@ -8,37 +8,41 @@ import Link from "next/link"
 import IconButton from "@mui/joy/IconButton"
 
 import AddIcon from "@mui/icons-material/Add"
-import { PostFragment, usePosts } from "@/hooks/usePosts"
+import { PostFragment, usePostsQuery } from "@/hooks/usePosts"
 import { getFragmentData } from "@@/generated"
 
-import Pagination, { PaginationProps } from "@mui/material/Pagination"
-import { ChangeEvent, useState } from "react"
-import { PostWithCountQueryMode } from "@@/generated/graphql"
+import { useState } from "react"
+import TablePagination from "@/features/Auth/postTable/components/pagination"
+import SelectLocation from "@/features/Auth/profile/components/selectLocation"
 
 const defaultPageSize = 10
 const Home: NextPage = () => {
   const me = useMe().me
-  const [page, setPage] = useState(1)
-  const data = usePosts({
-    offset: (page - 1) * defaultPageSize,
-    limit: defaultPageSize,
-    mode: PostWithCountQueryMode.ExcludeUnpublished,
-  }).data?.postsWithCount
+  const [{ page, pageSize }, setPagination] = useState({
+    page: 1,
+    pageSize: defaultPageSize,
+  })
+  const [queryByCanton, setQueryByCanton] = useState<string | null>(null)
 
-  const pagesCount = Math.max(
-    1,
-    Math.ceil((data?.count ?? 0) / defaultPageSize),
-  )
-  const paginationProps: PaginationProps = {
-    page: page,
-    onChange: (_event: ChangeEvent<unknown>, page: number) => setPage(page),
-    count: pagesCount,
-    disabled: pagesCount <= 1,
-    shape: "rounded",
-    variant: "outlined",
-    boundaryCount: 2,
-  }
+  const data = usePostsQuery({
+    offset: (page - 1) * pageSize,
+    limit: pageSize,
+  }).data?.posts
+
+  const pagesCount = Math.max(1, Math.ceil((data?.count ?? 0) / pageSize))
+
   const posts = getFragmentData(PostFragment, data?.posts)
+  const pagination = (
+    <TablePagination
+      currentPage={page}
+      totalPages={pagesCount}
+      onChange={(page) => setPagination((prev) => ({ ...prev, page }))}
+      itemsPerPage={pageSize}
+      onItemsPerPageChange={(pageSize) =>
+        setPagination((prev) => ({ ...prev, pageSize }))
+      }
+    />
+  )
   return (
     <Layout hideSidebar={!me}>
       <Box
@@ -61,6 +65,14 @@ const Home: NextPage = () => {
           </IconButton>
         </Link>
       </Box>
+      <Box>
+        <SelectLocation
+          mode="canton"
+          value={queryByCanton}
+          onChange={(canton) => setQueryByCanton(canton)}
+          label="Filter by canton"
+        />
+      </Box>
       <Box
         sx={{
           display: "flex",
@@ -68,9 +80,15 @@ const Home: NextPage = () => {
           gap: 1,
         }}
       >
-        <Pagination {...paginationProps} />
-        {posts?.map((post) => <PostCard key={post.id} post={post} />)}
-        <Pagination {...paginationProps} />
+        {pagination}
+        {posts?.length ? (
+          posts.map((post) => (
+            <PostCard key={post.id} post={post} disableActions={!me} />
+          ))
+        ) : (
+          <>No data sorry :(</>
+        )}
+        {pagination}
       </Box>
     </Layout>
   )

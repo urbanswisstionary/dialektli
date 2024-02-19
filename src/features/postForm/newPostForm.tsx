@@ -1,4 +1,4 @@
-import { FC, FormEventHandler, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import Card from "@/ui/Card"
 import ReviewGuidelines from "@/features/postForm/components/reviewGuidelines"
 import WordInput from "./components/wordInput"
@@ -22,11 +22,13 @@ type Query = ParsedUrlQuery & {
   canton?: string
 }
 
+const recaptchaTimedoutLocalStorageKey = "rto"
+
 const RecaptchaProvider = dynamic(() => import("@/providers/Recaptcha"), {
   ssr: false,
 })
 
-const NewPostForm: FC = () => {
+const NewPostForm: FC<{ authorId?: string }> = ({ authorId }) => {
   const router = useRouter()
   const query = router.query as Query
 
@@ -45,40 +47,63 @@ const NewPostForm: FC = () => {
   ) => {
     setQueryOnPage(router, { [queryKey]: value?.length ? value : [] })
   }
-
-  const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
-    e.preventDefault()
-    if (!query.title || !query.content) return
+  const preventSubmit = !query.title || !query.content || createPostLoading
+  const onSubmit = async () => {
+    if (preventSubmit) return
 
     const recaptchaRes = await fetch("/api/recaptcha", {
       method: "POST",
       body: recaptchaToken,
     })
 
-    if (recaptchaRes.ok)
+    if (recaptchaRes.ok) {
       createPost(
         {
-          title: query.title,
+          title: query.title!,
           content: query.content,
           examples: query.examples,
           canton: query.canton,
+          authorId,
         },
         (postId) => {
-          if (postId) router.replace(`/post/${postId}`)
+          if (postId) router.replace(`/post/edit/${postId}?review`)
         },
       )
-    else {
+    } else {
       const text = await recaptchaRes.text()
       // eslint-disable-next-line no-console
       console.error("Recaptcha failed", text)
+      if (text === "timeout-or-duplicate") {
+        // if recaptcha times out, set a local storage key to resubmit the form
+        localStorage.setItem(recaptchaTimedoutLocalStorageKey, "1")
+        router.reload()
+      }
+      // eslint-disable-next-line no-console
       setRecaptchaError(text)
     }
   }
 
+  // recaptcha timed out so resubmit the form
+  useEffect(() => {
+    const recaptchaTimedout = localStorage.getItem(
+      recaptchaTimedoutLocalStorageKey,
+    )
+    if (recaptchaTimedout) {
+      localStorage.removeItem(recaptchaTimedoutLocalStorageKey)
+      onSubmit()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <RecaptchaProvider>
       <ReCaptcha onValidate={setRecaptcha} action="new_post" />
-      <form onSubmit={onSubmit}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          onSubmit()
+        }}
+      >
         <Card
           title="New Post"
           description="All the definitions were written by people just like you. Now's your chance to add your own!"

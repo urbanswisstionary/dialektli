@@ -95,10 +95,6 @@ const PostsWithCountType = builder.simpleObject("PostsWithCount", {
   }),
 })
 
-const PostWithCountQueryMode = builder.enumType("PostWithCountQueryMode", {
-  values: ["exclude_unpublished", "all"] as const,
-})
-
 builder.queryFields((t) => ({
   post: t.prismaField({
     type: "Post",
@@ -115,25 +111,7 @@ builder.queryFields((t) => ({
       })
     },
   }),
-  posts: t.prismaField({
-    type: ["Post"],
-    shield: allow,
-    nullable: true,
-    args: {
-      q: t.arg.string(),
-    },
-    resolve: async (query, _root, { q }, _ctx, _info) => {
-      return prisma.post.findMany({
-        ...query,
-        where: {
-          published: true,
-          title: q ? { contains: q, mode: "insensitive" } : undefined,
-        },
-        orderBy: { title: "asc" },
-      })
-    },
-  }),
-  postsWithCount: t.field({
+  posts: t.field({
     type: PostsWithCountType,
     shield: allow,
     nullable: true,
@@ -141,13 +119,17 @@ builder.queryFields((t) => ({
       q: t.arg.string(),
       offset: t.arg.int(),
       limit: t.arg.int(),
-      mode: t.arg({ type: PostWithCountQueryMode, required: true }),
+      canton: t.arg.string(),
     },
-    resolve: async (_root, { q, offset, limit, mode }, _ctx, _info) => {
+    resolve: async (_root, { q, offset, limit, canton }) => {
       const postsWhere: Prisma.PostFindManyArgs = {
         where: {
-          published: mode === "all" ? undefined : true,
+          published: true,
           title: q ? { contains: q, mode: "insensitive" } : undefined,
+          // OR: [
+          //   { content: q ? { contains: q, mode: "insensitive" } : undefined },
+          //   { canton: canton ? { equals: canton } : undefined },
+          // ],
         },
       }
       const [posts, count] = await prisma.$transaction([
@@ -161,6 +143,35 @@ builder.queryFields((t) => ({
       ])
 
       return { posts, count }
+    },
+  }),
+  adminPosts: t.field({
+    type: PostsWithCountType,
+    shield: permissions.isAdminOrMe,
+    nullable: true,
+    args: {},
+    resolve: async (_root, _args, { session }, _info) => {
+      try {
+        if (!session?.user) return null
+
+        const postsWhere: Prisma.PostFindManyArgs = {
+          where: {
+            authorId:
+              session.user.role === Role.ADMIN ? undefined : session.user.id,
+          },
+        }
+        const [posts, count] = await prisma.$transaction([
+          prisma.post.findMany({
+            where: postsWhere.where,
+            orderBy: { updatedAt: "desc" },
+          }),
+          prisma.post.count({ where: postsWhere.where }),
+        ])
+
+        return { posts, count }
+      } catch (error) {
+        console.error(error)
+      }
     },
   }),
 }))
@@ -210,25 +221,30 @@ builder.mutationFields((t) => ({
     resolve: async (
       query,
       _root,
-      { data: { title, content, examples, authorId } },
-      { session },
+      { data: { title, content, examples, canton, authorId } },
     ) => {
-      return prisma.post.create({
-        ...query,
-        data: {
-          title,
-          content,
-          examples: (examples ?? []).filter(
-            (example) => !!example.trim().length,
-          ),
-          author: {
-            connect:
-              authorId || session?.user?.id
-                ? { id: authorId ?? session!.user!.id }
-                : undefined,
+      try {
+        const author = authorId
+          ? { id: authorId }
+          : await prisma.user.findFirstOrThrow({
+              where: { email: "anonymous@swisstionary.ch" },
+              select: { id: true },
+            })
+        return prisma.post.create({
+          ...query,
+          data: {
+            title,
+            content,
+            canton,
+            examples: (examples ?? []).filter(
+              (example) => !!example.trim().length,
+            ),
+            author: { connect: { id: author.id } },
           },
-        },
-      })
+        })
+      } catch (error) {
+        console.error(error)
+      }
     },
   }),
   updatePost: t.prismaField({
@@ -294,36 +310,37 @@ builder.mutationFields((t) => ({
     },
   }),
   postAction: t.boolean({
-    shield: allow, // permissions.isAuthenticated,
+    shield: permissions.isAuthenticated,
     args: {
       data: t.arg({ type: postActionInput, required: true }),
     },
     resolve: async (_root, { data: { postId, ...data } }, { session }) => {
-      if (!session?.user) return false
-
-      const authorId = session.user.id
-
-      const post = await prisma.post.findUnique({
-        where: { id: postId },
-        select: {
-          likes: { where: { authorId } },
-          dislikes: { where: { authorId } },
-          flagged: { where: { authorId } },
-        },
-      })
-
-      if (!post) throw new ApolloError({ errorMessage: "Post not found" })
-
-      const action =
-        "like" in data
-          ? "like"
-          : "dislike" in data
-            ? "dislike"
-            : "flag" in data
-              ? "flag"
-              : null
-      const postId_authorId = { postId, authorId }
       try {
+        if (!session?.user) return false
+
+        const authorId = session.user.id
+
+        const post = await prisma.post.findUnique({
+          where: { id: postId },
+          select: {
+            likes: { where: { authorId } },
+            dislikes: { where: { authorId } },
+            flagged: { where: { authorId } },
+          },
+        })
+
+        if (!post) throw new ApolloError({ errorMessage: "Post not found" })
+
+        const action =
+          "like" in data
+            ? "like"
+            : "dislike" in data
+              ? "dislike"
+              : "flag" in data
+                ? "flag"
+                : null
+        const postId_authorId = { postId, authorId }
+
         switch (action) {
           case "like": {
             const updatedPost = await prisma.post.update({

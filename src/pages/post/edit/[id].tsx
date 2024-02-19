@@ -7,19 +7,18 @@ import { PostFragment, usePost } from "@/hooks/usePosts"
 import { getFragmentData } from "@@/generated"
 import dynamic from "next/dynamic"
 
-const PostCard = dynamic(() => import("@/features/postCard"), { ssr: false })
 const EditPostForm = dynamic(() => import("@/features/postForm/editPostForm"), {
   ssr: false,
 })
 
-type Query = ParsedUrlQuery & { id: string }
+type Query = ParsedUrlQuery & { id: string; review?: string }
 
 const PostPage: NextPage = () => {
   const { me, isAdmin, loading: loadingMe } = useMe()
   const router = useRouter()
-  const { id } = router.query as Query
+  const query = router.query as Query
 
-  const { data: postData, loading: loadingPost } = usePost(id)
+  const { data: postData, loading: loadingPost } = usePost(query.id)
 
   if (loadingMe || loadingPost) return <>Loading...</>
 
@@ -32,11 +31,12 @@ const PostPage: NextPage = () => {
 
   return (
     <Layout hideSidebar={!me}>
-      {!me?.id || !authorized ? (
-        <PostCard post={post} disableActions={!me} />
-      ) : (
-        <EditPostForm post={post} authorized={authorized} />
-      )}
+      <EditPostForm
+        post={post}
+        authorized={authorized}
+        reviewBeforPublish={query.review !== undefined}
+        anonymous={!me}
+      />
     </Layout>
   )
 }

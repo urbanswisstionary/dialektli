@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from "@apollo/client"
 import { MeQuery, Role, UpdateUserInput } from "@@/generated/graphql"
 import { getFragmentData, graphql } from "@@/generated"
+import { useSession } from "next-auth/react"
 
 export const MeFragment = graphql(/* GraphQL */ `
   fragment MeFragment on User {
@@ -23,7 +24,6 @@ export const MeFragment = graphql(/* GraphQL */ `
   }
 `)
 
-
 const getMe = (data?: MeQuery) => {
   const me = getFragmentData(MeFragment, data?.me)
   return {
@@ -41,8 +41,10 @@ export const ME_QUERY = graphql(/* GraphQL */ `
 `)
 
 export const useMe = () => {
+  const { status } = useSession()
   const { data, refetch, ...props } = useQuery(ME_QUERY, {
     fetchPolicy: "cache-and-network",
+    skip: status !== "authenticated",
   })
 
   return {

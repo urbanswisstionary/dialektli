@@ -16,12 +16,12 @@ import WarningRoundedIcon from "@mui/icons-material/WarningRounded"
 import Button from "@mui/joy/Button"
 import { FC, useCallback, useState } from "react"
 import Link from "next/link"
-import type { PostFragmentFragment } from "@@/generated/graphql"
+import type { AdminPostFragmentFragment } from "@@/generated/graphql"
 import ListItemDecorator from "@mui/joy/ListItemDecorator"
 import { useDeletePostMutation, useUpdatePostMutations } from "@/hooks/usePosts"
 import CircularProgress from "@mui/joy/CircularProgress"
 
-const RowMenu: FC<{ post: PostFragmentFragment }> = ({ post }) => {
+const RowMenu: FC<{ post: AdminPostFragmentFragment }> = ({ post }) => {
   const [openDeleteConfirmation, setOpenDeleteConfirmation] = useState(false)
   const { deletePost, loading: deletePostLoading } = useDeletePostMutation()
   const { updatePost, loading: updatePostLoading } = useUpdatePostMutations()
@@ -47,7 +47,7 @@ const RowMenu: FC<{ post: PostFragmentFragment }> = ({ post }) => {
           <MoreHorizRoundedIcon />
         </MenuButton>
         <Menu size="sm" sx={{ minWidth: 140 }}>
-          <MenuItem component={Link} target="_blank" href={`/post/${post.id}`}>
+          <MenuItem component={Link} href={`/post/edit/${post.id}`}>
             Edit
           </MenuItem>
 

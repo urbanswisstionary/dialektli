@@ -16,10 +16,9 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   ColumnDef,
-  PaginationState,
 } from "@tanstack/react-table"
 
-import type { PostFragmentFragment } from "@@/generated/graphql"
+import type { AdminPostFragmentFragment } from "@@/generated/graphql"
 
 import Divider from "@mui/joy/Divider"
 import TablePagination from "./pagination"
@@ -31,28 +30,25 @@ import { formatDate, fuzzyFilter, fuzzySort } from "../utils/helper"
 import PostStatusChip from "./postStatusChip"
 
 import List from "@mui/joy/List"
+import Typography from "@mui/joy/Typography"
+
 import PostListItem from "./postListItem"
+import Flag from "@/ui/Flag"
 
 type PostsTableProps = {
-  posts: PostFragmentFragment[]
-  totalPages: number
-  pagination: PaginationState
-  onPaginationChange: Dispatch<SetStateAction<PaginationState>>
+  posts: AdminPostFragmentFragment[]
   globalFilter: string
   setGlobalFilter: Dispatch<SetStateAction<string>>
 }
 
 const PostsTable: FC<PostsTableProps> = ({
   posts,
-  totalPages,
-  pagination,
-  onPaginationChange,
   globalFilter,
   setGlobalFilter,
 }) => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
-  const columns = useMemo<ColumnDef<PostFragmentFragment, any>[]>(
+  const columns = useMemo<ColumnDef<AdminPostFragmentFragment, any>[]>(
     () => [
       {
         id: "select",
@@ -75,39 +71,73 @@ const PostsTable: FC<PostsTableProps> = ({
         ),
       },
       {
-        header: "Title",
+        header: "Author's Name",
+        accessorFn: ({ author }) => author?.name,
+        cell: (info) => <Typography noWrap>{info.getValue()}</Typography>,
+        footer: (props) => props.column.id,
+        filterFn: "fuzzy",
+        sortingFn: fuzzySort,
+      },
+      {
+        header: "Canton",
+        accessorKey: "canton",
+        accessorFn: ({ canton }) => canton ?? "N/A",
+        cell: (info) => {
+          const canton = info.getValue<string>()
+          return canton === "N/A" ? null : (
+            <Box display="flex" justifyContent="center">
+              <Flag mode="canton" code={canton.toLowerCase()} />
+            </Box>
+          )
+        },
+        footer: (props) => props.column.id,
+        filterFn: "fuzzy",
+        sortingFn: fuzzySort,
+      },
+      {
+        header: "Entry",
         accessorKey: "title",
-        cell: (info) => info.getValue(),
+        cell: (info) => <Typography noWrap>{info.getValue()}</Typography>,
         footer: (props) => props.column.id,
         filterFn: "fuzzy",
         sortingFn: fuzzySort,
       },
       {
-        header: "Content",
+        header: "Description",
         accessorKey: "content",
-        cell: (info) => info.getValue(),
+        cell: (info) => <Typography noWrap>{info.getValue()}</Typography>,
         footer: (props) => props.column.id,
         filterFn: "fuzzy",
         sortingFn: fuzzySort,
       },
       {
+        id: "status",
+        header: "Status",
         accessorFn: ({ published }) =>
           published ? "published" : "unpublished",
-        id: "status",
         cell: (info) => <PostStatusChip status={info.getValue<PostStatus>()} />,
-        header: () => "Status",
         footer: (props) => props.column.id,
       },
       {
-        accessorKey: "createdAt",
-        header: () => "Created At",
-        accessorFn: ({ createdAt }) => formatDate(createdAt),
+        id: "flagged",
+        header: "Flagged",
+        accessorFn: ({ flagged }) => (flagged.length ? "True" : "False"),
+        cell: (info) => {
+          const status = info.getValue<string>()
+          return status === "True" ? (
+            <PostStatusChip status={"flagged"} />
+          ) : (
+            <></>
+          )
+        },
         footer: (props) => props.column.id,
       },
       {
+        id: "updatedAt",
+        header: "Last update",
         accessorKey: "updatedAt",
-        accessorFn: ({ updatedAt }) => formatDate(updatedAt),
-        header: () => <span>Last update</span>,
+        accessorFn: ({ updatedAt }) =>
+          formatDate({ date: updatedAt, format: "DD. MMM YYYY H:mm" }),
         footer: (props) => props.column.id,
       },
       {
@@ -116,7 +146,7 @@ const PostsTable: FC<PostsTableProps> = ({
         footer: (props) => props.column.id,
         accessorFn: (post) => post,
         cell: (info) => (
-          <RowMenu post={info.getValue<PostFragmentFragment>()} />
+          <RowMenu post={info.getValue<AdminPostFragmentFragment>()} />
         ),
         enableColumnFilter: false,
         enableGlobalFilter: false,
@@ -133,11 +163,9 @@ const PostsTable: FC<PostsTableProps> = ({
       fuzzy: fuzzyFilter,
     },
     state: {
-      pagination,
       columnFilters,
       globalFilter,
     },
-    onPaginationChange: onPaginationChange,
     onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalFilter,
     globalFilterFn: fuzzyFilter,
@@ -151,8 +179,6 @@ const PostsTable: FC<PostsTableProps> = ({
     debugTable: true,
     debugHeaders: true,
     debugColumns: false,
-    manualPagination: true,
-    pageCount: totalPages,
   })
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -206,7 +232,7 @@ const PostsTable: FC<PostsTableProps> = ({
       <TablePagination
         currentPage={table.getState().pagination.pageIndex + 1}
         totalPages={table.getPageCount()}
-        onChange={table.setPageIndex}
+        onChange={(page) => table.setPageIndex(page - 1)}
         itemsPerPage={table.getState().pagination.pageSize}
         onItemsPerPageChange={table.setPageSize}
       />

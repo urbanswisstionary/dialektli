@@ -3,37 +3,18 @@ import Typography from "@mui/joy/Typography"
 import PostsTable from "./components/postsTable"
 import { FC, useMemo, useState } from "react"
 
-import { PostFragment, usePosts } from "@/hooks/usePosts"
+import { AdminPostFragment, useAdminPostsQuery } from "@/hooks/usePosts"
 import { getFragmentData } from "@@/generated"
-import type { PaginationState } from "@tanstack/react-table"
-import {
-  PostWithCountQueryMode,
-  type MeFragmentFragment,
-} from "@@/generated/graphql"
+import type { MeFragmentFragment } from "@@/generated/graphql"
 
-const initialPagination: PaginationState = {
-  pageIndex: 0,
-  pageSize: 10,
-}
-
-const Posts: FC<{ me: MeFragmentFragment }> = () => {
+const Posts: FC<{ me: MeFragmentFragment }> = ({ me }) => {
   const [globalFilter, setGlobalFilter] = useState("")
 
-  const [pagination, setPagination] =
-    useState<PaginationState>(initialPagination)
-
-  const { data, previousData, loading } = usePosts({
-    offset: pagination.pageIndex * pagination.pageSize,
-    limit: pagination.pageSize,
-    mode: PostWithCountQueryMode.All,
-  })
-  const postsWithCount = data?.postsWithCount ?? previousData?.postsWithCount
-  const posts = useMemo(() => {
-    const posts = getFragmentData(PostFragment, postsWithCount?.posts) ?? []
-    return [...posts]
-  }, [postsWithCount?.posts])
-  const totalPages = Math.ceil(
-    (postsWithCount?.count ?? 0) / pagination.pageSize,
+  const { data, previousData, loading } = useAdminPostsQuery()
+  const adminPosts = data?.adminPosts ?? previousData?.adminPosts
+  const posts = useMemo(
+    () => [...(getFragmentData(AdminPostFragment, adminPosts?.posts) ?? [])],
+    [adminPosts?.posts],
   )
 
   if (loading) return <div>Loading...</div>
@@ -48,9 +29,6 @@ const Posts: FC<{ me: MeFragmentFragment }> = () => {
 
       <PostsTable
         posts={posts}
-        totalPages={totalPages}
-        pagination={pagination}
-        onPaginationChange={setPagination}
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
       />

@@ -1,9 +1,5 @@
 import { graphql } from "@@/generated"
-import {
-  CreatePostInput,
-  PostWithCountQueryMode,
-  UpdatePostInput,
-} from "@@/generated/graphql"
+import { CreatePostInput, UpdatePostInput } from "@@/generated/graphql"
 import { useMutation, useQuery } from "@apollo/client"
 
 export const PostFragment = graphql(/* GraphQL */ `
@@ -31,13 +27,8 @@ export const PostFragment = graphql(/* GraphQL */ `
 `)
 
 const PostsQuery = graphql(/* GraphQL */ `
-  query Posts(
-    $q: String
-    $offset: Int
-    $limit: Int
-    $mode: PostWithCountQueryMode!
-  ) {
-    postsWithCount(q: $q, offset: $offset, limit: $limit, mode: $mode) {
+  query Posts($q: String, $offset: Int, $limit: Int, $canton: String) {
+    posts(q: $q, offset: $offset, limit: $limit, canton: $canton) {
       posts {
         ...PostFragment
       }
@@ -46,17 +37,54 @@ const PostsQuery = graphql(/* GraphQL */ `
   }
 `)
 
-export const usePosts = ({
+export const usePostsQuery = ({
   q,
   offset,
   limit,
-  mode,
+  canton,
 }: {
   q?: string
   offset?: number
   limit?: number
-  mode: PostWithCountQueryMode
-}) => useQuery(PostsQuery, { variables: { q, offset, limit, mode } })
+  canton?: string
+}) => useQuery(PostsQuery, { variables: { q, offset, limit, canton } })
+
+export const AdminPostFragment = graphql(/* GraphQL */ `
+  fragment AdminPostFragment on Post {
+    id
+    author {
+      id
+      name
+      image
+    }
+    title
+    content
+    examples
+    published
+    likesCount
+    dislikesCount
+    createdAt
+    updatedAt
+    canton
+    flagged {
+      authorId
+      createdAt
+    }
+  }
+`)
+
+const AdminPostsQuery = graphql(/* GraphQL */ `
+  query AdminPosts {
+    adminPosts {
+      posts {
+        ...AdminPostFragment
+      }
+      count
+    }
+  }
+`)
+
+export const useAdminPostsQuery = () => useQuery(AdminPostsQuery)
 
 export const useCreatePostMutation = () => {
   const [createPost, mutationResult] = useMutation(
@@ -68,17 +96,18 @@ export const useCreatePostMutation = () => {
       }
     `),
     {
-      awaitRefetchQueries: true,
-      refetchQueries: () => [
-        { query: PostsQuery, variables: { mode: PostWithCountQueryMode.All } },
-      ],
-      update: (cache, { data }) => {
-        if (data?.createPost) {
-          cache.modify({
-            fields: { postsWithCount: (_existingPosts = []) => {} },
-          })
-        }
-      },
+      // awaitRefetchQueries: true,
+      // refetchQueries: () => [{ query: PostsQuery }, { query: AdminPostsQuery }],
+      // update: (cache, { data }) => {
+      //   if (data?.createPost) {
+      //     cache.modify({
+      //       fields: {
+      //         posts: (_existingPosts = []) => {},
+      //         adminPosts: (_existingPosts = []) => {},
+      //       },
+      //     })
+      //   }
+      // },
     },
   )
 
@@ -91,6 +120,21 @@ export const useCreatePostMutation = () => {
         variables: { data },
         onCompleted: (data) => {
           if (onCompletedCallback) onCompletedCallback(data.createPost?.id)
+        },
+        awaitRefetchQueries: true,
+        refetchQueries: () =>
+          data.authorId
+            ? [{ query: PostsQuery }, { query: AdminPostsQuery }]
+            : [{ query: PostsQuery }],
+        update: (cache, ctx) => {
+          if (data.authorId && ctx.data?.createPost) {
+            cache.modify({
+              fields: {
+                posts: (_existingPosts = []) => {},
+                adminPosts: (_existingPosts = []) => {},
+              },
+            })
+          }
         },
       }),
     ...mutationResult,
@@ -121,7 +165,8 @@ export const useUpdatePostMutations = () => {
           if (data?.updatePost) {
             cache.modify({
               fields: {
-                postsWithCount: (_existingPosts = []) => {},
+                posts: (_existingPosts = []) => {},
+                adminPosts: (_existingPosts = []) => {},
               },
             })
           }
@@ -142,12 +187,13 @@ export const useDeletePostMutation = () => {
     `),
     {
       awaitRefetchQueries: true,
-      refetchQueries: () => [{ query: PostsQuery }],
+      refetchQueries: () => [{ query: PostsQuery }, { query: AdminPostsQuery }],
       update: (cache, { data }) => {
         if (data?.deletePost) {
           cache.modify({
             fields: {
-              postsWithCount: (_existingPosts = []) => {},
+              posts: (_existingPosts = []) => {},
+              adminPosts: (_existingPosts = []) => {},
             },
           })
         }
@@ -197,6 +243,21 @@ export const usePostAction = (postId: string) => {
         variables: { data: { postId, [action]: true } },
         onCompleted: () => {
           if (onCompletedCallback) onCompletedCallback()
+        },
+        awaitRefetchQueries: true,
+        refetchQueries: () => [
+          { query: PostsQuery },
+          { query: AdminPostsQuery },
+        ],
+        update: (cache, { data }) => {
+          if (data?.postAction) {
+            cache.modify({
+              fields: {
+                posts: (_existingPosts = []) => {},
+                adminPosts: (_existingPosts = []) => {},
+              },
+            })
+          }
         },
       }),
     ...mutationResult,

@@ -15,7 +15,17 @@ const WordExamplesInput: FC<{
   disabled?: boolean
 }> = ({ values, onChange, disabled }) => (
   <>
-    <FormLabel sx={{ pt: 1, pb: 0 }}>Examples</FormLabel>
+    <FormLabel
+      sx={{
+        pt: 1,
+        pb: 0,
+        color: disabled
+          ? "var(--joy-palette-neutral-plainDisabledColor)"
+          : undefined,
+      }}
+    >
+      Examples
+    </FormLabel>
     {values.map((example, i) => (
       <WordExampleInput
         key={i}
@@ -43,7 +53,15 @@ const WordExamplesInput: FC<{
         pr: 1.5,
       }}
     >
-      <FormHelperText>You can add up to 3 examples.</FormHelperText>
+      <FormHelperText
+        sx={{
+          color: disabled
+            ? "var(--joy-palette-neutral-plainDisabledColor)"
+            : undefined,
+        }}
+      >
+        You can add up to 3 examples.
+      </FormHelperText>
       <IconButton
         title="Add another example"
         variant="outlined"
@@ -84,7 +102,15 @@ const WordExampleInput: FC<
             justifyContent="space-between"
             onClick={() => textareaRef.current?.focus()}
           >
-            <Typography level="body-sm" textColor="text.tertiary">
+            <Typography
+              level="body-sm"
+              textColor={
+                formControlProps.disabled
+                  ? "neutral.plainDisabledColor"
+                  : "text.tertiary"
+              }
+              sx={{ userSelect: "none" }}
+            >
               {exampleNumber}
             </Typography>
             <ChipDelete
