@@ -41,7 +41,7 @@ const TableHead: FC<{ headerGroups: HeaderGroup<any>[] }> = ({
                         { transition: "transform 0.2s ease" },
                         {
                           asc: { transform: "initial" },
-                          desc: { transform: "rotate(180deg)" },
+                          desc: { transform: "rotate(-180deg)" },
                         }[header.column.getIsSorted() as string] ?? {
                           display: "none",
                         },

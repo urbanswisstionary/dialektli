@@ -1,5 +1,6 @@
 import Layout from "@/features/layout/layout"
 import { useMe } from "@/hooks/useMe"
+import { setQueryOnPage } from "@/utils/setQueryOnPage"
 import { NextPage } from "next"
 import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
@@ -27,6 +28,9 @@ const ProfilePage: NextPage = () => {
     router.push("/")
     return <>Redirecting..</>
   }
+
+  if (query.view && query.view !== "posts" && !isAdmin)
+    setQueryOnPage(router, { view: [] })
 
   return (
     <Layout>

@@ -32,13 +32,13 @@ const PostPage: NextPage = () => {
 
   return (
     <Layout hideSidebar={!me}>
-      <Box my={5}>
-        {me.id === post.author.id ? (
-          <EditPostForm post={post} />
-        ) : (
-          <PostCard post={post} disableActions={!me} />
-        )}
-      </Box>
+      {/* <Box > */}
+      {me.id === post.author.id ? (
+        <EditPostForm post={post} />
+      ) : (
+        <PostCard post={post} disableActions={!me} />
+      )}
+      {/* </Box> */}
     </Layout>
   )
 }

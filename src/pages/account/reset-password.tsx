@@ -2,7 +2,7 @@ import Typography from "@mui/joy/Typography"
 import Stack from "@mui/joy/Stack"
 import LayoutWithImage from "@/features/layout/layoutWithImage"
 import type { NextPage } from "next"
-import ResetPasswordForm from "@/features/Auth/resetPassword"
+import ResetPasswordForm from "@/features/Auth/signinSignup/components/resetPassword"
 import RecaptchaProvider from "@/providers/Recaptcha"
 
 const SigninPage: NextPage = () => {

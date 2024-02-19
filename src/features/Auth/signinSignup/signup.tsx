@@ -5,7 +5,7 @@ import Input from "@mui/joy/Input"
 import { FC, FormEvent, useCallback, useState } from "react"
 import { Box, FormHelperText } from "@mui/joy"
 import Button from "@/ui/Button"
-import PasswordInput from "./passwordInput"
+import PasswordInput from "./components/passwordInput"
 import { signIn } from "next-auth/react"
 import { useReCaptcha } from "next-recaptcha-v3"
 

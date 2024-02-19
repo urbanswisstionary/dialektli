@@ -33,15 +33,15 @@ const Layout: FC<PropsWithChildren<{ hideSidebar?: boolean }>> = ({
         >
           <Box
             sx={{
-              height: "100%",
-              margin: "0 auto",
-              maxWidth: "1024px",
-              pb: 2,
               width: "100%",
+              maxWidth: "1024px",
+              margin: "0 auto",
+              pb: 2,
             }}
           >
             {children}
           </Box>
+
           <Footer />
         </Box>
       </Box>

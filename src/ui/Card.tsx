@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from "react"
+import type { FC } from "react"
 import Box from "@mui/joy/Box"
 import Button from "@mui/joy/Button"
 import Divider from "@mui/joy/Divider"
@@ -7,8 +7,7 @@ import Stack from "@mui/joy/Stack"
 import Typography from "@mui/joy/Typography"
 import JoyCard, { CardProps as JoyCardProps } from "@mui/joy/Card"
 import CardActions from "@mui/joy/CardActions"
-import CardOverflow, { CardOverflowProps } from "@mui/joy/CardOverflow"
-import { omit } from "lodash"
+import CardOverflow from "@mui/joy/CardOverflow"
 
 type ActionButtonProps = {
   disabled?: boolean

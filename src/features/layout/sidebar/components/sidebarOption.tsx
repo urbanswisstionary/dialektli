@@ -4,9 +4,10 @@ import ListItemButton from "@mui/joy/ListItemButton"
 import ListItemContent from "@mui/joy/ListItemContent"
 import Typography from "@mui/joy/Typography"
 import Toggler from "@/ui/Toggler"
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
 import List from "@mui/joy/List"
 import Link from "next/link"
+import { IconButton } from "@mui/joy"
 
 type SidebarOptionProps = {
   hide?: boolean
@@ -43,23 +44,30 @@ const SidebarOption: FC<SidebarOptionProps> = ({
         defaultExpanded={defaultExpanded}
         renderToggle={({ open, setOpen }) => (
           <ListItemButton
+            selected={selected}
             disabled={disabled}
             onClick={() => {
-              if (onClick && process.env.NODE_ENV !== "production") {
-                console.info(
-                  `nested SidebarOption "${label}" was passed a click handler, it will be ignored!`,
-                )
-              }
-              setOpen(!open)
+              if (onClick) onClick()
+              if (selected || !open) setOpen(!open)
             }}
           >
             {startDecorator}
             <ListItemContent>
               <Typography level="title-sm">{label}</Typography>
             </ListItemContent>
-            <KeyboardArrowDownIcon
-              sx={{ transform: open ? "rotate(180deg)" : "none" }}
-            />
+            {endDecorator}
+            <IconButton
+              variant="plain"
+              size="sm"
+              onClick={() => setOpen(!open)}
+            >
+              <ArrowDropDownIcon
+                sx={{
+                  transition: "transform 0.2s ease",
+                  transform: open ? "rotate(-180deg)" : "none",
+                }}
+              />
+            </IconButton>
           </ListItemButton>
         )}
       >

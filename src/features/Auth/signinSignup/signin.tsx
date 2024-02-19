@@ -9,7 +9,7 @@ import { FC, FormEvent, useCallback } from "react"
 import { signIn } from "next-auth/react"
 import Link from "next/link"
 import Button from "@/ui/Button"
-import PasswordInput from "./passwordInput"
+import PasswordInput from "./components/passwordInput"
 import { useReCaptcha } from "next-recaptcha-v3"
 
 interface FormElements extends HTMLFormControlsCollection {

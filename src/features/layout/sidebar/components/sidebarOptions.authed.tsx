@@ -89,38 +89,28 @@ const AuthedSidebarOptions: FC<{
             disabled
           />
           <SidebarOption
-            label="Dashboard"
-            startDecorator={<DashboardRoundedIcon />}
+            label="My Values"
+            startDecorator={<AllInboxIcon />}
+            selected={query.view === "posts"}
+            onClick={() => onClickHandler({ view: "posts" })}
+            link={getLink({ view: "posts" })}
             nested
-            defaultExpanded={!!query.values}
+            defaultExpanded
+            endDecorator={
+              <ChipCounter
+                count={me.myPublishedPostsCount + me.myUnpublishedPostsCount}
+              />
+            }
             nestedOptions={[
               {
-                label: "My Values",
-                startDecorator: <AllInboxIcon />,
-                selected: query.view === "posts",
-                onClick: () => onClickHandler({ view: "posts" }),
-                link: getLink({ view: "posts" }),
-                endDecorator: (
-                  <ChipCounter
-                    count={
-                      me.myPublishedPostsCount + me.myUnpublishedPostsCount
-                    }
-                  />
-                ),
-              },
-              {
                 label: "Published",
-                selected: query.view === "posts",
-                onClick: () => onClickHandler({ view: "posts" }),
-                link: getLink({ view: "posts" }),
+                disabled: true,
                 startDecorator: <CheckCircleRoundedIcon />,
                 endDecorator: <ChipCounter count={me.myPublishedPostsCount} />,
               },
               {
                 label: "Unpublished",
-                selected: query.view === "posts",
-                onClick: () => onClickHandler({ view: "posts" }),
-                link: getLink({ view: "posts" }),
+                disabled: true,
                 startDecorator: <UnpublishedRoundedIcon />,
                 endDecorator: (
                   <ChipCounter count={me.myUnpublishedPostsCount} />
@@ -128,7 +118,6 @@ const AuthedSidebarOptions: FC<{
               },
             ]}
           />
-
           <SidebarOption
             hide={!isAdmin}
             label="Users"
