@@ -3,7 +3,7 @@ import Box from "@mui/joy/Box"
 import Typography from "@mui/joy/Typography"
 
 const Footer: FC = () => (
-  <Box component="footer" sx={{ pt: 1, pb: 2 }}>
+  <Box component="footer" pt={4}>
     <Typography level="body-xs" textAlign="center">
       © UrbanSwisstionary {new Date().getFullYear()}
     </Typography>

@@ -10,40 +10,38 @@ const Layout: FC<PropsWithChildren<{ hideSidebar?: boolean }>> = ({
 }) => {
   return (
     <>
-      <Box
-        sx={{
-          maxWidth: "100vw",
-          maxHeight: "100vh",
-          display: "flex",
-          overflowY: "hidden",
-          overflowX: "auto",
-        }}
-      >
+      <Box sx={{ display: "flex", height: "100vh" }}>
         {hideSidebar ? null : <Sidebar />}
         <Header hideSidebar={hideSidebar} />
         <Box
           component="main"
           className="MainContent"
           sx={{
-            pb: { xs: 8, md: 0 },
-            flex: 1,
             display: "flex",
             flexDirection: "column",
             minWidth: "380px",
-            minHeight: "100dvh",
             padding: "var(--main-padding)",
-            margin: "0 auto",
-            maxWidth: "1024px",
             width: "100%",
-            gap: 1,
+            height: hideSidebar
+              ? `calc(100% - var(--Header-height))`
+              : { xs: `calc(100% - var(--Header-height))`, md: "100%" },
             overflow: "auto",
-            position: "relative",
-            top: hideSidebar
+            marginTop: hideSidebar
               ? "var(--Header-height)"
               : { xs: "var(--Header-height)", md: 0 },
           }}
         >
-          {children}
+          <Box
+            sx={{
+              height: "100%",
+              margin: "0 auto",
+              maxWidth: "1024px",
+              pb: 2,
+              width: "100%",
+            }}
+          >
+            {children}
+          </Box>
           <Footer />
         </Box>
       </Box>

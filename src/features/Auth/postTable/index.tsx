@@ -39,7 +39,7 @@ const Posts: FC<{ me: MeFragmentFragment }> = () => {
   if (loading) return <div>Loading...</div>
 
   return (
-    <Box sx={{ height: "100%", overflow: "auto" }}>
+    <>
       <Box sx={{ mb: 1, alignItems: { xs: "start", sm: "center" } }}>
         <Typography level="h2" component="h1">
           Posts
@@ -54,7 +54,7 @@ const Posts: FC<{ me: MeFragmentFragment }> = () => {
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
       />
-    </Box>
+    </>
   )
 }
 

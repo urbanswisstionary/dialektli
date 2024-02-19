@@ -7,10 +7,6 @@ import { PostFragment, usePost } from "@/hooks/usePosts"
 import { getFragmentData } from "@@/generated"
 import Box from "@mui/joy/Box"
 import PostCard from "@/features/postCard"
-import SearchPostsInput from "@/features/searchPostsInput"
-import Link from "next/link"
-import IconButton from "@mui/joy/IconButton"
-import AddIcon from "@mui/icons-material/Add"
 import EditPostForm from "@/features/postForm/editPostForm"
 
 type Query = ParsedUrlQuery & { id: string }

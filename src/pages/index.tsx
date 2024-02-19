@@ -11,29 +11,39 @@ import AddIcon from "@mui/icons-material/Add"
 import { PostFragment, usePosts } from "@/hooks/usePosts"
 import { getFragmentData } from "@@/generated"
 
-import Pagination from "@mui/material/Pagination"
-import { useState } from "react"
+import Pagination, { PaginationProps } from "@mui/material/Pagination"
+import { ChangeEvent, useState } from "react"
 import { PostWithCountQueryMode } from "@@/generated/graphql"
 
-const defaultPostsPerPage = 10
+const defaultPageSize = 10
 const Home: NextPage = () => {
   const me = useMe().me
   const [page, setPage] = useState(1)
   const data = usePosts({
-    offset: (page - 1) * defaultPostsPerPage,
-    limit: defaultPostsPerPage,
+    offset: (page - 1) * defaultPageSize,
+    limit: defaultPageSize,
     mode: PostWithCountQueryMode.ExcludeUnpublished,
   }).data?.postsWithCount
 
+  const pagesCount = Math.max(
+    1,
+    Math.ceil((data?.count ?? 0) / defaultPageSize),
+  )
+  const paginationProps: PaginationProps = {
+    page: page,
+    onChange: (_event: ChangeEvent<unknown>, page: number) => setPage(page),
+    count: pagesCount,
+    disabled: pagesCount <= 1,
+    shape: "rounded",
+    variant: "outlined",
+    boundaryCount: 2,
+  }
   const posts = getFragmentData(PostFragment, data?.posts)
-  const count = data?.count ?? 0
-  const totalPages = Math.ceil(count / defaultPostsPerPage)
   return (
     <Layout hideSidebar={!me}>
       <Box
         sx={{
-          mt: 2.5,
-          mb: 5,
+          my: 2.5,
           display: "flex",
           flexDirection: "row",
           gap: "1rem",
@@ -53,21 +63,14 @@ const Home: NextPage = () => {
       </Box>
       <Box
         sx={{
-          height: "100%",
           display: "flex",
           flexDirection: "column",
           gap: 1,
         }}
       >
-        <Pagination
-          count={totalPages > 1 ? totalPages : 0}
-          shape="rounded"
-          variant="outlined"
-          boundaryCount={2}
-          page={page}
-          onChange={(_event, value) => setPage(value)}
-        />
+        <Pagination {...paginationProps} />
         {posts?.map((post) => <PostCard key={post.id} post={post} />)}
+        <Pagination {...paginationProps} />
       </Box>
     </Layout>
   )
