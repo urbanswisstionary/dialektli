@@ -5,9 +5,11 @@ import { useMe } from "@/hooks/useMe"
 import { ParsedUrlQuery } from "querystring"
 import { PostFragment, usePost } from "@/hooks/usePosts"
 import { getFragmentData } from "@@/generated"
-import Box from "@mui/joy/Box"
-import PostCard from "@/features/postCard"
-import EditPostForm from "@/features/postForm/editPostForm"
+import dynamic from "next/dynamic"
+
+const EditPostForm = dynamic(() => import("@/features/postForm/editPostForm"), {
+  ssr: false,
+})
 
 type Query = ParsedUrlQuery & { id: string }
 
@@ -19,26 +21,23 @@ const PostPage: NextPage = () => {
   const { data: postData, loading: loadingPost } = usePost(id)
 
   if (loadingMe || loadingPost) return <>Loading...</>
-  const post = getFragmentData(PostFragment, postData?.post)
 
   if (!me) {
     router.push("/account/signin")
     return <>Redirecting...</>
   }
-  if (!post || (!!me && me.id !== post?.author.id && !isAdmin)) {
+
+  const post = getFragmentData(PostFragment, postData?.post)
+  const authorized = me.id === post?.author.id || isAdmin
+
+  if (!post || !authorized) {
     router.push("/")
     return <>{!post ? "Post not found" : "unauthorized"}...</>
   }
 
   return (
     <Layout hideSidebar={!me}>
-      {/* <Box > */}
-      {me.id === post.author.id ? (
-        <EditPostForm post={post} />
-      ) : (
-        <PostCard post={post} disableActions={!me} />
-      )}
-      {/* </Box> */}
+      {authorized ? <EditPostForm post={post} /> : null}
     </Layout>
   )
 }
