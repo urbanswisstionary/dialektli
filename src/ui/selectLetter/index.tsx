@@ -34,7 +34,8 @@ const SelectLetter: FC<SelectLetterProps> = ({
               if (onChange) onChange(letter)
             }}
             sx={{
-              p: 2,
+              py: 1,
+              px: 2,
               alignItems: "center",
               width: "4ch",
               backgroundColor:

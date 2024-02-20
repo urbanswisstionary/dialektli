@@ -4,8 +4,11 @@ import SearchPostsInput from "@/features/searchPostsInput"
 import Box from "@mui/joy/Box"
 import Stack from "@mui/joy/Stack"
 import { NextPage } from "next"
-import Grid from "@mui/joy/Grid"
-import Card from "@mui/joy/Card"
+import AccordionGroup from "@mui/joy/AccordionGroup"
+import Accordion from "@mui/joy/Accordion"
+import AccordionDetails from "@mui/joy/AccordionDetails"
+import AccordionSummary from "@mui/joy/AccordionSummary"
+
 import PostCard from "@/features/postCard"
 import Link from "next/link"
 import IconButton from "@mui/joy/IconButton"
@@ -62,7 +65,7 @@ const Home: NextPage = () => {
   )
   return (
     <Layout hideSidebar={!me}>
-      <Stack sx={{ my: 5, gap: 2 }}>
+      <Stack sx={{ mt: 5, mb: 3, gap: 2 }}>
         <Box sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
           <SearchPostsInput sx={{ flex: 1 }} />
           <Link href={"/post/new"} passHref>
@@ -83,14 +86,24 @@ const Home: NextPage = () => {
           onChange={(canton) => setQueryOnPage(router, { canton })}
           label="Filter by canton"
         />
-        <SelectLetter
-          value={query.firstChar}
-          onChange={(firstChar) =>
-            setQueryOnPage(router, {
-              firstChar: query.firstChar === firstChar ? null : firstChar,
-            })
-          }
-        />
+        <AccordionGroup>
+          <Accordion>
+            <AccordionSummary sx={{ p: 0, fontSize: "sm" }}>
+              Select First Letter
+            </AccordionSummary>
+            <AccordionDetails sx={{ p: 0, pt: 2 }}>
+              <SelectLetter
+                value={query.firstChar}
+                onChange={(firstChar) =>
+                  setQueryOnPage(router, {
+                    firstChar: query.firstChar === firstChar ? null : firstChar,
+                  })
+                }
+                label={false}
+              />
+            </AccordionDetails>
+          </Accordion>
+        </AccordionGroup>
       </Stack>
       <Divider />
       <Box
