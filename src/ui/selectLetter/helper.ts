@@ -27,4 +27,4 @@ export const letters = [
   "Z",
 ]
 export const germanLetters = ["Ä", "Ö", "Ü", "ß"]
-export const allLetters = [...letters, ...germanLetters].toSorted()
+export const allLetters = [...letters, ...germanLetters].sort()
