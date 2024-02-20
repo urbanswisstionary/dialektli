@@ -120,16 +120,26 @@ builder.queryFields((t) => ({
       offset: t.arg.int(),
       limit: t.arg.int(),
       canton: t.arg.string(),
+      firstChar: t.arg.string(),
     },
-    resolve: async (_root, { q, offset, limit, canton }) => {
+    resolve: async (_root, { q, offset, limit, canton, firstChar }) => {
       const postsWhere: Prisma.PostFindManyArgs = {
         where: {
-          published: true,
-          title: q ? { contains: q, mode: "insensitive" } : undefined,
-          // OR: [
-          //   { content: q ? { contains: q, mode: "insensitive" } : undefined },
-          //   { canton: canton ? { equals: canton } : undefined },
-          // ],
+          AND: [
+            { published: true },
+            {
+              OR: [
+                { title: q ? { contains: q, mode: "insensitive" } : undefined },
+                {
+                  content: q ? { contains: q, mode: "insensitive" } : undefined,
+                },
+              ],
+            },
+            canton ? { canton: { equals: canton } } : {},
+            firstChar
+              ? { title: { startsWith: firstChar, mode: "insensitive" } }
+              : {},
+          ],
         },
       }
       const [posts, count] = await prisma.$transaction([

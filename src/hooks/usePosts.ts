@@ -27,8 +27,20 @@ export const PostFragment = graphql(/* GraphQL */ `
 `)
 
 const PostsQuery = graphql(/* GraphQL */ `
-  query Posts($q: String, $offset: Int, $limit: Int, $canton: String) {
-    posts(q: $q, offset: $offset, limit: $limit, canton: $canton) {
+  query Posts(
+    $q: String
+    $offset: Int
+    $limit: Int
+    $canton: String
+    $firstChar: String
+  ) {
+    posts(
+      q: $q
+      offset: $offset
+      limit: $limit
+      canton: $canton
+      firstChar: $firstChar
+    ) {
       posts {
         ...PostFragment
       }
@@ -37,17 +49,13 @@ const PostsQuery = graphql(/* GraphQL */ `
   }
 `)
 
-export const usePostsQuery = ({
-  q,
-  offset,
-  limit,
-  canton,
-}: {
+export const usePostsQuery = (variables: {
   q?: string
   offset?: number
   limit?: number
-  canton?: string
-}) => useQuery(PostsQuery, { variables: { q, offset, limit, canton } })
+  canton?: string | null
+  firstChar?: string
+}) => useQuery(PostsQuery, { variables })
 
 export const AdminPostFragment = graphql(/* GraphQL */ `
   fragment AdminPostFragment on Post {

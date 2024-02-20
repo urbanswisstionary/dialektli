@@ -1,8 +1,11 @@
 import { useMe } from "@/hooks/useMe"
 import Layout from "@/features/layout/layout"
 import SearchPostsInput from "@/features/searchPostsInput"
-import { Box } from "@mui/joy"
+import Box from "@mui/joy/Box"
+import Stack from "@mui/joy/Stack"
 import { NextPage } from "next"
+import Grid from "@mui/joy/Grid"
+import Card from "@mui/joy/Card"
 import PostCard from "@/features/postCard"
 import Link from "next/link"
 import IconButton from "@mui/joy/IconButton"
@@ -13,25 +16,39 @@ import { getFragmentData } from "@@/generated"
 
 import { useState } from "react"
 import TablePagination from "@/features/Auth/postTable/components/pagination"
-import SelectLocation from "@/features/Auth/profile/components/selectLocation"
+import SelectLocation from "@/ui/selectLocation"
+import { ParsedUrlQuery } from "querystring"
+import { useRouter } from "next/router"
+import Divider from "@mui/joy/Divider"
+import { setQueryOnPage } from "@/utils/setQueryOnPage"
+import SelectLetter from "@/ui/selectLetter"
+
+type Query = ParsedUrlQuery & {
+  canton?: string
+  firstChar?: string
+}
 
 const defaultPageSize = 10
 const Home: NextPage = () => {
+  const router = useRouter()
+  const query = router.query as Query
   const me = useMe().me
   const [{ page, pageSize }, setPagination] = useState({
     page: 1,
     pageSize: defaultPageSize,
   })
-  const [queryByCanton, setQueryByCanton] = useState<string | null>(null)
 
-  const data = usePostsQuery({
+  const postQuery = usePostsQuery({
     offset: (page - 1) * pageSize,
     limit: pageSize,
-  }).data?.posts
-
+    canton: query.canton,
+    firstChar: query.firstChar,
+  })
+  const data = postQuery.data?.posts ?? postQuery.previousData?.posts
   const pagesCount = Math.max(1, Math.ceil((data?.count ?? 0) / pageSize))
 
   const posts = getFragmentData(PostFragment, data?.posts)
+
   const pagination = (
     <TablePagination
       currentPage={page}
@@ -45,39 +62,43 @@ const Home: NextPage = () => {
   )
   return (
     <Layout hideSidebar={!me}>
-      <Box
-        sx={{
-          my: 2.5,
-          display: "flex",
-          flexDirection: "row",
-          gap: "1rem",
-        }}
-      >
-        <SearchPostsInput sx={{ flex: 1 }} />
-        <Link href={"/post/new"} passHref>
-          <IconButton
-            title="New Post"
-            variant="outlined"
-            color="neutral"
-            size="md"
-          >
-            <AddIcon />
-          </IconButton>
-        </Link>
-      </Box>
-      <Box>
+      <Stack sx={{ my: 5, gap: 2 }}>
+        <Box sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
+          <SearchPostsInput sx={{ flex: 1 }} />
+          <Link href={"/post/new"} passHref>
+            <IconButton
+              title="New Post"
+              variant="outlined"
+              color="neutral"
+              size="md"
+            >
+              <AddIcon />
+            </IconButton>
+          </Link>
+        </Box>
+
         <SelectLocation
           mode="canton"
-          value={queryByCanton}
-          onChange={(canton) => setQueryByCanton(canton)}
+          value={query.canton}
+          onChange={(canton) => setQueryOnPage(router, { canton })}
           label="Filter by canton"
         />
-      </Box>
+        <SelectLetter
+          value={query.firstChar}
+          onChange={(firstChar) =>
+            setQueryOnPage(router, {
+              firstChar: query.firstChar === firstChar ? null : firstChar,
+            })
+          }
+        />
+      </Stack>
+      <Divider />
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
           gap: 1,
+          pt: 5,
         }}
       >
         {pagination}

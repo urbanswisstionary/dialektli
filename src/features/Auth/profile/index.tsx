@@ -8,7 +8,7 @@ import ImageInput from "./components/imageInput"
 import NameInput from "./components/nameInput"
 import EmailInput from "./components/emailInput"
 import BioInput from "./components/bioInput"
-import SelectLocation from "@/features/Auth/profile/components/selectLocation"
+import SelectLocation from "@/ui/selectLocation"
 import Card from "@/ui/Card"
 
 type EditProfileState = {

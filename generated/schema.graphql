@@ -100,7 +100,7 @@ type Query {
   adminPosts: PostsWithCount
   me: User!
   post(data: PostIdInput!): Post
-  posts(canton: String, limit: Int, offset: Int, q: String): PostsWithCount
+  posts(canton: String, firstChar: String, limit: Int, offset: Int, q: String): PostsWithCount
   user(email: String!): User!
   users: [User!]!
 }

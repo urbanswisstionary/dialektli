@@ -1,7 +1,7 @@
 import { FC, useMemo } from "react"
 import { Column } from "@tanstack/react-table"
 import Autocomplete from "@mui/joy/Autocomplete"
-import SelectLocationOption from "../../profile/components/selectLocationOption"
+import SelectLocationOption from "../../../../ui/selectLocation/selectLocationOption"
 import Flag from "@/ui/Flag"
 import AutocompleteOption from "@mui/joy/AutocompleteOption"
 import Typography from "@mui/joy/Typography"

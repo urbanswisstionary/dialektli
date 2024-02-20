@@ -20,7 +20,7 @@ const documents = {
     "\n      mutation UpdateUser($data: UpdateUserInput!) {\n        updateUser(data: $data) {\n          ...MeFragment\n        }\n      }\n    ": types.UpdateUserDocument,
     "\n      mutation ChangeUserRole($userId: String!, $role: Role!) {\n        changeUserRole(userId: $userId, role: $role) {\n          ...MeFragment\n        }\n      }\n    ": types.ChangeUserRoleDocument,
     "\n  fragment PostFragment on Post {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    likedByMe\n    dislikesCount\n    dislikedByMe\n    flaggedByMe\n\n    createdAt\n    updatedAt\n    canton\n  }\n": types.PostFragmentFragmentDoc,
-    "\n  query Posts($q: String, $offset: Int, $limit: Int, $canton: String) {\n    posts(q: $q, offset: $offset, limit: $limit, canton: $canton) {\n      posts {\n        ...PostFragment\n      }\n      count\n    }\n  }\n": types.PostsDocument,
+    "\n  query Posts(\n    $q: String\n    $offset: Int\n    $limit: Int\n    $canton: String\n    $firstChar: String\n  ) {\n    posts(\n      q: $q\n      offset: $offset\n      limit: $limit\n      canton: $canton\n      firstChar: $firstChar\n    ) {\n      posts {\n        ...PostFragment\n      }\n      count\n    }\n  }\n": types.PostsDocument,
     "\n  fragment AdminPostFragment on Post {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    dislikesCount\n    createdAt\n    updatedAt\n    canton\n    flagged {\n      authorId\n      createdAt\n    }\n  }\n": types.AdminPostFragmentFragmentDoc,
     "\n  query AdminPosts {\n    adminPosts {\n      posts {\n        ...AdminPostFragment\n      }\n      count\n    }\n  }\n": types.AdminPostsDocument,
     "\n      mutation CreatePost($data: CreatePostInput!) {\n        createPost(data: $data) {\n          id\n        }\n      }\n    ": types.CreatePostDocument,
@@ -75,7 +75,7 @@ export function graphql(source: "\n  fragment PostFragment on Post {\n    id\n  
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query Posts($q: String, $offset: Int, $limit: Int, $canton: String) {\n    posts(q: $q, offset: $offset, limit: $limit, canton: $canton) {\n      posts {\n        ...PostFragment\n      }\n      count\n    }\n  }\n"): (typeof documents)["\n  query Posts($q: String, $offset: Int, $limit: Int, $canton: String) {\n    posts(q: $q, offset: $offset, limit: $limit, canton: $canton) {\n      posts {\n        ...PostFragment\n      }\n      count\n    }\n  }\n"];
+export function graphql(source: "\n  query Posts(\n    $q: String\n    $offset: Int\n    $limit: Int\n    $canton: String\n    $firstChar: String\n  ) {\n    posts(\n      q: $q\n      offset: $offset\n      limit: $limit\n      canton: $canton\n      firstChar: $firstChar\n    ) {\n      posts {\n        ...PostFragment\n      }\n      count\n    }\n  }\n"): (typeof documents)["\n  query Posts(\n    $q: String\n    $offset: Int\n    $limit: Int\n    $canton: String\n    $firstChar: String\n  ) {\n    posts(\n      q: $q\n      offset: $offset\n      limit: $limit\n      canton: $canton\n      firstChar: $firstChar\n    ) {\n      posts {\n        ...PostFragment\n      }\n      count\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
