@@ -64,7 +64,7 @@ const SearchPostsInput: FC<FormControlProps> = (formControlProps) => {
         autoComplete
         onInputChange={(_, value) => {
           const q = value.trim()
-          setQueryOnPage(router, { q: q.length ? q : [] })
+          setQueryOnPage(router, { q: q.length ? q : null })
         }}
       />
     </FormControl>

@@ -45,7 +45,7 @@ const NewPostForm: FC<{ authorId?: string }> = ({ authorId }) => {
     queryKey: K,
     value: Query[K] | null,
   ) => {
-    setQueryOnPage(router, { [queryKey]: value?.length ? value : [] })
+    setQueryOnPage(router, { [queryKey]: value?.length ? value : null })
   }
   const preventSubmit = !query.title || !query.content || createPostLoading
   const onSubmit = async () => {

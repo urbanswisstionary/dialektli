@@ -20,8 +20,10 @@ import RecentActorsIcon from "@mui/icons-material/RecentActors"
 import PersonAddIcon from "@mui/icons-material/PersonAdd"
 import SidebarOption from "./sidebarOption"
 
+type ProfileView = "posts" | "users"
+
 type Query = ParsedUrlQuery & {
-  view?: "posts" | "users"
+  view?: ProfileView
 }
 
 const profilePagePathname = "/account/profile"
@@ -38,9 +40,11 @@ const AuthedSidebarOptions: FC<{
     const urlParam = view ? `?view=${view}` : ""
     return `${profilePagePathname}${urlParam}`
   }
-  const onClickHandler = ({ view }: Query = {}) => {
+  const onClickHandler = (
+    { view }: { view: ProfileView | null } = { view: null },
+  ) => {
     if (!isProfilePage) return
-    setQueryOnPage(router, { view: view ?? [] })
+    setQueryOnPage(router, { view })
   }
   return (
     <>
