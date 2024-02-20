@@ -21,7 +21,7 @@ type PostCardProps = {
   disableActions?: boolean
 }
 const PostCard: FC<PostCardProps> = ({ post, disableActions }) => (
-  <Card size="md">
+  <Card size="md" sx={{ wordBreak: "break-word" }}>
     <Stack direction="row" justifyContent="space-between" alignItems="center">
       <Typography level="title-lg">{post?.title}</Typography>
       <PostCardActionButton
