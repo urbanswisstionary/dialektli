@@ -15,6 +15,7 @@ import FlagTwoToneIcon from "@mui/icons-material/FlagTwoTone"
 import { PostFragmentFragment } from "@@/generated/graphql"
 import PostCardActionButton from "./components/actionButton"
 import PostCardExample from "./components/examples"
+import Flag from "@/ui/Flag"
 
 type PostCardProps = {
   post: PostFragmentFragment
@@ -23,7 +24,10 @@ type PostCardProps = {
 const PostCard: FC<PostCardProps> = ({ post, disableActions }) => (
   <Card size="md" sx={{ wordBreak: "break-word" }}>
     <Stack direction="row" justifyContent="space-between" alignItems="center">
-      <Typography level="title-lg">{post?.title}</Typography>
+      <Stack direction="column" gap={1}>
+        {post.canton ? <Flag mode="canton" code={post.canton} /> : null}
+        <Typography level="title-lg">{post?.title}</Typography>
+      </Stack>
       <PostCardActionButton
         action="flag"
         postId={post.id}
