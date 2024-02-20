@@ -1,6 +1,5 @@
 import Layout from "@/features/layout/layout"
 import { useMe } from "@/hooks/useMe"
-import { setQueryOnPage } from "@/utils/setQueryOnPage"
 import Link from "@mui/joy/Link"
 import { NextPage } from "next"
 import dynamic from "next/dynamic"
@@ -26,9 +25,6 @@ const ProfilePage: NextPage = () => {
   const query = router.query as Query
 
   if (meLoading) return <>Loading..</>
-
-  if (query.view && query.view !== "posts" && !isAdmin)
-    setQueryOnPage(router, { view: [] })
 
   return (
     <Layout>
