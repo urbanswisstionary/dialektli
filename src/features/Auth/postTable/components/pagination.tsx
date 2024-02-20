@@ -46,6 +46,13 @@ const TablePagination: FC<TablePaginationProps> = ({
         showLastButton
         siblingCount={moreThanSm ? 1 : 0}
         disabled={totalPages <= 1}
+        sx={{
+          ".MuiPaginationItem-root": {
+            borderColor: "var(--joy-palette-neutral-outlinedBorder)",
+            color:
+              "var(--variant-plainColor, var(--joy-palette-neutral-plainColor, var(--joy-palette-neutral-700, #32383E)))",
+          },
+        }}
       />
       {itemsPerPage ? (
         <Select
