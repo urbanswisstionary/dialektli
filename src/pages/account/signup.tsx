@@ -7,7 +7,7 @@ import { useSession, signIn, signOut } from "next-auth/react"
 import SignupForm from "@/features/Auth/signinSignup/signup"
 import LayoutWithImage from "@/features/layout/layoutWithImage"
 import type { NextPage } from "next"
-import Divider from "@/ui/Divider"
+import Divider from "@mui/joy/Divider"
 import Button from "@/ui/Button"
 import RecaptchaProvider from "@/providers/Recaptcha"
 
