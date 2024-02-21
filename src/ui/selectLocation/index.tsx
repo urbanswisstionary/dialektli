@@ -59,11 +59,11 @@ const SelectLocation: FC<
               {...optionProps}
               mode={mode}
               label={option.label}
-              flagCode={option.code.toLowerCase()}
+              flagCode={option.code}
             />
           )}
           startDecorator={
-            value ? <Flag mode={mode} code={value.toLowerCase()} /> : null
+            value ? <Flag mode={mode} code={value} /> : null
           }
         />
         {helperText ? <FormHelperText>{helperText}</FormHelperText> : null}

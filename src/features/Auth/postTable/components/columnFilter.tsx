@@ -46,7 +46,7 @@ const ColumnFilter: FC<ColumnFilterProps> = ({ column }) => {
       }}
       startDecorator={
         column.id === "canton" && columnFilterValue ? (
-          <Flag mode={"canton"} code={columnFilterValue.toLowerCase()} />
+          <Flag mode={"canton"} code={columnFilterValue} />
         ) : null
       }
       renderOption={(optionProps, option) =>

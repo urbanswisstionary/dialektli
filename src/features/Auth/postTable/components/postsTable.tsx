@@ -86,7 +86,7 @@ const PostsTable: FC<PostsTableProps> = ({
           const canton = info.getValue<string>()
           return canton === "N/A" ? null : (
             <Box display="flex" justifyContent="center">
-              <Flag mode="canton" code={canton.toLowerCase()} />
+              <Flag mode="canton" code={canton} />
             </Box>
           )
         },

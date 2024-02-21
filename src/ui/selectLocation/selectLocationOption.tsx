@@ -12,17 +12,15 @@ const SelectLocationOption: FC<
     label: string
     flagCode: string
   }
-> = ({ mode, label, flagCode, ...props }) => {
-  return (
-    <AutocompleteOption {...props}>
-      <ListItemDecorator>
-        <AspectRatio ratio="1" sx={{ minWidth: 20, borderRadius: "50%" }}>
-          <Flag mode={mode} code={flagCode} />
-        </AspectRatio>
-      </ListItemDecorator>
-      {label}
-    </AutocompleteOption>
-  )
-}
+> = ({ mode, label, flagCode, ...props }) => (
+  <AutocompleteOption {...props}>
+    <ListItemDecorator>
+      <AspectRatio ratio="1" sx={{ minWidth: 20, borderRadius: "50%" }}>
+        <Flag mode={mode} code={flagCode} />
+      </AspectRatio>
+    </ListItemDecorator>
+    {label}
+  </AutocompleteOption>
+)
 
 export default SelectLocationOption
