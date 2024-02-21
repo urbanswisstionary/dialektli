@@ -15,12 +15,12 @@ export const MeFragment = graphql(/* GraphQL */ `
     canton
     likesCount
     dislikesCount
-    posts {
+    terms {
       id
       title
     }
-    myPublishedPostsCount
-    myUnpublishedPostsCount
+    myPublishedTermsCount
+    myUnpublishedTermsCount
   }
 `)
 

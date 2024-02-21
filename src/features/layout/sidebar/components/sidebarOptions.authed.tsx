@@ -20,7 +20,7 @@ import RecentActorsIcon from "@mui/icons-material/RecentActors"
 import PersonAddIcon from "@mui/icons-material/PersonAdd"
 import SidebarOption from "./sidebarOption"
 
-type ProfileView = "posts" | "users"
+type ProfileView = "terms" | "users"
 
 type Query = ParsedUrlQuery & {
   view?: ProfileView
@@ -75,11 +75,11 @@ const AuthedSidebarOptions: FC<{
             link={getLink()}
           />
           <SidebarOption
-            label="My Values"
+            label="My Terms"
             startDecorator={<AllInboxIcon />}
-            selected={query.view === "posts"}
-            onClick={() => onClickHandler({ view: "posts" })}
-            link={getLink({ view: "posts" })}
+            selected={query.view === "terms"}
+            onClick={() => onClickHandler({ view: "terms" })}
+            link={getLink({ view: "terms" })}
           />
           <SidebarOption
             hide={!isAdmin}

@@ -1,5 +1,5 @@
 /* eslint-disable */
-import type { Prisma, Like, Dislike, Flag, Post, Account, Session, User, VerificationToken } from "@prisma/client";
+import type { Prisma, Like, Dislike, Flag, Term, Account, Session, User, VerificationToken } from "@prisma/client";
 export default interface PrismaTypes {
     Like: {
         Name: "Like";
@@ -11,12 +11,12 @@ export default interface PrismaTypes {
         Where: Prisma.LikeWhereInput;
         Create: {};
         Update: {};
-        RelationName: "post" | "author";
+        RelationName: "term" | "author";
         ListRelations: never;
         Relations: {
-            post: {
-                Shape: Post;
-                Name: "Post";
+            term: {
+                Shape: Term;
+                Name: "Term";
             };
             author: {
                 Shape: User;
@@ -34,12 +34,12 @@ export default interface PrismaTypes {
         Where: Prisma.DislikeWhereInput;
         Create: {};
         Update: {};
-        RelationName: "post" | "author";
+        RelationName: "term" | "author";
         ListRelations: never;
         Relations: {
-            post: {
-                Shape: Post;
-                Name: "Post";
+            term: {
+                Shape: Term;
+                Name: "Term";
             };
             author: {
                 Shape: User;
@@ -57,12 +57,12 @@ export default interface PrismaTypes {
         Where: Prisma.FlagWhereInput;
         Create: {};
         Update: {};
-        RelationName: "post" | "author";
+        RelationName: "term" | "author";
         ListRelations: never;
         Relations: {
-            post: {
-                Shape: Post;
-                Name: "Post";
+            term: {
+                Shape: Term;
+                Name: "Term";
             };
             author: {
                 Shape: User;
@@ -70,14 +70,14 @@ export default interface PrismaTypes {
             };
         };
     };
-    Post: {
-        Name: "Post";
-        Shape: Post;
-        Include: Prisma.PostInclude;
-        Select: Prisma.PostSelect;
-        OrderBy: Prisma.PostOrderByWithRelationInput;
-        WhereUnique: Prisma.PostWhereUniqueInput;
-        Where: Prisma.PostWhereInput;
+    Term: {
+        Name: "Term";
+        Shape: Term;
+        Include: Prisma.TermInclude;
+        Select: Prisma.TermSelect;
+        OrderBy: Prisma.TermOrderByWithRelationInput;
+        WhereUnique: Prisma.TermWhereUniqueInput;
+        Where: Prisma.TermWhereInput;
         Create: {};
         Update: {};
         RelationName: "author" | "likes" | "dislikes" | "flagged";
@@ -149,12 +149,12 @@ export default interface PrismaTypes {
         Where: Prisma.UserWhereInput;
         Create: {};
         Update: {};
-        RelationName: "posts" | "accounts" | "sessions" | "likes" | "dislikes" | "flags";
-        ListRelations: "posts" | "accounts" | "sessions" | "likes" | "dislikes" | "flags";
+        RelationName: "terms" | "accounts" | "sessions" | "likes" | "dislikes" | "flags";
+        ListRelations: "terms" | "accounts" | "sessions" | "likes" | "dislikes" | "flags";
         Relations: {
-            posts: {
-                Shape: Post[];
-                Name: "Post";
+            terms: {
+                Shape: Term[];
+                Name: "Term";
             };
             accounts: {
                 Shape: Account[];

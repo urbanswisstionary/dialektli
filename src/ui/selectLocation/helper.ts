@@ -3,7 +3,7 @@ export type LocationOption = {
   label: string
 }
 
-export const cantons: LocationOption[] = [
+const cantons: LocationOption[] = [
   { code: "AG", label: "Aargau" },
   { code: "AI", label: "Appenzell Innerrhoden" },
   { code: "AR", label: "Appenzell Ausserrhoden" },
@@ -32,7 +32,7 @@ export const cantons: LocationOption[] = [
   { code: "ZH", label: "Zurich" },
 ]
 
-export const countries: LocationOption[] = [
+const countries: LocationOption[] = [
   { code: "AD", label: "Andorra" },
   {
     code: "AE",
@@ -408,3 +408,6 @@ export const countries: LocationOption[] = [
   { code: "ZM", label: "Zambia" },
   { code: "ZW", label: "Zimbabwe" },
 ]
+
+export const getOptions = (mode: "canton" | "country"): LocationOption[] =>
+  mode === "canton" ? cantons : countries

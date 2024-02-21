@@ -1,19 +1,19 @@
 import { useMe } from "@/hooks/useMe"
 import Layout from "@/features/layout/layout"
-import SearchPostsInput from "@/ui/searchPostsInput"
+import SearchTermsInput from "@/ui/SearchTermsInput"
 import Box from "@mui/joy/Box"
 import Stack from "@mui/joy/Stack"
 import { NextPage } from "next"
-import { usePostsQuery } from "@/hooks/usePosts"
-import SelectLocation from "@/ui/selectLocation"
+import { useTermsQuery } from "@/hooks/useTerms"
+import SelectSingleLocation from "@/ui/selectLocation/selectSingleLocation"
 import { ParsedUrlQuery } from "querystring"
 import { useRouter } from "next/router"
 import { setQueryOnPage } from "@/utils/setQueryOnPage"
 import SelectLetter from "@/ui/selectLetter"
 import Accordion from "@/ui/Accordion"
-import PostCardsList from "@/features/postCardsList"
+import TermsCardsList from "@/features/termsCardsList"
 import { usePaginationState } from "@/hooks/usePaginationState"
-import NewPostButton from "@/ui/newPostButton"
+import NewTermButton from "@/ui/NewTermButton"
 
 type Query = ParsedUrlQuery & {
   canton?: string
@@ -26,25 +26,25 @@ const Home: NextPage = () => {
   const me = useMe().me
 
   const { setPageCount, ...paginationProps } = usePaginationState()
-  const postQuery = usePostsQuery({
+  const termQuery = useTermsQuery({
     offset: (paginationProps.pageIndex - 1) * paginationProps.pageSize,
     limit: paginationProps.pageSize,
     canton: query.canton,
     firstChar: query.firstChar,
   })
 
-  const data = postQuery.data?.postsQuery ?? postQuery.previousData?.postsQuery
+  const data = termQuery.data?.termsQuery ?? termQuery.previousData?.termsQuery
   setPageCount(data?.count)
 
   return (
     <Layout hideSidebar={!me}>
       <Stack sx={{ mt: 1, mb: 3, gap: 2 }}>
         <Box sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
-          <SearchPostsInput sx={{ flex: 1 }} />
-          <NewPostButton />
+          <SearchTermsInput sx={{ flex: 1 }} />
+          <NewTermButton />
         </Box>
 
-        <SelectLocation
+        <SelectSingleLocation
           mode="canton"
           value={query.canton}
           onChange={(canton) => setQueryOnPage(router, { canton })}
@@ -69,7 +69,7 @@ const Home: NextPage = () => {
           ]}
         />
       </Stack>
-      <PostCardsList posts={data?.posts} paginationProps={paginationProps} />
+      <TermsCardsList terms={data?.terms} paginationProps={paginationProps} />
     </Layout>
   )
 }

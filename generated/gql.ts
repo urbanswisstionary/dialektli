@@ -13,21 +13,21 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n  fragment MeFragment on User {\n    id\n    email\n    name\n    role\n    image\n    bio\n    country\n    canton\n    likesCount\n    dislikesCount\n    posts {\n      id\n      title\n    }\n    myPublishedPostsCount\n    myUnpublishedPostsCount\n  }\n": types.MeFragmentFragmentDoc,
+    "\n  fragment MeFragment on User {\n    id\n    email\n    name\n    role\n    image\n    bio\n    country\n    canton\n    likesCount\n    dislikesCount\n    terms {\n      id\n      title\n    }\n    myPublishedTermsCount\n    myUnpublishedTermsCount\n  }\n": types.MeFragmentFragmentDoc,
     "\n  query Me {\n    me {\n      ...MeFragment\n    }\n  }\n": types.MeDocument,
     "\n      mutation UpdateUser($data: UpdateUserInput!) {\n        updateUser(data: $data) {\n          ...MeFragment\n        }\n      }\n    ": types.UpdateUserDocument,
     "\n      mutation ChangeUserRole($userId: String!, $role: Role!) {\n        changeUserRole(userId: $userId, role: $role) {\n          ...MeFragment\n        }\n      }\n    ": types.ChangeUserRoleDocument,
-    "\n  fragment PostFragment on Post {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    likedByMe\n    dislikesCount\n    dislikedByMe\n    flaggedByMe\n\n    createdAt\n    updatedAt\n    canton\n  }\n": types.PostFragmentFragmentDoc,
-    "\n  query PostsQuery($data: PostsQueryInput!) {\n    postsQuery(data: $data) {\n      posts {\n        ...PostFragment\n      }\n      count\n    }\n  }\n": types.PostsQueryDocument,
-    "\n  fragment AdminPostFragment on Post {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    dislikesCount\n    createdAt\n    updatedAt\n    canton\n    flagged {\n      authorId\n      createdAt\n    }\n  }\n": types.AdminPostFragmentFragmentDoc,
-    "\n  query AdminPosts {\n    adminPosts {\n      posts {\n        ...AdminPostFragment\n      }\n      count\n    }\n  }\n": types.AdminPostsDocument,
-    "\n      mutation CreatePost($data: CreatePostInput!) {\n        createPost(data: $data) {\n          id\n        }\n      }\n    ": types.CreatePostDocument,
-    "\n      mutation UpdatePost($data: UpdatePostInput!) {\n        updatePost(data: $data) {\n          id\n        }\n      }\n    ": types.UpdatePostDocument,
-    "\n      mutation DeletePost($data: PostIdInput!) {\n        deletePost(data: $data) {\n          id\n        }\n      }\n    ": types.DeletePostDocument,
-    "\n  query Post($data: PostIdInput!) {\n    post(data: $data) {\n      id\n      ...PostFragment\n    }\n  }\n": types.PostDocument,
-    "\n      mutation PostAction($data: PostActionInput!) {\n        postAction(data: $data)\n      }\n    ": types.PostActionDocument,
-    "\n  fragment PostOptionFragment on Post {\n    id\n    title\n  }\n": types.PostOptionFragmentFragmentDoc,
-    "\n      query SearchPosts($data: PostsQueryInput!) {\n        postsQuery(data: $data) {\n          posts {\n            ...PostOptionFragment\n          }\n        }\n      }\n    ": types.SearchPostsDocument,
+    "\n  fragment TermFragment on Term {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    likedByMe\n    dislikesCount\n    dislikedByMe\n    flaggedByMe\n\n    createdAt\n    updatedAt\n    cantons\n  }\n": types.TermFragmentFragmentDoc,
+    "\n  query TermsQuery($data: TermsQueryInput!) {\n    termsQuery(data: $data) {\n      terms {\n        ...TermFragment\n      }\n      count\n    }\n  }\n": types.TermsQueryDocument,
+    "\n  fragment AdminTermFragment on Term {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    dislikesCount\n    createdAt\n    updatedAt\n    cantons\n    flagged {\n      authorId\n      createdAt\n    }\n  }\n": types.AdminTermFragmentFragmentDoc,
+    "\n  query AdminTerms {\n    adminTerms {\n      terms {\n        ...AdminTermFragment\n      }\n      count\n    }\n  }\n": types.AdminTermsDocument,
+    "\n      mutation CreateTerm($data: CreateTermInput!) {\n        createTerm(data: $data) {\n          id\n        }\n      }\n    ": types.CreateTermDocument,
+    "\n      mutation UpdateTerm($data: UpdateTermInput!) {\n        updateTerm(data: $data) {\n          id\n        }\n      }\n    ": types.UpdateTermDocument,
+    "\n      mutation DeleteTerm($data: TermIdInput!) {\n        deleteTerm(data: $data) {\n          id\n        }\n      }\n    ": types.DeleteTermDocument,
+    "\n  query Term($data: TermIdInput!) {\n    term(data: $data) {\n      id\n      ...TermFragment\n    }\n  }\n": types.TermDocument,
+    "\n      mutation TermAction($data: TermActionInput!) {\n        termAction(data: $data)\n      }\n    ": types.TermActionDocument,
+    "\n  fragment TermOptionFragment on Term {\n    id\n    title\n  }\n": types.TermOptionFragmentFragmentDoc,
+    "\n      query SearchTerm($data: TermsQueryInput!) {\n        termsQuery(data: $data) {\n          terms {\n            ...TermOptionFragment\n          }\n        }\n      }\n    ": types.SearchTermDocument,
 };
 
 /**
@@ -47,7 +47,7 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  fragment MeFragment on User {\n    id\n    email\n    name\n    role\n    image\n    bio\n    country\n    canton\n    likesCount\n    dislikesCount\n    posts {\n      id\n      title\n    }\n    myPublishedPostsCount\n    myUnpublishedPostsCount\n  }\n"): (typeof documents)["\n  fragment MeFragment on User {\n    id\n    email\n    name\n    role\n    image\n    bio\n    country\n    canton\n    likesCount\n    dislikesCount\n    posts {\n      id\n      title\n    }\n    myPublishedPostsCount\n    myUnpublishedPostsCount\n  }\n"];
+export function graphql(source: "\n  fragment MeFragment on User {\n    id\n    email\n    name\n    role\n    image\n    bio\n    country\n    canton\n    likesCount\n    dislikesCount\n    terms {\n      id\n      title\n    }\n    myPublishedTermsCount\n    myUnpublishedTermsCount\n  }\n"): (typeof documents)["\n  fragment MeFragment on User {\n    id\n    email\n    name\n    role\n    image\n    bio\n    country\n    canton\n    likesCount\n    dislikesCount\n    terms {\n      id\n      title\n    }\n    myPublishedTermsCount\n    myUnpublishedTermsCount\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -63,47 +63,47 @@ export function graphql(source: "\n      mutation ChangeUserRole($userId: String
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  fragment PostFragment on Post {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    likedByMe\n    dislikesCount\n    dislikedByMe\n    flaggedByMe\n\n    createdAt\n    updatedAt\n    canton\n  }\n"): (typeof documents)["\n  fragment PostFragment on Post {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    likedByMe\n    dislikesCount\n    dislikedByMe\n    flaggedByMe\n\n    createdAt\n    updatedAt\n    canton\n  }\n"];
+export function graphql(source: "\n  fragment TermFragment on Term {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    likedByMe\n    dislikesCount\n    dislikedByMe\n    flaggedByMe\n\n    createdAt\n    updatedAt\n    cantons\n  }\n"): (typeof documents)["\n  fragment TermFragment on Term {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    likedByMe\n    dislikesCount\n    dislikedByMe\n    flaggedByMe\n\n    createdAt\n    updatedAt\n    cantons\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query PostsQuery($data: PostsQueryInput!) {\n    postsQuery(data: $data) {\n      posts {\n        ...PostFragment\n      }\n      count\n    }\n  }\n"): (typeof documents)["\n  query PostsQuery($data: PostsQueryInput!) {\n    postsQuery(data: $data) {\n      posts {\n        ...PostFragment\n      }\n      count\n    }\n  }\n"];
+export function graphql(source: "\n  query TermsQuery($data: TermsQueryInput!) {\n    termsQuery(data: $data) {\n      terms {\n        ...TermFragment\n      }\n      count\n    }\n  }\n"): (typeof documents)["\n  query TermsQuery($data: TermsQueryInput!) {\n    termsQuery(data: $data) {\n      terms {\n        ...TermFragment\n      }\n      count\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  fragment AdminPostFragment on Post {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    dislikesCount\n    createdAt\n    updatedAt\n    canton\n    flagged {\n      authorId\n      createdAt\n    }\n  }\n"): (typeof documents)["\n  fragment AdminPostFragment on Post {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    dislikesCount\n    createdAt\n    updatedAt\n    canton\n    flagged {\n      authorId\n      createdAt\n    }\n  }\n"];
+export function graphql(source: "\n  fragment AdminTermFragment on Term {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    dislikesCount\n    createdAt\n    updatedAt\n    cantons\n    flagged {\n      authorId\n      createdAt\n    }\n  }\n"): (typeof documents)["\n  fragment AdminTermFragment on Term {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    dislikesCount\n    createdAt\n    updatedAt\n    cantons\n    flagged {\n      authorId\n      createdAt\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query AdminPosts {\n    adminPosts {\n      posts {\n        ...AdminPostFragment\n      }\n      count\n    }\n  }\n"): (typeof documents)["\n  query AdminPosts {\n    adminPosts {\n      posts {\n        ...AdminPostFragment\n      }\n      count\n    }\n  }\n"];
+export function graphql(source: "\n  query AdminTerms {\n    adminTerms {\n      terms {\n        ...AdminTermFragment\n      }\n      count\n    }\n  }\n"): (typeof documents)["\n  query AdminTerms {\n    adminTerms {\n      terms {\n        ...AdminTermFragment\n      }\n      count\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n      mutation CreatePost($data: CreatePostInput!) {\n        createPost(data: $data) {\n          id\n        }\n      }\n    "): (typeof documents)["\n      mutation CreatePost($data: CreatePostInput!) {\n        createPost(data: $data) {\n          id\n        }\n      }\n    "];
+export function graphql(source: "\n      mutation CreateTerm($data: CreateTermInput!) {\n        createTerm(data: $data) {\n          id\n        }\n      }\n    "): (typeof documents)["\n      mutation CreateTerm($data: CreateTermInput!) {\n        createTerm(data: $data) {\n          id\n        }\n      }\n    "];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n      mutation UpdatePost($data: UpdatePostInput!) {\n        updatePost(data: $data) {\n          id\n        }\n      }\n    "): (typeof documents)["\n      mutation UpdatePost($data: UpdatePostInput!) {\n        updatePost(data: $data) {\n          id\n        }\n      }\n    "];
+export function graphql(source: "\n      mutation UpdateTerm($data: UpdateTermInput!) {\n        updateTerm(data: $data) {\n          id\n        }\n      }\n    "): (typeof documents)["\n      mutation UpdateTerm($data: UpdateTermInput!) {\n        updateTerm(data: $data) {\n          id\n        }\n      }\n    "];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n      mutation DeletePost($data: PostIdInput!) {\n        deletePost(data: $data) {\n          id\n        }\n      }\n    "): (typeof documents)["\n      mutation DeletePost($data: PostIdInput!) {\n        deletePost(data: $data) {\n          id\n        }\n      }\n    "];
+export function graphql(source: "\n      mutation DeleteTerm($data: TermIdInput!) {\n        deleteTerm(data: $data) {\n          id\n        }\n      }\n    "): (typeof documents)["\n      mutation DeleteTerm($data: TermIdInput!) {\n        deleteTerm(data: $data) {\n          id\n        }\n      }\n    "];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query Post($data: PostIdInput!) {\n    post(data: $data) {\n      id\n      ...PostFragment\n    }\n  }\n"): (typeof documents)["\n  query Post($data: PostIdInput!) {\n    post(data: $data) {\n      id\n      ...PostFragment\n    }\n  }\n"];
+export function graphql(source: "\n  query Term($data: TermIdInput!) {\n    term(data: $data) {\n      id\n      ...TermFragment\n    }\n  }\n"): (typeof documents)["\n  query Term($data: TermIdInput!) {\n    term(data: $data) {\n      id\n      ...TermFragment\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n      mutation PostAction($data: PostActionInput!) {\n        postAction(data: $data)\n      }\n    "): (typeof documents)["\n      mutation PostAction($data: PostActionInput!) {\n        postAction(data: $data)\n      }\n    "];
+export function graphql(source: "\n      mutation TermAction($data: TermActionInput!) {\n        termAction(data: $data)\n      }\n    "): (typeof documents)["\n      mutation TermAction($data: TermActionInput!) {\n        termAction(data: $data)\n      }\n    "];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  fragment PostOptionFragment on Post {\n    id\n    title\n  }\n"): (typeof documents)["\n  fragment PostOptionFragment on Post {\n    id\n    title\n  }\n"];
+export function graphql(source: "\n  fragment TermOptionFragment on Term {\n    id\n    title\n  }\n"): (typeof documents)["\n  fragment TermOptionFragment on Term {\n    id\n    title\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n      query SearchPosts($data: PostsQueryInput!) {\n        postsQuery(data: $data) {\n          posts {\n            ...PostOptionFragment\n          }\n        }\n      }\n    "): (typeof documents)["\n      query SearchPosts($data: PostsQueryInput!) {\n        postsQuery(data: $data) {\n          posts {\n            ...PostOptionFragment\n          }\n        }\n      }\n    "];
+export function graphql(source: "\n      query SearchTerm($data: TermsQueryInput!) {\n        termsQuery(data: $data) {\n          terms {\n            ...TermOptionFragment\n          }\n        }\n      }\n    "): (typeof documents)["\n      query SearchTerm($data: TermsQueryInput!) {\n        termsQuery(data: $data) {\n          terms {\n            ...TermOptionFragment\n          }\n        }\n      }\n    "];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

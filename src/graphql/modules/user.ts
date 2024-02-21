@@ -23,7 +23,7 @@ builder.prismaObject("User", {
     bio: t.exposeString("bio", { nullable: true }),
     image: t.exposeString("image", { nullable: true }),
     role: t.expose("role", { type: "Role" }),
-    posts: t.relation("posts"),
+    terms: t.relation("terms"),
     likes: t.relation("likes"),
     likesCount: t.int({
       resolve: ({ id }) => prisma.like.count({ where: { authorId: id } }),
@@ -34,13 +34,13 @@ builder.prismaObject("User", {
     }),
     country: t.exposeString("country", { nullable: true }),
     canton: t.exposeString("canton", { nullable: true }),
-    myPublishedPostsCount: t.int({
+    myPublishedTermsCount: t.int({
       resolve: (parent) =>
-        prisma.post.count({ where: { authorId: parent.id, published: true } }),
+        prisma.term.count({ where: { authorId: parent.id, published: true } }),
     }),
-    myUnpublishedPostsCount: t.int({
+    myUnpublishedTermsCount: t.int({
       resolve: async (parent) =>
-        prisma.post.count({ where: { authorId: parent.id, published: false } }),
+        prisma.term.count({ where: { authorId: parent.id, published: false } }),
     }),
     flags: t.relation("flags"),
   }),

@@ -11,12 +11,12 @@ import type { ParsedUrlQuery } from "querystring"
 const MyProfile = dynamic(() => import("@/features/Auth/profile"), {
   ssr: false,
 })
-const PostsTable = dynamic(() => import("@/features/Auth/postTable"), {
+const TermsAdmin = dynamic(() => import("@/features/Auth/termsAdmin"), {
   ssr: false,
 })
 
 type Query = ParsedUrlQuery & {
-  view?: "posts" | "users"
+  view?: "terms" | "users"
 }
 
 const ProfilePage: NextPage = () => {
@@ -29,8 +29,8 @@ const ProfilePage: NextPage = () => {
   return (
     <Layout>
       {me ? (
-        query.view === "posts" ? (
-          <PostsTable me={me} />
+        query.view === "terms" ? (
+          <TermsAdmin />
         ) : query.view === "users" && isAdmin ? (
           <h1>Users: {query.users}</h1>
         ) : (

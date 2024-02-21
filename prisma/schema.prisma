@@ -15,42 +15,42 @@ generator pothos {
 }
 
 model Like {
-    post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
-    postId    String
+    term      Term      @relation(fields: [termId], references: [id], onDelete: Cascade)
+    termId    String
     author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
     authorId  String
     createdAt DateTime  @default(now())
     updatedAt DateTime? @updatedAt
 
-    @@id([postId, authorId])
-    @@unique([postId, authorId])
+    @@id([termId, authorId])
+    @@unique([termId, authorId])
 }
 
 model Dislike {
-    post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
-    postId    String
+    term      Term      @relation(fields: [termId], references: [id], onDelete: Cascade)
+    termId    String
     author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
     authorId  String
     createdAt DateTime  @default(now())
     updatedAt DateTime? @updatedAt
 
-    @@id([postId, authorId])
-    @@unique([postId, authorId])
+    @@id([termId, authorId])
+    @@unique([termId, authorId])
 }
 
 model Flag {
-    post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
-    postId    String
+    term      Term      @relation(fields: [termId], references: [id], onDelete: Cascade)
+    termId    String
     author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
     authorId  String
     createdAt DateTime  @default(now())
     updatedAt DateTime? @updatedAt
 
-    @@id([postId, authorId])
-    @@unique([postId, authorId])
+    @@id([termId, authorId])
+    @@unique([termId, authorId])
 }
 
-model Post {
+model Term {
     id        String    @id @default(cuid())
     title     String
     content   String?
@@ -63,7 +63,7 @@ model Post {
     createdAt DateTime  @default(now())
     updatedAt DateTime? @updatedAt
     flagged   Flag[]
-    canton    String?
+    cantons    String[]
 }
 
 model Account {
@@ -109,7 +109,7 @@ model User {
     password      String?
     image         String?
     bio           String?
-    posts         Post[]
+    terms         Term[]
     accounts      Account[]
     sessions      Session[]
     role          Role      @default(USER)

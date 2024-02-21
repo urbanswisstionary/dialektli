@@ -8,7 +8,7 @@ import ImageInput from "./components/imageInput"
 import NameInput from "./components/nameInput"
 import EmailInput from "./components/emailInput"
 import BioInput from "./components/bioInput"
-import SelectLocation from "@/ui/selectLocation"
+import SelectSingleLocation from "@/ui/selectLocation/selectSingleLocation"
 import Card from "@/ui/Card"
 
 type EditProfileState = {
@@ -98,7 +98,7 @@ const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
             }}
             disabled
           />
-          <SelectLocation
+          <SelectSingleLocation
             id="country"
             mode="country"
             label="Country"
@@ -111,7 +111,7 @@ const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
           />
           {(me.country === "CH" && editProfileState.country === undefined) || // render canton select element if me.country is "CH" profile does not have a "country" key at all
           editProfileState.country === "CH" ? (
-            <SelectLocation
+            <SelectSingleLocation
               id="canton"
               mode="canton"
               label="Canton"

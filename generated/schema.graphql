@@ -1,6 +1,6 @@
-input CreatePostInput {
+input CreateTermInput {
   authorId: String
-  canton: String
+  cantons: [String!]
   content: String
   examples: [String!]
   title: String!
@@ -24,16 +24,16 @@ type Dislike {
   author: User!
   authorId: ID!
   createdAt: DateTime!
-  post: Post!
-  postId: ID!
+  term: Term!
+  termId: ID!
 }
 
 type Flag {
   author: User!
   authorId: ID!
   createdAt: DateTime!
-  post: Post!
-  postId: ID!
+  term: Term!
+  termId: ID!
 }
 
 """
@@ -45,24 +45,38 @@ type Like {
   author: User!
   authorId: ID!
   createdAt: DateTime!
-  post: Post!
-  postId: ID!
+  term: Term!
+  termId: ID!
 }
 
 type Mutation {
   changeUserRole(role: Role!, userId: String!): User
-  createPost(data: CreatePostInput!): Post
+  createTerm(data: CreateTermInput!): Term
   createUser(data: CreateUserInput!): User
-  deletePost(data: PostIdInput!): Post
+  deleteTerm(data: TermIdInput!): Term
   deleteUser(data: UserIdInput!): User
-  postAction(data: PostActionInput!): Boolean!
-  updatePost(data: UpdatePostInput!): Post
+  termAction(data: TermActionInput!): Boolean!
+  updateTerm(data: UpdateTermInput!): Term
   updateUser(data: UpdateUserInput!): User
 }
 
-type Post {
+type Query {
+  adminTerms: TermsWithCount
+  me: User!
+  term(data: TermIdInput!): Term
+  termsQuery(data: TermsQueryInput!): TermsWithCount
+  user(email: String!): User!
+  users: [User!]!
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+type Term {
   author: User!
-  canton: String
+  cantons: [String!]!
   content: String
   createdAt: DateTime!
   dislikedByMe: Boolean!
@@ -80,18 +94,18 @@ type Post {
   updatedAt: DateTime
 }
 
-input PostActionInput {
+input TermActionInput {
   dislike: Boolean
   flag: Boolean
   like: Boolean
-  postId: String!
+  termId: String!
 }
 
-input PostIdInput {
-  postId: String!
+input TermIdInput {
+  termId: String!
 }
 
-input PostsQueryInput {
+input TermsQueryInput {
   canton: String
   firstChar: String
   limit: Int
@@ -100,27 +114,13 @@ input PostsQueryInput {
   slug: String
 }
 
-type PostsWithCount {
+type TermsWithCount {
   count: Int!
-  posts: [Post!]!
+  terms: [Term!]!
 }
 
-type Query {
-  adminPosts: PostsWithCount
-  me: User!
-  post(data: PostIdInput!): Post
-  postsQuery(data: PostsQueryInput!): PostsWithCount
-  user(email: String!): User!
-  users: [User!]!
-}
-
-enum Role {
-  ADMIN
-  USER
-}
-
-input UpdatePostInput {
-  canton: String
+input UpdateTermInput {
+  cantons: [String!]
   content: String
   examples: [String!]
   id: String!
@@ -150,11 +150,11 @@ type User {
   image: String
   likes: [Like!]!
   likesCount: Int!
-  myPublishedPostsCount: Int!
-  myUnpublishedPostsCount: Int!
+  myPublishedTermsCount: Int!
+  myUnpublishedTermsCount: Int!
   name: String
-  posts: [Post!]!
   role: Role!
+  terms: [Term!]!
 }
 
 input UserIdInput {
