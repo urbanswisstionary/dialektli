@@ -26,7 +26,6 @@ const documents = {
     "\n      mutation DeletePost($data: PostIdInput!) {\n        deletePost(data: $data) {\n          id\n        }\n      }\n    ": types.DeletePostDocument,
     "\n  query Post($data: PostIdInput!) {\n    post(data: $data) {\n      id\n      ...PostFragment\n    }\n  }\n": types.PostDocument,
     "\n      mutation PostAction($data: PostActionInput!) {\n        postAction(data: $data)\n      }\n    ": types.PostActionDocument,
-    "\n  query EditPostQuery($id: String!) {\n    post(data: { postId: $id }) {\n      id\n      ...PostFragment\n    }\n  }\n": types.EditPostQueryDocument,
     "\n  fragment PostOptionFragment on Post {\n    id\n    title\n  }\n": types.PostOptionFragmentFragmentDoc,
     "\n      query SearchPosts($data: PostsQueryInput!) {\n        postsQuery(data: $data) {\n          posts {\n            ...PostOptionFragment\n          }\n        }\n      }\n    ": types.SearchPostsDocument,
 };
@@ -97,10 +96,6 @@ export function graphql(source: "\n  query Post($data: PostIdInput!) {\n    post
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n      mutation PostAction($data: PostActionInput!) {\n        postAction(data: $data)\n      }\n    "): (typeof documents)["\n      mutation PostAction($data: PostActionInput!) {\n        postAction(data: $data)\n      }\n    "];
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "\n  query EditPostQuery($id: String!) {\n    post(data: { postId: $id }) {\n      id\n      ...PostFragment\n    }\n  }\n"): (typeof documents)["\n  query EditPostQuery($id: String!) {\n    post(data: { postId: $id }) {\n      id\n      ...PostFragment\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
