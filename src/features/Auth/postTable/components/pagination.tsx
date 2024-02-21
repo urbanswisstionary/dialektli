@@ -1,27 +1,27 @@
 import { FC } from "react"
-import Pagination from "@mui/material/Pagination"
+import MuiPagination from "@mui/material/Pagination"
 import Box from "@mui/joy/Box"
 import Select from "@mui/joy/Select"
 import Option from "@mui/joy/Option"
 import useMediaQuery from "@mui/material/useMediaQuery"
 import { useTheme } from "@mui/joy"
 
-type TablePaginationProps = {
-  totalPages?: number
-  currentPage?: number
-  onChange?: (_page: number) => void
-  itemsPerPage?: number
-  onItemsPerPageChange?: (_itemsPerPage: number) => void
+export type PaginationProps = {
+  pageIndex?: number
+  pageCount?: number
+  onPageChange?: (_page: number) => void
+  pageSize?: number
+  onPageSizeChange?: (_itemsPerPage: number) => void
 }
 
-const itemsPerPageOptions = [10, 20, 50]
+const pageSizeOptions = [10, 20, 50]
 
-const TablePagination: FC<TablePaginationProps> = ({
-  totalPages = 1,
-  currentPage = 1,
-  onChange,
-  itemsPerPage,
-  onItemsPerPageChange,
+const Pagination: FC<PaginationProps> = ({
+  pageCount = 1,
+  pageIndex = 1,
+  onPageChange,
+  pageSize,
+  onPageSizeChange,
 }) => {
   const moreThanSm = useMediaQuery(useTheme().breakpoints.up("sm"))
 
@@ -33,19 +33,19 @@ const TablePagination: FC<TablePaginationProps> = ({
         overflow: "hidden",
       }}
     >
-      <Pagination
-        count={totalPages}
+      <MuiPagination
+        count={pageCount}
         shape="rounded"
         variant="outlined"
         boundaryCount={moreThanSm ? 1 : 0}
-        page={currentPage}
+        page={pageIndex}
         onChange={(_event, value) => {
-          if (onChange) onChange(value)
+          if (onPageChange) onPageChange(value)
         }}
         showFirstButton
         showLastButton
         siblingCount={moreThanSm ? 1 : 0}
-        disabled={totalPages <= 1}
+        disabled={pageCount <= 1}
         sx={{
           ".MuiPaginationItem-root": {
             borderColor: "var(--joy-palette-neutral-outlinedBorder)",
@@ -54,17 +54,17 @@ const TablePagination: FC<TablePaginationProps> = ({
           },
         }}
       />
-      {itemsPerPage ? (
+      {pageSize ? (
         <Select
           size="sm"
-          value={itemsPerPage}
+          value={pageSize}
           onChange={(_, value) => {
-            if (onItemsPerPageChange && value) onItemsPerPageChange(value)
+            if (onPageSizeChange && value) onPageSizeChange(value)
           }}
         >
-          {itemsPerPageOptions.map((item) => (
-            <Option key={item} value={item}>
-              {item}
+          {pageSizeOptions.map((pageSizeOption) => (
+            <Option key={pageSizeOption} value={pageSizeOption}>
+              {pageSizeOption}
             </Option>
           ))}
         </Select>
@@ -73,4 +73,4 @@ const TablePagination: FC<TablePaginationProps> = ({
   )
 }
 
-export default TablePagination
+export default Pagination

@@ -12,10 +12,20 @@ const SelectLocation: FC<
     value: string | null | undefined
     onChange: (_locationCode: string | null) => void
     mode: "canton" | "country"
+    placeholder?: string
     helperText?: string
-    label?: string | false
+    label?: string
   }
-> = ({ value, onChange, mode, label, helperText, sx, ...props }) => {
+> = ({
+  value,
+  onChange,
+  mode,
+  label,
+  helperText,
+  placeholder,
+  sx,
+  ...props
+}) => {
   const options = useMemo(() => getOptions(mode), [mode])
   const valueIndex = useMemo(
     () => options.findIndex((c) => c.code === value),
@@ -25,18 +35,17 @@ const SelectLocation: FC<
   return (
     <div>
       <FormControl
-        {...props}
         sx={[
           { display: { sm: "contents" } },
           ...(Array.isArray(sx) ? sx : [sx]),
         ]}
+        {...props}
       >
-        {label !== false ? (
-          <FormLabel sx={{ textTransform: "capitalize" }}>
-            {label ?? mode}
-          </FormLabel>
+        {label ? (
+          <FormLabel>{label}</FormLabel>
         ) : null}
         <Autocomplete
+          placeholder={placeholder ?? `Select a ${mode}`}
           size="sm"
           autoHighlight
           isOptionEqualToValue={(option, value) => option.code === value?.code}
@@ -57,7 +66,7 @@ const SelectLocation: FC<
             value ? <Flag mode={mode} code={value.toLowerCase()} /> : null
           }
         />
-        <FormHelperText>{helperText}</FormHelperText>
+        {helperText ? <FormHelperText>{helperText}</FormHelperText> : null}
       </FormControl>
     </div>
   )

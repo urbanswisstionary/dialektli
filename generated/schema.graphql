@@ -91,6 +91,15 @@ input PostIdInput {
   postId: String!
 }
 
+input PostsQueryInput {
+  canton: String
+  firstChar: String
+  limit: Int
+  offset: Int
+  q: String
+  slug: String
+}
+
 type PostsWithCount {
   count: Int!
   posts: [Post!]!
@@ -100,7 +109,7 @@ type Query {
   adminPosts: PostsWithCount
   me: User!
   post(data: PostIdInput!): Post
-  posts(canton: String, firstChar: String, limit: Int, offset: Int, q: String): PostsWithCount
+  postsQuery(data: PostsQueryInput!): PostsWithCount
   user(email: String!): User!
   users: [User!]!
 }

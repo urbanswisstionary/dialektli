@@ -126,6 +126,7 @@ const NewPostForm: FC<{ authorId?: string }> = ({ authorId }) => {
           <SelectLocation
             id="canton"
             mode="canton"
+            label="Canton"
             value={query.canton}
             onChange={(canton) => {
               onValueChange("canton", canton)

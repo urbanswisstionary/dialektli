@@ -95,6 +95,17 @@ const PostsWithCountType = builder.simpleObject("PostsWithCount", {
   }),
 })
 
+const PostsQueryInput = builder.inputType("PostsQueryInput", {
+  fields: (t) => ({
+    q: t.string(),
+    offset: t.int(),
+    limit: t.int(),
+    canton: t.string(),
+    firstChar: t.string(),
+    slug: t.string(),
+  }),
+})
+
 builder.queryFields((t) => ({
   post: t.prismaField({
     type: "Post",
@@ -103,30 +114,28 @@ builder.queryFields((t) => ({
     args: {
       data: t.arg({ type: PostIdInput, required: true }),
     },
-    resolve: async (query, _root, { data: { postId } }, _ctx, _info) => {
-      if (!postId) return null
-      return prisma.post.findFirstOrThrow({
-        ...query,
-        where: { id: postId },
-      })
-    },
+    resolve: async (query, _root, { data: { postId } }, _ctx, _info) =>
+      prisma.post.findUnique({ ...query, where: { id: postId } }),
   }),
-  posts: t.field({
+  postsQuery: t.field({
     type: PostsWithCountType,
     shield: allow,
     nullable: true,
-    args: {
-      q: t.arg.string(),
-      offset: t.arg.int(),
-      limit: t.arg.int(),
-      canton: t.arg.string(),
-      firstChar: t.arg.string(),
-    },
-    resolve: async (_root, { q, offset, limit, canton, firstChar }) => {
+    args: { data: t.arg({ type: PostsQueryInput, required: true }) },
+    resolve: async (_root, { data }) => {
+      const { q, offset, limit, canton, firstChar, slug } = data
       const postsWhere: Prisma.PostFindManyArgs = {
         where: {
           AND: [
-            { published: true },
+            {
+              published: true,
+              canton: canton ? { equals: canton } : undefined,
+              title: slug
+                ? { contains: slug, mode: "insensitive" }
+                : firstChar
+                  ? { startsWith: firstChar, mode: "insensitive" }
+                  : undefined,
+            },
             {
               OR: [
                 { title: q ? { contains: q, mode: "insensitive" } : undefined },
@@ -135,10 +144,6 @@ builder.queryFields((t) => ({
                 },
               ],
             },
-            canton ? { canton: { equals: canton } } : {},
-            firstChar
-              ? { title: { startsWith: firstChar, mode: "insensitive" } }
-              : {},
           ],
         },
       }
@@ -180,6 +185,7 @@ builder.queryFields((t) => ({
 
         return { posts, count }
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error(error)
       }
     },
@@ -253,6 +259,7 @@ builder.mutationFields((t) => ({
           },
         })
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error(error)
       }
     },
@@ -288,6 +295,7 @@ builder.mutationFields((t) => ({
           },
         })
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error(error)
       }
     },
@@ -315,6 +323,7 @@ builder.mutationFields((t) => ({
           where: { id: postId },
         })
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error(error)
       }
     },
@@ -411,6 +420,7 @@ builder.mutationFields((t) => ({
             return false
         }
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.log(error)
         return false
       }

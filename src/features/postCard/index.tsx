@@ -13,8 +13,8 @@ import ThumbDownTwoToneIcon from "@mui/icons-material/ThumbDownTwoTone"
 import FlagIcon from "@mui/icons-material/Flag"
 import FlagTwoToneIcon from "@mui/icons-material/FlagTwoTone"
 import { PostFragmentFragment } from "@@/generated/graphql"
-import PostCardActionButton from "./components/actionButton"
-import PostCardExample from "./components/examples"
+import PostCardActionButton from "./postCardActionButton"
+import PostCardExample from "./postCardExamplesList"
 import Flag from "@/ui/Flag"
 
 type PostCardProps = {

@@ -9,7 +9,7 @@ import FormControl, { FormControlProps } from "@mui/joy/FormControl"
 type SelectLetterProps = Omit<FormControlProps, "value" | "onChange"> & {
   value?: string
   onChange?: (_value: string) => void
-  label?: string | false
+  label?: string
   helperText?: string
 }
 
@@ -21,11 +21,7 @@ const SelectLetter: FC<SelectLetterProps> = ({
   ...props
 }) => (
   <FormControl {...props}>
-    {label !== false ? (
-      <FormLabel sx={{ textTransform: "capitalize" }}>
-        {label ?? "Select Letter"}
-      </FormLabel>
-    ) : null}
+    {label ? <FormLabel>{label}</FormLabel> : null}
     <Grid container direction="row" justifyContent="flex-start" spacing={0.5}>
       {allLetters.map((letter, i) => (
         <Grid key={i}>
@@ -33,27 +29,39 @@ const SelectLetter: FC<SelectLetterProps> = ({
             onClick={() => {
               if (onChange) onChange(letter)
             }}
-            sx={{
-              py: 1,
-              px: 2,
-              alignItems: "center",
-              width: "4ch",
-              backgroundColor:
-                value?.toUpperCase() === letter
-                  ? "background.level1"
-                  : "inherit",
-              ":hover": {
-                cursor: "pointer",
-                backgroundColor: "background.level2",
+            sx={[
+              {
+                py: 1,
+                px: 2,
+                alignItems: "center",
+                width: "4ch",
+                backgroundColor:
+                  value?.toUpperCase() === letter
+                    ? "background.level1"
+                    : "inherit",
+                boxShadow:
+                  "var(--joy-shadowRing, 0 0 #000),0px 1px 2px 0px rgba(var(--joy-shadowChannel, 21 21 21) / var(--joy-shadowOpacity, 0.08))",
+                boxSizing: "border-box",
+                ":hover": {
+                  cursor: "pointer",
+                  backgroundColor: "background.level2",
+                },
               },
-            }}
+              props.disabled
+                ? {
+                    pointerEvents: "none",
+                    backgroundColor: "background.level1",
+                    opacity: 0.5,
+                  }
+                : {},
+            ]}
           >
             {letter}
           </Card>
         </Grid>
       ))}
     </Grid>
-    <FormHelperText>{helperText}</FormHelperText>
+    {helperText ? <FormHelperText>{helperText}</FormHelperText> : null}
   </FormControl>
 )
 

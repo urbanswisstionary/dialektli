@@ -1,5 +1,9 @@
 import { graphql } from "@@/generated"
-import { CreatePostInput, UpdatePostInput } from "@@/generated/graphql"
+import {
+  CreatePostInput,
+  PostsQueryInput,
+  UpdatePostInput,
+} from "@@/generated/graphql"
 import { useMutation, useQuery } from "@apollo/client"
 
 export const PostFragment = graphql(/* GraphQL */ `
@@ -27,20 +31,8 @@ export const PostFragment = graphql(/* GraphQL */ `
 `)
 
 const PostsQuery = graphql(/* GraphQL */ `
-  query Posts(
-    $q: String
-    $offset: Int
-    $limit: Int
-    $canton: String
-    $firstChar: String
-  ) {
-    posts(
-      q: $q
-      offset: $offset
-      limit: $limit
-      canton: $canton
-      firstChar: $firstChar
-    ) {
+  query PostsQuery($data: PostsQueryInput!) {
+    postsQuery(data: $data) {
       posts {
         ...PostFragment
       }
@@ -49,13 +41,8 @@ const PostsQuery = graphql(/* GraphQL */ `
   }
 `)
 
-export const usePostsQuery = (variables: {
-  q?: string
-  offset?: number
-  limit?: number
-  canton?: string | null
-  firstChar?: string
-}) => useQuery(PostsQuery, { variables })
+export const usePostsQuery = (data: PostsQueryInput) =>
+  useQuery(PostsQuery, { variables: { data } })
 
 export const AdminPostFragment = graphql(/* GraphQL */ `
   fragment AdminPostFragment on Post {
@@ -103,20 +90,6 @@ export const useCreatePostMutation = () => {
         }
       }
     `),
-    {
-      // awaitRefetchQueries: true,
-      // refetchQueries: () => [{ query: PostsQuery }, { query: AdminPostsQuery }],
-      // update: (cache, { data }) => {
-      //   if (data?.createPost) {
-      //     cache.modify({
-      //       fields: {
-      //         posts: (_existingPosts = []) => {},
-      //         adminPosts: (_existingPosts = []) => {},
-      //       },
-      //     })
-      //   }
-      // },
-    },
   )
 
   return {

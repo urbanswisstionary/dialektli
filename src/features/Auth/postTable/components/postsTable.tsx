@@ -21,7 +21,7 @@ import {
 import type { AdminPostFragmentFragment } from "@@/generated/graphql"
 
 import Divider from "@mui/joy/Divider"
-import TablePagination from "./pagination"
+import Pagination from "./pagination"
 
 import DebouncedInput from "./debouncedInput"
 import TableHead from "./tableHeader"
@@ -229,12 +229,12 @@ const PostsTable: FC<PostsTableProps> = ({
         </List>
       </Box>
       <Divider sx={{ marginBottom: "2rem" }} />
-      <TablePagination
-        currentPage={table.getState().pagination.pageIndex + 1}
-        totalPages={table.getPageCount()}
-        onChange={(page) => table.setPageIndex(page - 1)}
-        itemsPerPage={table.getState().pagination.pageSize}
-        onItemsPerPageChange={table.setPageSize}
+      <Pagination
+        pageIndex={table.getState().pagination.pageIndex + 1}
+        pageCount={table.getPageCount()}
+        onPageChange={(page) => table.setPageIndex(page - 1)}
+        pageSize={table.getState().pagination.pageSize}
+        onPageSizeChange={table.setPageSize}
       />
     </Sheet>
   )

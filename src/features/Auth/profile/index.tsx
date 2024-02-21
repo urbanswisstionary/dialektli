@@ -101,6 +101,7 @@ const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
           <SelectLocation
             id="country"
             mode="country"
+            label="Country"
             value={
               editProfileState.country !== undefined
                 ? editProfileState.country
@@ -113,6 +114,7 @@ const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
             <SelectLocation
               id="canton"
               mode="canton"
+              label="Canton"
               value={
                 editProfileState.canton !== undefined
                   ? editProfileState.canton

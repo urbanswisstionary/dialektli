@@ -1,6 +1,8 @@
 import { useState, type FC } from "react"
 import Autocomplete from "@mui/joy/Autocomplete"
 import FormControl, { FormControlProps } from "@mui/joy/FormControl"
+import FormLabel from "@mui/joy/FormLabel"
+import FormHelperText from "@mui/joy/FormHelperText"
 import { useRouter } from "next/router"
 import Search from "@mui/icons-material/Search"
 import { setQueryOnPage } from "@/utils/setQueryOnPage"
@@ -21,18 +23,27 @@ const PostOptionFragment = graphql(/* GraphQL */ `
 const useSearchPostsQuery = (q: string, skip?: boolean) =>
   useQuery(
     graphql(/* GraphQL */ `
-      query SearchPosts($q: String) {
-        posts(q: $q) {
+      query SearchPosts($data: PostsQueryInput!) {
+        postsQuery(data: $data) {
           posts {
             ...PostOptionFragment
           }
         }
       }
     `),
-    { variables: { q }, skip },
+    { variables: { data: { q } }, skip },
   )
 
-const SearchPostsInput: FC<FormControlProps> = (formControlProps) => {
+type SearchPostsInputProps = Omit<FormControlProps, "value" | "onChange"> & {
+  label?: string
+  helperText?: string
+}
+
+const SearchPostsInput: FC<SearchPostsInputProps> = ({
+  label,
+  helperText,
+  ...props
+}) => {
   const router = useRouter()
   const query = router.query as Query
   const { data, previousData } = useSearchPostsQuery(
@@ -44,11 +55,12 @@ const SearchPostsInput: FC<FormControlProps> = (formControlProps) => {
   const options =
     getFragmentData(
       PostOptionFragment,
-      data?.posts?.posts ?? previousData?.posts?.posts,
+      data?.postsQuery?.posts ?? previousData?.postsQuery?.posts,
     ) ?? []
 
   return (
-    <FormControl {...formControlProps} id="searchPosts">
+    <FormControl {...props} id="searchPosts" size="sm">
+      {label ? <FormLabel>{label}</FormLabel> : null}
       <Autocomplete
         placeholder="Search"
         options={selectedOption ? [selectedOption] : options}
@@ -56,7 +68,7 @@ const SearchPostsInput: FC<FormControlProps> = (formControlProps) => {
         getOptionLabel={(option) => option.title}
         onChange={(_, option) => {
           setSelectedOption(option)
-          if (option?.id) router.push(`/post/${option.id}`)
+          if (option?.title) router.push(`/post/${option.title}`)
         }}
         startDecorator={<Search sx={{ padding: "2px" }} />}
         blurOnSelect
@@ -67,6 +79,7 @@ const SearchPostsInput: FC<FormControlProps> = (formControlProps) => {
           setQueryOnPage(router, { q: q.length ? q : null })
         }}
       />
+      {helperText ? <FormHelperText>{helperText}</FormHelperText> : null}
     </FormControl>
   )
 }

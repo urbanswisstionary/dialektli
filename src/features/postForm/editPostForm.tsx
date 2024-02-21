@@ -141,6 +141,7 @@ const EditPostForm: FC<{
           <SelectLocation
             id="canton"
             mode="canton"
+            label="Canton"
             value={
               editPostState.canton !== undefined
                 ? editPostState.canton
