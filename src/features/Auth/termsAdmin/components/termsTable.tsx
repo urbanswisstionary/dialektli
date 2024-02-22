@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useMemo, useState } from "react"
+import { FC, useMemo, useState } from "react"
 import Box from "@mui/joy/Box"
 import Table from "@mui/joy/Table"
 import Sheet from "@mui/joy/Sheet"
@@ -17,37 +17,37 @@ import {
   getSortedRowModel,
   ColumnDef,
 } from "@tanstack/react-table"
-
 import type { AdminTermFragmentFragment } from "@@/generated/graphql"
-
 import Divider from "@mui/joy/Divider"
 import Pagination from "./pagination"
-
 import DebouncedInput from "./debouncedInput"
 import TableHead from "./tableHeader"
 import TableBody from "./tableBody"
 import { formatDate, fuzzyFilter, fuzzySort } from "../utils/helper"
 import TermStatusChip from "../../../../ui/TermStatusChip"
-
 import List from "@mui/joy/List"
 import Typography from "@mui/joy/Typography"
-
 import TermsListItem from "./termsListItem"
 import Flag from "@/ui/Flag"
 import Stack from "@mui/joy/Stack"
 import NewTermButton from "@/ui/NewTermButton"
+import { AdminTermFragment, useAdminTermsQuery } from "@/hooks/useTerms"
+import { getFragmentData } from "@@/generated"
+import CircularProgress from "@mui/joy/CircularProgress"
 
-type TermsTableProps = {
-  terms: AdminTermFragmentFragment[]
-  globalFilter: string
-  setGlobalFilter: Dispatch<SetStateAction<string>>
-}
+const TermsTable: FC = () => {
+  const {
+    data,
+    previousData,
+    loading: loadingAdminTermsQuery,
+  } = useAdminTermsQuery()
+  const adminTerms = data?.adminTerms ?? previousData?.adminTerms
+  const terms = useMemo(
+    () => [...(getFragmentData(AdminTermFragment, adminTerms?.terms) ?? [])],
+    [adminTerms?.terms],
+  )
 
-const TermsTable: FC<TermsTableProps> = ({
-  terms,
-  globalFilter,
-  setGlobalFilter,
-}) => {
+  const [globalFilter, setGlobalFilter] = useState("")
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
   const columns = useMemo<ColumnDef<AdminTermFragmentFragment, any>[]>(
@@ -194,52 +194,63 @@ const TermsTable: FC<TermsTableProps> = ({
   const rows = useMemo(() => table.getRowModel().rows, [table.getRowModel()])
 
   return (
-    <Sheet sx={{ minHeight: 0, borderRadius: "sm", p: 2 }}>
+    <Sheet sx={{ minHeight: 0, borderRadius: "sm", px: 2 }}>
       <Stack direction="row" pb={3} gap={1}>
         <Box sx={{ flex: 1 }}>
           <DebouncedInput
             value={globalFilter ?? ""}
             onChange={(value) => setGlobalFilter(String(value))}
             placeholder="Search"
+            disabled={loadingAdminTermsQuery}
           />
         </Box>
-        <NewTermButton size="lg" />
+        <NewTermButton size="lg" disabled={loadingAdminTermsQuery} />
       </Stack>
-      <Box sx={{ display: { xs: "none", md: "block" } }}>
-        <Table
-          aria-labelledby="tableTitle"
-          stickyHeader
-          hoverRow
-          sx={{
-            "--TableRow-hoverBackground":
-              "var(--joy-palette-background-level1)",
-            "--TableCell-paddingY": "4px",
-          }}
-        >
-          <TableHead headerGroups={table.getHeaderGroups()} />
-          <TableBody rows={rows} />
-        </Table>
-      </Box>
-      <Box sx={{ display: { xs: "block", md: "none" } }}>
-        <List
-          size="sm"
-          sx={{
-            "--ListItem-paddingX": 0,
-            "> *": {
-              "&:hover": { background: "var(--joy-palette-background-level1)" },
-              ":not(:last-of-type)": {
-                borderBottom: "solid 1px",
-                borderColor: "divider",
-              },
-              ":not(:first-of-type)": { pt: 2 },
-            },
-          }}
-        >
-          {rows.map(({ original: term }) => (
-            <TermsListItem key={term.id} term={term} />
-          ))}
-        </List>
-      </Box>
+      {loadingAdminTermsQuery ? (
+        <Stack direction="row" justifyContent="center" my={5}>
+          <CircularProgress size="lg" variant="soft" />
+        </Stack>
+      ) : (
+        <>
+          <Box sx={{ display: { xs: "none", md: "block" } }}>
+            <Table
+              aria-labelledby="tableTitle"
+              stickyHeader
+              hoverRow
+              sx={{
+                "--TableRow-hoverBackground":
+                  "var(--joy-palette-background-level1)",
+                "--TableCell-paddingY": "4px",
+              }}
+            >
+              <TableHead headerGroups={table.getHeaderGroups()} />
+              <TableBody rows={rows} />
+            </Table>
+          </Box>
+          <Box sx={{ display: { xs: "block", md: "none" } }}>
+            <List
+              size="sm"
+              sx={{
+                "--ListItem-paddingX": 0,
+                "> *": {
+                  "&:hover": {
+                    background: "var(--joy-palette-background-level1)",
+                  },
+                  ":not(:last-of-type)": {
+                    borderBottom: "solid 1px",
+                    borderColor: "divider",
+                  },
+                  ":not(:first-of-type)": { pt: 2 },
+                },
+              }}
+            >
+              {rows.map(({ original: term }) => (
+                <TermsListItem key={term.id} term={term} />
+              ))}
+            </List>
+          </Box>
+        </>
+      )}
       <Divider sx={{ marginBottom: "2rem" }} />
       <Pagination
         pageIndex={table.getState().pagination.pageIndex + 1}
@@ -247,6 +258,7 @@ const TermsTable: FC<TermsTableProps> = ({
         onPageChange={(page) => table.setPageIndex(page - 1)}
         pageSize={table.getState().pagination.pageSize}
         onPageSizeChange={table.setPageSize}
+        disabled={loadingAdminTermsQuery}
       />
     </Sheet>
   )

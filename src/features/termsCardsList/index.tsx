@@ -7,17 +7,21 @@ import Pagination, {
 import { FragmentType, getFragmentData } from "@@/generated"
 import { TermFragment } from "@/hooks/useTerms"
 import { useMe } from "@/hooks/useMe"
+import CircularProgress from "@mui/joy/CircularProgress"
 
 type TermsCardsListProps = Pick<BoxProps, "sx"> & {
   paginationProps?: PaginationProps
   terms?: FragmentType<typeof TermFragment>[]
+  loading?: boolean
 }
 
-const TermsCardsList: FC<TermsCardsListProps> = ({ sx, ...props }) => {
+const TermsCardsList: FC<TermsCardsListProps> = ({ sx, loading, ...props }) => {
   const { me } = useMe()
   const terms = getFragmentData(TermFragment, props.terms) ?? []
 
-  const pagination = <Pagination {...props.paginationProps} />
+  const pagination = (
+    <Pagination disabled={loading} {...props.paginationProps} />
+  )
 
   return (
     <Box
@@ -27,7 +31,13 @@ const TermsCardsList: FC<TermsCardsListProps> = ({ sx, ...props }) => {
       ]}
     >
       {pagination}
-      {terms.length ? (
+      {loading ? (
+        <CircularProgress
+          sx={{ alignSelf: "center", my: 5 }}
+          size="lg"
+          variant="soft"
+        />
+      ) : terms.length ? (
         terms.map((term) => (
           <TermCard key={term.id} term={term} disableActions={!me} />
         ))
