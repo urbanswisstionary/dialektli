@@ -10,6 +10,7 @@ import { ParsedUrlQuery } from "querystring"
 import { useQuery } from "@apollo/client"
 import { getFragmentData, graphql } from "@@/generated"
 import { TermOptionFragmentFragment } from "@@/generated/graphql"
+import { useTranslation } from "next-i18next"
 
 type Query = ParsedUrlQuery & { q: string }
 
@@ -44,6 +45,7 @@ const SearchTermsInput: FC<SearchTermsInputProps> = ({
   helperText,
   ...props
 }) => {
+  const { t } = useTranslation("common", { keyPrefix: "searchTermsInput" })
   const router = useRouter()
   const query = router.query as Query
   const { data, previousData } = useSearchTermsQuery(
@@ -62,7 +64,7 @@ const SearchTermsInput: FC<SearchTermsInputProps> = ({
     <FormControl {...props} id="searchTerms" size="sm">
       {label ? <FormLabel>{label}</FormLabel> : null}
       <Autocomplete
-        placeholder="Search"
+        placeholder={t("search")}
         options={selectedOption ? [selectedOption] : options}
         groupBy={(option) => option.title[0]?.toUpperCase()}
         getOptionLabel={(option) => option.title}

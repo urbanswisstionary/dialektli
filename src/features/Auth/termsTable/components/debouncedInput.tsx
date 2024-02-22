@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from "react"
 import Input from "@mui/joy/Input"
 import IconButton from "@mui/joy/IconButton"
 import ClearIcon from "@mui/icons-material/Clear"
+import { useTranslation } from "next-i18next"
 
 type DebouncedInputProps = {
   value: string | number
@@ -18,6 +19,7 @@ const DebouncedInput: FC<DebouncedInputProps> = ({
   placeholder,
   disabled,
 }) => {
+  const { t } = useTranslation("common")
   const [inputState, setInputState] = useState(value)
 
   useEffect(() => {
@@ -36,7 +38,10 @@ const DebouncedInput: FC<DebouncedInputProps> = ({
       onChange={(e) => setInputState(e.target.value)}
       endDecorator={
         inputState.toString().length ? (
-          <IconButton onClick={() => setInputState("")}>
+          <IconButton
+            onClick={() => setInputState("")}
+            title={t("actions.clear")}
+          >
             <ClearIcon />
           </IconButton>
         ) : null

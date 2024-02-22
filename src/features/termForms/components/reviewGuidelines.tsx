@@ -1,42 +1,52 @@
 import type { FC } from "react"
 import Card from "@/ui/Card"
 import Typography from "@mui/joy/Typography"
-import Link from "next/link"
+import NextLink from "next/link"
 import JoyLink from "@mui/joy/Link"
 import Grid from "@mui/joy/Grid"
 import GuidelinesList from "@/ui/GuidelineList"
+import { useTranslation, Trans } from "next-i18next"
 
-const dos = [
-  { title: "Share definitions that other people will find meaningful" },
-]
-const donts = [
-  { title: "never post hate speech" },
-  { title: "never post people’s personal information." },
-]
+const ReviewGuidelines: FC = () => {
+  const { t } = useTranslation("common", { keyPrefix: "term.reviewGuidelines" })
 
-const ReviewGuidelines: FC = () => (
-  <Card sx={{ paddingBlock: 0 }}>
-    <Typography level="title-sm">
-      Please review our{" "}
-      <Link legacyBehavior href="guidelines" passHref>
-        <JoyLink>content guidelines</JoyLink>
-      </Link>{" "}
-      before writing your definition.
-    </Typography>
-    <Typography level="title-sm">Here's the short version:</Typography>
-    <Grid
-      container
-      spacing={2}
-      sx={{ marginTop: "0 !important", justifyContent: "space-evenly" }}
-    >
-      <Grid xs={12} sm={6}>
-        <GuidelinesList mode="dos" guiedlines={dos} />
+  return (
+    <Card sx={{ paddingBlock: 0 }}>
+      <Typography level="title-sm">
+        <Trans
+          i18nKey="pleaseReviewContentGuidelines"
+          t={t}
+          components={[
+            <JoyLink
+              key="link"
+              component={NextLink}
+              href="guidelines"
+              target="_blank"
+            />,
+          ]}
+        />
+      </Typography>
+      <Typography level="title-sm">{t("shortVersion.title")}</Typography>
+      <Grid
+        container
+        spacing={2}
+        sx={{ marginTop: "0 !important", justifyContent: "space-evenly" }}
+      >
+        <Grid xs={12} sm={6}>
+          <GuidelinesList
+            mode="dos"
+            guiedlines={t("shortVersion.dos", { returnObjects: true })}
+          />
+        </Grid>
+        <Grid xs={12} sm={6}>
+          <GuidelinesList
+            mode="dont's"
+            guiedlines={t("shortVersion.donts", { returnObjects: true })}
+          />
+        </Grid>
       </Grid>
-      <Grid xs={12} sm={6}>
-        <GuidelinesList mode="dont's" guiedlines={donts} />
-      </Grid>
-    </Grid>
-  </Card>
-)
+    </Card>
+  )
+}
 
 export default ReviewGuidelines

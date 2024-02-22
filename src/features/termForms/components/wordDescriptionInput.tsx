@@ -1,4 +1,4 @@
-import type { FC } from "react"
+import type { FC, ReactNode } from "react"
 import FormControl, { FormControlProps } from "@mui/joy/FormControl"
 import FormLabel from "@mui/joy/FormLabel"
 import FormHelperText from "@mui/joy/FormHelperText"
@@ -9,8 +9,9 @@ const WordDescriptionInput: FC<
     value: string
     onChange: (_value: string) => void
     label?: string
+    helperText?: ReactNode
   }
-> = ({ value, onChange, label, ...formControlProps }) => (
+> = ({ value, onChange, label, helperText, ...formControlProps }) => (
   <FormControl {...formControlProps}>
     {label ? <FormLabel>{label}</FormLabel> : null}
     <Textarea
@@ -21,10 +22,9 @@ const WordDescriptionInput: FC<
       onChange={({ currentTarget: { value } }) => onChange(value)}
       slotProps={{ textarea: { maxLength: 500 } }}
     />
-    <FormHelperText sx={{ display: "block" }}>
-      <b>Write for a large audience.</b> Lots of people will read this, so give
-      some background information.
-    </FormHelperText>
+    {helperText ? (
+      <FormHelperText sx={{ display: "block" }}>{helperText}</FormHelperText>
+    ) : null}
   </FormControl>
 )
 

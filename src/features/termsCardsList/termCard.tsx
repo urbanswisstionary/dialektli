@@ -16,84 +16,89 @@ import { TermFragmentFragment } from "@@/generated/graphql"
 import TermCardActionButton from "./termCardActionButton"
 import TermCardExample from "./termCardExamplesList"
 import Flag from "@/ui/Flag"
+import { useTranslation } from "next-i18next"
 
 type TermCardProps = {
   term: TermFragmentFragment
   disableActions?: boolean
 }
-const TermCard: FC<TermCardProps> = ({ term, disableActions }) => (
-  <Card size="md" sx={{ wordBreak: "break-word" }}>
-    <Stack direction="row" justifyContent="space-between" alignItems="center">
-      <Stack direction="column" gap={1}>
-        {term.cantons ? (
-          <Stack direction="row" gap={1} flexWrap="wrap">
-            {term.cantons.map((canton, i) => (
-              <Flag key={i} mode="canton" code={canton} />
-            ))}
-          </Stack>
-        ) : null}
-        <Typography level="title-lg">{term?.title}</Typography>
-      </Stack>
-      <TermCardActionButton
-        action="flag"
-        termId={term.id}
-        disabled={disableActions}
-        color="warning"
-      >
-        {term.flaggedByMe ? <FlagIcon /> : <FlagTwoToneIcon />}
-      </TermCardActionButton>
-    </Stack>
+const TermCard: FC<TermCardProps> = ({ term, disableActions }) => {
+  const { t } = useTranslation("common")
 
-    <Typography mb={2} level="body-xs">
-      {term?.content}
-    </Typography>
-
-    <TermCardExample examples={term?.examples} />
-
-    <CardOverflow
-      sx={{ borderTop: "1px solid", borderColor: "divider", px: 2 }}
-    >
-      <CardActions sx={{ justifyContent: "space-between" }}>
-        <Box sx={{ display: "flex", gap: 1.5 }}>
-          {term?.author.image ? (
-            <Avatar src={term?.author.image} alt={term?.author.name ?? ""} />
+  return (
+    <Card size="md" sx={{ wordBreak: "break-word" }}>
+      <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Stack direction="column" gap={1}>
+          {term.cantons ? (
+            <Stack direction="row" gap={1} flexWrap="wrap">
+              {term.cantons.map((canton, i) => (
+                <Flag key={i} mode="canton" code={canton} />
+              ))}
+            </Stack>
           ) : null}
-          <div>
-            <Typography level="body-xs">Author:</Typography>
-            <Typography level="body-sm">
-              {term?.author.name ?? "annonymus"}
-            </Typography>
-          </div>
-        </Box>
-        <Box sx={{ display: "flex", gap: 1.5, paddingInline: 2 }}>
-          <TermCardActionButton
-            action="dislike"
-            termId={term.id}
-            badgeContent={term?.dislikesCount}
-            disabled={disableActions}
-          >
-            {term?.dislikedByMe ? (
-              <ThumbDownRoundedIcon />
-            ) : (
-              <ThumbDownTwoToneIcon />
-            )}
-          </TermCardActionButton>
-          <TermCardActionButton
-            action="like"
-            termId={term.id}
-            badgeContent={term?.likesCount}
-            disabled={disableActions}
-          >
-            {term?.likedByMe ? (
-              <ThumbUpRoundedIcon color="inherit" />
-            ) : (
-              <ThumbUpTwoToneIcon />
-            )}
-          </TermCardActionButton>
-        </Box>
-      </CardActions>
-    </CardOverflow>
-  </Card>
-)
+          <Typography level="title-lg">{term?.title}</Typography>
+        </Stack>
+        <TermCardActionButton
+          action="flag"
+          termId={term.id}
+          disabled={disableActions}
+          color="warning"
+        >
+          {term.flaggedByMe ? <FlagIcon /> : <FlagTwoToneIcon />}
+        </TermCardActionButton>
+      </Stack>
+
+      <Typography mb={2} level="body-xs">
+        {term?.content}
+      </Typography>
+
+      <TermCardExample examples={term?.examples} />
+
+      <CardOverflow
+        sx={{ borderTop: "1px solid", borderColor: "divider", px: 2 }}
+      >
+        <CardActions sx={{ justifyContent: "space-between" }}>
+          <Box sx={{ display: "flex", gap: 1.5 }}>
+            {term?.author.image ? (
+              <Avatar src={term?.author.image} alt={term?.author.name ?? ""} />
+            ) : null}
+            <div>
+              <Typography level="body-xs">{t("term.author")}:</Typography>
+              <Typography level="body-sm">
+                {term?.author.name ?? "annonymus"}
+              </Typography>
+            </div>
+          </Box>
+          <Box sx={{ display: "flex", gap: 1.5, paddingInline: 2 }}>
+            <TermCardActionButton
+              action="dislike"
+              termId={term.id}
+              badgeContent={term?.dislikesCount}
+              disabled={disableActions}
+            >
+              {term?.dislikedByMe ? (
+                <ThumbDownRoundedIcon />
+              ) : (
+                <ThumbDownTwoToneIcon />
+              )}
+            </TermCardActionButton>
+            <TermCardActionButton
+              action="like"
+              termId={term.id}
+              badgeContent={term?.likesCount}
+              disabled={disableActions}
+            >
+              {term?.likedByMe ? (
+                <ThumbUpRoundedIcon color="inherit" />
+              ) : (
+                <ThumbUpTwoToneIcon />
+              )}
+            </TermCardActionButton>
+          </Box>
+        </CardActions>
+      </CardOverflow>
+    </Card>
+  )
+}
 
 export default TermCard

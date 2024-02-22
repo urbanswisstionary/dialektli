@@ -1,16 +1,21 @@
 import Typography from "@mui/joy/Typography"
 import Stack from "@mui/joy/Stack"
 import LayoutWithImage from "@/features/layout/layoutWithImage"
-import type { NextPage } from "next"
+import type { GetStaticProps, NextPage } from "next"
 import ResetPasswordForm from "@/features/Auth/signinSignup/components/resetPassword"
 import RecaptchaProvider from "@/providers/Recaptcha"
+import { getStaticPropsTranslations } from "@/utils/i18n"
+import { useTranslation } from "next-i18next"
 
 const SigninPage: NextPage = () => {
+  const { t } = useTranslation("common", {
+    keyPrefix: "auth.resetPasswordPage",
+  })
   return (
     <RecaptchaProvider>
       <LayoutWithImage>
         <Stack gap={1}>
-          <Typography level="h3">Reset Password</Typography>
+          <Typography level="h3">{t("title")}</Typography>
         </Stack>
         <Stack gap={4}>
           <ResetPasswordForm />
@@ -21,3 +26,7 @@ const SigninPage: NextPage = () => {
 }
 
 export default SigninPage
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => ({
+  props: { ...(await getStaticPropsTranslations(locale)) },
+})

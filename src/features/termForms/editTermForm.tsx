@@ -4,14 +4,14 @@ import WordInput from "./components/wordInput"
 import WordDescriptionInput from "./components/wordDescriptionInput"
 import WordExamplesInput from "./components/wordExamplesInput"
 import { useUpdateTermMutations } from "@/hooks/useTerms"
-import SelectSingleLocation from "../../ui/selectLocation/selectSingleLocation"
 import { TermFragmentFragment, UpdateTermInput } from "@@/generated/graphql"
 import isEqual from "lodash/isEqual"
 import Box from "@mui/joy/Box"
 import Typography from "@mui/joy/Typography"
 import { useRouter } from "next/router"
 import Link from "@mui/joy/Link"
-import SelectMultipleLocation from "@/ui/selectLocation/selectMultipleLocations"
+import SelectMultipleLocation from "@/ui/Autocomplete/selectMultipleLocations"
+import { Trans, useTranslation } from "next-i18next"
 
 type EditTermState = {
   title?: string
@@ -26,6 +26,8 @@ const EditTermForm: FC<{
   reviewBeforPublish?: boolean
   anonymous?: boolean
 }> = ({ term, authorized, reviewBeforPublish, anonymous }) => {
+  const { t } = useTranslation("common")
+
   const router = useRouter()
   const {
     updateTerm,
@@ -76,28 +78,26 @@ const EditTermForm: FC<{
     )
   }
 
-  const claimOnwershipLink = (
-    <Link
-      href={`mailto:urbanswisstionary@gmail.com?subject=Claim ownership over "${term.title}", id "${term.id}"&body=Hi, I would like to claim ownership over "${term.title}", id "${term.id}" and here I provide proofs of my claim.`}
-    >
-      claim ownership
-    </Link>
-  )
+  const claimOwnershipHref = `mailto:urbanswisstionary@gmail.com?subject=Claim ownership over "${term.title}", id "${term.id}"&body=Hi, I would like to claim ownership over "${term.title}", id "${term.id}" and here I provide proofs of my claim.`
   return (
     <>
       <Box sx={{ mb: 1, alignItems: { xs: "start", sm: "center" } }}>
         <Typography px={2} level="h2" component="h1">
-          Edit Term
+          {t("term.editTerm.title")}
         </Typography>
         {!authorized ? (
           <>
             <Typography level="body-lg" color="warning" p={2}>
-              You are not authorized to edit this term
+              {t("term.editTerm.notAuthorizedWarning")}
             </Typography>
             {!reviewBeforPublish ? (
               <Typography level="body-md" color="warning" px={2}>
-                If you contributed this value and would like to{" "}
-                {claimOnwershipLink} over this value
+                <Trans
+                  i18nKey={"term.editTerm.claimOwnership"}
+                  components={[
+                    <Link key="mailtoLink" href={claimOwnershipHref} />,
+                  ]}
+                />
               </Typography>
             ) : null}
           </>
@@ -105,10 +105,10 @@ const EditTermForm: FC<{
 
         {reviewBeforPublish && anonymous ? (
           <Typography level="body-md" color="warning" px={2}>
-            To make changes, please log in to your account and{" "}
-            {claimOnwershipLink} of the term, or in case you prefer to remain
-            anonymous, your term will be submitted for review by an
-            administrator before being published anonymously.
+            <Trans
+              i18nKey={"term.editTerm.claimOwnershipAnonymous"}
+              components={[<Link key="mailtoLink" href={claimOwnershipHref} />]}
+            />
           </Typography>
         ) : null}
       </Box>
@@ -119,7 +119,7 @@ const EditTermForm: FC<{
               type: "submit",
               loading: updateTermLoading,
               disabled: preventSubmit,
-              title: "publish",
+              title: t("actions.publish"),
             },
             cancel: {
               disabled: !changesFound || updateTermLoading,
@@ -128,7 +128,7 @@ const EditTermForm: FC<{
           }}
         >
           <WordInput
-            label="Value"
+            label={t("term.term")}
             value={
               editTermState.title !== undefined
                 ? editTermState.title
@@ -141,7 +141,7 @@ const EditTermForm: FC<{
           />
           <SelectMultipleLocation
             id="canton"
-            label="Canton"
+            label={t("term.canton")}
             mode="canton"
             value={
               (editTermState.cantons !== undefined
@@ -151,7 +151,7 @@ const EditTermForm: FC<{
                   : null) ?? null
             }
             onChange={(cantons) => onChange("cantons", cantons)}
-            helperText="Select the cantons where the word is used"
+            helperText={t("term.cantonFieldHelperText")}
             disabled={disableFields}
           />
           <WordDescriptionInput
@@ -161,12 +161,19 @@ const EditTermForm: FC<{
                 : term.content) ?? ""
             }
             onChange={(value) => onChange("content", value)}
-            label="Description"
+            label={t("term.description")}
             required
             sx={{ pt: 1 }}
             disabled={disableFields}
+            helperText={
+              <Trans
+                i18nKey={"term.descriptionFieldHelperText"}
+                components={{ bold: <b /> }}
+              />
+            }
           />
           <WordExamplesInput
+            label={t("term.examples")}
             values={
               (editTermState.examples !== undefined
                 ? editTermState.examples
@@ -176,6 +183,7 @@ const EditTermForm: FC<{
             }
             onChange={(examples) => onChange("examples", examples)}
             disabled={disableFields}
+            helperText={t("term.examplesFieldHelperText")}
           />
         </Card>
       </form>

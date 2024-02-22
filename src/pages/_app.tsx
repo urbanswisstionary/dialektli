@@ -1,6 +1,7 @@
 import Providers, { ProviderProps } from "@/providers"
 import type { AppProps } from "next/app"
 import { FC } from "react"
+import { appWithTranslation } from "next-i18next"
 
 import {
   ApolloClient,
@@ -55,4 +56,4 @@ const withApolloClient = withApollo(
   { getDataFromTree },
 )
 
-export default withApolloClient(App)
+export default withApolloClient(appWithTranslation(App))

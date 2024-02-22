@@ -8,6 +8,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
 import List from "@mui/joy/List"
 import Link from "next/link"
 import { IconButton } from "@mui/joy"
+import { useTranslation } from "next-i18next"
 
 type SidebarOptionProps = {
   hide?: boolean
@@ -37,48 +38,57 @@ const SidebarOption: FC<SidebarOptionProps> = ({
   nestedOptions = [],
   firstOfType,
   link,
-}) =>
-  hide ? null : nested ? (
-    <ListItem nested={nested}>
-      <Toggler
-        defaultExpanded={defaultExpanded}
-        renderToggle={({ open, setOpen }) => (
-          <ListItemButton
-            selected={selected}
-            disabled={disabled}
-            onClick={() => {
-              if (onClick) onClick()
-              if (selected || !open) setOpen(!open)
-            }}
-          >
-            {startDecorator}
-            <ListItemContent>
-              <Typography level="title-sm">{label}</Typography>
-            </ListItemContent>
-            {endDecorator}
-            <IconButton
-              variant="plain"
-              size="sm"
-              onClick={() => setOpen(!open)}
+}) => {
+  const { t } = useTranslation("common")
+
+  if (hide) return null
+  if (nested)
+    return (
+      <ListItem nested={nested}>
+        <Toggler
+          defaultExpanded={defaultExpanded}
+          renderToggle={({ open, setOpen }) => (
+            <ListItemButton
+              selected={selected}
+              disabled={disabled}
+              onClick={() => {
+                if (onClick) onClick()
+                if (selected || !open) setOpen(!open)
+              }}
             >
-              <ArrowDropDownIcon
-                sx={{
-                  transition: "transform 0.2s ease",
-                  transform: open ? "rotate(-180deg)" : "none",
-                }}
-              />
-            </IconButton>
-          </ListItemButton>
-        )}
-      >
-        <List sx={{ gap: 0.5 }}>
-          {nestedOptions.map((props, i) => (
-            <SidebarOption key={i} {...props} firstOfType={!i} />
-          ))}
-        </List>
-      </Toggler>
-    </ListItem>
-  ) : (
+              {startDecorator}
+              <ListItemContent>
+                <Typography level="title-sm">{label}</Typography>
+              </ListItemContent>
+              {endDecorator}
+              <IconButton
+                variant="plain"
+                size="sm"
+                onClick={() => setOpen(!open)}
+                title={t(`actions.${open ? "collapse" : "expand"}`)}
+              >
+                <ArrowDropDownIcon
+                  sx={{
+                    transform: open ? "rotate(-180deg)" : "none",
+                    borderRadius: "var(--joy-radius-sm)",
+                    ":hover": {
+                      backgroundColor: "var(--joy-palette-background-level2)",
+                    },
+                  }}
+                />
+              </IconButton>
+            </ListItemButton>
+          )}
+        >
+          <List sx={{ gap: 0.5 }}>
+            {nestedOptions.map((props, i) => (
+              <SidebarOption key={i} {...props} firstOfType={!i} />
+            ))}
+          </List>
+        </Toggler>
+      </ListItem>
+    )
+  return (
     <ListItem
       sx={{
         ":first-of-type": firstOfType ? { mt: 0.5 } : undefined,
@@ -101,5 +111,6 @@ const SidebarOption: FC<SidebarOptionProps> = ({
       </ListItemButton>
     </ListItem>
   )
+}
 
 export default SidebarOption

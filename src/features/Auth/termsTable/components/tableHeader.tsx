@@ -40,7 +40,6 @@ const TableHead: FC<{ headerGroups: HeaderGroup<any>[] }> = ({
                   endDecorator={
                     <ArrowDropDownIcon
                       sx={[
-                        { transition: "transform 0.2s ease" },
                         {
                           asc: { transform: "initial" },
                           desc: { transform: "rotate(-180deg)" },

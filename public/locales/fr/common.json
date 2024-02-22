@@ -1,0 +1,172 @@
+{
+  "true": "Vrai",
+  "false": "Faux",
+  "noData": "Aucune donnée",
+  "layout": {
+    "sidebar": {
+      "signIn": "Se connecter",
+      "signOut": "Se déconnecter",
+      "home": "Accueil",
+      "support": "Support",
+      "profile": "Mon profil",
+      "terms": "Mes termes",
+      "users": "Utilisateurs",
+      "createNewUser": "Créer un nouvel utilisateur",
+      "rolesAndPermissions": "Rôles et permissions"
+    }
+  },
+  "filterBy": {
+    "canton": "Filtrer par canton",
+    "firstChar": "Filtrer par premier caractère"
+  },
+  "searchTermsInput": {
+    "search": "Rechercher"
+  },
+  "newTermButton": {
+    "newTerm": "Nouveau terme"
+  },
+  "actions": {
+    "open": "Ouvrir",
+    "close": "Fermer",
+    "clear": "Effacer",
+    "submit": "Soumettre",
+    "cancel": "Annuler",
+    "edit": "Éditer",
+    "delete": "Supprimer",
+    "expand": "Étendre",
+    "collapse": "Réduire",
+    "save": "Enregistrer",
+    "flag": "Marquer",
+    "like": "J'aime",
+    "dislike": "J'aime pas",
+    "publish": "Publier",
+    "unpublish": "Dépublier",
+    "select": "Sélectionner",
+    "confirmation": "Confirmation",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer",
+    "toggleColorScheme": "Basculer le schéma de couleurs",
+    "option": "Option",
+    "options": "Options"
+  },
+  "auth": {
+    "signinPage": {
+      "title": "Se connecter",
+      "withGoogle": "Continuer avec Google",
+      "email": "E-mail",
+      "forgotPassword": "Mot de passe oublié ?"
+    },
+    "signupPage": {
+      "title": "S'inscrire",
+      "alreadyHaveAccount": "Déjà un compte ?",
+      "signIn": "Se connecter !",
+      "or": "ou",
+      "withGoogle": "Continuer avec Google",
+      "name": "Nom",
+      "email": "E-mail",
+      "weWillNeverShareYourInfo": "Nous ne partagerons jamais vos informations."
+    },
+    "resetPasswordPage": {
+      "title": "Réinitialiser le mot de passe",
+      "email": "E-mail",
+      "resetPassword": "Réinitialiser le mot de passe"
+    },
+    "passwordFieldLabel": "Mot de passe",
+    "profile": {
+      "title": "Informations personnelles",
+      "description": "Personnalisez la façon dont vos informations de profil apparaîtront sur les réseaux.",
+      "name": "Nom",
+      "email": "E-mail",
+      "country": "Pays",
+      "canton": "Canton",
+      "bio": "Biographie",
+      "bioHelperText": "Rédigez une courte introduction à afficher sur votre profil",
+      "bioCharLeft": "caractère restant",
+      "bioCharsLeft": "caractères restants"
+    },
+    "myTerms": {
+      "title": "Termes"
+    }
+  },
+  "guidelinesPage": {
+    "title": "Directives de contenu",
+    "description": "Urban Swisstionary est une communauté pour tout le monde, y compris vous. Tout le monde peut publier une définition, mais afin de rendre les choses amusantes pour tout le monde, nous vous demandons de suivre les règles suivantes :",
+
+    "dos": [
+      {
+        "title": "Écrire pour un large public.",
+        "description": "Lors de la définition d'un mot, assurez-vous de fournir suffisamment de contexte pour que les autres comprennent ce que cela signifie et comment il est généralement utilisé. Besoin d'un peu d'aide ? Consultez notre Mot du jour pour quelques exemples."
+      },
+      {
+        "title": "Soyez créatif.",
+        "description": "Certaines des meilleures définitions sur Urban Swisstionary trouvent des façons humoristiques de se moquer de l'autorité, ou mettent une touche astucieuse sur les événements actuels. Certaines d'entre elles sont simplement bizarres. Nous sommes d'accord avec ça."
+      },
+      {
+        "title": "Amusez-vous.",
+        "description": "Nous ne sommes pas un dictionnaire traditionnel. C'est un endroit où la langue a un peu plus d'espace pour être explorée et construite librement, dans l'instant."
+      }
+    ],
+    "donts": [
+      {
+        "title": "Ne publiez pas d'informations personnelles.",
+        "description": "Cela inclut des choses évidentes comme les noms de famille et les adresses, mais nous supprimerons également les définitions contenant des prénoms ou des identifiants d'utilisateur s'ils peuvent être utilisés pour identifier et cibler des individus spécifiques pour du harcèlement."
+      },
+      {
+        "title": "Ne soyez pas un imbécile.",
+        "description": "Nous sommes d'accord avec les gens qui définissent des mots offensants. Après tout, les gens utilisent des mots offensants dans le monde réel et une ressource pour comprendre ce que ces mots signifient peut être précieuse. Cependant, nous ne sommes pas, et ne serons jamais, d'accord avec les gens qui utilisent une définition pour harceler, discriminer et/ou inciter directement à la violence contre les autres."
+      }
+    ]
+  },
+  "term": {
+    "term": "Terme",
+    "description": "Description",
+    "author": "Auteur",
+    "country": "Pays",
+    "canton": "Canton",
+    "title": "terme",
+    "status": "Statut",
+    "flagged": "Signalé",
+    "published": "Publié",
+    "unpublished": "Non publié",
+    "updatedAt": "Mis à jour le",
+    "examples": "Exemples",
+    "pleaseSignInForTermAction": "Veuillez <0>vous connecter</0> pour '{{action}}' ce terme.",
+    "cantonFieldPlaceholder": "Sélectionnez le canton",
+    "countryFieldPlaceholder": "Sélectionnez le pays",
+    "cantonFieldHelperText": "Sélectionnez les cantons associés à ce terme",
+    "descriptionFieldHelperText": "<bold>Écrivez pour un large public.</bold> Beaucoup de personnes liront ceci, alors donnez quelques informations de base.",
+    "examplesFieldHelperText": "Fournissez des exemples de la façon dont ce terme est utilisé dans le contexte, ou comment il est utilisé dans une phrase. Cela aidera les autres à comprendre le terme.",
+    "newTerm": {
+      "title": "Nouveau terme",
+      "description": "Toutes les définitions ont été rédigées par des personnes comme vous. C'est maintenant votre chance d'ajouter la vôtre !",
+      "recapchaError": {
+        "message": "Désolé, mais une erreur a été trouvée.",
+        "clickHere": "Cliquez ici pour rafraîchir la page et réessayer"
+      }
+    },
+    "editTerm": {
+      "title": "Modifier le terme",
+      "notAuthorizedWarning": "Vous n'êtes pas autorisé à modifier ce terme",
+      "claimOwnership": "Si vous avez contribué à cette valeur et souhaitez revendiquer la propriété de cette valeur.",
+      "claimOwnershipAnonymous": "Pour effectuer des changements, veuillez vous connecter à votre compte et revendiquer la propriété du terme. Ou, si vous préférez rester anonyme, votre terme sera soumis à l'examen d'un administrateur avant d'être publié anonymement.",
+      "addExample": "Ajouter un autre exemple",
+      "deleteExample": "Supprimer l'exemple"
+    },
+    "reviewGuidelines": {
+      "pleaseReviewContentGuidelines": "Veuillez consulter nos <0>Directives de contenu</0> avant de soumettre votre terme.",
+      "shortVersion": {
+        "title": "Voici la version abrégée :",
+        "dos": [
+          {
+            "title": "Partager des définitions que d'autres trouveront significatives"
+          }
+        ],
+        "donts": [
+          { "title": "ne jamais publier de discours haineux" },
+          {
+            "title": "ne jamais publier les informations personnelles des gens."
+          }
+        ]
+      }
+    }
+  }
+}

@@ -7,8 +7,9 @@ import ImageInput from "./components/imageInput"
 import NameInput from "./components/nameInput"
 import EmailInput from "./components/emailInput"
 import BioInput from "./components/bioInput"
-import SelectSingleLocation from "@/ui/selectLocation/selectSingleLocation"
+import SelectSingleLocation from "@/ui/Autocomplete/selectSingleLocation"
 import Card from "@/ui/Card"
+import { useTranslation } from "next-i18next"
 
 type EditProfileState = {
   name?: string
@@ -19,6 +20,7 @@ type EditProfileState = {
 }
 
 const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
+  const { t } = useTranslation("common", { keyPrefix: "auth.profile" })
   const { updateUser, loading: updateUserLoading } = useUpdateUserMutation()
   const [editProfileState, setEditProfileState] = useState<EditProfileState>({})
 
@@ -53,8 +55,8 @@ const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
       }}
     >
       <Card
-        title="Personal info"
-        description="Customize how your profile information will apper to the networks."
+        title={t("title")}
+        description={t("description")}
         actions={{
           save: {
             type: "submit",
@@ -74,6 +76,7 @@ const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
           <Box sx={{ flex: 1 }}>
             <NameInput
               id="name"
+              title={t("name")}
               value={
                 editProfileState?.name !== undefined
                   ? editProfileState?.name
@@ -85,6 +88,7 @@ const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
         </Stack>
         <EmailInput
           id="email"
+          title={t("email")}
           value={me.email}
           onChange={(_email) => {
             // updateProfile((prev) => ({ ...prev, email }))
@@ -94,7 +98,7 @@ const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
         <SelectSingleLocation
           id="country"
           mode="country"
-          label="Country"
+          label={t("country")}
           value={
             editProfileState.country !== undefined
               ? editProfileState.country
@@ -107,7 +111,7 @@ const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
           <SelectSingleLocation
             id="canton"
             mode="canton"
-            label="Canton"
+            label={t("canton")}
             value={
               editProfileState.canton !== undefined
                 ? editProfileState.canton
@@ -118,6 +122,8 @@ const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
         ) : null}
         <BioInput
           id="bio"
+          title={t("bio")}
+          helperText={t("bioHelperText")}
           value={
             editProfileState?.bio !== undefined ? editProfileState?.bio : me.bio
           }

@@ -6,6 +6,7 @@ import FormLabel from "@mui/joy/FormLabel"
 import FormHelperText from "@mui/joy/FormHelperText"
 import SelectLocationOption from "./selectLocationOption"
 import SelectMultipleLocationTag from "./selectMultipleLocationTag"
+import { useTranslation } from "next-i18next"
 
 type SelectMultipleLocationProps = Omit<
   FormControlProps,
@@ -30,6 +31,7 @@ const SelectMultipleLocation: FC<SelectMultipleLocationProps> = ({
   limitTags,
   ...props
 }) => {
+  const { t } = useTranslation("common")
   const options = useMemo(() => getOptions(mode), [mode])
   const values = useMemo(
     () =>
@@ -43,7 +45,7 @@ const SelectMultipleLocation: FC<SelectMultipleLocationProps> = ({
       {label ? <FormLabel>{label}</FormLabel> : null}
       <Autocomplete
         multiple
-        placeholder={placeholder ?? `Select a ${mode}`}
+        placeholder={placeholder ?? t(`term.${mode}FieldPlaceholder`)}
         size="sm"
         autoHighlight
         options={options}
@@ -72,6 +74,11 @@ const SelectMultipleLocation: FC<SelectMultipleLocationProps> = ({
           ))
         }
         limitTags={limitTags}
+        openText={t("actions.open")}
+        clearText={t("actions.clear")}
+        closeText={t("actions.close")}
+        filterSelectedOptions
+        disableCloseOnSelect
       />
       {helperText ? <FormHelperText>{helperText}</FormHelperText> : null}
     </FormControl>
