@@ -12,6 +12,7 @@ export type PaginationProps = {
   onPageChange?: (_page: number) => void
   pageSize?: number
   onPageSizeChange?: (_itemsPerPage: number) => void
+  disabled?: boolean
 }
 
 const pageSizeOptions = [10, 20, 50]
@@ -22,6 +23,7 @@ const Pagination: FC<PaginationProps> = ({
   onPageChange,
   pageSize,
   onPageSizeChange,
+  disabled,
 }) => {
   const moreThanSm = useMediaQuery(useTheme().breakpoints.up("sm"))
 
@@ -45,7 +47,7 @@ const Pagination: FC<PaginationProps> = ({
         showFirstButton
         showLastButton
         siblingCount={moreThanSm ? 1 : 0}
-        disabled={pageCount <= 1}
+        disabled={disabled ?? pageCount <= 1}
         sx={{
           ".MuiPaginationItem-root": {
             borderColor: "var(--joy-palette-neutral-outlinedBorder)",
@@ -61,6 +63,7 @@ const Pagination: FC<PaginationProps> = ({
           onChange={(_, value) => {
             if (onPageSizeChange && value) onPageSizeChange(value)
           }}
+          disabled={disabled}
         >
           {pageSizeOptions.map((pageSizeOption) => (
             <Option key={pageSizeOption} value={pageSizeOption}>
