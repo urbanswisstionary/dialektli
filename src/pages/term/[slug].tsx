@@ -19,7 +19,7 @@ const TermPage: NextPage = () => {
   const { me } = useMe()
   const router = useRouter()
   const query = router.query as Query
-  const { setPageCount, ...paginationProps } = usePaginationState()
+  const { onDataCountChange, ...paginationProps } = usePaginationState()
   const termsQuery = useTermsQuery({
     offset: (paginationProps.pageIndex - 1) * paginationProps.pageSize,
     limit: paginationProps.pageSize,
@@ -29,7 +29,7 @@ const TermPage: NextPage = () => {
 
   const data =
     termsQuery.data?.termsQuery ?? termsQuery.previousData?.termsQuery
-  setPageCount(data?.count)
+  onDataCountChange(data?.count)
 
   return (
     <Layout hideSidebar={!me}>

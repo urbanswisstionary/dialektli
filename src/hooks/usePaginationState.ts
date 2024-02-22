@@ -26,7 +26,11 @@ export const usePaginationState = (
     onPageSizeChange: (pageSize: number) =>
       setPagination((prev) => ({ ...prev, pageSize })),
     pageCount,
-    setPageCount: (dataCount?: number) =>
-      Math.max(1, Math.ceil((dataCount ?? 0) / pageSize)),
+
+    onDataCountChange: (dataCount?: number) => {
+      const newPageCount = Math.max(1, Math.ceil((dataCount ?? 0) / pageSize))
+      if (newPageCount !== pageCount)
+        setPagination((prev) => ({ ...prev, pageCount: newPageCount }))
+    },
   }
 }
