@@ -77,7 +77,7 @@ const SEED_TERMS: Prisma.TermCreateArgs["data"][] = [
     title: "De Fisch mache",
     content:
       "Lassen Sie ein Ereignis, ein Gespräch oder einen Ort, den Sie nicht mögen, stillschweigend hinter sich – das ist das Äquivalent dazu, still und leise der schlimmen oder lästigen Situation zu entfliehen, in der Sie sich befanden.",
-    cantons: ["ZU"],
+    cantons: ["ZH"],
     examples: ["I mues jetzt de Fisch mache", "I ha gestern de Fisch gmacht"],
   },
   {
