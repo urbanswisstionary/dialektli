@@ -8,6 +8,7 @@ type DebouncedInputProps = {
   onChange: (_value: string | number) => void
   debounce?: number
   placeholder?: string
+  disabled?: boolean
 }
 
 const DebouncedInput: FC<DebouncedInputProps> = ({
@@ -15,6 +16,7 @@ const DebouncedInput: FC<DebouncedInputProps> = ({
   onChange,
   debounce = 500,
   placeholder,
+  disabled,
 }) => {
   const [inputState, setInputState] = useState(value)
 
@@ -41,6 +43,7 @@ const DebouncedInput: FC<DebouncedInputProps> = ({
       }
       sx={{ py: 1, px: 2, borderRadius: "md", fontSize: "lg" }}
       placeholder={placeholder}
+      disabled={disabled}
     />
   )
 }
