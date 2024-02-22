@@ -1,8 +1,10 @@
 import prisma from "../../src/lib/prisma"
+import { seedTerms } from "./terms"
 import { seedUsers } from "./users"
 
 const main = async () => {
   await seedUsers()
+  await seedTerms()
 }
 
 main()
