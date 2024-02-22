@@ -1,16 +1,35 @@
 import type { FC } from "react"
 import Box from "@mui/joy/Box"
 import Sheet from "@mui/joy/Sheet"
-import ColorSchemeToggle from "../colorSchemeToggle"
+import ColorSchemeToggle from "../../../ui/ColorSchemeToggle"
 import { closeSidebar } from "./sidebar.utils"
 import Link from "next/link"
 import Logo from "@/ui/Logo"
 import { useMe } from "@/hooks/useMe"
-import AuthedSidebarOptions from "./components/sidebarOptions.authed"
-import UnauthedSidebarOptions from "./components/sidebarOptions.unauthed"
+import dynamic from "next/dynamic"
+import { listItemButtonClasses } from "@mui/joy/ListItemButton"
+import Avatar from "@mui/joy/Avatar"
+import Divider from "@mui/joy/Divider"
+import IconButton from "@mui/joy/IconButton"
+import List from "@mui/joy/List"
+import Typography from "@mui/joy/Typography"
+import SupportRoundedIcon from "@mui/icons-material/SupportRounded"
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded"
+import { signOut } from "next-auth/react"
+import { MeFragmentFragment } from "@@/generated/graphql"
+import { useRouter } from "next/router"
+import CottageRoundedIcon from "@mui/icons-material/CottageRounded"
+import SidebarOption from "./components/sidebarOption"
+import LoginRoundedIcon from "@mui/icons-material/LoginRounded"
+
+const AuthedSidebarOptions = dynamic(
+  () => import("./components/authedSidebarOptions"),
+  { ssr: false },
+)
 
 const Sidebar: FC = () => {
   const { me, isAdmin } = useMe()
+  const router = useRouter()
   return (
     <Sheet
       className="Sidebar"
@@ -60,13 +79,86 @@ const Sidebar: FC = () => {
 
         <ColorSchemeToggle sx={{ ml: "auto" }} />
       </Box>
-      {me ? (
-        <AuthedSidebarOptions me={me} isAdmin={isAdmin} />
-      ) : (
-        <UnauthedSidebarOptions />
-      )}
+      <Box
+        sx={{
+          minHeight: 0,
+          overflow: "hidden auto",
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+          [`& .${listItemButtonClasses.root}`]: {
+            gap: 1.5,
+          },
+          ul: {
+            "--ListItem-radius": (theme) => theme.vars.radius.sm,
+            "--List-nestedInsetStart": "1rem",
+            gap: 1,
+            textTransform: "capitalize",
+          },
+        }}
+      >
+        <List size="sm" sx={{ flexGrow: 0 }}>
+          <SidebarOption
+            label="Home"
+            startDecorator={<CottageRoundedIcon />}
+            selected={router.pathname === "/"}
+            link={"/"}
+          />
+        </List>
+        {me ? <AuthedSidebarOptions isAdmin={isAdmin} /> : null}
+        <List size="sm" sx={{ mt: "auto", flexGrow: 0 }}>
+          <SidebarOption
+            label="support"
+            startDecorator={<SupportRoundedIcon />}
+            disabled
+            selected={router.pathname === "/support"}
+            link="/support"
+          />
+          <Divider />
+
+          {me ? (
+            <UserInfo me={me} />
+          ) : (
+            <SidebarOption
+              label="Sign In"
+              startDecorator={<LoginRoundedIcon />}
+              selected={router.pathname === "/account/signin"}
+              link={"/account/signin"}
+            />
+          )}
+        </List>
+      </Box>
     </Sheet>
   )
 }
 
 export default Sidebar
+
+const UserInfo: FC<{ me: MeFragmentFragment }> = ({ me }) => (
+  <Box display="flex" gap={1} alignItems="center">
+    {me.image ? (
+      <Avatar variant="outlined" size="sm" src={me.image} />
+    ) : (
+      <Avatar variant="outlined" size="sm">
+        {me.name?.length ? me.name[0] : me.email[0]}
+      </Avatar>
+    )}
+    <Box sx={{ minWidth: 0, flex: 1 }}>
+      <Typography level="title-sm" noWrap>
+        {me.name}
+      </Typography>
+      <Typography level="body-xs" noWrap>
+        {me.email}
+      </Typography>
+    </Box>
+    <IconButton
+      size="sm"
+      variant="plain"
+      color="neutral"
+      onClick={() => signOut()}
+      title="Sign out"
+    >
+      <LogoutRoundedIcon />
+    </IconButton>
+  </Box>
+)

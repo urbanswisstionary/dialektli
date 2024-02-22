@@ -1,9 +1,7 @@
 import type { FC } from "react"
 import Box, { BoxProps } from "@mui/joy/Box"
 import TermCard from "@/features/termsCardsList/termCard"
-import Pagination, {
-  PaginationProps,
-} from "@/features/Auth/termsAdmin/components/pagination"
+import Pagination, { PaginationProps } from "@/ui/Pagination"
 import { FragmentType, getFragmentData } from "@@/generated"
 import { TermFragment } from "@/hooks/useTerms"
 import { useMe } from "@/hooks/useMe"

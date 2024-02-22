@@ -83,7 +83,7 @@ const SidebarOption: FC<SidebarOptionProps> = ({
       sx={{
         ":first-of-type": firstOfType ? { mt: 0.5 } : undefined,
       }}
-      component={link ? Link : "div"}
+      component={link && !selected && !disabled ? Link : "div"}
       href={link}
     >
       <ListItemButton
