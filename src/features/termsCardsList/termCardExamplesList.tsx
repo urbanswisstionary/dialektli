@@ -2,12 +2,15 @@ import type { FC } from "react"
 import List from "@mui/joy/List"
 import ListSubHeader from "@mui/joy/ListSubheader"
 import ListItem from "@mui/joy/ListItem"
+import { useTranslation } from "next-i18next"
 
 type TermCardExamplesProps = {
   examples?: string[]
 }
 
 const TermCardExample: FC<TermCardExamplesProps> = ({ examples }) => {
+  const { t } = useTranslation("common", { keyPrefix: "term" })
+
   if (!examples?.length) return null
   return (
     <List
@@ -18,7 +21,7 @@ const TermCardExample: FC<TermCardExamplesProps> = ({ examples }) => {
         px: 2,
       }}
     >
-      <ListSubHeader>Examples</ListSubHeader>
+      <ListSubHeader>{t("examples")}</ListSubHeader>
       {examples.map((example, i) => (
         <ListItem key={i}>{example}</ListItem>
       ))}

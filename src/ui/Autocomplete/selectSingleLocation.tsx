@@ -6,6 +6,7 @@ import FormHelperText from "@mui/joy/FormHelperText"
 import Flag from "@/ui/Flag"
 import SelectLocationOption from "./selectLocationOption"
 import { getOptions } from "./helper"
+import { useTranslation } from "next-i18next"
 
 type SelectSingleLocationProps = Omit<
   FormControlProps,
@@ -28,6 +29,7 @@ const SelectSingleLocation: FC<SelectSingleLocationProps> = ({
   placeholder,
   ...props
 }) => {
+  const { t } = useTranslation("common")
   const options = useMemo(() => getOptions(mode), [mode])
   const valueIndex = useMemo(
     () => options.findIndex((c) => c.code === value),
@@ -38,7 +40,7 @@ const SelectSingleLocation: FC<SelectSingleLocationProps> = ({
     <FormControl {...props}>
       {label ? <FormLabel>{label}</FormLabel> : null}
       <Autocomplete
-        placeholder={placeholder ?? `Select a ${mode}`}
+        placeholder={placeholder ?? t(`term.${mode}FieldPlaceholder`)}
         size="sm"
         autoHighlight
         isOptionEqualToValue={(option, value) => option.code === value?.code}
@@ -54,6 +56,9 @@ const SelectSingleLocation: FC<SelectSingleLocationProps> = ({
           />
         )}
         startDecorator={value ? <Flag mode={mode} code={value} /> : null}
+        openText={t("actions.open")}
+        clearText={t("actions.clear")}
+        closeText={t("actions.close")}
       />
       {helperText ? <FormHelperText>{helperText}</FormHelperText> : null}
     </FormControl>

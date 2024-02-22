@@ -9,27 +9,26 @@ const NameInput: FC<
     value: string | null | undefined
     onChange: (_name: string) => void
   }
-> = ({ value, onChange, sx, ...formControlProps }) => {
-  return (
-    <FormControl
-      {...formControlProps}
-      sx={[
-        { display: { sm: "flex-column", md: "flex-row" } },
-        ...(Array.isArray(sx) ? sx : [sx]),
-      ]}
-      id="name"
-    >
-      <FormLabel>Name</FormLabel>
-      <Input
-        size="sm"
-        placeholder="Name"
-        value={value ?? ""}
-        onChange={({ currentTarget }) => onChange(currentTarget.value)}
-        autoComplete="on"
-        name="name"
-      />
-    </FormControl>
-  )
-}
+> = ({ value, onChange, sx, ...formControlProps }) => (
+  <FormControl
+    {...formControlProps}
+    sx={[
+      { display: { sm: "flex-column", md: "flex-row" } },
+      ...(Array.isArray(sx) ? sx : [sx]),
+    ]}
+    id="name"
+  >
+    {formControlProps.title ? (
+      <FormLabel>{formControlProps.title}</FormLabel>
+    ) : null}
+    <Input
+      size="sm"
+      value={value ?? ""}
+      onChange={({ currentTarget }) => onChange(currentTarget.value)}
+      autoComplete="on"
+      name="name"
+    />
+  </FormControl>
+)
 
 export default NameInput

@@ -11,6 +11,7 @@ import Link from "next/link"
 import Button from "@/ui/Button"
 import PasswordInput from "./components/passwordInput"
 import { useReCaptcha } from "next-recaptcha-v3"
+import { useTranslation } from "next-i18next"
 
 interface FormElements extends HTMLFormControlsCollection {
   email: HTMLInputElement
@@ -21,6 +22,7 @@ interface SigninFormElement extends HTMLFormElement {
 }
 
 const SigninForm: FC = () => {
+  const { t } = useTranslation("common", { keyPrefix: "auth.signinPage" })
   const { executeRecaptcha } = useReCaptcha()
 
   const onSubmit = useCallback(
@@ -40,7 +42,7 @@ const SigninForm: FC = () => {
   return (
     <form onSubmit={onSubmit}>
       <FormControl required>
-        <FormLabel>Email</FormLabel>
+        <FormLabel>{t("email")}</FormLabel>
         <Input type="email" name="email" />
       </FormControl>
       <PasswordInput required />
@@ -57,10 +59,10 @@ const SigninForm: FC = () => {
             level="title-sm"
             href="/account/reset-password"
           >
-            Forgot your password?
+            {t("forgotPassword")}
           </JoiLink>
         </Box>
-        <Button type="submit">Sign in</Button>
+        <Button type="submit">{t("title")}</Button>
       </Stack>
     </form>
   )

@@ -2,6 +2,8 @@ import { FC } from "react"
 import FormControl, { FormControlProps } from "@mui/joy/FormControl"
 import Textarea from "@mui/joy/Textarea"
 import Typography from "@mui/joy/Typography"
+import FormHelperText from "@mui/joy/FormHelperText"
+import { useTranslation } from "next-i18next"
 
 const bioInputMaxLength = 220
 
@@ -9,16 +11,17 @@ const BioInput: FC<
   Omit<FormControlProps, "value" | "onChange"> & {
     value: string | null | undefined
     onChange: (_bio: string) => void
+    helperText?: string
   }
-> = ({ value, onChange, ...formControlProps }) => {
+> = ({ value, onChange, helperText, ...formControlProps }) => {
+  const { t } = useTranslation("common", { keyPrefix: "auth.profile" })
   const bio = value ?? ""
   const charsLeft = bioInputMaxLength - bio.length
   return (
     <FormControl {...formControlProps}>
-      <Typography level="title-md">Bio</Typography>
-      <Typography level="body-sm">
-        Write a short introduction to be displayed on your profile
-      </Typography>
+      {formControlProps.title ? (
+        <Typography level="title-md">{formControlProps.title}</Typography>
+      ) : null}
       <Textarea
         size="sm"
         minRows={4}
@@ -29,11 +32,11 @@ const BioInput: FC<
         onChange={({ currentTarget }) => onChange(currentTarget.value)}
         endDecorator={
           <Typography level="body-xs" sx={{ ml: "auto", mr: 0.5 }}>
-            {charsLeft} character
-            {charsLeft === 1 ? "" : "s"} left
+            {charsLeft} {t(charsLeft === 1 ? "bioCharsLeft" : "bioCharsLeft")}
           </Typography>
         }
       />
+      {helperText ? <FormHelperText>{helperText}</FormHelperText> : null}
     </FormControl>
   )
 }

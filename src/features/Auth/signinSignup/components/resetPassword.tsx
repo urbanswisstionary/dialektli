@@ -6,6 +6,7 @@ import Input from "@mui/joy/Input"
 import { FC, FormEvent, useCallback } from "react"
 import Button from "@/ui/Button"
 import { useReCaptcha } from "next-recaptcha-v3"
+import { useTranslation } from "next-i18next"
 
 interface FormElements extends HTMLFormControlsCollection {
   email: HTMLInputElement
@@ -15,6 +16,9 @@ interface ResetPasswordFormElement extends HTMLFormElement {
 }
 
 const ResetPasswordForm: FC = () => {
+  const { t } = useTranslation("common", {
+    keyPrefix: "auth.resetPasswordPage",
+  })
   const { executeRecaptcha } = useReCaptcha()
 
   const onSubmit = useCallback(
@@ -35,11 +39,11 @@ const ResetPasswordForm: FC = () => {
   return (
     <form onSubmit={onSubmit}>
       <FormControl required>
-        <FormLabel>Email</FormLabel>
+        <FormLabel>{t("email")}</FormLabel>
         <Input type="email" name="email" />
       </FormControl>
       <Box sx={{ mt: 2 }}>
-        <Button type="submit">Reset Password</Button>
+        <Button type="submit">{t("resetPassword")}</Button>
       </Box>
     </form>
   )

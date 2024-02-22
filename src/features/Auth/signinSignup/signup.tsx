@@ -8,6 +8,7 @@ import Button from "@/ui/Button"
 import PasswordInput from "./components/passwordInput"
 import { signIn } from "next-auth/react"
 import { useReCaptcha } from "next-recaptcha-v3"
+import { useTranslation } from "next-i18next"
 
 interface FormElements extends HTMLFormControlsCollection {
   name: HTMLInputElement
@@ -20,6 +21,7 @@ interface SignupFormElement extends HTMLFormElement {
 }
 
 const SigninForm: FC = () => {
+  const { t } = useTranslation("common", { keyPrefix: "auth.signupPage" })
   const { executeRecaptcha } = useReCaptcha()
   const [passwordError, setPasswordError] = useState<string | undefined>()
 
@@ -45,11 +47,11 @@ const SigninForm: FC = () => {
   return (
     <form onSubmit={onSubmit}>
       <FormControl required>
-        <FormLabel>Name</FormLabel>
+        <FormLabel>{t("name")}</FormLabel>
         <Input name="name" />
       </FormControl>
       <FormControl required>
-        <FormLabel>Email</FormLabel>
+        <FormLabel>{t("email")}</FormLabel>
         <Input type="email" name="email" />
       </FormControl>
 
@@ -57,11 +59,11 @@ const SigninForm: FC = () => {
       <PasswordInput required name="passwordRepeat" error={passwordError} />
 
       <FormHelperText id="email-helper-text">
-        We&apos;ll never share your information.
+        {t("weWillNeverShareYourInfo")}
       </FormHelperText>
 
       <Box sx={{ mt: 2 }}>
-        <Button type="submit">Sign up</Button>
+        <Button type="submit">{t("title")}</Button>
       </Box>
     </form>
   )

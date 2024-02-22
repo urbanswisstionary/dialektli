@@ -6,6 +6,7 @@ import Tooltip from "@mui/joy/Tooltip"
 import { useTermAction } from "@/hooks/useTerms"
 import NextLink from "next/link"
 import Link from "@mui/joy/Link"
+import { useTranslation, Trans } from "next-i18next"
 
 type TermCardActionButtonProps = PropsWithChildren<{
   badgeContent?: number | string
@@ -29,6 +30,8 @@ const TermCardActionButton: FC<TermCardActionButtonProps> = ({
   action,
   ...props
 }) => {
+  const { t } = useTranslation("common")
+
   const { termAction, loading: termActionLoading } = useTermAction(termId)
 
   const onActionClick = () => termAction(action)
@@ -44,6 +47,7 @@ const TermCardActionButton: FC<TermCardActionButtonProps> = ({
       <IconButton
         variant={variant}
         size={size}
+        title={t(`actions.${action}`)}
         sx={[
           {
             transition: "transform 0.1s ease",
@@ -70,13 +74,13 @@ const TermCardActionButton: FC<TermCardActionButtonProps> = ({
       <Tooltip
         variant="soft"
         title={
-          <>
-            Please{" "}
-            <Link component={NextLink} href="/account/signin">
-              sign in
-            </Link>{" "}
-            to {action} this term.
-          </>
+          <Trans
+            i18nKey={"term.pleaseSignInForTermAction"}
+            components={[
+              <Link key="link" component={NextLink} href="/account/signin" />,
+            ]}
+            values={{ action: t(`actions.${action}`) }}
+          />
         }
       >
         {content}

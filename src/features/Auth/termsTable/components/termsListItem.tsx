@@ -43,10 +43,6 @@ const TermsListItem: FC<{ term: AdminTermFragmentFragment }> = ({ term }) => (
         ) : null}
         <Box sx={{ my: 1 }}>
           <Typography level="body-xs">
-            <b>Created At:</b> {formatDate({ date: term.createdAt })}
-          </Typography>
-
-          <Typography level="body-xs">
             <b>Last Updated:</b> {formatDate({ date: term.updatedAt })}
           </Typography>
         </Box>

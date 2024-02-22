@@ -16,11 +16,11 @@ import Typography from "@mui/joy/Typography"
 import SupportRoundedIcon from "@mui/icons-material/SupportRounded"
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded"
 import { signOut } from "next-auth/react"
-import { MeFragmentFragment } from "@@/generated/graphql"
 import { useRouter } from "next/router"
 import CottageRoundedIcon from "@mui/icons-material/CottageRounded"
 import SidebarOption from "./components/sidebarOption"
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded"
+import { useTranslation } from "next-i18next"
 
 const AuthedSidebarOptions = dynamic(
   () => import("./components/authedSidebarOptions"),
@@ -28,6 +28,7 @@ const AuthedSidebarOptions = dynamic(
 )
 
 const Sidebar: FC = () => {
+  const { t } = useTranslation("common", { keyPrefix: "layout.sidebar" })
   const { me, isAdmin } = useMe()
   const router = useRouter()
   return (
@@ -99,16 +100,18 @@ const Sidebar: FC = () => {
       >
         <List size="sm" sx={{ flexGrow: 0 }}>
           <SidebarOption
-            label="Home"
+            label={t("home")}
             startDecorator={<CottageRoundedIcon />}
             selected={router.pathname === "/"}
             link={"/"}
           />
         </List>
         {me ? <AuthedSidebarOptions isAdmin={isAdmin} /> : null}
+
         <List size="sm" sx={{ mt: "auto", flexGrow: 0 }}>
+        <Divider sx={{ mb: 1, mt: 2 }} />
           <SidebarOption
-            label="support"
+            label={t("support")}
             startDecorator={<SupportRoundedIcon />}
             disabled
             selected={router.pathname === "/support"}
@@ -117,10 +120,35 @@ const Sidebar: FC = () => {
           <Divider />
 
           {me ? (
-            <UserInfo me={me} />
+            <Box display="flex" gap={1} alignItems="center">
+              {me.image ? (
+                <Avatar variant="outlined" size="sm" src={me.image} />
+              ) : (
+                <Avatar variant="outlined" size="sm">
+                  {me.name?.length ? me.name[0] : me.email[0]}
+                </Avatar>
+              )}
+              <Box sx={{ minWidth: 0, flex: 1 }}>
+                <Typography level="title-sm" noWrap>
+                  {me.name}
+                </Typography>
+                <Typography level="body-xs" noWrap>
+                  {me.email}
+                </Typography>
+              </Box>
+              <IconButton
+                size="sm"
+                variant="plain"
+                color="neutral"
+                onClick={() => signOut()}
+                title={t("signOut")}
+              >
+                <LogoutRoundedIcon />
+              </IconButton>
+            </Box>
           ) : (
             <SidebarOption
-              label="Sign In"
+              label={t("signIn")}
               startDecorator={<LoginRoundedIcon />}
               selected={router.pathname === "/account/signin"}
               link={"/account/signin"}
@@ -133,32 +161,3 @@ const Sidebar: FC = () => {
 }
 
 export default Sidebar
-
-const UserInfo: FC<{ me: MeFragmentFragment }> = ({ me }) => (
-  <Box display="flex" gap={1} alignItems="center">
-    {me.image ? (
-      <Avatar variant="outlined" size="sm" src={me.image} />
-    ) : (
-      <Avatar variant="outlined" size="sm">
-        {me.name?.length ? me.name[0] : me.email[0]}
-      </Avatar>
-    )}
-    <Box sx={{ minWidth: 0, flex: 1 }}>
-      <Typography level="title-sm" noWrap>
-        {me.name}
-      </Typography>
-      <Typography level="body-xs" noWrap>
-        {me.email}
-      </Typography>
-    </Box>
-    <IconButton
-      size="sm"
-      variant="plain"
-      color="neutral"
-      onClick={() => signOut()}
-      title="Sign out"
-    >
-      <LogoutRoundedIcon />
-    </IconButton>
-  </Box>
-)

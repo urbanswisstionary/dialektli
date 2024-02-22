@@ -5,12 +5,14 @@ import Input from "@mui/joy/Input"
 import { FC, useState, MouseEvent } from "react"
 import { FormHelperText, IconButton } from "@mui/joy"
 import { Visibility, VisibilityOff } from "@mui/icons-material"
+import { useTranslation } from "next-i18next"
 
 const PasswordInput: FC<{
   required?: boolean
   name?: string
   error?: string
 }> = ({ required, name = "password", error }) => {
+  const { t } = useTranslation("common")
   const [showPassword, setShowPassword] = useState(false)
 
   const handleClickShowPassword = () => setShowPassword((show) => !show)
@@ -19,7 +21,7 @@ const PasswordInput: FC<{
 
   return (
     <FormControl required={required} error={!!error}>
-      <FormLabel>Password</FormLabel>
+      <FormLabel>{t("auth.passwordFieldLabel")}</FormLabel>
       <Input
         name={name}
         type={showPassword ? "text" : "password"}

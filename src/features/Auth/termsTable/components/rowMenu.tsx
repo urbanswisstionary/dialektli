@@ -20,8 +20,10 @@ import type { AdminTermFragmentFragment } from "@@/generated/graphql"
 import ListItemDecorator from "@mui/joy/ListItemDecorator"
 import { useDeleteTermMutation, useUpdateTermMutations } from "@/hooks/useTerms"
 import CircularProgress from "@mui/joy/CircularProgress"
+import { useTranslation } from "next-i18next"
 
 const RowMenu: FC<{ term: AdminTermFragmentFragment }> = ({ term }) => {
+  const { t } = useTranslation("common", { keyPrefix: "actions" })
   const [openDeleteConfirmation, setOpenDeleteConfirmation] = useState(false)
   const { deleteTerm, loading: deleteTermLoading } = useDeleteTermMutation()
   const { updateTerm, loading: updateTermLoading } = useUpdateTermMutations()
@@ -48,7 +50,7 @@ const RowMenu: FC<{ term: AdminTermFragmentFragment }> = ({ term }) => {
         </MenuButton>
         <Menu size="sm" sx={{ minWidth: 140 }}>
           <MenuItem component={Link} href={`/term/edit/${term.id}`}>
-            Edit
+            {t("edit")}
           </MenuItem>
 
           <MenuItem
@@ -56,8 +58,7 @@ const RowMenu: FC<{ term: AdminTermFragmentFragment }> = ({ term }) => {
             onClick={publishOrUpublishHandler}
             disabled={updateTermLoading}
           >
-            {term.published ? "Unpublish" : "Publish"}
-
+            {t(term.published ? "unpublish" : "publish")}
             {updateTermLoading ? (
               <ListItemDecorator>
                 <CircularProgress size="sm" />
@@ -72,7 +73,7 @@ const RowMenu: FC<{ term: AdminTermFragmentFragment }> = ({ term }) => {
             onClick={() => setOpenDeleteConfirmation(true)}
             disabled={deleteTermLoading}
           >
-            Delete
+            {t("delete")}
             <ListItemDecorator sx={{ color: "danger" }}>
               {deleteTermLoading ? (
                 <CircularProgress size="sm" color="danger" />
@@ -90,11 +91,11 @@ const RowMenu: FC<{ term: AdminTermFragmentFragment }> = ({ term }) => {
         <ModalDialog variant="outlined" role="alertdialog">
           <DialogTitle>
             <WarningRoundedIcon />
-            Confirmation
+            {t("confirmation")}
           </DialogTitle>
           <Divider />
           <DialogContent>
-            Are you sure you want to delete "{term.title}"?
+            {t("confirmDelete")} "{term.title}"?
           </DialogContent>
           <DialogActions sx={{ justifyContent: "space-between" }}>
             <Button
@@ -107,14 +108,14 @@ const RowMenu: FC<{ term: AdminTermFragmentFragment }> = ({ term }) => {
                 })
               }}
             >
-              Delete
+              {t("delete")}
             </Button>
             <Button
               variant="plain"
               color="neutral"
               onClick={() => setOpenDeleteConfirmation(false)}
             >
-              Cancel
+              {t("cancel")}
             </Button>
           </DialogActions>
         </ModalDialog>

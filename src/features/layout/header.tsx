@@ -10,10 +10,12 @@ import Box from "@mui/joy/Box"
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded"
 import { useRouter } from "next/router"
 import { useMe } from "@/hooks/useMe"
+import { useTranslation } from "next-i18next"
 
 const signinPagePathname = "/account/signin"
 
 const Header: FC<{ hideSidebar?: boolean }> = ({ hideSidebar }) => {
+  const { t } = useTranslation("common", { keyPrefix: "layout" })
   const router = useRouter()
   const { loading: MeLoading } = useMe()
   return (
@@ -42,7 +44,7 @@ const Header: FC<{ hideSidebar?: boolean }> = ({ hideSidebar }) => {
       </Link>
 
       {hideSidebar ? (
-        <Box display="flex" gap={2}>
+        <Box display="flex" gap={1}>
           <Link
             href={signinPagePathname}
             passHref
@@ -50,7 +52,7 @@ const Header: FC<{ hideSidebar?: boolean }> = ({ hideSidebar }) => {
             hidden={router.pathname === signinPagePathname || MeLoading}
           >
             <IconButton
-              title="Sign In"
+              title={t("sidebar.signIn")}
               variant="outlined"
               color="neutral"
               size="sm"
@@ -61,15 +63,17 @@ const Header: FC<{ hideSidebar?: boolean }> = ({ hideSidebar }) => {
           <ColorSchemeToggle />
         </Box>
       ) : (
-        <IconButton
-          onClick={() => toggleSidebar()}
-          variant="outlined"
-          color="neutral"
-          size="sm"
-          sx={{ display: { xs: "inherit", md: "none" } }}
-        >
-          <MenuRoundedIcon />
-        </IconButton>
+        <Box display="flex" gap={1}>
+          <IconButton
+            onClick={() => toggleSidebar()}
+            variant="outlined"
+            color="neutral"
+            size="sm"
+            sx={{ display: { xs: "inherit", md: "none" } }}
+          >
+            <MenuRoundedIcon />
+          </IconButton>
+        </Box>
       )}
     </Sheet>
   )

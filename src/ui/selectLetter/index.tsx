@@ -26,6 +26,7 @@ const SelectLetter: FC<SelectLetterProps> = ({
       {allLetters.map((letter, i) => (
         <Grid key={i}>
           <Card
+            aria-label={letter}
             onClick={() => {
               if (onChange) onChange(letter)
             }}

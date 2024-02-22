@@ -1,7 +1,7 @@
 import Layout from "@/features/layout/layout"
 import { useMe } from "@/hooks/useMe"
 import Link from "@mui/joy/Link"
-import { NextPage } from "next"
+import { GetStaticProps, NextPage } from "next"
 import dynamic from "next/dynamic"
 import NextLink from "next/link"
 import { useRouter } from "next/router"
@@ -10,6 +10,7 @@ import Box from "@mui/joy/Box"
 import Typography from "@mui/joy/Typography"
 import CircularProgress from "@mui/joy/CircularProgress"
 import Stack from "@mui/joy/Stack"
+import { getStaticPropsTranslations } from "@/utils/i18n"
 
 const MyProfile = dynamic(() => import("@/features/Auth/profile"), {
   ssr: false,
@@ -30,24 +31,21 @@ const ProfilePage: NextPage = () => {
   const view = query.view ?? "profile"
   return (
     <Layout>
-      <Box sx={{ mb: 2, alignItems: { xs: "start", sm: "center" } }}>
-        <Typography level="h2" component="h1" textTransform="capitalize">
-          {view}
-        </Typography>
+      <Box mt={2}>
+        {meLoading ? (
+          <Stack direction="row" justifyContent="center" my={5}>
+            <CircularProgress size="lg" variant="soft" />
+          </Stack>
+        ) : !me ? (
+          <NoUserFound />
+        ) : view === "terms" ? (
+          <TermsTable />
+        ) : view === "users" && isAdmin ? (
+          <h1>Users table</h1>
+        ) : (
+          <MyProfile me={me} />
+        )}
       </Box>
-      {meLoading ? (
-        <Stack direction="row" justifyContent="center" my={5}>
-          <CircularProgress size="lg" variant="soft" />
-        </Stack>
-      ) : !me ? (
-        <NoUserFound />
-      ) : view === "terms" ? (
-        <TermsTable />
-      ) : view === "users" && isAdmin ? (
-        <h1>Users table</h1>
-      ) : (
-        <MyProfile me={me} />
-      )}
     </Layout>
   )
 }
@@ -63,3 +61,7 @@ const NoUserFound = () => (
     again
   </>
 )
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => ({
+  props: { ...(await getStaticPropsTranslations(locale)) },
+})

@@ -9,7 +9,7 @@ export type Guideline = { title: string; description?: string }
 
 type GuidelinesListProps = {
   mode: "dos" | "dont's"
-  guiedlines: Guideline[]
+  guiedlines?: Guideline[]
 }
 const GuidelinesList: FC<ListProps & GuidelinesListProps> = ({
   mode,
@@ -40,7 +40,7 @@ const GuidelinesList: FC<ListProps & GuidelinesListProps> = ({
     {...props}
   >
     <ListSubheader sx={{}}>{mode}</ListSubheader>
-    {guiedlines.map((guideline, i) => (
+    {(Array.isArray(guiedlines) ? guiedlines : []).map((guideline, i) => (
       <ListItem key={i}>
         <ListItemContent>
           <Typography level="title-sm">{guideline.title}</Typography>

@@ -8,73 +8,83 @@ import Textarea from "@mui/joy/Textarea"
 import ChipDelete from "@mui/joy/ChipDelete"
 import IconButton from "@mui/joy/IconButton"
 import AddIcon from "@mui/icons-material/Add"
+import { useTranslation } from "next-i18next"
 
 const WordExamplesInput: FC<{
   values: string[]
   onChange: (_values: string[]) => void
   disabled?: boolean
-}> = ({ values, onChange, disabled }) => (
-  <>
-    <FormLabel
-      sx={{
-        pt: 1,
-        pb: 0,
-        color: disabled
-          ? "var(--joy-palette-neutral-plainDisabledColor)"
-          : undefined,
-      }}
-    >
-      Examples
-    </FormLabel>
-    {values.map((example, i) => (
-      <WordExampleInput
-        key={i}
-        sx={{ marginTop: "8px !important" }}
-        value={example}
-        onChange={(example) => {
-          const newExamples = [...values]
-          newExamples[i] = example
-          onChange(newExamples)
-        }}
-        onDelete={() => {
-          const newExamples = [...values]
-          newExamples.splice(i, 1)
-          onChange(newExamples.length ? newExamples : [""])
-        }}
-        exampleNumber={i + 1}
-        disabled={disabled}
-      />
-    ))}
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "space-between",
-        pl: 1,
-        pr: 1.5,
-      }}
-    >
-      <FormHelperText
+  label?: string
+  helperText?: string
+}> = ({ values, onChange, disabled, label, helperText }) => {
+  const { t } = useTranslation("common", { keyPrefix: "term.editTerm" })
+  return (
+    <>
+      {label ? (
+        <FormLabel
+          sx={{
+            pt: 1,
+            pb: 0,
+            color: disabled
+              ? "var(--joy-palette-neutral-plainDisabledColor)"
+              : undefined,
+          }}
+        >
+          {label}
+        </FormLabel>
+      ) : null}
+      {values.map((example, i) => (
+        <WordExampleInput
+          key={i}
+          sx={{ marginTop: "8px !important" }}
+          value={example}
+          onChange={(example) => {
+            const newExamples = [...values]
+            newExamples[i] = example
+            onChange(newExamples)
+          }}
+          onDelete={() => {
+            const newExamples = [...values]
+            newExamples.splice(i, 1)
+            onChange(newExamples.length ? newExamples : [""])
+          }}
+          exampleNumber={i + 1}
+          disabled={disabled}
+        />
+      ))}
+      <Box
         sx={{
-          color: disabled
-            ? "var(--joy-palette-neutral-plainDisabledColor)"
-            : undefined,
+          display: "flex",
+          justifyContent: "space-between",
+          pl: 1,
+          pr: 1.5,
         }}
       >
-        You can add up to 3 examples.
-      </FormHelperText>
-      <IconButton
-        title="Add another example"
-        variant="outlined"
-        color="neutral"
-        size="md"
-        disabled={values.length > 2 || disabled}
-        onClick={() => onChange([...values, ""])}
-      >
-        <AddIcon />
-      </IconButton>
-    </Box>
-  </>
-)
+        {helperText ? (
+          <FormHelperText
+            sx={{
+              color: disabled
+                ? "var(--joy-palette-neutral-plainDisabledColor)"
+                : undefined,
+            }}
+          >
+            {helperText}
+          </FormHelperText>
+        ) : null}
+        <IconButton
+          title={t("addExample")}
+          variant="outlined"
+          color="neutral"
+          size="md"
+          disabled={values.length > 2 || disabled}
+          onClick={() => onChange([...values, ""])}
+        >
+          <AddIcon />
+        </IconButton>
+      </Box>
+    </>
+  )
+}
 
 export default WordExamplesInput
 
@@ -86,6 +96,7 @@ const WordExampleInput: FC<
     exampleNumber: number
   }
 > = ({ value, onChange, onDelete, exampleNumber, ...formControlProps }) => {
+  const { t } = useTranslation("common", { keyPrefix: "term.editTerm" })
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
   return (
     <FormControl {...formControlProps}>
@@ -121,7 +132,7 @@ const WordExampleInput: FC<
               }}
               slotProps={{
                 root: {
-                  title: "Delete this example",
+                  title:t("deleteExample"),
                   onFocus: () => textareaRef.current?.focus(),
                 },
               }}

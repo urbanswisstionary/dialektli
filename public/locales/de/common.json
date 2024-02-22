@@ -1,0 +1,170 @@
+{
+  "true": "Wahr",
+  "false": "Falsch",
+  "noData": "Keine Daten",
+  "layout": {
+    "sidebar": {
+      "signIn": "Anmelden",
+      "signOut": "Abmelden",
+      "home": "Startseite",
+      "support": "Support",
+      "profile": "Mein Profil",
+      "terms": "Meine Begriffe",
+      "users": "Benutzer",
+      "createNewUser": "Neuen Benutzer erstellen",
+      "rolesAndPermissions": "Rollen und Berechtigungen"
+    }
+  },
+  "filterBy": {
+    "canton": "Filtern nach Kanton",
+    "firstChar": "Filtern nach erstem Zeichen"
+  },
+  "searchTermsInput": {
+    "search": "Suche"
+  },
+  "newTermButton": {
+    "newTerm": "Neuer Begriff"
+  },
+  "actions": {
+    "open": "Öffnen",
+    "close": "Schließen",
+    "clear": "Leeren",
+    "submit": "Einreichen",
+    "cancel": "Abbrechen",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "expand": "Erweitern",
+    "collapse": "Zusammenklappen",
+    "save": "Speichern",
+    "flag": "Kennzeichnen",
+    "like": "Gern",
+    "dislike": "Nicht gern",
+    "publish": "Veröffentlichen",
+    "unpublish": "Nicht veröffentlichen",
+    "select": "Auswählen",
+    "confirmation": "Bestätigung",
+    "confirmDelete": "Sind Sie sicher, dass Sie löschen möchten",
+    "toggleColorScheme": "Farbschema umschalten",
+    "option": "Option",
+    "options": "Optionen"
+  },
+  "auth": {
+    "signinPage": {
+      "title": "Anmelden",
+      "withGoogle": "Weiter mit Google",
+      "email": "E-Mail",
+      "forgotPassword": "Passwort vergessen?"
+    },
+    "signupPage": {
+      "title": "Registrieren",
+      "alreadyHaveAccount": "Bereits ein Konto?",
+      "signIn": "Anmelden!",
+      "or": "oder",
+      "withGoogle": "Weiter mit Google",
+      "name": "Name",
+      "email": "E-Mail",
+      "weWillNeverShareYourInfo": "Wir werden Ihre Informationen niemals teilen."
+    },
+    "resetPasswordPage": {
+      "title": "Passwort zurücksetzen",
+      "email": "E-Mail",
+      "resetPassword": "Passwort zurücksetzen"
+    },
+    "passwordFieldLabel": "Passwort",
+    "profile": {
+      "title": "Persönliche Informationen",
+      "description": "Passen Sie an, wie Ihre Profilinformationen in den Netzwerken angezeigt werden.",
+      "name": "Name",
+      "email": "E-Mail",
+      "country": "Land",
+      "canton": "Kanton",
+      "bio": "Biografie",
+      "bioHelperText": "Verfassen Sie eine kurze Einleitung, die auf Ihrem Profil angezeigt wird",
+      "bioCharLeft": "Zeichen übrig",
+      "bioCharsLeft": "Zeichen übrig"
+    },
+    "myTerms": {
+      "title": "Begriffe"
+    }
+  },
+  "guidelinesPage": {
+    "title": "Richtlinien für Inhalte",
+    "description": "Urban Swisstionary ist eine Community für alle, auch für Sie. Jeder kann eine Definition veröffentlichen, aber um es für alle unterhaltsam zu halten, bitten wir Sie, die folgenden Grundregeln zu befolgen:",
+
+    "dos": [
+      {
+        "title": "Für ein großes Publikum schreiben.",
+        "description": "Wenn Sie ein Wort definieren, stellen Sie sicher, genügend Kontext zu liefern, damit andere verstehen, was es bedeutet und wie es normalerweise verwendet wird. Brauchen Sie etwas Hilfe? Schauen Sie sich unser Wort des Tages für einige Beispiele an."
+      },
+      {
+        "title": "Sei kreativ.",
+        "description": "Einige der besten Definitionen auf Urban Swisstionary finden humorvolle Möglichkeiten, Autorität zu verspotten, oder setzen einen cleveren Twist auf aktuelle Ereignisse. Einige von ihnen sind einfach seltsam. Wir haben damit kein Problem."
+      },
+      {
+        "title": "Haben Sie Spaß.",
+        "description": "Wir sind kein traditionelles Wörterbuch. Dies ist ein Ort, an dem Sprache etwas mehr Raum hat, um frei erkundet und konstruiert zu werden, im Moment."
+      }
+    ],
+    "donts": [
+      {
+        "title": "Persönliche Informationen nicht veröffentlichen.",
+        "description": "Das schließt offensichtliche Dinge wie Nachnamen und Adressen ein, aber wir werden auch Definitionen entfernen, die Vornamen oder Benutzernamen enthalten, wenn sie dazu verwendet werden können, bestimmte Personen für Belästigung zu identifizieren."
+      },
+      {
+        "title": "Kein Arschloch sein.",
+        "description": "Wir haben kein Problem damit, dass Menschen beleidigende Wörter definieren. Schließlich verwenden Menschen beleidigende Wörter auch im wirklichen Leben, und eine Ressource zur Verständigung, was diese Wörter bedeuten, kann wertvoll sein. Wir sind jedoch nicht und werden niemals damit einverstanden sein, dass Menschen eine Definition verwenden, um andere zu belästigen, zu diskriminieren und/oder direkt zu Gewalttaten aufzurufen."
+      }
+    ]
+  },
+  "term": {
+    "term": "Begriff",
+    "description": "Beschreibung",
+    "author": "Autor",
+    "country": "Land",
+    "canton": "Kanton",
+    "title": "Begriff",
+    "status": "Status",
+    "flagged": "Gekennzeichnet",
+    "published": "Veröffentlicht",
+    "unpublished": "Nicht veröffentlicht",
+    "updatedAt": "Aktualisiert am",
+    "examples": "Beispiele",
+    "pleaseSignInForTermAction": "Bitte <0>melden Sie sich an</0>, um '{{action}}' für den Begriff.",
+    "cantonFieldPlaceholder": "Kanton auswählen",
+    "countryFieldPlaceholder": "Land auswählen",
+    "cantonFieldHelperText": "Wählen Sie die Kantone aus, mit denen dieser Begriff verbunden ist",
+    "descriptionFieldHelperText": "<bold>Schreiben Sie für ein großes Publikum.</bold> Viele Menschen werden dies lesen, also geben Sie einige Hintergrundinformationen.",
+    "examplesFieldHelperText": "Geben Sie Beispiele dafür, wie dieser Begriff im Kontext verwendet wird, oder wie er in einem Satz verwendet wird. Dies wird anderen helfen, den Begriff besser zu verstehen.",
+    "newTerm": {
+      "title": "Neuer Begriff",
+      "description": "Alle Definitionen wurden von Menschen wie Ihnen geschrieben. Jetzt haben Sie die Möglichkeit, Ihre eigene hinzuzufügen!",
+      "recapchaError": {
+        "message": "Entschuldigung, es wurde ein Fehler gefunden.",
+        "clickHere": "Klicken Sie hier, um die Seite zu aktualisieren und es erneut zu versuchen"
+      }
+    },
+    "editTerm": {
+      "title": "Begriff bearbeiten",
+      "notAuthorizedWarning": "Sie sind nicht berechtigt, diesen Begriff zu bearbeiten",
+      "claimOwnership": "Wenn Sie zu diesem Wert beigetragen haben und Eigentumsrechte an diesem Wert geltend machen möchten.",
+      "claimOwnershipAnonymous": "Um Änderungen vorzunehmen, melden Sie sich bitte bei Ihrem Konto an und beanspruchen Sie das Eigentum am Begriff. Oder, wenn Sie lieber anonym bleiben möchten, wird Ihr Begriff von einem Administrator überprüft, bevor er anonym veröffentlicht wird.",
+      "addExample": "Ein weiteres Beispiel hinzufügen",
+      "deleteExample": "Beispiel löschen"
+    },
+    "reviewGuidelines": {
+      "pleaseReviewContentGuidelines": "Bitte überprüfen Sie unsere <0>Richtlinien für Inhalte</0>, bevor Sie Ihren Begriff einreichen.",
+      "shortVersion": {
+        "title": "Hier ist die Kurzfassung:",
+        "dos": [
+          {
+            "title": "Teilen Sie Definitionen, die andere Menschen als sinnvoll empfinden werden"
+          }
+        ],
+        "donts": [
+          { "title": "niemals Hassrede posten" },
+          { "title": "niemals persönliche Informationen von Menschen posten." }
+        ]
+      }
+    }
+  }
+}

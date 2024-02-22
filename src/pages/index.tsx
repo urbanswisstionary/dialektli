@@ -3,9 +3,9 @@ import Layout from "@/features/layout/layout"
 import SearchTermsInput from "@/ui/SearchTermsInput"
 import Box from "@mui/joy/Box"
 import Stack from "@mui/joy/Stack"
-import { NextPage } from "next"
+import { GetStaticProps, NextPage } from "next"
 import { useTermsQuery } from "@/hooks/useTerms"
-import SelectSingleLocation from "@/ui/selectLocation/selectSingleLocation"
+import SelectSingleLocation from "@/ui/Autocomplete/selectSingleLocation"
 import { ParsedUrlQuery } from "querystring"
 import { useRouter } from "next/router"
 import { setQueryOnPage } from "@/utils/setQueryOnPage"
@@ -14,6 +14,8 @@ import Accordion from "@/ui/Accordion"
 import TermsCardsList from "@/features/termsCardsList"
 import { usePaginationState } from "@/hooks/usePaginationState"
 import NewTermButton from "@/ui/NewTermButton"
+import { useTranslation } from "next-i18next"
+import { getStaticPropsTranslations } from "@/utils/i18n"
 
 type Query = ParsedUrlQuery & {
   canton?: string
@@ -21,6 +23,7 @@ type Query = ParsedUrlQuery & {
 }
 
 const Home: NextPage = () => {
+  const { t } = useTranslation("common")
   const router = useRouter()
   const query = router.query as Query
   const me = useMe().me
@@ -47,18 +50,17 @@ const Home: NextPage = () => {
           <SearchTermsInput sx={{ flex: 1 }} disabled={loadingTermsQuery} />
           <NewTermButton disabled={loadingTermsQuery} />
         </Box>
-
         <SelectSingleLocation
           mode="canton"
           value={query.canton}
           onChange={(canton) => setQueryOnPage(router, { canton })}
-          placeholder="Filter by canton"
+          placeholder={t("filterBy.canton")}
           disabled={loadingTermsQuery}
         />
         <Accordion
           content={[
             {
-              label: "Filter by first charachter",
+              label: t("filterBy.firstChar"),
               children: (
                 <SelectLetter
                   value={query.firstChar}
@@ -85,3 +87,7 @@ const Home: NextPage = () => {
 }
 
 export default Home
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => ({
+  props: { ...(await getStaticPropsTranslations(locale)) },
+})

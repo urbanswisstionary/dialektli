@@ -1,0 +1,175 @@
+{
+  "true": "True",
+  "false": "False",
+  "noData": "No Data",
+  "selectLanguage": {
+    "en": "English",
+    "de": "Deutsch",
+    "fr": "Français"
+  },
+  "layout": {
+    "sidebar": {
+      "signIn": "Sign In",
+      "signOut": "Sign Out",
+      "home": "Home",
+      "support": "Support",
+      "profile": "My Profile",
+      "terms": "My Terms",
+      "users": "Users",
+      "createNewUser": "Create New User",
+      "rolesAndPermissions": "Roles & Permissions"
+    }
+  },
+  "filterBy": {
+    "canton": "Filter by Canton",
+    "firstChar": "Filter by First Character"
+  },
+  "searchTermsInput": {
+    "search": "Search"
+  },
+  "newTermButton": {
+    "newTerm": "New Term"
+  },
+  "actions": {
+    "open": "Open",
+    "close": "Close",
+    "clear": "Clear",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "expand": "Expand",
+    "collapse": "Collapse",
+    "save": "Save",
+    "flag": "Flag",
+    "like": "Like",
+    "dislike": "Dislike",
+    "publish": "Publish",
+    "unpublish": "Unpublish",
+    "select": "Select",
+    "confirmation": "Confirmation",
+    "confirmDelete": "Are you sure you want to delete",
+    "toggleColorScheme": "Toggle Color Scheme",
+    "option": "Option",
+    "options": "Options"
+  },
+  "auth": {
+    "signinPage": {
+      "title": "Sign In",
+      "withGoogle": "Continue with Google",
+      "email": "Email",
+      "forgotPassword": "Forgot your password?"
+    },
+    "signupPage": {
+      "title": "Sign Up",
+      "alreadyHaveAccount": "Already have an account?",
+      "signIn": "Sign In!",
+      "or": "or",
+      "withGoogle": "Continue with Google",
+      "name": "Name",
+      "email": "Email",
+      "weWillNeverShareYourInfo": "We will never share your information."
+    },
+    "resetPasswordPage": {
+      "title": "Reset Password",
+      "email": "Email",
+      "resetPassword": "Reset password"
+    },
+    "passwordFieldLabel": "Password",
+    "profile": {
+      "title": "Personal Information",
+      "description": "Customize how your profile information will apper to the networks.",
+      "name": "Name",
+      "email": "Email",
+      "country": "Country",
+      "canton": "Canton",
+      "bio": "Bio",
+      "bioHelperText": "Write a short introduction to be displayed on your profile",
+      "bioCharLeft": "character left",
+      "bioCharsLeft": "characters left"
+    },
+    "myTerms": {
+      "title": "Terms"
+    }
+  },
+  "guidelinesPage": {
+    "title": "Content Guidelines",
+    "description": "Urban Swisstionary is a community for everyone, including you. Anybody can post a definition, but in order to keep things fun for everyone, we ask that you follow the following ground rules:",
+
+    "dos": [
+      {
+        "title": "Write for a large audience.",
+        "description": "When defining a word, make sure to provide enough context for other people to understand what it means and how it's typically used. Need a little help? Look to our Word of the Day for some examples."
+      },
+      {
+        "title": "Be creative.",
+        "description": "Some of the best definitions on Urban Swisstionary find humorous ways to poke fun at authority, or put a clever twist on current events. Some of them are just straight up weird. We're okay with that."
+      },
+      {
+        "title": "Have fun.",
+        "description": "We are not a traditional dictionary. This is a place where language has a little more space to be explored and constructed freely, in the moment."
+      }
+    ],
+    "donts": [
+      {
+        "title": "Don't post personal information.",
+        "description": "That includes obvious things like last names and addresses, but we will also remove definitions containing first names or user handles if they can be used to identify and target specific individuals for harassment."
+      },
+      {
+        "title": "Don't be an asshole.",
+        "description": "We are okay with people defining offensive words. After all, people use offensive words in the real world and a resource for understanding what those words mean can be valuable. However, we are not—and never will be—okay with people using a definition to harass, discriminate, and/or directly incite violence against others."
+      }
+    ]
+  },
+  "term": {
+    "term": "Term",
+    "description": "Description",
+    "author": "Author",
+    "country": "Country",
+    "canton": "Canton",
+    "title": "term",
+    "status": "Status",
+    "flagged": "Flagged",
+    "published": "Published",
+    "unpublished": "Unpublished",
+    "updatedAt": "Updated At",
+    "examples": "Examples",
+    "pleaseSignInForTermAction": "Please <0>Sign In</0> to '{{action}}' this term.",
+    "cantonFieldPlaceholder": "Select canton",
+    "countryFieldPlaceholder": "Select country",
+    "cantonFieldHelperText": "Select the cantons this term is associated with",
+    "descriptionFieldHelperText": "<bold>Write for a large audience.</bold> Lots of people will read this, so give some background information.",
+    "examplesFieldHelperText": "Provide examples of how this term is used in context, or how it is used in a sentence. This will help others understand the term better.",
+    "newTerm": {
+      "title": "New Term",
+      "description": "All the definitions were written by people just like you. Now's your chance to add your own!",
+      "recapchaError": {
+        "message": "Sorry but an error was found.",
+        "clickHere": "Click here to refresh the page and try again"
+      }
+    },
+    "editTerm": {
+      "title": "Edit Term",
+      "notAuthorizedWarning": "You are not authorized to edit this term",
+      "claimOwnership": "If you contributed this value and would like to <0>Claim Ownership</0> over this value.",
+      "claimOwnershipAnonymous": "To make changes, please log in to your account and <0>Claim Ownership</0> of the term, or in case you prefer to remain anonymous, your term will be submitted for review by an administrator before being published anonymously.",
+      "addExample": "Add another example",
+      "deleteExample": "Delete example"
+    },
+    "reviewGuidelines": {
+      "pleaseReviewContentGuidelines": "Please review our <0>Content Guidelines</0> before submitting your term.",
+      "shortVersion": {
+        "title": "Here's the short version:",
+        "dos": [
+          {
+            "title": "Share definitions that other people will find meaningful"
+          }
+        ],
+        "donts": [
+          { "title": "never post hate speech" },
+          { "title": "never post people's personal information." }
+        ]
+      }
+    }
+  }
+}

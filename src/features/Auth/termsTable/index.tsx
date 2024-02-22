@@ -34,8 +34,11 @@ import NewTermButton from "@/ui/NewTermButton"
 import { AdminTermFragment, useAdminTermsQuery } from "@/hooks/useTerms"
 import { getFragmentData } from "@@/generated"
 import CircularProgress from "@mui/joy/CircularProgress"
+import { useTranslation } from "next-i18next"
 
 const TermsTable: FC = () => {
+  const { t } = useTranslation("common", { keyPrefix: "term" })
+
   const {
     data,
     previousData,
@@ -73,7 +76,7 @@ const TermsTable: FC = () => {
         ),
       },
       {
-        header: "Author",
+        header: t("author"),
         accessorFn: ({ author }) => author?.name,
         cell: (info) => <Typography noWrap>{info.getValue()}</Typography>,
         footer: (props) => props.column.id,
@@ -81,7 +84,7 @@ const TermsTable: FC = () => {
         sortingFn: fuzzySort,
       },
       {
-        header: "Canton",
+        header: t("canton"),
         accessorKey: "canton",
         accessorFn: ({ cantons }) => (cantons.length ? cantons : "N/A"),
         cell: (info) => {
@@ -104,7 +107,7 @@ const TermsTable: FC = () => {
         sortingFn: fuzzySort,
       },
       {
-        header: "Entry",
+        header: t("title"),
         accessorKey: "title",
         cell: (info) => <Typography noWrap>{info.getValue()}</Typography>,
         footer: (props) => props.column.id,
@@ -121,7 +124,7 @@ const TermsTable: FC = () => {
       // },
       {
         id: "status",
-        header: "Status",
+        header: t("status"),
         accessorFn: ({ published }) =>
           published ? "published" : "unpublished",
         cell: (info) => <TermStatusChip status={info.getValue<TermStatus>()} />,
@@ -129,7 +132,7 @@ const TermsTable: FC = () => {
       },
       {
         id: "flagged",
-        header: "Flagged",
+        header: t("flagged"),
         accessorFn: ({ flagged }) => (flagged.length ? "True" : "False"),
         cell: (info) => {
           const status = info.getValue<string>()
@@ -143,7 +146,7 @@ const TermsTable: FC = () => {
       },
       {
         id: "updatedAt",
-        header: "Updated At",
+        header: t("updatedAt"),
         accessorKey: "updatedAt",
         accessorFn: ({ updatedAt }) =>
           formatDate({ date: updatedAt, format: "DD. MMM YYYY H:mm" }),
@@ -162,7 +165,7 @@ const TermsTable: FC = () => {
         enableSorting: false,
       },
     ],
-    [],
+    [t],
   )
 
   const table = useReactTable({
@@ -194,8 +197,8 @@ const TermsTable: FC = () => {
   const rows = useMemo(() => table.getRowModel().rows, [table.getRowModel()])
 
   return (
-    <Sheet sx={{ minHeight: 0, borderRadius: "sm", px: 2 }}>
-      <Stack direction="row" pb={3} gap={1}>
+    <Sheet variant="outlined" sx={{ minHeight: 0, borderRadius: "sm", py: 2 }}>
+      <Stack direction="row" pb={3} gap={1} px={2}>
         <Box sx={{ flex: 1 }}>
           <DebouncedInput
             value={globalFilter ?? ""}
@@ -251,15 +254,17 @@ const TermsTable: FC = () => {
           </Box>
         </>
       )}
-      <Divider sx={{ marginBottom: "2rem" }} />
-      <Pagination
-        pageIndex={table.getState().pagination.pageIndex + 1}
-        pageCount={table.getPageCount()}
-        onPageChange={(page) => table.setPageIndex(page - 1)}
-        pageSize={table.getState().pagination.pageSize}
-        onPageSizeChange={table.setPageSize}
-        disabled={loadingAdminTermsQuery}
-      />
+      <Divider sx={{ mb: 2 }} />
+      <Box px={2}>
+        <Pagination
+          pageIndex={table.getState().pagination.pageIndex + 1}
+          pageCount={table.getPageCount()}
+          onPageChange={(page) => table.setPageIndex(page - 1)}
+          pageSize={table.getState().pagination.pageSize}
+          onPageSizeChange={table.setPageSize}
+          disabled={loadingAdminTermsQuery}
+        />
+      </Box>
     </Sheet>
   )
 }

@@ -11,12 +11,13 @@ const EmailInput: FC<
   }
 > = ({ value, onChange, ...formControlProps }) => (
   <FormControl {...formControlProps} id="email">
-    <FormLabel>Email</FormLabel>
+    {formControlProps.title ? (
+      <FormLabel>{formControlProps.title}</FormLabel>
+    ) : null}
     <Input
       size="sm"
       type="email"
       endDecorator={<EmailRoundedIcon />}
-      placeholder="email"
       value={value ?? ""}
       onChange={({ currentTarget }) => onChange(currentTarget.value)}
       autoComplete="on"

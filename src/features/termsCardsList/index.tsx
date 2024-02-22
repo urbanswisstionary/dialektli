@@ -6,6 +6,7 @@ import { FragmentType, getFragmentData } from "@@/generated"
 import { TermFragment } from "@/hooks/useTerms"
 import { useMe } from "@/hooks/useMe"
 import CircularProgress from "@mui/joy/CircularProgress"
+import { useTranslation } from "next-i18next"
 
 type TermsCardsListProps = Pick<BoxProps, "sx"> & {
   paginationProps?: PaginationProps
@@ -14,6 +15,7 @@ type TermsCardsListProps = Pick<BoxProps, "sx"> & {
 }
 
 const TermsCardsList: FC<TermsCardsListProps> = ({ sx, loading, ...props }) => {
+  const { t } = useTranslation("common")
   const { me } = useMe()
   const terms = getFragmentData(TermFragment, props.terms) ?? []
 
@@ -40,7 +42,7 @@ const TermsCardsList: FC<TermsCardsListProps> = ({ sx, loading, ...props }) => {
           <TermCard key={term.id} term={term} disableActions={!me} />
         ))
       ) : (
-        <>No data sorry :(</>
+        <>{t("noData")}</>
       )}
       {pagination}
     </Box>

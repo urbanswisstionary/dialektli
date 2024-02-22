@@ -13,7 +13,8 @@ import Snackbar from "@mui/joy/Snackbar"
 import ErrorRoundedIcon from "@mui/icons-material/ErrorRounded"
 import Button from "@mui/joy/Button"
 import { ParsedUrlQuery } from "querystring"
-import SelectMultipleLocation from "@/ui/selectLocation/selectMultipleLocations"
+import SelectMultipleLocation from "@/ui/Autocomplete/selectMultipleLocations"
+import { useTranslation } from "next-i18next"
 
 type Query = ParsedUrlQuery & {
   title?: string
@@ -29,6 +30,8 @@ const RecaptchaProvider = dynamic(() => import("@/providers/Recaptcha"), {
 })
 
 const NewTermForm: FC<{ authorId?: string }> = ({ authorId }) => {
+  const { t } = useTranslation("common")
+
   const router = useRouter()
   const query = router.query as Query
 
@@ -106,8 +109,9 @@ const NewTermForm: FC<{ authorId?: string }> = ({ authorId }) => {
         }}
       >
         <Card
-          title="New Term"
-          description="All the definitions were written by people just like you. Now's your chance to add your own!"
+          title={t("term.newTerm.title")}
+          description={t("term.newTerm.description")}
+          // description="All the definitions were written by people just like you. Now's your chance to add your own!"
           actions={{
             save: { type: "submit", loading: createTermLoading },
           }}
@@ -119,16 +123,16 @@ const NewTermForm: FC<{ authorId?: string }> = ({ authorId }) => {
             onChange={(value) => {
               onChange("title", value)
             }}
-            label="New Value"
+            label={t("term.title")}
             required
             sx={{ pt: 1 }}
             disabled={!!createTermData?.createTerm?.id}
           />
 
           <SelectMultipleLocation
-            label="Canton"
+            label={t("term.canton")}
             mode="canton"
-            helperText="Select the canton where the word is used"
+            helperText={t("term.cantonFieldHelperText")}
             value={
               typeof query.cantons === "string"
                 ? [query.cantons]
@@ -143,13 +147,16 @@ const NewTermForm: FC<{ authorId?: string }> = ({ authorId }) => {
             onChange={(value) => {
               onChange("content", value)
             }}
-            label="Description"
+            label={t("term.description")}
+            helperText={t("term.descriptionFieldHelperText")}
             required
             sx={{ pt: 1 }}
             disabled={!!createTermData?.createTerm?.id}
           />
 
           <WordExamplesInput
+            label={t("term.examples")}
+            helperText={t("term.examplesFieldHelperText")}
             values={
               typeof query.examples === "string"
                 ? [query.examples]
@@ -175,11 +182,11 @@ const NewTermForm: FC<{ authorId?: string }> = ({ authorId }) => {
             variant="soft"
             color="danger"
           >
-            Click here to refresh the page and try again
+            {t("term.newTerm.recapchaError.clickHere")}
           </Button>
         }
       >
-        Sorry but an error was found.
+        {t("term.newTerm.recapchaError.message")}
       </Snackbar>
     </RecaptchaProvider>
   )
