@@ -26,22 +26,26 @@ const Home: NextPage = () => {
   const me = useMe().me
 
   const { onDataCountChange, ...paginationProps } = usePaginationState()
-  const termQuery = useTermsQuery({
+  const {
+    data,
+    previousData,
+    loading: loadingTermsQuery,
+  } = useTermsQuery({
     offset: (paginationProps.pageIndex - 1) * paginationProps.pageSize,
     limit: paginationProps.pageSize,
     canton: query.canton,
     firstChar: query.firstChar,
   })
 
-  const data = termQuery.data?.termsQuery ?? termQuery.previousData?.termsQuery
-  onDataCountChange(data?.count)
+  const termsQuery = data?.termsQuery ?? previousData?.termsQuery
+  onDataCountChange(termsQuery?.count)
 
   return (
     <Layout hideSidebar={!me}>
       <Stack sx={{ mt: 1, mb: 3, gap: 2 }}>
         <Box sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
-          <SearchTermsInput sx={{ flex: 1 }} />
-          <NewTermButton />
+          <SearchTermsInput sx={{ flex: 1 }} disabled={loadingTermsQuery} />
+          <NewTermButton disabled={loadingTermsQuery} />
         </Box>
 
         <SelectSingleLocation
@@ -49,6 +53,7 @@ const Home: NextPage = () => {
           value={query.canton}
           onChange={(canton) => setQueryOnPage(router, { canton })}
           placeholder="Filter by canton"
+          disabled={loadingTermsQuery}
         />
         <Accordion
           content={[
@@ -63,13 +68,18 @@ const Home: NextPage = () => {
                         query.firstChar === firstChar ? null : firstChar,
                     })
                   }
+                  disabled={loadingTermsQuery}
                 />
               ),
             },
           ]}
         />
       </Stack>
-      <TermsCardsList terms={data?.terms} paginationProps={paginationProps} />
+      <TermsCardsList
+        terms={termsQuery?.terms}
+        paginationProps={paginationProps}
+        loading={loadingTermsQuery}
+      />
     </Layout>
   )
 }
