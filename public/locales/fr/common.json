@@ -2,6 +2,9 @@
   "true": "Vrai",
   "false": "Faux",
   "noData": "Aucune donnée",
+  "selectLanguage": {
+    "title": "Choisir la langue"
+  },
   "layout": {
     "sidebar": {
       "signIn": "Se connecter",

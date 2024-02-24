@@ -3,6 +3,7 @@
   "false": "False",
   "noData": "No Data",
   "selectLanguage": {
+    "title": "Select Language",
     "en": "English",
     "de": "Deutsch",
     "fr": "Français"

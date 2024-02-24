@@ -2,6 +2,9 @@
   "true": "Wahr",
   "false": "Falsch",
   "noData": "Keine Daten",
+  "selectLanguage": {
+    "title": "Sprache auswählen"
+  },
   "layout": {
     "sidebar": {
       "signIn": "Anmelden",
