@@ -26,7 +26,7 @@ const TermsCardsList: FC<TermsCardsListProps> = ({ sx, loading, ...props }) => {
   return (
     <Box
       sx={[
-        { display: "flex", flexDirection: "column", gap: 1 },
+        { display: "flex", flexDirection: "column", gap: 5 },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
     >
