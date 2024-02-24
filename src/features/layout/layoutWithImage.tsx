@@ -1,10 +1,10 @@
 import Box from "@mui/joy/Box"
-import Stack from "@mui/joy/Stack"
 import type { FC, PropsWithChildren } from "react"
 import image0_0 from "../../../public/assets/image0_0.jpg"
 import image1_0 from "../../../public/assets/image1_0.jpg"
 import Header from "./header"
-import Footer from "./footer"
+import Typography from "@mui/joy/Typography"
+import SelectLanguage from "@/ui/Autocomplete/SelectLanguage"
 
 const LayoutWithImage: FC<PropsWithChildren> = ({ children }) => (
   <>
@@ -37,7 +37,6 @@ const LayoutWithImage: FC<PropsWithChildren> = ({ children }) => (
         <Box
           component="main"
           sx={{
-            mb: "auto",
             pt: 10,
             pb: 5,
             display: "flex",
@@ -54,11 +53,27 @@ const LayoutWithImage: FC<PropsWithChildren> = ({ children }) => (
             },
           }}
         >
-          <Stack gap={4} sx={{ mb: 2 }}>
-            {children}
-          </Stack>
+          {children}
         </Box>
-        <Footer />
+        <Box
+          component="footer"
+          pt={4}
+          sx={{
+            width: "100%",
+            maxWidth: "1024px",
+            margin: "0 auto",
+            mt: "auto",
+            pb: 2,
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+          }}
+        >
+          <SelectLanguage />
+          <Typography level="body-xs" textAlign="center">
+            © UrbanSwisstionary {new Date().getFullYear()}
+          </Typography>
+        </Box>
       </Box>
     </Box>
     <BackgroundImage />
