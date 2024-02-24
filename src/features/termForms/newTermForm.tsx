@@ -141,6 +141,7 @@ const NewTermForm: FC<{ authorId?: string }> = ({ authorId }) => {
             onChange={(cantons) => {
               onChange("cantons", cantons)
             }}
+            groupOptions
           />
           <WordDescriptionInput
             value={query.content ?? ""}

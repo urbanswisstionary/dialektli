@@ -153,6 +153,7 @@ const EditTermForm: FC<{
             onChange={(cantons) => onChange("cantons", cantons)}
             helperText={t("term.cantonFieldHelperText")}
             disabled={disableFields}
+            groupOptions
           />
           <WordDescriptionInput
             value={

@@ -18,6 +18,7 @@ type SelectSingleLocationProps = Omit<
   placeholder?: string
   helperText?: string
   label?: string
+  groupOptions?: boolean
 }
 
 const SelectSingleLocation: FC<SelectSingleLocationProps> = ({
@@ -27,10 +28,19 @@ const SelectSingleLocation: FC<SelectSingleLocationProps> = ({
   label,
   helperText,
   placeholder,
+  groupOptions,
   ...props
 }) => {
   const { t } = useTranslation("common")
-  const options = useMemo(() => getOptions(mode), [mode])
+  const options = useMemo(() => {
+    const options = getOptions(mode)
+    return groupOptions
+      ? [...options].sort(({ group: a }, { group: b }) =>
+          !a || !b ? 0 : a.localeCompare(b),
+        )
+      : options
+  }, [groupOptions, mode])
+
   const valueIndex = useMemo(
     () => options.findIndex((c) => c.code === value),
     [value, options],
@@ -59,6 +69,11 @@ const SelectSingleLocation: FC<SelectSingleLocationProps> = ({
         openText={t("actions.open")}
         clearText={t("actions.clear")}
         closeText={t("actions.close")}
+        groupBy={
+          groupOptions
+            ? (option) => (option.group ? option.group : option.label[0])
+            : undefined
+        }
       />
       {helperText ? <FormHelperText>{helperText}</FormHelperText> : null}
     </FormControl>

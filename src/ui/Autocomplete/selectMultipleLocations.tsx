@@ -19,6 +19,7 @@ type SelectMultipleLocationProps = Omit<
   helperText?: string
   label?: string
   limitTags?: number
+  groupOptions?: boolean
 }
 
 const SelectMultipleLocation: FC<SelectMultipleLocationProps> = ({
@@ -29,10 +30,19 @@ const SelectMultipleLocation: FC<SelectMultipleLocationProps> = ({
   value,
   onChange,
   limitTags,
+  groupOptions,
   ...props
 }) => {
   const { t } = useTranslation("common")
-  const options = useMemo(() => getOptions(mode), [mode])
+  const options = useMemo(() => {
+    const options = getOptions(mode)
+    return groupOptions
+      ? [...options].sort(({ group: a }, { group: b }) =>
+          !a || !b ? 0 : a.localeCompare(b),
+        )
+      : options
+  }, [mode, groupOptions])
+
   const values = useMemo(
     () =>
       (value ?? []).map((code) =>
@@ -79,6 +89,11 @@ const SelectMultipleLocation: FC<SelectMultipleLocationProps> = ({
         closeText={t("actions.close")}
         filterSelectedOptions
         disableCloseOnSelect
+        groupBy={
+          groupOptions
+            ? (option) => (option.group ? option.group : option.label[0])
+            : undefined
+        }
       />
       {helperText ? <FormHelperText>{helperText}</FormHelperText> : null}
     </FormControl>
