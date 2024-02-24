@@ -12,10 +12,16 @@ import Button from "@/ui/Button"
 import RecaptchaProvider from "@/providers/Recaptcha"
 import { getStaticPropsTranslations } from "@/utils/i18n"
 import { useTranslation } from "next-i18next"
+import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 
 const SignupPage: NextPage = () => {
   const { t } = useTranslation("common", { keyPrefix: "auth.signupPage" })
-
+  const router = useRouter()
+  useEffect(() => {
+    router.replace("signin") // signup with credentials is not yet available for now just redirect to signin
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   return (
     <RecaptchaProvider>
       <LayoutWithImage>
