@@ -70,7 +70,7 @@ const NewTermForm: FC<{ authorId?: string }> = ({ authorId }) => {
           authorId,
         },
         (termId) => {
-          if (termId) router.replace(`/term/edit/${termId}?review`)
+          if (termId) router.replace(`/term/${termId}/edit?review`)
         },
       )
     } else {
