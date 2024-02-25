@@ -43,6 +43,7 @@ const SelectLanguage: FC<SelectLanguageProps> = (props) => {
             },
           }}
           onChange={(_e, locale) => onChange(locale)}
+          name="select-language"
         >
           {router.locales.map((locale) => (
             <Option key={locale} value={locale}>
