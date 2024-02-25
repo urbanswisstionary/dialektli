@@ -172,5 +172,10 @@
         ]
       }
     }
+  },
+  "404Page": {
+    "title": "404",
+    "description": "Oh no! The page you are looking for does not exist.",
+    "toHome": "Home Page"
   }
 }

@@ -169,5 +169,10 @@
         ]
       }
     }
+  },
+  "404Page": {
+    "title": "404",
+    "description": "Entschuldigung, die Seite, die Sie suchen, existiert nicht.",
+    "toHome": "Zur Startseite"
   }
 }

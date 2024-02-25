@@ -171,5 +171,10 @@
         ]
       }
     }
+  },
+  "404Page": {
+    "title": "404",
+    "description": "La page que vous recherchez n'a pas été trouvée.",
+    "toHome": "Retour à la page d'accueil"
   }
 }
