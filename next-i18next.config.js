@@ -1,5 +1,5 @@
-const defaultLocale = /** @type {"en" | "de"} */ ("en")
-const locales = /** @type {(typeof defaultLocale)[]} */ (["en", "de", "fr"])
+const defaultLocale = /** @type {"de" | "fr" | "en"} */ ("de")
+const locales = /** @type {(typeof defaultLocale)[]} */ (["de", "fr", "en"])
 
 module.exports = {
   i18n: {

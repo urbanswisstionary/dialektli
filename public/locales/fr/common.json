@@ -176,5 +176,9 @@
     "title": "404",
     "description": "La page que vous recherchez n'a pas été trouvée.",
     "toHome": "Retour à la page d'accueil"
+  },
+  "seo": {
+    "title": "Urban Swisstionary",
+    "description": "Urban Swisstionary est un dictionnaire communautaire d'argot et de dialectes suisses. C'est un endroit où le langage a un peu plus d'espace pour être exploré et construit librement, sur le moment. C'est un endroit pour partager des mots, des dictons, des phrases actuels (familiers) suisses allemands, français, italiens et romanches, ce genre de choses."
   }
 }
