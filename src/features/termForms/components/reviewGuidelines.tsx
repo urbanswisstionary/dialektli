@@ -20,7 +20,7 @@ const ReviewGuidelines: FC = () => {
             <JoyLink
               key="link"
               component={NextLink}
-              href="guidelines"
+              href="/guidelines"
               target="_blank"
             />,
           ]}
