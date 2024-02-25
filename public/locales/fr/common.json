@@ -149,8 +149,9 @@
     "editTerm": {
       "title": "Modifier le terme",
       "notAuthorizedWarning": "Vous n'êtes pas autorisé à modifier ce terme",
-      "claimOwnership": "Si vous avez contribué à cette valeur et souhaitez revendiquer la propriété de cette valeur.",
-      "claimOwnershipAnonymous": "Pour effectuer des changements, veuillez vous connecter à votre compte et revendiquer la propriété du terme. Ou, si vous préférez rester anonyme, votre terme sera soumis à l'examen d'un administrateur avant d'être publié anonymement.",
+      "claimOwnership": "Si vous avez contribué à cette valeur et souhaitez <0>réclamer la propriété</0> sur cette valeur.",
+      "claimOwnershipAnonymous": "Pour apporter des modifications, veuillez vous connecter à votre compte et <0>Réclamer la propriété</0> du terme, ou si vous préférez rester anonyme, votre terme sera soumis pour examen par un administrateur avant d'être publié de manière anonyme.",
+      "claimOwnershipLinkHref": "mailto:urbanswisstionary@gmail.com?subject=Réclamez la propriété de '{{termTitle}}', identifiant '{{termId}}'&body=Bonjour, je voudrais revendiquer la propriété de '{{termTitle}}', id '{{termId}}' et je fournis ici les preuves de ma réclamation.",
       "addExample": "Ajouter un autre exemple",
       "deleteExample": "Supprimer l'exemple"
     },

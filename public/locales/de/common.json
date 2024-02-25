@@ -152,8 +152,9 @@
     "editTerm": {
       "title": "Begriff bearbeiten",
       "notAuthorizedWarning": "Sie sind nicht berechtigt, diesen Begriff zu bearbeiten",
-      "claimOwnership": "Wenn Sie zu diesem Wert beigetragen haben und Eigentumsrechte an diesem Wert geltend machen möchten.",
-      "claimOwnershipAnonymous": "Um Änderungen vorzunehmen, melden Sie sich bitte bei Ihrem Konto an und beanspruchen Sie das Eigentum am Begriff. Oder, wenn Sie lieber anonym bleiben möchten, wird Ihr Begriff von einem Administrator überprüft, bevor er anonym veröffentlicht wird.",
+      "claimOwnership": "Wenn Sie diesen Wert beigesteuert haben und <0>Eigentum an diesem Wert beanspruchen</0> möchten.",
+      "claimOwnershipAnonymous": "Um Änderungen vorzunehmen, melden Sie sich bitte bei Ihrem Konto an und <0>beanspruchen Sie die Eigentümerschaft</0> des Begriffs. Wenn Sie lieber anonym bleiben möchten, wird Ihr Begriff einem Administrator zur Überprüfung vorgelegt, bevor er anonym veröffentlicht wird.",
+      "claimOwnershipLinkHref": "mailto:urbanswisstionary@gmail.com?subject=Beanspruchen Sie das Eigentum an '{{termTitle}}', ID '{{termId}}'&body=Hallo, ich möchte Eigentum an '{{termTitle}}', ID, beanspruchen '{{termId}}' und hier liefere ich Beweise für meinen Anspruch.",
       "addExample": "Ein weiteres Beispiel hinzufügen",
       "deleteExample": "Beispiel löschen"
     },

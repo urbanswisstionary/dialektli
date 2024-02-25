@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react"
 import Card from "@/ui/Card"
 import ReviewGuidelines from "@/features/termForms/components/reviewGuidelines"
 import WordInput from "./components/wordInput"
-import WordDescriptionInput from "./components/wordDescriptionInput"
+import WordContentInput from "./components/wordContentInput"
 import WordExamplesInput from "./components/wordExamplesInput"
 import { useCreateTermMutation } from "@/hooks/useTerms"
 import { useRouter } from "next/router"
@@ -143,7 +143,7 @@ const NewTermForm: FC<{ authorId?: string }> = ({ authorId }) => {
             }}
             groupOptions
           />
-          <WordDescriptionInput
+          <WordContentInput
             value={query.content ?? ""}
             onChange={(value) => {
               onChange("content", value)

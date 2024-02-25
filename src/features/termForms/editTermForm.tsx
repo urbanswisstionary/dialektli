@@ -1,7 +1,7 @@
 import { FC, FormEventHandler, useMemo, useState } from "react"
 import Card from "@/ui/Card"
 import WordInput from "./components/wordInput"
-import WordDescriptionInput from "./components/wordDescriptionInput"
+import WordContentInput from "./components/wordContentInput"
 import WordExamplesInput from "./components/wordExamplesInput"
 import { useUpdateTermMutations } from "@/hooks/useTerms"
 import { TermFragmentFragment, UpdateTermInput } from "@@/generated/graphql"
@@ -78,7 +78,15 @@ const EditTermForm: FC<{
     )
   }
 
-  const claimOwnershipHref = `mailto:urbanswisstionary@gmail.com?subject=Claim ownership over "${term.title}", id "${term.id}"&body=Hi, I would like to claim ownership over "${term.title}", id "${term.id}" and here I provide proofs of my claim.`
+  const claimOwnershipLink = (
+    <Link
+      key="claimOwnershipLinkHref"
+      href={t("term.editTerm.claimOwnershipLinkHref", {
+        termTitle: term.title,
+        termId: term.id,
+      })}
+    />
+  )
   return (
     <>
       <Box sx={{ mb: 1, alignItems: { xs: "start", sm: "center" } }}>
@@ -94,9 +102,7 @@ const EditTermForm: FC<{
               <Typography level="body-md" color="warning" px={2}>
                 <Trans
                   i18nKey={"term.editTerm.claimOwnership"}
-                  components={[
-                    <Link key="mailtoLink" href={claimOwnershipHref} />,
-                  ]}
+                  components={[claimOwnershipLink]}
                 />
               </Typography>
             ) : null}
@@ -107,7 +113,7 @@ const EditTermForm: FC<{
           <Typography level="body-md" color="warning" px={2}>
             <Trans
               i18nKey={"term.editTerm.claimOwnershipAnonymous"}
-              components={[<Link key="mailtoLink" href={claimOwnershipHref} />]}
+              components={[claimOwnershipLink]}
             />
           </Typography>
         ) : null}
@@ -155,7 +161,7 @@ const EditTermForm: FC<{
             disabled={disableFields}
             groupOptions
           />
-          <WordDescriptionInput
+          <WordContentInput
             value={
               (editTermState.content !== undefined
                 ? editTermState.content

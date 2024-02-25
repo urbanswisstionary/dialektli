@@ -4,7 +4,7 @@ import FormLabel from "@mui/joy/FormLabel"
 import FormHelperText from "@mui/joy/FormHelperText"
 import Textarea from "@mui/joy/Textarea"
 
-const WordDescriptionInput: FC<
+const WordContentInput: FC<
   Omit<FormControlProps, "value" | "onChange"> & {
     value: string
     onChange: (_value: string) => void
@@ -28,4 +28,4 @@ const WordDescriptionInput: FC<
   </FormControl>
 )
 
-export default WordDescriptionInput
+export default WordContentInput
