@@ -14,7 +14,7 @@ import ErrorRoundedIcon from "@mui/icons-material/ErrorRounded"
 import Button from "@mui/joy/Button"
 import { ParsedUrlQuery } from "querystring"
 import SelectMultipleLocation from "@/ui/Autocomplete/selectMultipleLocations"
-import { useTranslation } from "next-i18next"
+import { Trans, useTranslation } from "next-i18next"
 
 type Query = ParsedUrlQuery & {
   title?: string
@@ -149,7 +149,12 @@ const NewTermForm: FC<{ authorId?: string }> = ({ authorId }) => {
               onChange("content", value)
             }}
             label={t("term.description")}
-            helperText={t("term.descriptionFieldHelperText")}
+            helperText={
+              <Trans
+                i18nKey="term.descriptionFieldHelperText"
+                components={{ bold: <b /> }}
+              />
+            }
             required
             sx={{ pt: 1 }}
             disabled={!!createTermData?.createTerm?.id}
