@@ -18,6 +18,7 @@ import { useTranslation } from "next-i18next"
 import { getStaticPropsTranslations } from "@/utils/i18n"
 
 type Query = ParsedUrlQuery & {
+  q?: string
   canton?: string
   firstChar?: string
 }
@@ -36,6 +37,7 @@ const Home: NextPage = () => {
   } = useTermsQuery({
     offset: (paginationProps.pageIndex - 1) * paginationProps.pageSize,
     limit: paginationProps.pageSize,
+    slug: query.q,
     canton: query.canton,
     firstChar: query.firstChar,
   })
@@ -57,25 +59,27 @@ const Home: NextPage = () => {
           placeholder={t("filterBy.canton")}
           disabled={loadingTermsQuery}
         />
-        <Accordion
-          content={[
-            {
-              label: t("filterBy.firstChar"),
-              children: (
-                <SelectLetter
-                  value={query.firstChar}
-                  onChange={(firstChar) =>
-                    setQueryOnPage(router, {
-                      firstChar:
-                        query.firstChar === firstChar ? null : firstChar,
-                    })
-                  }
-                  disabled={loadingTermsQuery}
-                />
-              ),
-            },
-          ]}
-        />
+        {!query.q ? (
+          <Accordion
+            content={[
+              {
+                label: t("filterBy.firstChar"),
+                children: (
+                  <SelectLetter
+                    value={query.firstChar}
+                    onChange={(firstChar) =>
+                      setQueryOnPage(router, {
+                        firstChar:
+                          query.firstChar === firstChar ? null : firstChar,
+                      })
+                    }
+                    disabled={loadingTermsQuery}
+                  />
+                ),
+              },
+            ]}
+          />
+        ) : null}
       </Stack>
       <TermsCardsList
         terms={termsQuery?.terms}

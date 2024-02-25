@@ -54,6 +54,7 @@ const SearchTermsInput: FC<SearchTermsInputProps> = ({
   )
   const [selectedOption, setSelectedOption] =
     useState<TermOptionFragmentFragment | null>(null) // store selected option to prevent a no known option error getting logged to the console
+
   const options =
     getFragmentData(
       TermOptionFragment,
@@ -68,10 +69,7 @@ const SearchTermsInput: FC<SearchTermsInputProps> = ({
         options={selectedOption ? [selectedOption] : options}
         groupBy={(option) => option.title[0]?.toUpperCase()}
         getOptionLabel={(option) => option.title}
-        onChange={(_, option) => {
-          setSelectedOption(option)
-          if (option?.title) router.push(`/term/${option.title}`)
-        }}
+        onChange={(_, option) => setSelectedOption(option)}
         startDecorator={<Search sx={{ padding: "2px" }} />}
         blurOnSelect
         clearOnEscape
