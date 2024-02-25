@@ -3,10 +3,7 @@
   "false": "False",
   "noData": "No Data",
   "selectLanguage": {
-    "title": "Select Language",
-    "en": "English",
-    "de": "Deutsch",
-    "fr": "Français"
+    "title": "Select Language"
   },
   "layout": {
     "sidebar": {
@@ -177,5 +174,9 @@
     "title": "404",
     "description": "Oh no! The page you are looking for does not exist.",
     "toHome": "Home Page"
+  },
+  "seo": {
+    "title": "Urban Swisstionary",
+    "description": "Urban Swisstionary is a community-driven dictionary for Swiss slang and dialects. It's a place where language has a little more space to be explored and constructed freely, in the moment. It's a place to share current (colloquial) Swiss German, French, Italian and Romansh words, sayings, phrases, that sort of thing."
   }
 }

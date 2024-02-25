@@ -10,6 +10,7 @@ import Box from "@mui/joy/Box"
 import CircularProgress from "@mui/joy/CircularProgress"
 import Stack from "@mui/joy/Stack"
 import { getStaticPropsTranslations } from "@/utils/i18n"
+import { NextSeo } from "next-seo"
 
 const MyProfile = dynamic(() => import("@/features/Auth/profile"), {
   ssr: false,
@@ -29,23 +30,38 @@ const ProfilePage: NextPage = () => {
 
   const view = query.view ?? "profile"
   return (
-    <Layout>
-      <Box mt={2}>
-        {meLoading ? (
-          <Stack direction="row" justifyContent="center" my={5}>
-            <CircularProgress size="lg" variant="soft" />
-          </Stack>
-        ) : !me ? (
-          <NoUserFound />
-        ) : view === "terms" ? (
-          <TermsTable />
-        ) : view === "users" && isAdmin ? (
-          <h1>Users table</h1>
-        ) : (
-          <MyProfile me={me} />
-        )}
-      </Box>
-    </Layout>
+    <>
+      <NextSeo
+        noindex
+        nofollow
+        robotsProps={{
+          nosnippet: true,
+          notranslate: true,
+          noimageindex: true,
+          noarchive: true,
+          maxSnippet: -1,
+          maxImagePreview: "none",
+          maxVideoPreview: -1,
+        }}
+      />
+      <Layout>
+        <Box mt={2}>
+          {meLoading ? (
+            <Stack direction="row" justifyContent="center" my={5}>
+              <CircularProgress size="lg" variant="soft" />
+            </Stack>
+          ) : !me ? (
+            <NoUserFound />
+          ) : view === "terms" ? (
+            <TermsTable />
+          ) : view === "users" && isAdmin ? (
+            <h1>Users table</h1>
+          ) : (
+            <MyProfile me={me} />
+          )}
+        </Box>
+      </Layout>
+    </>
   )
 }
 

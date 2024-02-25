@@ -14,6 +14,7 @@ import { getStaticPropsTranslations } from "@/utils/i18n"
 import { useTranslation } from "next-i18next"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
+import { NextSeo } from "next-seo"
 
 const SignupPage: NextPage = () => {
   const { t } = useTranslation("common", { keyPrefix: "auth.signupPage" })
@@ -23,29 +24,44 @@ const SignupPage: NextPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
-    <RecaptchaProvider>
-      <LayoutWithImage>
-        <Stack gap={1}>
-          <Typography level="h3">{t("title")}</Typography>
-          <Typography level="body-sm">
-            {t("alreadyHaveAccount")}{" "}
-            <JoiLink component={Link} href="/account/signin" level="title-sm">
-              {t("signIn")}
-            </JoiLink>
-          </Typography>
-        </Stack>
-        <Stack gap={4}>
-          <SignupForm />
-        </Stack>
-        <Divider>{t("or")}</Divider>
-        <Button
-          startDecorator={<GoogleIcon />}
-          onClick={() => signIn("google")}
-        >
-          {t("withGoogle")}
-        </Button>
-      </LayoutWithImage>
-    </RecaptchaProvider>
+    <>
+      <NextSeo
+        noindex
+        nofollow
+        robotsProps={{
+          nosnippet: true,
+          notranslate: true,
+          noimageindex: true,
+          noarchive: true,
+          maxSnippet: -1,
+          maxImagePreview: "none",
+          maxVideoPreview: -1,
+        }}
+      />
+      <RecaptchaProvider>
+        <LayoutWithImage>
+          <Stack gap={1}>
+            <Typography level="h3">{t("title")}</Typography>
+            <Typography level="body-sm">
+              {t("alreadyHaveAccount")}{" "}
+              <JoiLink component={Link} href="/account/signin" level="title-sm">
+                {t("signIn")}
+              </JoiLink>
+            </Typography>
+          </Stack>
+          <Stack gap={4}>
+            <SignupForm />
+          </Stack>
+          <Divider>{t("or")}</Divider>
+          <Button
+            startDecorator={<GoogleIcon />}
+            onClick={() => signIn("google")}
+          >
+            {t("withGoogle")}
+          </Button>
+        </LayoutWithImage>
+      </RecaptchaProvider>
+    </>
   )
 }
 

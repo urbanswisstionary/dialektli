@@ -3,14 +3,30 @@ import Layout from "@/features/layout/layout"
 import NewTermForm from "@/features/termForms/newTermForm"
 import { useMe } from "@/hooks/useMe"
 import { getStaticPropsTranslations } from "@/utils/i18n"
+import { NextSeo } from "next-seo"
 
 const NewTermPage: NextPage = () => {
   const { me } = useMe()
 
   return (
-    <Layout hideSidebar={!me}>
-      <NewTermForm authorId={me?.id} />
-    </Layout>
+    <>
+      <NextSeo
+        noindex
+        nofollow
+        robotsProps={{
+          nosnippet: true,
+          notranslate: true,
+          noimageindex: true,
+          noarchive: true,
+          maxSnippet: -1,
+          maxImagePreview: "none",
+          maxVideoPreview: -1,
+        }}
+      />
+      <Layout hideSidebar={!me}>
+        <NewTermForm authorId={me?.id} />
+      </Layout>
+    </>
   )
 }
 

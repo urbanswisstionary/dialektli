@@ -14,6 +14,7 @@ import SelectSingleLocation from "@/ui/Autocomplete/selectSingleLocation"
 import TermsCardsList from "@/features/termsCardsList"
 import { getStaticPropsTranslations } from "@/utils/i18n"
 import { useTranslation } from "next-i18next"
+import { NextSeo } from "next-seo"
 
 type Query = ParsedUrlQuery & { canton?: string; slug: string }
 
@@ -38,27 +39,31 @@ const TermPage: NextPage = () => {
   onDataCountChange(termsQuery?.count)
 
   return (
-    <Layout hideSidebar={!me}>
-      <Stack sx={{ mt: 1, mb: 3, gap: 2 }}>
-        <Box sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
-          <SearchTermsInput sx={{ flex: 1 }} disabled={loadingTermsQuery} />
-          <NewTermButton disabled={loadingTermsQuery} />
-        </Box>
+    <>
+      <NextSeo title={query.slug} />
 
-        <SelectSingleLocation
-          mode="canton"
-          value={query.canton}
-          onChange={(canton) => setQueryOnPage(router, { canton })}
-          placeholder={t("filterBy.canton")}
-          disabled={loadingTermsQuery}
+      <Layout hideSidebar={!me}>
+        <Stack sx={{ mt: 1, mb: 3, gap: 2 }}>
+          <Box sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
+            <SearchTermsInput sx={{ flex: 1 }} disabled={loadingTermsQuery} />
+            <NewTermButton disabled={loadingTermsQuery} />
+          </Box>
+
+          <SelectSingleLocation
+            mode="canton"
+            value={query.canton}
+            onChange={(canton) => setQueryOnPage(router, { canton })}
+            placeholder={t("filterBy.canton")}
+            disabled={loadingTermsQuery}
+          />
+        </Stack>
+        <TermsCardsList
+          terms={termsQuery?.terms}
+          paginationProps={paginationProps}
+          loading={loadingTermsQuery}
         />
-      </Stack>
-      <TermsCardsList
-        terms={termsQuery?.terms}
-        paginationProps={paginationProps}
-        loading={loadingTermsQuery}
-      />
-    </Layout>
+      </Layout>
+    </>
   )
 }
 

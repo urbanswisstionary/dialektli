@@ -10,6 +10,7 @@ import { getStaticPropsTranslations } from "@/utils/i18n"
 import CircularProgress from "@mui/joy/CircularProgress"
 import Stack from "@mui/joy/Stack"
 import { useTranslation } from "next-i18next"
+import { NextSeo } from "next-seo"
 
 const EditTermForm = dynamic(
   () => import("@/features/termForms/editTermForm"),
@@ -32,26 +33,41 @@ const EditTermPage: NextPage = () => {
   const authorized = me?.id === term?.author.id || isAdmin
 
   return (
-    <Layout hideSidebar={!me}>
-      {loading ? (
-        <Stack>
-          <CircularProgress
-            sx={{ alignSelf: "center", my: 5 }}
-            size="lg"
-            variant="soft"
+    <>
+      <NextSeo
+        noindex
+        nofollow
+        robotsProps={{
+          nosnippet: true,
+          notranslate: true,
+          noimageindex: true,
+          noarchive: true,
+          maxSnippet: -1,
+          maxImagePreview: "none",
+          maxVideoPreview: -1,
+        }}
+      />
+      <Layout hideSidebar={!me}>
+        {loading ? (
+          <Stack>
+            <CircularProgress
+              sx={{ alignSelf: "center", my: 5 }}
+              size="lg"
+              variant="soft"
+            />
+          </Stack>
+        ) : term ? (
+          <EditTermForm
+            term={term}
+            authorized={authorized}
+            reviewBeforPublish={query.review !== undefined}
+            anonymous={!me}
           />
-        </Stack>
-      ) : term ? (
-        <EditTermForm
-          term={term}
-          authorized={authorized}
-          reviewBeforPublish={query.review !== undefined}
-          anonymous={!me}
-        />
-      ) : (
-        <>{t("noData")}</>
-      )}
-    </Layout>
+        ) : (
+          <>{t("noData")}</>
+        )}
+      </Layout>
+    </>
   )
 }
 

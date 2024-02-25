@@ -3,7 +3,10 @@
   "false": "Falsch",
   "noData": "Keine Daten",
   "selectLanguage": {
-    "title": "Sprache auswählen"
+    "title": "Sprache auswählen",
+    "en": "English",
+    "de": "Deutsch",
+    "fr": "Français"
   },
   "layout": {
     "sidebar": {
@@ -174,5 +177,9 @@
     "title": "404",
     "description": "Entschuldigung, die Seite, die Sie suchen, existiert nicht.",
     "toHome": "Zur Startseite"
+  },
+  "seo": {
+    "title": "Urban Swisstionary",
+    "description": "Urban Swisstionary ist ein von der Community betriebenes Wörterbuch für Schweizer Slang und Dialekte. Es ist ein Ort, an dem die Sprache etwas mehr Raum hat, um im Augenblick frei erforscht und konstruiert zu werden. Es ist ein Ort, an dem aktuelle (umgangssprachliche) Schweizerdeutsche, französische, italienische und rätoromanische Wörter, Redewendungen, Phrasen usw. ausgetauscht werden können."
   }
 }
