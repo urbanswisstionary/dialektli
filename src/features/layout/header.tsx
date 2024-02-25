@@ -16,8 +16,9 @@ const signinPagePathname = "/account/signin"
 
 const Header: FC<{ hideSidebar?: boolean }> = ({ hideSidebar }) => {
   const { t } = useTranslation("common", { keyPrefix: "layout" })
+
   const router = useRouter()
-  const { loading: MeLoading } = useMe()
+  const { me, loading: MeLoading } = useMe()
   return (
     <Sheet
       sx={{
@@ -45,21 +46,23 @@ const Header: FC<{ hideSidebar?: boolean }> = ({ hideSidebar }) => {
 
       {hideSidebar ? (
         <Box display="flex" gap={1}>
-          <Link
-            href={signinPagePathname}
-            passHref
-            style={{ width: "100%" }}
-            hidden={router.pathname === signinPagePathname || MeLoading}
-          >
-            <IconButton
-              title={t("sidebar.signIn")}
-              variant="outlined"
-              color="neutral"
-              size="sm"
+          {!me ? (
+            <Link
+              href={signinPagePathname}
+              passHref
+              style={{ width: "100%" }}
+              hidden={router.pathname === signinPagePathname || MeLoading}
             >
-              <LoginRoundedIcon />
-            </IconButton>
-          </Link>
+              <IconButton
+                title={t("sidebar.signIn")}
+                variant="outlined"
+                color="neutral"
+                size="sm"
+              >
+                <LoginRoundedIcon />
+              </IconButton>
+            </Link>
+          ) : null}
           <ColorSchemeToggle />
         </Box>
       ) : (
