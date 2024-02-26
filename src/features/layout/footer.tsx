@@ -2,7 +2,9 @@ import type { FC } from "react"
 import Box from "@mui/joy/Box"
 import Typography from "@mui/joy/Typography"
 import SelectLanguage from "@/ui/Autocomplete/SelectLanguage"
-import Grid from "@mui/joy/Grid"
+import Grid, { GridProps } from "@mui/joy/Grid"
+import NextLink from "next/link"
+import JoyLink, { LinkProps } from "@mui/joy/Link"
 
 const Footer: FC = () => (
   <Box
@@ -12,11 +14,20 @@ const Footer: FC = () => (
       maxWidth: "1024px",
       margin: "0 auto",
       mt: "auto",
-      py: 2,
+      pt: 10,
     }}
   >
     <Grid container spacing={{ xs: 2, md: 3 }} sx={{ flexGrow: 1 }}>
-      <Grid xs={12} sm={6} md={3}>
+      <GridItem>
+        <Link href="/tos">Terms of Service</Link>
+      </GridItem>
+      <GridItem>
+        <Link href="/privacy-policy">Privacy Policy</Link>
+      </GridItem>
+      <GridItem>
+        <Link href="/dmca">DMCA</Link>
+      </GridItem>
+      <Grid xs={12} sm={3} md={3}>
         <SelectLanguage />
       </Grid>
       <Grid xs={12}>
@@ -29,3 +40,31 @@ const Footer: FC = () => (
 )
 
 export default Footer
+
+const GridItem: FC<GridProps> = (props) => (
+  <Grid
+    xs={12}
+    sm={3}
+    md={3}
+    sx={{
+      justifyContent: "center",
+      display: "flex",
+    }}
+    {...props}
+  />
+)
+
+const Link: FC<LinkProps> = ({ sx, ...props }) => (
+  <JoyLink
+    component={NextLink}
+    color="neutral"
+    sx={[
+      {
+        transition: "font-weight 0.1s ease",
+        ":hover": { textDecoration: "none", fontWeight: "bolder" },
+      },
+      ...(Array.isArray(sx) ? sx : [sx]),
+    ]}
+    {...props}
+  />
+)
