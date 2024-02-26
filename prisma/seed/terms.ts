@@ -12,15 +12,15 @@ const SEED_TERMS: Prisma.TermCreateArgs["data"][] = [
       "Ich bi rattig, ich ha scho lang nimm boläd",
     ],
   },
-  {
-    title: "Negerwurscht",
-    content: "Despektierlich für Banane",
-    cantons: ["OW"],
-    examples: [
-      "Ich glaib ich frus a Negerwurscht",
-      "Dä Neger hed a grossi Wurscht",
-    ],
-  },
+  // {
+  //   title: "Negerwurscht",
+  //   content: "Despektierlich für Banane",
+  //   cantons: ["OW"],
+  //   examples: [
+  //     "Ich glaib ich frus a Negerwurscht",
+  //     "Dä Neger hed a grossi Wurscht",
+  //   ],
+  // },
   {
     title: "Hai",
     content: "häi: heim, nach Hause; Häi: das Daheim.",
