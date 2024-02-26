@@ -28,7 +28,7 @@ const Accordion: FC<AccordionProps> = ({ label, content }) => (
               <AccordionLabel
                 label={label}
                 expanded={open}
-                onClick={() => setOpen(!open)}
+                onClick={() => setOpen((o) => !o)}
               />
               <AccordionDetails sx={{ p: 0, pt: 2 }}>
                 {children}
