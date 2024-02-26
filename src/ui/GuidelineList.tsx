@@ -39,7 +39,7 @@ const GuidelinesList: FC<ListProps & GuidelinesListProps> = ({
     ]}
     {...props}
   >
-    <ListSubheader sx={{}}>{mode}</ListSubheader>
+    <ListSubheader sx={{ fontWeight: "bold" }}>{mode}</ListSubheader>
     {(Array.isArray(guiedlines) ? guiedlines : []).map((guideline, i) => (
       <ListItem key={i}>
         <ListItemContent>
