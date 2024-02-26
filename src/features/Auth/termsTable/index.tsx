@@ -35,26 +35,26 @@ import { AdminTermFragment, useAdminTermsQuery } from "@/hooks/useTerms"
 import { getFragmentData } from "@@/generated"
 import CircularProgress from "@mui/joy/CircularProgress"
 import { useTranslation } from "next-i18next"
+import { useMe } from "@/hooks/useMe"
 
 const TermsTable: FC = () => {
   const { t } = useTranslation("common", { keyPrefix: "term" })
-
+  const { isAdmin } = useMe()
   const {
     data,
     previousData,
     loading: loadingAdminTermsQuery,
   } = useAdminTermsQuery()
-  const adminTerms = data?.adminTerms ?? previousData?.adminTerms
-  const terms = useMemo(
-    () => [...(getFragmentData(AdminTermFragment, adminTerms?.terms) ?? [])],
-    [adminTerms?.terms],
-  )
+  const terms = useMemo(() => {
+    const adminTerms = data?.adminTerms ?? previousData?.adminTerms
+    return [...(getFragmentData(AdminTermFragment, adminTerms?.terms) ?? [])]
+  }, [data?.adminTerms, previousData?.adminTerms])
 
   const [globalFilter, setGlobalFilter] = useState("")
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
-  const columns = useMemo<ColumnDef<AdminTermFragmentFragment, any>[]>(
-    () => [
+  const columns = useMemo<ColumnDef<AdminTermFragmentFragment, any>[]>(() => {
+    const columns: ColumnDef<AdminTermFragmentFragment, any>[] = [
       {
         id: "select",
         header: ({ table }) => (
@@ -76,6 +76,7 @@ const TermsTable: FC = () => {
         ),
       },
       {
+        id: "author",
         header: t("author"),
         accessorFn: ({ author }) => author?.name,
         cell: (info) => <Typography noWrap>{info.getValue()}</Typography>,
@@ -164,9 +165,12 @@ const TermsTable: FC = () => {
         enableGlobalFilter: false,
         enableSorting: false,
       },
-    ],
-    [t],
-  )
+    ]
+
+    return isAdmin
+      ? columns
+      : columns.filter((column) => column.id !== "author")
+  }, [isAdmin, t])
 
   const table = useReactTable({
     data: terms,
