@@ -10,10 +10,10 @@ const ContentGuidlines: NextPage = () => {
 
   return (
     <Layout hideSidebar={true}>
-      <Typography level="title-lg" textAlign="center">
+      <Typography level="h1" textAlign="center">
         {t("title")}
       </Typography>
-      <Typography level="body-md">{t("description")}</Typography>
+      <Typography level="title-md">{t("description")}</Typography>
       <GuidelinesList
         mode="dos"
         guiedlines={t("dos", { returnObjects: true })}
