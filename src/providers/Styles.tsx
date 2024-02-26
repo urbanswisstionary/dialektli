@@ -41,6 +41,7 @@ const StylesProvider: FC<StylesProviderProps> = ({ children }) => (
               boxSizing: "border-box",
               padding: 0,
               margin: 0,
+              scrollBehavior: "smooth",
             },
             "html, body": {
               width: "100%",
