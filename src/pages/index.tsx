@@ -64,6 +64,7 @@ const Home: NextPage = () => {
             content={[
               {
                 label: t("filterBy.firstChar"),
+                expanded: !!query.firstChar,
                 children: (
                   <SelectLetter
                     value={query.firstChar}

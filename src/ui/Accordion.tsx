@@ -24,12 +24,12 @@ const Accordion: FC<AccordionProps> = ({ label, content }) => (
           key={i}
           defaultExpanded={expanded}
           renderToggle={({ open, setOpen }) => (
-            <JoyAccordion
-              sx={{ p: 0, borderBottom: "none" }}
-              expanded={open}
-              onClick={() => setOpen(!open)}
-            >
-              <AccordionLabel label={label} expanded={open} />
+            <JoyAccordion sx={{ p: 0, borderBottom: "none" }} expanded={open}>
+              <AccordionLabel
+                label={label}
+                expanded={open}
+                onClick={() => setOpen(!open)}
+              />
               <AccordionDetails sx={{ p: 0, pt: 2 }}>
                 {children}
               </AccordionDetails>
@@ -43,10 +43,11 @@ const Accordion: FC<AccordionProps> = ({ label, content }) => (
 
 export default Accordion
 
-const AccordionLabel: FC<{ label?: string; expanded?: boolean }> = ({
-  label,
-  expanded,
-}) => {
+const AccordionLabel: FC<{
+  label?: string
+  expanded?: boolean
+  onClick?: () => void
+}> = ({ label, expanded, onClick }) => {
   const { t } = useTranslation("common")
   return (
     <AccordionSummary
@@ -100,6 +101,7 @@ const AccordionLabel: FC<{ label?: string; expanded?: boolean }> = ({
           },
         },
       }}
+      onClick={onClick}
     >
       <span className="MuiAccordionSummary-label">{label}</span>
     </AccordionSummary>
