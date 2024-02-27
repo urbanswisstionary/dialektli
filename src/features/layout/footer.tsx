@@ -28,11 +28,7 @@ const Footer: FC = () => (
         <Link href="/dmca">DMCA</Link>
       </GridItem>
       <GridItem>
-        <Link
-          href={`mailto:urbanswisstionary@gmail.com?subject=Bug Report&body=${bugReportTemplate}`}
-        >
-          Bug Report
-        </Link>
+        <Link href="/bug-report">Bug Report</Link>
       </GridItem>
       <Grid xs={12} sm={3} md={3}>
         <SelectLanguage />
@@ -75,40 +71,3 @@ const Link: FC<LinkProps> = ({ sx, ...props }) => (
     {...props}
   />
 )
-const bugReportTemplate = `
-Bug Report Form
-%0DIf you encounter a bug in Urban Dictionary, let us know!
-%0D
-%0D**Describe the bug**
-%0DA clear and concise description of what the bug is.
-%0D
-%0D**What are the steps we can take to reproduce the bug**
-%0DSteps to reproduce the behavior:
-%0D1. Go to '...'
-%0D2. Click on '....'
-%0D3. Scroll down to '....'
-%0D4. See error
-%0D
-%0D**Expected behavior**
-%0DA clear and concise description of what you expected to happen.
-%0D
-%0D**Screenshots**
-%0DIf applicable, add screenshots to help explain your problem.
-%0D
-%0D**Browser details**
-%0DIn a new window, go to [whatismybrowser](www.whatismybrowser.com).
-%0DClick "Copy URL to Clipboard" and paste that URL below.
-%0D
-%0D**Desktop (please complete the following information):**
-%0D - OS: [e.g. iOS]
-%0D - Browser [e.g. chrome, safari]
-%0D - Version [e.g. 22]
-%0D
-%0D**Smartphone (please complete the following information):**
-%0D - Device: [e.g. iPhone6]
-%0D - OS: [e.g. iOS8.1]
-%0D - Browser [e.g. stock browser, safari]
-%0D - Version [e.g. 22]
-%0D
-%0D**Additional context**
-%0DAdd any other context about the problem here.`
