@@ -4,7 +4,11 @@ import NewTermForm from "@/features/termForms/newTermForm"
 import { useMe } from "@/hooks/useMe"
 import { getStaticPropsTranslations } from "@/utils/i18n"
 import { NextSeo } from "next-seo"
+import dynamic from "next/dynamic"
 
+const RecaptchaProvider = dynamic(() => import("@/providers/Recaptcha"), {
+  ssr: false,
+})
 const NewTermPage: NextPage = () => {
   const { me } = useMe()
 
@@ -23,9 +27,11 @@ const NewTermPage: NextPage = () => {
           maxVideoPreview: -1,
         }}
       />
-      <Layout hideSidebar={!me}>
-        <NewTermForm authorId={me?.id} />
-      </Layout>
+      <RecaptchaProvider>
+        <Layout hideSidebar={!me}>
+          <NewTermForm authorId={me?.id} />
+        </Layout>
+      </RecaptchaProvider>
     </>
   )
 }
