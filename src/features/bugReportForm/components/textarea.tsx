@@ -13,14 +13,16 @@ const Textarea: FC<
 > = ({
   label,
   helperText,
-  textareaProps = { minRows: 3, slotProps: { textarea: { maxLength: 500 } } },
+  textareaProps: { minRows = 3, ...textareaProps } = {
+    slotProps: { textarea: { maxLength: 500 } },
+  },
   size = "sm",
   ...props
 }) => {
   return (
     <FormControl size={size} {...props}>
       {label ? <FormLabel sx={{ display: "block" }}>{label}</FormLabel> : null}
-      <JoyTextarea {...textareaProps} />
+      <JoyTextarea minRows={minRows} {...textareaProps} />
       {helperText ? (
         <FormHelperText sx={{ display: "block" }}>{helperText}</FormHelperText>
       ) : null}
