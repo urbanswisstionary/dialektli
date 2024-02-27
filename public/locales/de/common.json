@@ -56,7 +56,7 @@
     "selectImage": "Bild auswählen"
   },
   "errors": {
-    "imageSizeExceeded": "Die Dateigröße darf 4 MB nicht überschreiten"
+    "imageSizeExceeded": "Die Dateigröße darf 1.5 MB nicht überschreiten"
   },
   "auth": {
     "signinPage": {

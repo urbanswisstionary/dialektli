@@ -11,7 +11,7 @@ import ImageUploading, {
 import UploadFileIcon from "@mui/icons-material/UploadFile"
 import DeleteIcon from "@mui/icons-material/Delete"
 
-const imageMaxSize = 4 * 1024 * 1024 // 4MB
+const imageMaxSize = 1.5 * 1024 * 1024 // 1.5MB
 
 const ImageUploadInput: FC<{
   value: ImageType | undefined
