@@ -56,23 +56,16 @@ const BugReportForm: FC = () => {
       }
       setFormState((prev) => ({ ...prev, loading: true }))
       try {
-        try {
-          const recaptchaToken = await executeRecaptcha("bug_report")
-          const recaptchaRes = await fetch("/api/recaptcha", {
-            method: "POST",
-            body: recaptchaToken,
-          })
-          if (!recaptchaRes.ok) {
-            const errorMessage = await recaptchaRes.text()
-            throw new Error(errorMessage)
-          }
-        } catch (error: any) {
-          setFormState((prev) => ({
-            ...prev,
-            error: error?.message ?? "Unknown Error occured",
-          }))
-          return
+        const recaptchaToken = await executeRecaptcha("bug_report")
+        const recaptchaRes = await fetch("/api/recaptcha", {
+          method: "POST",
+          body: recaptchaToken,
+        })
+        if (!recaptchaRes.ok) {
+          const errorMessage = await recaptchaRes.text()
+          throw new Error(errorMessage)
         }
+
         const attachments = [
           screenshots.screenshot1
             ? {
