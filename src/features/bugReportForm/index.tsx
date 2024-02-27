@@ -127,7 +127,7 @@ const BugReportForm: FC = () => {
     [executeRecaptcha, screenshots],
   )
 
-  if (formState.submitted) return <div>Thank you for your report</div>
+  if (formState.submitted) return <div>{t("thankYou")}</div>
   if (formState.error) return <>Error:{formState.error}</>
   return (
     <form onSubmit={onSubmit}>
