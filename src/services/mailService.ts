@@ -21,12 +21,6 @@ export async function sendMail({
     },
   })
 
-  // transporter.sendMail({ from: NODEMAILER_EMAIL, ...mailOptions }, (error, info) => {
-  //   if (error) throw new Error(error.message)
-
-  //   console.log("Email Sent", info)
-  //   return true
-  // })
   await new Promise((resolve, reject) => {
     // send mail
     transporter.sendMail(
