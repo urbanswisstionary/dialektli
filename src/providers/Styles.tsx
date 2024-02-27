@@ -62,6 +62,9 @@ const StylesProvider: FC<StylesProviderProps> = ({ children }) => (
                 background: "var(--background-color-dark)",
               },
             },
+            ".grecaptcha-badge": {
+              display: "var(--recaptcha-badge-display) !important",
+            },
           })}
         />
         {children}
