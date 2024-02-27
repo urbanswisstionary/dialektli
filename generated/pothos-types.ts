@@ -17,10 +17,12 @@ export default interface PrismaTypes {
             term: {
                 Shape: Term;
                 Name: "Term";
+                Nullable: false;
             };
             author: {
                 Shape: User;
                 Name: "User";
+                Nullable: false;
             };
         };
     };
@@ -40,10 +42,12 @@ export default interface PrismaTypes {
             term: {
                 Shape: Term;
                 Name: "Term";
+                Nullable: false;
             };
             author: {
                 Shape: User;
                 Name: "User";
+                Nullable: false;
             };
         };
     };
@@ -63,10 +67,12 @@ export default interface PrismaTypes {
             term: {
                 Shape: Term;
                 Name: "Term";
+                Nullable: false;
             };
             author: {
                 Shape: User;
                 Name: "User";
+                Nullable: false;
             };
         };
     };
@@ -86,18 +92,22 @@ export default interface PrismaTypes {
             author: {
                 Shape: User | null;
                 Name: "User";
+                Nullable: true;
             };
             likes: {
                 Shape: Like[];
                 Name: "Like";
+                Nullable: false;
             };
             dislikes: {
                 Shape: Dislike[];
                 Name: "Dislike";
+                Nullable: false;
             };
             flagged: {
                 Shape: Flag[];
                 Name: "Flag";
+                Nullable: false;
             };
         };
     };
@@ -117,6 +127,7 @@ export default interface PrismaTypes {
             user: {
                 Shape: User;
                 Name: "User";
+                Nullable: false;
             };
         };
     };
@@ -136,6 +147,7 @@ export default interface PrismaTypes {
             user: {
                 Shape: User;
                 Name: "User";
+                Nullable: false;
             };
         };
     };
@@ -155,26 +167,32 @@ export default interface PrismaTypes {
             terms: {
                 Shape: Term[];
                 Name: "Term";
+                Nullable: false;
             };
             accounts: {
                 Shape: Account[];
                 Name: "Account";
+                Nullable: false;
             };
             sessions: {
                 Shape: Session[];
                 Name: "Session";
+                Nullable: false;
             };
             likes: {
                 Shape: Like[];
                 Name: "Like";
+                Nullable: false;
             };
             dislikes: {
                 Shape: Dislike[];
                 Name: "Dislike";
+                Nullable: false;
             };
             flags: {
                 Shape: Flag[];
                 Name: "Flag";
+                Nullable: false;
             };
         };
     };
