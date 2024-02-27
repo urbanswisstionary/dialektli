@@ -1,18 +1,18 @@
 import nodemailer, { SendMailOptions } from "nodemailer"
 
 const { NODEMAILER_PASSWORD = "", NODEMAILER_EMAIL = "" } = process.env
-
-export async function sendMail({
-  to = NODEMAILER_EMAIL,
-  ...mailOptions
-}: {
+export type SendMailArgs = {
   to?: SendMailOptions["to"]
   subject: NonNullable<SendMailOptions["subject"]>
   text?: SendMailOptions["text"]
-  replyTo?: string
-  html?: string
+  replyTo?: SendMailOptions["replyTo"]
+  html?: SendMailOptions["html"]
   attachments?: SendMailOptions["attachments"]
-}) {
+}
+export async function sendMail({
+  to = NODEMAILER_EMAIL,
+  ...mailOptions
+}: SendMailArgs) {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {

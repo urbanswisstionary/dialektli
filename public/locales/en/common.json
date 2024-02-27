@@ -49,7 +49,11 @@
     "confirmDelete": "Are you sure you want to delete",
     "toggleColorScheme": "Toggle Color Scheme",
     "option": "Option",
-    "options": "Options"
+    "options": "Options",
+    "selectImage": "Select Image"
+  },
+  "errors": {
+    "imageSizeExceeded": "The file size must not exceed 4 MB"
   },
   "auth": {
     "signinPage": {
@@ -179,5 +183,42 @@
   "seo": {
     "title": "Urban Swisstionary",
     "description": "Urban Swisstionary is a community-driven dictionary for Swiss slang and dialects. It's a place where language has a little more space to be explored and constructed freely, in the moment. It's a place to share current (colloquial) Swiss German, French, Italian and Romansh words, sayings, phrases, that sort of thing."
+  },
+  "bugReport": {
+    "title": "Bug Report Form",
+    "subtitle": "If you encounter a bug please do let us know by filling out the form below and we'll fix it as soon as possible.",
+    "email": "E-Mail",
+    "bugDescription": {
+      "label": "Describe the bug",
+      "helperText": "A clear and concise description of what the bug is."
+    },
+    "reproductionSteps": {
+      "label": "Reproduction steps",
+      "helperText": "What are the steps we can take to reproduce the bug",
+      "placeholder": "Steps to reproduce the behavior:\n\n1. Go to '...'\n\n2. Click on '....'\n\n3. Scroll down to '....'\n\n4. See error"
+    },
+    "expectedBehavior": {
+      "label": "Expected behavior",
+      "helperText": "A clear and concise description of what you expected to happen."
+    },
+    "desktopDescription": {
+      "label": "Desktop",
+      "helperText": "OS [e.g. iOS Sonoma 14.2.1]"
+    },
+    "mobileDescription": {
+      "label": "Smartphone",
+      "helperText": "Device [e.g. iPhone6], OS [e.g. iOS8.1]"
+    },
+    "browserDetails": {
+      "label": "Browser details",
+      "whatismybrowserUrl": "https://www.whatismybrowser.com/",
+      "helperText": "Go to <0>whatismybrowser</0>. Click <1>Copy URL to Clipboard</1> and paste that URL here."
+    },
+    "additionalContext": {
+      "label": "Additional context",
+      "helperText": "Add any other context about the problem here."
+    },
+    "submit": "Submit",
+    "thankYou": "Thank you for submitting a bug report!"
   }
 }

@@ -52,7 +52,11 @@
     "confirmDelete": "Sind Sie sicher, dass Sie löschen möchten",
     "toggleColorScheme": "Farbschema umschalten",
     "option": "Option",
-    "options": "Optionen"
+    "options": "Optionen",
+    "selectImage": "Bild auswählen"
+  },
+  "errors": {
+    "imageSizeExceeded": "Die Dateigröße darf 4 MB nicht überschreiten"
   },
   "auth": {
     "signinPage": {
@@ -184,41 +188,40 @@
     "description": "Urban Swisstionary ist ein von der Community betriebenes Wörterbuch für Schweizer Slang und Dialekte. Es ist ein Ort, an dem die Sprache etwas mehr Raum hat, um im Augenblick frei erforscht und konstruiert zu werden. Es ist ein Ort, an dem aktuelle (umgangssprachliche) Schweizerdeutsche, französische, italienische und rätoromanische Wörter, Redewendungen, Phrasen usw. ausgetauscht werden können."
   },
   "bugReport": {
-    "title": "Bug Report Form",
-    "subtitle": "If you encounter a bug please do let us know by filling out the form below and we'll fix it as soon as possible.",
+    "title": "Bug-Report-Formular",
+    "subtitle": "Wenn Sie auf einen Fehler stoßen, teilen Sie uns dies bitte mit, indem Sie das untenstehende Formular ausfüllen. Wir werden ihn so schnell wie möglich beheben.",
     "email": "E-Mail",
     "bugDescription": {
-      "label": "Describe the bug",
-      "helperText": "A clear and concise description of what the bug is."
+      "label": "Beschreiben Sie den Fehler",
+      "helperText": "Eine klare und prägnante Beschreibung des Fehlers."
     },
     "reproductionSteps": {
-      "label": "Reproduction steps",
-      "helperText": "What are the steps we can take to reproduce the bug",
-      "placeholder": "Steps to reproduce the behavior:\n\n1. Go to '...'\n\n2. Click on '....'\n\n3. Scroll down to '....'\n\n4. See error"
+      "label": "Reproduktionsschritte",
+      "helperText": "Welche Schritte können wir unternehmen, um den Fehler zu reproduzieren",
+      "placeholder": "Schritte zum Reproduzieren des Verhaltens:\n\n1. Gehen Sie zu '...'\n\n2. Klicken Sie auf '....'\n\n3. Scrollen Sie nach unten zu '...' \n\n4. Siehe Fehler"
     },
     "expectedBehavior": {
-      "label": "Expected behavior",
-      "helperText": "A clear and concise description of what you expected to happen."
+      "label": "Erwartetes Verhalten",
+      "helperText": "Eine klare und prägnante Beschreibung dessen, was Sie erwartet haben."
     },
     "desktopDescription": {
       "label": "Desktop",
-      "helperText": "OS [e.g. iOS Sonoma 14.2.1]"
+      "helperText": "Betriebssystem [e.g. iOS Sonoma 14.2.1]"
     },
     "mobileDescription": {
       "label": "Smartphone",
-      "helperText": "Device [e.g. iPhone6], OS [e.g. iOS8.1]"
+      "helperText": "Gerät [z. B. iPhone6], Betriebssystem [z. B. iOS8.1]"
     },
     "browserDetails": {
-      "label": "Browser details",
+      "label": "Browserdetails",
       "whatismybrowserUrl": "https://www.whatismybrowser.com/",
-      "helperText": "Go to <0>whatismybrowser</0>. Click <1>Copy URL to Clipboard</1> and paste that URL here."
+      "helperText": "Gehen Sie zu <0>whatismybrowser</0>. Klicken Sie auf <1>URL in die Zwischenablage kopieren</1> und fügen Sie die URL hier ein"
     },
     "additionalContext": {
-      "label": "Additional context",
-      "helperText": "Add any other context about the problem here."
+      "label": "Zusätzlicher Kontext",
+      "helperText": "Fügen Sie hier weiteren Kontext zum Problem hinzu."
     },
-    "submit": "Submit",
-    "thankYou": "Thank you for submitting a bug report!",
-    "backToHome": "Back to home"
+    "submit": "Absenden",
+    "thankYou": "Vielen Dank für die Übermittlung eines Fehlerberichts!"
   }
 }

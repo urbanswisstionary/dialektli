@@ -2,14 +2,21 @@ import type { NextApiRequest, NextApiResponse } from "next"
 import { sendMail } from "@/services/mailService"
 import { z } from "zod"
 import { stringToJSONSchema } from "@/utils/stringToJSONSchema"
+import { Attachment } from "nodemailer/lib/mailer"
 
+const AttachmentSchema: z.ZodSchema<Attachment> = z.object({
+  path: z.string(),
+  filename: z.string(),
+})
 const bodySchema = z.object({
   to: z.string().optional(),
   subject: z.string(),
   text: z.string().optional(),
   replyTo: z.string().optional(),
   html: z.string().optional(),
+  attachments: z.array(AttachmentSchema).optional(),
 })
+
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== "POST") {
     res.setHeader("Allow", ["POST"])
@@ -30,3 +37,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 }
 
 export default handler
+
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: "10mb", // Set desired value here
+    },
+  },
+}

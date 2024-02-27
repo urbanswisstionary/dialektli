@@ -1,13 +1,15 @@
-import FormControl, { FormControlProps } from "@mui/joy/FormControl"
+import { FC, FormEvent, useCallback, useState } from "react"
+import Input from "./components/input"
+import Textarea from "./components/textarea"
+import ImageUploadInput from "./components/imageUploadInput"
 import FormLabel from "@mui/joy/FormLabel"
-import JoyInput, { InputProps } from "@mui/joy/Input"
-import JoyTextarea, { TextareaProps } from "@mui/joy/Textarea"
-import { FC, FormEvent, ReactNode, useCallback, useState } from "react"
 import { Box, FormHelperText } from "@mui/joy"
 import Button from "@/ui/Button"
 import { useReCaptcha } from "next-recaptcha-v3"
 import { useTranslation, Trans } from "next-i18next"
 import JoyLink from "@mui/joy/Link"
+import type { ImageType } from "react-images-uploading"
+import { SendMailArgs } from "@/services/mailService"
 
 interface FormElements extends HTMLFormControlsCollection {
   email: HTMLInputElement
@@ -25,6 +27,11 @@ interface BugReportFormElement extends HTMLFormElement {
 const BugReportForm: FC = () => {
   const { t } = useTranslation("common", { keyPrefix: "bugReport" })
   const { executeRecaptcha } = useReCaptcha()
+  const [screenshots, setScreenshots] = useState<{
+    screenshot1: ImageType | undefined
+    screenshot2: ImageType | undefined
+  }>({ screenshot1: undefined, screenshot2: undefined })
+
   const [formState, setFormState] = useState<{
     submitted: boolean
     loading: boolean
@@ -47,7 +54,6 @@ const BugReportForm: FC = () => {
         browserDetails: formElements.browserDetails.value,
         additionalContext: formElements.additionalContext.value,
       }
-
       setFormState((prev) => ({ ...prev, loading: true }))
       try {
         try {
@@ -67,30 +73,47 @@ const BugReportForm: FC = () => {
           }))
           return
         }
+        const attachments = [
+          screenshots.screenshot1
+            ? {
+                filename: screenshots.screenshot1!.file!.name,
+                path: screenshots.screenshot1!.dataURL,
+              }
+            : null,
+          screenshots.screenshot2
+            ? {
+                filename: screenshots.screenshot2!.file!.name,
+                path: screenshots.screenshot2!.dataURL,
+              }
+            : null,
+        ].filter(Boolean) as SendMailArgs["attachments"]
 
-        const res = await fetch("/api/send_mail", {
-          method: "POST",
-          body: JSON.stringify({
-            subject: "Bug Report",
-            html: `
+        const mailOptions: SendMailArgs = {
+          subject: "Bug Report",
+          html: `
             <div>
             <h1>Bug Report</h1>
             <br/>
-            <p><b>From:</b>${data.email}</p>
+            <p><b>From:</b> ${data.email}</p>
             <br/>
-            <p><b>Reproduction Steps:</b>${data.reproductionSteps}</p>
+            <p><b>Reproduction Steps:</b> ${data.reproductionSteps}</p>
             <br/>
-            <p><b>Expected Behavior:</b>${data.expectedBehavior}</p>
+            <p><b>Expected Behavior:</b> ${data.expectedBehavior}</p>
             <br/>
-            <p><b>Desktop Description:</b>${data.desktopDescription}</p>
+            <p><b>Desktop Description:</b> ${data.desktopDescription}</p>
             <br/>
-            <p><b>Mobile Description:</b>${data.mobileDescription}</p>
+            <p><b>Mobile Description:</b> ${data.mobileDescription}</p>
             <br/>
-            <p><b>Browser Details:</b>${data.browserDetails}</p>
+            <p><b>Browser Details:</b> ${data.browserDetails}</p>
             <br/>
-            <p><b>Additional Context:</b>${data.additionalContext}</p>
+            <p><b>Additional Context:</b> ${data.additionalContext}</p>
             </div>`,
-          }),
+          attachments,
+        }
+
+        const res = await fetch("/api/send_mail", {
+          method: "POST",
+          body: JSON.stringify(mailOptions),
         })
         if (!res.ok) throw new Error(await res.text())
         setFormState((prev) => ({ ...prev, submitted: true }))
@@ -101,8 +124,9 @@ const BugReportForm: FC = () => {
         }))
       }
     },
-    [executeRecaptcha],
+    [executeRecaptcha, screenshots],
   )
+
   if (formState.submitted) return <div>Thank you for your report</div>
   if (formState.error) return <>Error:{formState.error}</>
   return (
@@ -114,23 +138,24 @@ const BugReportForm: FC = () => {
         id="email"
         disabled={formState.loading}
       />
-      <TextArea
+      <Textarea
         required
         id="reproductionSteps"
         label={t("reproductionSteps.label")}
         helperText={t("reproductionSteps.helperText")}
-        textAreaProps={{
+        textareaProps={{
           placeholder: t("reproductionSteps.placeholder"),
           name: "reproductionSteps",
         }}
         disabled={formState.loading}
       />
 
-      <TextArea
+      <Textarea
         required
         id="expectedBehavior"
         label={t("expectedBehavior.label")}
         helperText={t("expectedBehavior.helperText")}
+        textareaProps={{ name: "expectedBehavior" }}
         disabled={formState.loading}
       />
 
@@ -170,13 +195,30 @@ const BugReportForm: FC = () => {
         id="browserDetails"
         disabled={formState.loading}
       />
-      <TextArea
+      <Textarea
         id="additionalContext"
         label={t("additionalContext.label")}
         helperText={t("additionalContext.helperText")}
         disabled={formState.loading}
+        textareaProps={{ name: "additionalContext" }}
       />
 
+      <FormLabel>Screenshots</FormLabel>
+      <ImageUploadInput
+        value={screenshots.screenshot1}
+        onChange={(screenshot1) =>
+          setScreenshots((prev) => ({ ...prev, screenshot1 }))
+        }
+      />
+      <ImageUploadInput
+        value={screenshots.screenshot2}
+        onChange={(screenshot2) =>
+          setScreenshots((prev) => ({ ...prev, screenshot2 }))
+        }
+      />
+      <FormHelperText>
+        If applicable, add screenshots to help explain your problem.
+      </FormHelperText>
       <Box sx={{ mt: 2 }}>
         <Button type="submit" disabled={formState.loading}>
           {t("submit")}
@@ -186,45 +228,3 @@ const BugReportForm: FC = () => {
   )
 }
 export default BugReportForm
-
-const Input: FC<
-  FormControlProps & {
-    inputProps?: InputProps
-    label?: ReactNode
-    helperText?: ReactNode
-  }
-> = ({ label, helperText, inputProps, size = "sm", ...props }) => {
-  return (
-    <FormControl size={size} {...props}>
-      {label ? <FormLabel sx={{ display: "block" }}>{label}</FormLabel> : null}
-      <JoyInput {...inputProps} />
-      {helperText ? (
-        <FormHelperText sx={{ display: "block" }}>{helperText}</FormHelperText>
-      ) : null}
-    </FormControl>
-  )
-}
-
-const TextArea: FC<
-  FormControlProps & {
-    textAreaProps?: TextareaProps
-    label?: ReactNode
-    helperText?: ReactNode
-  }
-> = ({
-  label,
-  helperText,
-  textAreaProps = { minRows: 3, slotProps: { textarea: { maxLength: 500 } } },
-  size = "sm",
-  ...props
-}) => {
-  return (
-    <FormControl size={size} {...props}>
-      {label ? <FormLabel sx={{ display: "block" }}>{label}</FormLabel> : null}
-      <JoyTextarea {...textAreaProps} />
-      {helperText ? (
-        <FormHelperText sx={{ display: "block" }}>{helperText}</FormHelperText>
-      ) : null}
-    </FormControl>
-  )
-}

@@ -49,7 +49,11 @@
     "confirmDelete": "Êtes-vous sûr de vouloir supprimer",
     "toggleColorScheme": "Basculer le schéma de couleurs",
     "option": "Option",
-    "options": "Options"
+    "options": "Options",
+    "selectImage": "Sélectionnez une image"
+  },
+  "errors": {
+    "imageSizeExceeded": "La taille du fichier ne doit pas dépasser 4 Mo"
   },
   "auth": {
     "signinPage": {
@@ -181,5 +185,41 @@
   "seo": {
     "title": "Urban Swisstionary",
     "description": "Urban Swisstionary est un dictionnaire communautaire d'argot et de dialectes suisses. C'est un endroit où le langage a un peu plus d'espace pour être exploré et construit librement, sur le moment. C'est un endroit pour partager des mots, des dictons, des phrases actuels (familiers) suisses allemands, français, italiens et romanches, ce genre de choses."
+  },
+  "bugReport": {
+    "title": "Formulaire de rapport de bug",
+    "subtitle": "Si vous rencontrez un bug, veuillez nous le faire savoir en remplissant le formulaire ci-dessous et nous le corrigerons dans les plus brefs délais.",
+    "email": "E-Mail",
+    "bugDescription": {
+      "label": "Décrivez le bug",
+      "helperText": "Une description claire et concise de la nature du bug."
+    },
+    "reproductionSteps": {
+      "label": "Étapes de reproduction",
+      "helperText": "Quelles sont les étapes que nous pouvons suivre pour reproduire le bug",
+      "placeholder": "Étapes pour reproduire le comportement :\n\n1. Allez sur '...'\n\n2. Cliquez sur '....'\n\n3. Faites défiler jusqu'à '....' \n\n4. Voir erreur"
+    },
+    "expectedBehavior": {
+      "label": "Comportement attendu",
+      "helperText": "Une description claire et concise de ce à quoi vous vous attendiez."
+    },
+    "desktopDescription": {
+      "label": "Desktop",
+      "helperText": "OS [par exemple iOS Sonoma 14.2.1]"
+    },
+    "mobileDescription": {
+      "label": "Smartphone",
+      "helperText": "Appareil [par exemple iPhone6], système d'exploitation [par exemple iOS8.1]"
+    },
+    "browserDetails": {
+      "label": "Détails du navigateur",
+      "helperText": "Allez sur <0>whatismybrowser</0>. Cliquez sur <1>Copier l'URL dans le Presse-papiers</1> et collez cette URL ici."
+    },
+    "additionalContext": {
+      "label": "Contexte supplémentaire",
+      "helperText": "Ajoutez ici tout autre contexte concernant le problème."
+    },
+    "submit": "Soumettre",
+    "thankYou": "Merci d'avoir soumis un rapport de bug !"
   }
 }
