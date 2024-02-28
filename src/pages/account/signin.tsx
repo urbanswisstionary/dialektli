@@ -9,11 +9,13 @@ import Button from "@/ui/Button"
 import { getStaticPropsTranslations } from "@/utils/i18n"
 import { useTranslation } from "next-i18next"
 import { NextSeo } from "next-seo"
+import FacebookIcon from "@/ui/icons/FacebookIcon"
+import { BuiltInProviderType } from "next-auth/providers"
 
 const SigninPage: NextPage = () => {
   const { t } = useTranslation("common", { keyPrefix: "auth.signinPage" })
-  const onClick = () => {
-    signIn("google", {
+  const onClick = (provider: BuiltInProviderType) => {
+    signIn(provider, {
       redirect: false,
       callbackUrl: `${window?.location?.origin}`,
     })
@@ -43,7 +45,16 @@ const SigninPage: NextPage = () => {
           >
             {t("title")}
           </Typography>
-          <Button startDecorator={<GoogleIcon />} onClick={onClick}>
+          <Button
+            startDecorator={<GoogleIcon />}
+            onClick={() => onClick("google")}
+          >
+            {t("withGoogle")}
+          </Button>
+          <Button
+            startDecorator={<FacebookIcon />}
+            onClick={() => onClick("facebook")}
+          >
             {t("withGoogle")}
           </Button>
         </Stack>

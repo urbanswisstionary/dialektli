@@ -6,6 +6,7 @@ import type { NextAuthOptions, SessionOptions } from "next-auth"
 import type { Adapter } from "next-auth/adapters"
 
 import GoogleProvider from "next-auth/providers/google"
+import FacebookProvider from "next-auth/providers/facebook"
 // import CredentialsProvider from "next-auth/providers/credentials"
 
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
@@ -19,6 +20,8 @@ import { randomUUID } from "crypto"
 const {
   GOOGLE_CLIENT_ID = "",
   GOOGLE_CLIENT_SECRET = "",
+  FACEBOOK_APP_ID = "",
+  FACEBOOK_APP_SECRET = "",
   // RECAPTCHA_SECRETE_KEY = "",
 } = process.env
 
@@ -71,7 +74,10 @@ export const authOptions = async (
         clientId: GOOGLE_CLIENT_ID,
         clientSecret: GOOGLE_CLIENT_SECRET,
       }),
-
+      FacebookProvider({
+        clientId: FACEBOOK_APP_ID,
+        clientSecret: FACEBOOK_APP_SECRET,
+      }),
       // CredentialsProvider({
       //   name: "Credentials",
       //   credentials: {
