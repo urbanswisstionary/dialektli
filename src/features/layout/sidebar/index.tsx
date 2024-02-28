@@ -109,7 +109,7 @@ const Sidebar: FC = () => {
         {me ? <AuthedSidebarOptions isAdmin={isAdmin} /> : null}
 
         <List size="sm" sx={{ mt: "auto", flexGrow: 0 }}>
-        <Divider sx={{ mb: 1, mt: 2 }} />
+          <Divider sx={{ mb: 1, mt: 2 }} />
           <SidebarOption
             label={t("support")}
             startDecorator={<SupportRoundedIcon />}
@@ -140,7 +140,7 @@ const Sidebar: FC = () => {
                 size="sm"
                 variant="plain"
                 color="neutral"
-                onClick={() => signOut()}
+                onClick={() => signOut({ callbackUrl: "/" })}
                 title={t("signOut")}
               >
                 <LogoutRoundedIcon />
