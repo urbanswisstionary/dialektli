@@ -52,12 +52,13 @@ const SigninPage: NextPage = () => {
             {t("withGoogle")}
           </Button>
 
-          <Button
+          {/*  facebook login does not yet work, difficulties setting up authentication on facebook's side */}
+          {/* <Button
             startDecorator={<FacebookIcon />}
             onClick={() => onClick("facebook")}
           >
             {t("withFacebook")}
-          </Button>
+          </Button> */}
         </Stack>
       </LayoutWithImage>
     </>
