@@ -9,6 +9,7 @@ import JoyCard, { CardProps as JoyCardProps } from "@mui/joy/Card"
 import CardActions from "@mui/joy/CardActions"
 import CardOverflow from "@mui/joy/CardOverflow"
 import { useTranslation } from "next-i18next"
+import DeleteForever from "@mui/icons-material/DeleteForever"
 
 type ActionButtonProps = {
   disabled?: boolean
@@ -19,6 +20,7 @@ type ActionButtonProps = {
 type CardActions = {
   cancel?: ActionButtonProps
   save?: ActionButtonProps & { type?: "submit" }
+  delete?: ActionButtonProps
 }
 
 type CardProps = {
@@ -66,41 +68,65 @@ const Card: FC<JoyCardProps & CardProps> = ({
         >
           <CardActions
             sx={{
-              alignSelf: "flex-end",
-              pt: 2,
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+
               gap: 1,
               "> * ": { textTransform: "capitalize" },
             }}
           >
-            {actions.cancel ? (
-              <Button
-                size="sm"
-                variant="outlined"
-                color="neutral"
-                disabled={actions.cancel.disabled}
-                loading={actions.cancel.loading}
-                onClick={() => {
-                  if (actions.cancel?.onClick) actions.cancel.onClick()
-                }}
-              >
-                {actions.cancel.title ?? t("actions.cancel")}
-              </Button>
-            ) : null}
-            {actions.save ? (
-              <Button
-                size="sm"
-                variant="solid"
-                disabled={actions.save.disabled}
-                loading={actions.save.loading}
-                type={actions.save.type}
-                onAbort={() => {
-                  if (actions.save?.type !== "submit" && actions.save?.onClick)
-                    actions.save.onClick()
-                }}
-              >
-                {actions.save.title ?? t("actions.submit")}
-              </Button>
-            ) : null}
+            <Box>
+              {actions.delete ? (
+                <Button
+                  size="sm"
+                  variant="outlined"
+                  color="danger"
+                  disabled={actions.delete.disabled}
+                  loading={actions.delete.loading}
+                  onClick={() => {
+                    if (actions.delete?.onClick) actions.delete.onClick()
+                  }}
+                  endDecorator={<DeleteForever />}
+                >
+                  {actions.delete.title ?? t("actions.delete")}
+                </Button>
+              ) : null}
+            </Box>
+            <Box sx={{ display: "flex", gap: 1 }}>
+              {actions.cancel ? (
+                <Button
+                  size="sm"
+                  variant="outlined"
+                  color="neutral"
+                  disabled={actions.cancel.disabled}
+                  loading={actions.cancel.loading}
+                  onClick={() => {
+                    if (actions.cancel?.onClick) actions.cancel.onClick()
+                  }}
+                >
+                  {actions.cancel.title ?? t("actions.cancel")}
+                </Button>
+              ) : null}
+              {actions.save ? (
+                <Button
+                  size="sm"
+                  variant="solid"
+                  disabled={actions.save.disabled}
+                  loading={actions.save.loading}
+                  type={actions.save.type}
+                  onAbort={() => {
+                    if (
+                      actions.save?.type !== "submit" &&
+                      actions.save?.onClick
+                    )
+                      actions.save.onClick()
+                  }}
+                >
+                  {actions.save.title ?? t("actions.submit")}
+                </Button>
+              ) : null}
+            </Box>
           </CardActions>
         </CardOverflow>
       ) : null}
