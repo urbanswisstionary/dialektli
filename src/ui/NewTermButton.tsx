@@ -4,15 +4,18 @@ import IconButton, { IconButtonProps } from "@mui/joy/IconButton"
 import AddIcon from "@mui/icons-material/Add"
 import JoyLink from "@mui/joy/Link"
 import { useTranslation } from "next-i18next"
+import { useMe } from "@/hooks/useMe"
 
 const NewTermButton: FC<
   Pick<IconButtonProps, "size"> & { disabled?: boolean }
 > = ({ size = "sm", disabled }) => {
+  const { me } = useMe()
   const { t } = useTranslation("common", { keyPrefix: "newTermButton" })
+
   return (
     <JoyLink
       component={NextLink}
-      href={"/term/new"}
+      href={!me ? "/account/signin" : "/term/new"}
       passHref
       disabled={disabled}
     >
