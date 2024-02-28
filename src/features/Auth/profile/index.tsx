@@ -1,7 +1,7 @@
 import { FC, useState, useMemo } from "react"
 import Box from "@mui/joy/Box"
 import Stack from "@mui/joy/Stack"
-import { useUpdateUserMutation } from "@/hooks/useMe"
+import { useDeleteUserMutation, useUpdateUserMutation } from "@/hooks/useMe"
 import { MeFragmentFragment, UpdateUserInput } from "@@/generated/graphql"
 import ImageInput from "./components/imageInput"
 import NameInput from "./components/nameInput"
@@ -9,7 +9,9 @@ import EmailInput from "./components/emailInput"
 import BioInput from "./components/bioInput"
 import SelectSingleLocation from "@/ui/Autocomplete/selectSingleLocation"
 import Card from "@/ui/Card"
-import { useTranslation } from "next-i18next"
+import { useTranslation, Trans } from "next-i18next"
+import ConfirmDeleteModal from "@/ui/modals/confirmDelete"
+import { signOut } from "next-auth/react"
 
 type EditProfileState = {
   name?: string
@@ -20,9 +22,11 @@ type EditProfileState = {
 }
 
 const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
-  const { t } = useTranslation("common", { keyPrefix: "auth.profile" })
+  const { t } = useTranslation("common")
   const { updateUser, loading: updateUserLoading } = useUpdateUserMutation()
+  const { deleteUser, loading: deleteUserLoading } = useDeleteUserMutation()
   const [editProfileState, setEditProfileState] = useState<EditProfileState>({})
+  const [openDeleteConfirmation, setOpenDeleteConfirmation] = useState(false)
 
   const changesFound = useMemo(() => {
     const updatedFields = Object.keys(
@@ -55,17 +59,23 @@ const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
       }}
     >
       <Card
-        title={t("title")}
-        description={t("description")}
+        title={t("auth.profile.title")}
+        description={t("auth.profile.description")}
         actions={{
           save: {
             type: "submit",
             disabled: !changesFound,
             loading: updateUserLoading,
+
+            title: t("actions.save"),
           },
           cancel: {
             disabled: !changesFound || updateUserLoading,
             onClick: () => setEditProfileState({}),
+          },
+          delete: {
+            onClick: () => setOpenDeleteConfirmation(true),
+            title: t("auth.profile.deleteAccount"),
           },
         }}
       >
@@ -76,7 +86,7 @@ const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
           <Box sx={{ flex: 1 }}>
             <NameInput
               id="name"
-              title={t("name")}
+              title={t("auth.profile.name")}
               value={
                 editProfileState?.name !== undefined
                   ? editProfileState?.name
@@ -88,7 +98,7 @@ const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
         </Stack>
         <EmailInput
           id="email"
-          title={t("email")}
+          title={t("auth.profile.email")}
           value={me.email}
           onChange={(_email) => {
             // updateProfile((prev) => ({ ...prev, email }))
@@ -98,7 +108,7 @@ const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
         <SelectSingleLocation
           id="country"
           mode="country"
-          label={t("country")}
+          label={t("auth.profile.country")}
           value={
             editProfileState.country !== undefined
               ? editProfileState.country
@@ -111,7 +121,7 @@ const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
           <SelectSingleLocation
             id="canton"
             mode="canton"
-            label={t("canton")}
+            label={t("auth.profile.canton")}
             value={
               editProfileState.canton !== undefined
                 ? editProfileState.canton
@@ -122,14 +132,31 @@ const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
         ) : null}
         <BioInput
           id="bio"
-          title={t("bio")}
-          helperText={t("bioHelperText")}
+          title={t("auth.profile.bio")}
+          helperText={t("auth.profile.bioHelperText")}
           value={
             editProfileState?.bio !== undefined ? editProfileState?.bio : me.bio
           }
           onChange={(bio) => onChange("bio", bio)}
         />
       </Card>
+      <ConfirmDeleteModal
+        open={openDeleteConfirmation}
+        onClose={() => setOpenDeleteConfirmation(false)}
+        loading={deleteUserLoading}
+        onDelete={() => {
+          deleteUser({ userId: me.id }, () => {
+            setOpenDeleteConfirmation(false)
+            signOut({ callbackUrl: "/" })
+          })
+        }}
+        dialogContent={
+          <Trans
+            i18nKey={"auth.profile.deleteAccountConfirmation"}
+            components={{ bold: <b /> }}
+          />
+        }
+      />
     </form>
   )
 }

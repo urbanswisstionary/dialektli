@@ -88,7 +88,9 @@
       "bio": "Biographie",
       "bioHelperText": "Rédigez une courte introduction à afficher sur votre profil",
       "bioCharLeft": "caractère restant",
-      "bioCharsLeft": "caractères restants"
+      "bioCharsLeft": "caractères restants",
+      "deleteAccount": "Supprimer le compte",
+      "deleteAccountConfirmation": "Êtes-vous sûr de vouloir supprimer votre compte? <bold>Toutes vos données seront supprimées et ne pourront pas être restaurées.</bold>"
     },
     "myTerms": {
       "title": "Termes"

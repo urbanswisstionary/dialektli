@@ -91,7 +91,9 @@
       "bio": "Biografie",
       "bioHelperText": "Verfassen Sie eine kurze Einleitung, die auf Ihrem Profil angezeigt wird",
       "bioCharLeft": "Zeichen übrig",
-      "bioCharsLeft": "Zeichen übrig"
+      "bioCharsLeft": "Zeichen übrig",
+      "deleteAccount": "Konto löschen",
+      "deleteAccountConfirmation": "Sind Sie sicher, dass Sie Ihr Konto löschen möchten? <bold>Alle Ihre Daten werden gelöscht und können nicht wiederhergestellt werden!</bold>"
     },
     "myTerms": {
       "title": "Begriffe"

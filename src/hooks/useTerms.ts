@@ -68,7 +68,7 @@ export const AdminTermFragment = graphql(/* GraphQL */ `
   }
 `)
 
-const AdminTermsQuery = graphql(/* GraphQL */ `
+export const AdminTermsQuery = graphql(/* GraphQL */ `
   query AdminTerms {
     adminTerms {
       terms {

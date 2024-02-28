@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "@apollo/client"
 import { MeQuery, Role, UpdateUserInput } from "@@/generated/graphql"
 import { getFragmentData, graphql } from "@@/generated"
 import { useSession } from "next-auth/react"
+import { AdminTermsQuery } from "./useTerms"
 
 export const MeFragment = graphql(/* GraphQL */ `
   fragment MeFragment on User {
@@ -90,6 +91,36 @@ export const useChangeUserRoleMutation = () => {
   return {
     changeUserRole: async (variables: { userId: string; role: Role }) =>
       await changeUserRole({ variables }),
+    data,
+    loading,
+    error,
+  }
+}
+
+export const useDeleteUserMutation = () => {
+  const [deleteUser, { data, loading, error }] = useMutation(
+    graphql(/* GraphQL */ `
+      mutation DeleteUser($data: UserIdInput!) {
+        deleteUser(data: $data) {
+          id
+        }
+      }
+    `),
+    { refetchQueries: [{ query: ME_QUERY }] },
+  )
+
+  return {
+    deleteUser: async (
+      data: { userId: string },
+      onCompletedCallback?: () => void,
+    ) =>
+      await deleteUser({
+        variables: { data },
+        onCompleted: () => {
+          if (onCompletedCallback) onCompletedCallback()
+        },
+        refetchQueries: [{ query: ME_QUERY }, { query: AdminTermsQuery }],
+      }),
     data,
     loading,
     error,
