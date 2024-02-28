@@ -13,13 +13,22 @@ import { ParsedUrlQuery } from "querystring"
 import SelectMultipleLocation from "@/ui/Autocomplete/selectMultipleLocations"
 import { Trans, useTranslation } from "next-i18next"
 import { useReCaptcha } from "next-recaptcha-v3"
+import { getOptions } from "@/ui/Autocomplete/helper"
 
 type Query = ParsedUrlQuery & {
   title?: string
   content?: string
   examples?: string[]
   cantons?: string[] | string
+  language?: string
 }
+const sanitizeCantons = (cantons: string[] = []): string[] => {
+  const cantonsList = getOptions("canton").map((canton) => canton.code)
+  return cantons.filter((canton) => cantonsList.includes(canton))
+}
+
+const sanitizeExamples = (examples: string[] = [""]): string[] =>
+  examples.slice(0, 3)
 
 const NewTermForm: FC<{ authorId?: string }> = ({ authorId }) => {
   const { t } = useTranslation("common")
@@ -54,11 +63,12 @@ const NewTermForm: FC<{ authorId?: string }> = ({ authorId }) => {
           {
             title: query.title!,
             content: query.content,
-            examples: query.examples,
-            cantons:
+            examples: sanitizeExamples(query.examples),
+            cantons: sanitizeCantons(
               typeof query.cantons === "string"
                 ? [query.cantons]
                 : query.cantons,
+            ),
             authorId,
           },
           (termId) => {
@@ -109,11 +119,9 @@ const NewTermForm: FC<{ authorId?: string }> = ({ authorId }) => {
           label={t("term.canton")}
           mode="canton"
           helperText={t("term.cantonFieldHelperText")}
-          value={
-            typeof query.cantons === "string"
-              ? [query.cantons]
-              : query.cantons ?? null
-          }
+          value={sanitizeCantons(
+            typeof query.cantons === "string" ? [query.cantons] : query.cantons,
+          )}
           onChange={(cantons) => {
             onChange("cantons", cantons)
           }}
@@ -139,11 +147,11 @@ const NewTermForm: FC<{ authorId?: string }> = ({ authorId }) => {
         <WordExamplesInput
           label={t("term.examples")}
           helperText={t("term.examplesFieldHelperText")}
-          values={
+          values={sanitizeExamples(
             typeof query.examples === "string"
               ? [query.examples]
-              : query.examples ?? [""]
-          }
+              : query.examples,
+          )}
           onChange={(examples) => {
             onChange("examples", examples)
           }}

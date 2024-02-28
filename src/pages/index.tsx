@@ -16,6 +16,9 @@ import { usePaginationState } from "@/hooks/usePaginationState"
 import NewTermButton from "@/ui/NewTermButton"
 import { useTranslation } from "next-i18next"
 import { getStaticPropsTranslations } from "@/utils/i18n"
+import { getOptions } from "@/ui/Autocomplete/helper"
+import { allLetters } from "@/ui/selectLetter/helper"
+import { useMemo } from "react"
 
 type Query = ParsedUrlQuery & {
   q?: string
@@ -23,13 +26,27 @@ type Query = ParsedUrlQuery & {
   firstChar?: string
 }
 
+const sanitizeCanton = (canton?: string): string | undefined => {
+  const cantonsList = getOptions("canton").map((canton) => canton.code)
+  return canton && cantonsList.includes(canton) ? canton : undefined
+}
+const sanitizeFirstChar = (firstChar?: string): string | undefined =>
+  firstChar && allLetters.includes(firstChar[0]) ? firstChar[0] : undefined
+
 const Home: NextPage = () => {
   const { t } = useTranslation("common")
   const router = useRouter()
   const query = router.query as Query
   const me = useMe().me
-
+  const { sanitizedCanton, sanitizedFirstChar } = useMemo(
+    () => ({
+      sanitizedCanton: sanitizeCanton(query.canton),
+      sanitizedFirstChar: sanitizeFirstChar(query.firstChar),
+    }),
+    [query.canton, query.firstChar],
+  )
   const { onDataCountChange, ...paginationProps } = usePaginationState()
+
   const {
     data,
     previousData,
@@ -38,8 +55,8 @@ const Home: NextPage = () => {
     offset: (paginationProps.pageIndex - 1) * paginationProps.pageSize,
     limit: paginationProps.pageSize,
     slug: query.q,
-    canton: query.canton,
-    firstChar: query.firstChar,
+    canton: sanitizedCanton,
+    firstChar: sanitizedFirstChar,
   })
 
   const termsQuery = data?.termsQuery ?? previousData?.termsQuery
@@ -54,7 +71,7 @@ const Home: NextPage = () => {
         </Box>
         <SelectSingleLocation
           mode="canton"
-          value={query.canton}
+          value={sanitizedCanton}
           onChange={(canton) => setQueryOnPage(router, { canton })}
           placeholder={t("filterBy.canton")}
           disabled={loadingTermsQuery}
@@ -64,14 +81,14 @@ const Home: NextPage = () => {
             content={[
               {
                 label: t("filterBy.firstChar"),
-                expanded: !!query.firstChar,
+                expanded: !!sanitizedFirstChar,
                 children: (
                   <SelectLetter
-                    value={query.firstChar}
+                    value={sanitizedFirstChar}
                     onChange={(firstChar) =>
                       setQueryOnPage(router, {
                         firstChar:
-                          query.firstChar === firstChar ? null : firstChar,
+                          sanitizedFirstChar === firstChar ? null : firstChar,
                       })
                     }
                     disabled={loadingTermsQuery}
