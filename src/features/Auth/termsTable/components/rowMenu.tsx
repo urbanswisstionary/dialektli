@@ -5,15 +5,7 @@ import MenuButton from "@mui/joy/MenuButton"
 import MenuItem from "@mui/joy/MenuItem"
 import Dropdown from "@mui/joy/Dropdown"
 import MoreHorizRoundedIcon from "@mui/icons-material/MoreHorizRounded"
-
-import DialogTitle from "@mui/joy/DialogTitle"
-import DialogContent from "@mui/joy/DialogContent"
-import DialogActions from "@mui/joy/DialogActions"
-import Modal from "@mui/joy/Modal"
-import ModalDialog from "@mui/joy/ModalDialog"
 import DeleteForever from "@mui/icons-material/DeleteForever"
-import WarningRoundedIcon from "@mui/icons-material/WarningRounded"
-import Button from "@mui/joy/Button"
 import { FC, useCallback, useState } from "react"
 import Link from "next/link"
 import type { AdminTermFragmentFragment } from "@@/generated/graphql"
@@ -21,6 +13,7 @@ import ListItemDecorator from "@mui/joy/ListItemDecorator"
 import { useDeleteTermMutation, useUpdateTermMutations } from "@/hooks/useTerms"
 import CircularProgress from "@mui/joy/CircularProgress"
 import { useTranslation } from "next-i18next"
+import ConfirmDeleteModal from "@/ui/modals/confirmDelete"
 
 const RowMenu: FC<{ term: AdminTermFragmentFragment }> = ({ term }) => {
   const { t } = useTranslation("common", { keyPrefix: "actions" })
@@ -84,42 +77,15 @@ const RowMenu: FC<{ term: AdminTermFragmentFragment }> = ({ term }) => {
           </MenuItem>
         </Menu>
       </Dropdown>
-      <Modal
+      <ConfirmDeleteModal
         open={openDeleteConfirmation}
         onClose={() => setOpenDeleteConfirmation(false)}
-      >
-        <ModalDialog variant="outlined" role="alertdialog">
-          <DialogTitle>
-            <WarningRoundedIcon />
-            {t("confirmation")}
-          </DialogTitle>
-          <Divider />
-          <DialogContent>
-            {t("confirmDelete")} "{term.title}"?
-          </DialogContent>
-          <DialogActions sx={{ justifyContent: "space-between" }}>
-            <Button
-              variant="solid"
-              color="danger"
-              loading={deleteTermLoading}
-              onClick={() => {
-                deleteTerm(term.id, () => {
-                  setOpenDeleteConfirmation(false)
-                })
-              }}
-            >
-              {t("delete")}
-            </Button>
-            <Button
-              variant="plain"
-              color="neutral"
-              onClick={() => setOpenDeleteConfirmation(false)}
-            >
-              {t("cancel")}
-            </Button>
-          </DialogActions>
-        </ModalDialog>
-      </Modal>
+        loading={deleteTermLoading}
+        onDelete={() =>
+          deleteTerm(term.id, () => setOpenDeleteConfirmation(false))
+        }
+        dialogContent={`${t("confirmDelete")} ${term.title}?`}
+      />
     </>
   )
 }
