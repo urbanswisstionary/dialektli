@@ -59,6 +59,7 @@
     "signinPage": {
       "title": "Sign In",
       "withGoogle": "Continue with Google",
+      "withFacebook": "Continue with Facebook",
       "email": "Email",
       "forgotPassword": "Forgot your password?"
     },
@@ -68,6 +69,7 @@
       "signIn": "Sign In!",
       "or": "or",
       "withGoogle": "Continue with Google",
+      "withFacebook": "Continue with Facebook",
       "name": "Name",
       "email": "Email",
       "weWillNeverShareYourInfo": "We will never share your information."
