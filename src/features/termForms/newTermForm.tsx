@@ -1,4 +1,4 @@
-import { FC, useCallback } from "react"
+import { FC, useCallback, useMemo } from "react"
 import Card from "@/ui/Card"
 import ReviewGuidelines from "@/features/termForms/components/reviewGuidelines"
 import WordInput from "./components/wordInput"
@@ -13,7 +13,12 @@ import { ParsedUrlQuery } from "querystring"
 import SelectMultipleLocation from "@/ui/Autocomplete/selectMultipleLocations"
 import { Trans, useTranslation } from "next-i18next"
 import { useReCaptcha } from "next-recaptcha-v3"
-import { getOptions } from "@/ui/Autocomplete/helper"
+import SelectSingleLanguage from "@/ui/Autocomplete/selectSingleLanguage"
+import {
+  sanitizeCantons,
+  sanitizeExamples,
+  sanitizeLanguage,
+} from "@/utils/sanitizeQueries"
 
 type Query = ParsedUrlQuery & {
   title?: string
@@ -22,13 +27,6 @@ type Query = ParsedUrlQuery & {
   cantons?: string[] | string
   language?: string
 }
-const sanitizeCantons = (cantons: string[] = []): string[] => {
-  const cantonsList = getOptions("canton").map((canton) => canton.code)
-  return cantons.filter((canton) => cantonsList.includes(canton))
-}
-
-const sanitizeExamples = (examples: string[] = [""]): string[] =>
-  examples.slice(0, 3)
 
 const NewTermForm: FC<{ authorId?: string }> = ({ authorId }) => {
   const { t } = useTranslation("common")
@@ -37,6 +35,18 @@ const NewTermForm: FC<{ authorId?: string }> = ({ authorId }) => {
   const router = useRouter()
   const query = router.query as Query
 
+  const { sanitizedCantons, sanitizedExamples, sanitizedLanguage } = useMemo(
+    () => ({
+      sanitizedCantons: sanitizeCantons(
+        typeof query.cantons === "string" ? [query.cantons] : query.cantons,
+      ),
+      sanitizedExamples: sanitizeExamples(
+        typeof query.examples === "string" ? [query.examples] : query.examples,
+      ),
+      sanitizedLanguage: sanitizeLanguage(query.language),
+    }),
+    [query.cantons, query.examples, query.language],
+  )
   const {
     createTerm,
     data: createTermData,
@@ -63,12 +73,9 @@ const NewTermForm: FC<{ authorId?: string }> = ({ authorId }) => {
           {
             title: query.title!,
             content: query.content,
-            examples: sanitizeExamples(query.examples),
-            cantons: sanitizeCantons(
-              typeof query.cantons === "string"
-                ? [query.cantons]
-                : query.cantons,
-            ),
+            examples: sanitizedExamples,
+            cantons: sanitizedCantons,
+            language: sanitizedLanguage,
             authorId,
           },
           (termId) => {
@@ -84,7 +91,17 @@ const NewTermForm: FC<{ authorId?: string }> = ({ authorId }) => {
       // eslint-disable-next-line no-console
       console.error("error", error)
     }
-  }, [authorId, createTerm, executeRecaptcha, query, router])
+  }, [
+    authorId,
+    createTerm,
+    executeRecaptcha,
+    query.content,
+    query.title,
+    router,
+    sanitizedCantons,
+    sanitizedExamples,
+    sanitizedLanguage,
+  ])
 
   return (
     <form
@@ -97,7 +114,6 @@ const NewTermForm: FC<{ authorId?: string }> = ({ authorId }) => {
       <Card
         title={t("term.newTerm.title")}
         description={t("term.newTerm.description")}
-        // description="All the definitions were written by people just like you. Now's your chance to add your own!"
         actions={{
           save: { type: "submit", loading: createTermLoading },
         }}
@@ -114,14 +130,19 @@ const NewTermForm: FC<{ authorId?: string }> = ({ authorId }) => {
           sx={{ pt: 1 }}
           disabled={!!createTermData?.createTerm?.id}
         />
-
+        <SelectSingleLanguage
+          label={t("term.language")}
+          required
+          value={sanitizedLanguage}
+          onChange={(language) => {
+            onChange("language", language)
+          }}
+        />
         <SelectMultipleLocation
           label={t("term.canton")}
           mode="canton"
           helperText={t("term.cantonFieldHelperText")}
-          value={sanitizeCantons(
-            typeof query.cantons === "string" ? [query.cantons] : query.cantons,
-          )}
+          value={sanitizedCantons}
           onChange={(cantons) => {
             onChange("cantons", cantons)
           }}
@@ -147,11 +168,7 @@ const NewTermForm: FC<{ authorId?: string }> = ({ authorId }) => {
         <WordExamplesInput
           label={t("term.examples")}
           helperText={t("term.examplesFieldHelperText")}
-          values={sanitizeExamples(
-            typeof query.examples === "string"
-              ? [query.examples]
-              : query.examples,
-          )}
+          values={sanitizedExamples}
           onChange={(examples) => {
             onChange("examples", examples)
           }}

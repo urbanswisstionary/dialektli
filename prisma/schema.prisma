@@ -50,6 +50,12 @@ model Flag {
     @@unique([termId, authorId])
 }
 
+enum Language {
+    DE
+    FR
+    IT
+}
+
 model Term {
     id        String    @id @default(cuid())
     title     String
@@ -63,7 +69,8 @@ model Term {
     createdAt DateTime  @default(now())
     updatedAt DateTime? @updatedAt
     flagged   Flag[]
-    cantons    String[]
+    cantons   String[]
+    language  Language  @default(DE)
 }
 
 model Account {

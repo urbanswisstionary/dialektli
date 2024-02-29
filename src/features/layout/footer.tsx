@@ -1,7 +1,7 @@
 import type { FC } from "react"
 import Box from "@mui/joy/Box"
 import Typography from "@mui/joy/Typography"
-import SelectLanguage from "@/ui/Autocomplete/SelectLanguage"
+import SelectLocale from "@/ui/Select/selectLocale"
 import Grid, { GridProps } from "@mui/joy/Grid"
 import NextLink from "next/link"
 import JoyLink, { LinkProps } from "@mui/joy/Link"
@@ -31,7 +31,7 @@ const Footer: FC = () => (
         <Link href="/bug-report">Bug Report</Link>
       </GridItem>
       <Grid xs={12} sm={3} md={3}>
-        <SelectLanguage />
+        <SelectLocale />
       </Grid>
       <Grid xs={12}>
         <Typography level="body-xs" textAlign="center">

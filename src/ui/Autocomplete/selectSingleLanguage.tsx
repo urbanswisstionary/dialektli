@@ -5,86 +5,70 @@ import { FC, useMemo } from "react"
 import FormHelperText from "@mui/joy/FormHelperText"
 import Flag from "@/ui/Flag"
 import SelectLocationOption from "./selectLocationOption"
-import { getOptions } from "./helper"
 import { useTranslation } from "next-i18next"
+import { Language } from "@@/generated/graphql"
 
-type SelectSingleLocationProps = Omit<
+type SelectSingleLanguageProps = Omit<
   FormControlProps,
   "value" | "onChange"
 > & {
-  value: string | null | undefined
-  onChange: (_locationCode: string | null) => void
-  mode: "canton" | "country"
+  value: Language | null | undefined
+  onChange: (_locationCode: Language | null) => void
   placeholder?: string
   helperText?: string
   label?: string
-  groupOptions?: boolean
 }
 
-const SelectSingleLocation: FC<SelectSingleLocationProps> = ({
+const SelectSingleLanguage: FC<SelectSingleLanguageProps> = ({
   value,
   onChange,
-  mode,
   label,
   helperText,
   placeholder,
-  groupOptions,
   ...props
 }) => {
   const { t } = useTranslation("common")
-  const options = useMemo(() => {
-    const options = getOptions(mode)
-    return groupOptions
-      ? [...options].sort((a, b) =>
-          !!a.language && !!b.language
-            ? a.language.localeCompare(b.language)
-            : !a.language || !b.language
-              ? a.label.localeCompare(b.label)
-              : 0,
-        )
-      : options
-  }, [groupOptions, mode])
+  const options = useMemo(
+    () =>
+      Object.values(Language).map((language) => ({
+        label: t(`selectLanguage.${language}`),
+        code: language,
+      })),
+    [t],
+  )
 
   const valueIndex = useMemo(
     () => options.findIndex((c) => c.code === value),
     [value, options],
   )
-  if (!mode) return null
+
   return (
     <FormControl {...props}>
       {label ? <FormLabel>{label}</FormLabel> : null}
       <Autocomplete
-        placeholder={placeholder ?? t(`term.${mode}FieldPlaceholder`)}
+        placeholder={placeholder ?? t(`selectLanguage.title`)}
         size="sm"
         autoHighlight
-        isOptionEqualToValue={(option, value) => option.code === value?.code}
+        isOptionEqualToValue={(option, value) => option === value}
         value={valueIndex === -1 ? null : options[valueIndex]}
-        onChange={(_e, canton) => onChange(canton?.code ?? null)}
+        onChange={(_e, option) => onChange(option?.code ?? null)}
         options={options}
         renderOption={(optionProps, option) => (
           <SelectLocationOption
             {...optionProps}
-            mode={mode}
+            mode={"country"}
             label={option.label}
             flagCode={option.code}
           />
         )}
-        startDecorator={value ? <Flag mode={mode} code={value} /> : null}
+        startDecorator={value ? <Flag mode={"country"} code={value} /> : null}
         openText={t("actions.open")}
         clearText={t("actions.clear")}
         closeText={t("actions.close")}
-        groupBy={
-          groupOptions
-            ? (option) =>
-                option.language
-                  ? t(`selectLanguage.${option.language}`)
-                  : option.label[0]
-            : undefined
-        }
       />
       {helperText ? <FormHelperText>{helperText}</FormHelperText> : null}
     </FormControl>
   )
 }
 
-export default SelectSingleLocation
+export default SelectSingleLanguage

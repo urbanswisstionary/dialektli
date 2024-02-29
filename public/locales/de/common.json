@@ -6,7 +6,11 @@
     "title": "Sprache auswählen",
     "en": "English",
     "de": "Deutsch",
-    "fr": "Français"
+    "DE": "Deutsch",
+    "fr": "Français",
+    "FR": "Français",
+    "it": "Italiano",
+    "IT": "Italiano"
   },
   "layout": {
     "sidebar": {
@@ -23,7 +27,8 @@
   },
   "filterBy": {
     "canton": "Filtern nach Kanton",
-    "firstChar": "Filtern nach erstem Zeichen"
+    "firstChar": "Filtern nach erstem Zeichen",
+    "language": "Filtern nach Sprache"
   },
   "searchTermsInput": {
     "search": "Suche"
@@ -135,6 +140,7 @@
     "description": "Beschreibung",
     "author": "Autor",
     "country": "Land",
+    "language": "Sprache",
     "canton": "Kanton",
     "title": "Begriff",
     "status": "Status",

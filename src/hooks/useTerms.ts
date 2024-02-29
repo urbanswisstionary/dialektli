@@ -26,6 +26,7 @@ export const TermFragment = graphql(/* GraphQL */ `
 
     createdAt
     updatedAt
+    language
     cantons
   }
 `)
@@ -60,6 +61,7 @@ export const AdminTermFragment = graphql(/* GraphQL */ `
     dislikesCount
     createdAt
     updatedAt
+    language
     cantons
     flagged {
       authorId

@@ -4,7 +4,7 @@ import image0_0 from "../../../public/assets/image0_0.jpg"
 import image1_0 from "../../../public/assets/image1_0.jpg"
 import Header from "./header"
 import Typography from "@mui/joy/Typography"
-import SelectLanguage from "@/ui/Autocomplete/SelectLanguage"
+import SelectLocale from "@/ui/Select/selectLocale"
 
 const LayoutWithImage: FC<PropsWithChildren> = ({ children }) => (
   <>
@@ -69,7 +69,7 @@ const LayoutWithImage: FC<PropsWithChildren> = ({ children }) => (
             gap: 2,
           }}
         >
-          <SelectLanguage />
+          <SelectLocale />
           <Typography level="body-xs" textAlign="center">
             © UrbanSwisstionary {new Date().getFullYear()}
           </Typography>

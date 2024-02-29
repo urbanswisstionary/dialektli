@@ -12,13 +12,13 @@ import Option from "@mui/joy/Option"
 import { Tooltip } from "@mui/joy"
 import Flag from "../Flag"
 
-type SelectLanguageProps = Omit<FormControlProps, "value" | "onChange">
+type SelectLocaleProps = Omit<FormControlProps, "value" | "onChange">
 
 const getFlagCode = (locale: Locale) => {
   if (locale === "en") return "gb"
   return locale
 }
-const SelectLanguage: FC<SelectLanguageProps> = (props) => {
+const SelectLocale: FC<SelectLocaleProps> = (props) => {
   const router = useRouter()
   const { t } = useTranslation("common")
 
@@ -38,12 +38,12 @@ const SelectLanguage: FC<SelectLanguageProps> = (props) => {
           indicator={<ArrowDropDownIcon sx={{ p: 0.5, opacity: 0.7 }} />}
           slotProps={{
             button: {
-              id: "select-language",
-              "aria-labelledby": "select-language",
+              id: "select-locale",
+              "aria-labelledby": "select-locale",
             },
           }}
           onChange={(_e, locale) => onChange(locale)}
-          name="select-language"
+          name="select-locale"
         >
           {router.locales.map((locale) => (
             <Option key={locale} value={locale}>
@@ -58,4 +58,4 @@ const SelectLanguage: FC<SelectLanguageProps> = (props) => {
     </FormControl>
   )
 }
-export default SelectLanguage
+export default SelectLocale

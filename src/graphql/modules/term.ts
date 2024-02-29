@@ -4,6 +4,7 @@ import prisma from "../../lib/prisma"
 import { allow } from "graphql-shield"
 import * as permissions from "../permissions"
 import { ApolloError } from "@apollo/client"
+import { Language } from "./language"
 
 const TermObject = builder.prismaObject("Term", {
   fields: (t) => ({
@@ -52,6 +53,7 @@ const TermObject = builder.prismaObject("Term", {
       },
     }),
     cantons: t.exposeStringList("cantons"),
+    language: t.expose("language", { type: Language }),
   }),
 })
 
@@ -70,6 +72,7 @@ const TermsQueryInput = builder.inputType("TermsQueryInput", {
     canton: t.string(),
     firstChar: t.string(),
     slug: t.string(),
+    language: t.field({ type: Language }),
   }),
 })
 
@@ -90,7 +93,7 @@ builder.queryFields((t) => ({
     nullable: true,
     args: { data: t.arg({ type: TermsQueryInput, required: true }) },
     resolve: async (_root, { data }) => {
-      const { q, offset, limit, canton, firstChar, slug } = data
+      const { q, offset, limit, canton, firstChar, slug, language } = data
       const termsWhere: Prisma.TermFindManyArgs = {
         where: {
           AND: [
@@ -102,6 +105,7 @@ builder.queryFields((t) => ({
                 : firstChar
                   ? { startsWith: firstChar, mode: "insensitive" }
                   : undefined,
+              language: language ?? undefined,
             },
             {
               OR: [
@@ -166,6 +170,7 @@ const CreateTermInput = builder.inputType("CreateTermInput", {
     examples: t.stringList(),
     authorId: t.string(),
     cantons: t.stringList(),
+    language: t.field({ type: Language }),
   }),
 })
 
@@ -204,7 +209,7 @@ builder.mutationFields((t) => ({
     resolve: async (
       query,
       _root,
-      { data: { title, content, examples, cantons, authorId } },
+      { data: { title, content, examples, cantons, authorId, language } },
     ) => {
       try {
         const author = authorId
@@ -223,6 +228,7 @@ builder.mutationFields((t) => ({
             examples: (examples ?? []).filter(
               (example) => !!example.trim().length,
             ),
+            language: language ?? undefined,
             author: { connect: { id: author.id } },
           },
         })

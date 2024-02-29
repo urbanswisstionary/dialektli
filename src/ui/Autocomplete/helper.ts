@@ -1,36 +1,53 @@
+import { Language } from "@@/generated/graphql"
+
 export type LocationOption = {
   code: string
   label: string
-  group?: string
+  language?: Language
 }
 
 const cantons: LocationOption[] = [
-  { code: "AG", label: "Aargau", group: "German" },
-  { code: "AI", label: "Appenzell Innerrhoden", group: "German" },
-  { code: "AR", label: "Appenzell Ausserrhoden", group: "German" },
-  { code: "BE", label: "Bern", group: "German" },
-  { code: "BL", label: "Basel-Landschaft", group: "German" },
-  { code: "BS", label: "Basel-Stadt", group: "German" },
-  { code: "FR", label: "Fribourg", group: "French" },
-  { code: "GE", label: "Geneva", group: "French" },
-  { code: "GL", label: "Glarus", group: "German" },
-  { code: "GR", label: "Graubünden", group: "German" },
-  { code: "JU", label: "Jura", group: "French" },
-  { code: "LU", label: "Lucerne", group: "German" },
-  { code: "NE", label: "Neuchâtel", group: "French" },
-  { code: "NW", label: "Nidwalden", group: "German" },
-  { code: "OW", label: "Obwalden", group: "German" },
-  { code: "SG", label: "St. Gallen", group: "German" },
-  { code: "SH", label: "Schaffhausen", group: "German" },
-  { code: "SO", label: "Solothurn", group: "German" },
-  { code: "SZ", label: "Schwyz", group: "German" },
-  { code: "TG", label: "Thurgau", group: "German" },
-  { code: "TI", label: "Ticino", group: "Italian" },
-  { code: "UR", label: "Uri", group: "German" },
-  { code: "VD", label: "Vaud", group: "French" },
-  { code: "VS", label: "Valais", group: "French" },
-  { code: "ZG", label: "Zug", group: "German" },
-  { code: "ZH", label: "Zurich", group: "German" },
+  { code: "AG", label: "Aargau", language: Language.De },
+  {
+    code: "AI",
+    label: "Appenzell Innerrhoden",
+
+    language: Language.De,
+  },
+  {
+    code: "AR",
+    label: "Appenzell Ausserrhoden",
+
+    language: Language.De,
+  },
+  { code: "BE", label: "Bern", language: Language.De },
+  {
+    code: "BL",
+    label: "Basel-Landschaft",
+
+    language: Language.De,
+  },
+  { code: "BS", label: "Basel-Stadt", language: Language.De },
+  { code: "FR", label: "Fribourg", language: Language.Fr },
+  { code: "GE", label: "Geneva", language: Language.Fr },
+  { code: "GL", label: "Glarus", language: Language.De },
+  { code: "GR", label: "Graubünden", language: Language.De },
+  { code: "JU", label: "Jura", language: Language.Fr },
+  { code: "LU", label: "Lucerne", language: Language.De },
+  { code: "NE", label: "Neuchâtel", language: Language.Fr },
+  { code: "NW", label: "Nidwalden", language: Language.De },
+  { code: "OW", label: "Obwalden", language: Language.De },
+  { code: "SG", label: "St. Gallen", language: Language.De },
+  { code: "SH", label: "Schaffhausen", language: Language.De },
+  { code: "SO", label: "Solothurn", language: Language.De },
+  { code: "SZ", label: "Schwyz", language: Language.De },
+  { code: "TG", label: "Thurgau", language: Language.De },
+  { code: "TI", label: "Ticino", language: Language.It },
+  { code: "UR", label: "Uri", language: Language.De },
+  { code: "VD", label: "Vaud", language: Language.Fr },
+  { code: "VS", label: "Valais", language: Language.Fr },
+  { code: "ZG", label: "Zug", language: Language.De },
+  { code: "ZH", label: "Zurich", language: Language.De },
 ]
 
 const countries: LocationOption[] = [
@@ -116,10 +133,7 @@ const countries: LocationOption[] = [
   { code: "CX", label: "Christmas Island" },
   { code: "CY", label: "Cyprus" },
   { code: "CZ", label: "Czech Republic" },
-  {
-    code: "DE",
-    label: "Germany",
-  },
+  { code: "DE", label: "Germany" },
   { code: "DJ", label: "Djibouti" },
   { code: "DK", label: "Denmark" },
   { code: "DM", label: "Dominica" },

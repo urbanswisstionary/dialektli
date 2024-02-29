@@ -47,10 +47,11 @@ const TermsListItem: FC<{ term: AdminTermFragmentFragment }> = ({ term }) => (
           </Typography>
         </Box>
       </ListItemContent>
-      <Stack gap={2} width={120} sx={{ direction: "rtl" }}>
+      <Stack gap={2} width={120} sx={{ direction: "rtl", pr: 2 }}>
+        <Flag mode="country" code={term.language} />
         <TermStatusChip status={term.published ? "published" : "unpublished"} />
         {term.cantons.length ? (
-          <Stack direction="row" gap={1} flexWrap="wrap" pb={1} pr={1.25}>
+          <Stack direction="row" gap={1} flexWrap="wrap" pb={1}>
             {term.cantons.map((canton, i) => (
               <Flag key={i} mode="canton" code={canton} />
             ))}

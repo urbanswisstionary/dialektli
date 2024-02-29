@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client"
+import { Language, Prisma } from "@prisma/client"
 import prisma from "../../src/lib/prisma"
 import { anonymourUser } from "./users"
 
@@ -7,6 +7,7 @@ const SEED_TERMS: Prisma.TermCreateArgs["data"][] = [
     title: "Bolä",
     content: "Geschlechtsverkehr",
     cantons: ["LU"],
+    language: Language.DE,
     examples: [
       "Ich gang die huer go bolä",
       "Ich bi rattig, ich ha scho lang nimm boläd",
@@ -16,6 +17,7 @@ const SEED_TERMS: Prisma.TermCreateArgs["data"][] = [
   //   title: "Negerwurscht",
   //   content: "Despektierlich für Banane",
   //   cantons: ["OW"],
+  //   language: Language.DE,
   //   examples: [
   //     "Ich glaib ich frus a Negerwurscht",
   //     "Dä Neger hed a grossi Wurscht",
@@ -25,6 +27,7 @@ const SEED_TERMS: Prisma.TermCreateArgs["data"][] = [
     title: "Hai",
     content: "häi: heim, nach Hause; Häi: das Daheim.",
     cantons: ["OW"],
+    language: Language.DE,
     examples: [
       "I Huis und Häi.",
       "Huis und Häi verlyyrä.",
@@ -35,6 +38,7 @@ const SEED_TERMS: Prisma.TermCreateArgs["data"][] = [
     title: "Grüessech",
     content: "Hallo; Grüezi; Sali",
     cantons: ["BE"],
+    language: Language.DE,
     examples: [
       "Grüessech, wie gohts?",
       "Grüessech, wie bisch?",
@@ -45,12 +49,14 @@ const SEED_TERMS: Prisma.TermCreateArgs["data"][] = [
     title: "Guetzle",
     content: "Kekse; Plätzchen",
     cantons: ["BE", "ZH", "LU"],
+    language: Language.DE,
     examples: ["Hesch scho guetzlet?", "I ha guetzlet", "Guetzle mache"],
   },
   {
     title: "Güx",
     content: "Spaß; Scherz",
     cantons: ["BE"],
+    language: Language.DE,
     examples: ["Mach kei güx!", "Das isch kei güx!", "Das isch e güx!"],
   },
 
@@ -59,6 +65,7 @@ const SEED_TERMS: Prisma.TermCreateArgs["data"][] = [
     content:
       "Schreibweisen: schräpfe, gschräpft Bedeutung: 1. schröpfen, 2. ausbeuten, aussaugen, ausnehmen usw.; jmd. (z.B. den Autofahrern) mit mehr oder weniger Berechtigung (zu)viel Geld abnehmen, wie es der Staat durch Parkbussen macht",
     cantons: ["BE"],
+    language: Language.DE,
     examples: ["I ha mi am letschte Sunntig gschräpft gfühlt."],
   },
   {
@@ -78,12 +85,14 @@ const SEED_TERMS: Prisma.TermCreateArgs["data"][] = [
     content:
       "Lassen Sie ein Ereignis, ein Gespräch oder einen Ort, den Sie nicht mögen, stillschweigend hinter sich – das ist das Äquivalent dazu, still und leise der schlimmen oder lästigen Situation zu entfliehen, in der Sie sich befanden.",
     cantons: ["ZH"],
+    language: Language.DE,
     examples: ["I mues jetzt de Fisch mache", "I ha gestern de Fisch gmacht"],
   },
   {
     title: "Schräpfe",
     content: "A local dish made with flour, water, and salt, fried in butter.",
     cantons: ["OW"],
+    language: Language.DE,
     examples: [
       "Hesch scho Schräpfe probiert?",
       "I ha Schräpfe gmacht",
@@ -94,6 +103,7 @@ const SEED_TERMS: Prisma.TermCreateArgs["data"][] = [
     title: "Gschpänig",
     content: "Cute or charming, often applied to children or small animals.",
     cantons: ["OW"],
+    language: Language.DE,
     examples: [
       "Das chli Bäbi isch so gschpänig!",
       "Hesch das chline Chätzli gseh? Es isch so gschpänig!",
@@ -105,6 +115,7 @@ const SEED_TERMS: Prisma.TermCreateArgs["data"][] = [
     content:
       "A small stick or twig, commonly used in local expressions or idioms.",
     cantons: ["OW"],
+    language: Language.DE,
     examples: [
       "Chnüppeli sammle",
       "Mit em Chnüppel spiele",
@@ -116,6 +127,7 @@ const SEED_TERMS: Prisma.TermCreateArgs["data"][] = [
     content:
       "Cloudy or murky weather, often used to describe the sky or water conditions.",
     cantons: ["OW"],
+    language: Language.DE,
     examples: [
       "Es isch hüt Trübeli drauße",
       "Im See isch es Trübeli",
@@ -127,6 +139,7 @@ const SEED_TERMS: Prisma.TermCreateArgs["data"][] = [
     content:
       "A term that might refer to a gentle shake or a light pat, used in various contexts such as expressing affection or getting someone's attention.",
     cantons: ["OW"],
+    language: Language.DE,
     examples: [
       "E chli Schuppel als Liebesbeweis",
       "Schuppel uf de Rücke",
@@ -153,6 +166,7 @@ export const seedTerms = async () => {
       select: { id: true },
     })
     if (existingTerm) {
+      // eslint-disable-next-line no-console
       console.log(
         `[seed term] Skipping ${title} as it already exists, id: ${existingTerm.id}.`,
       )
@@ -170,10 +184,12 @@ export const seedTerms = async () => {
       },
     })
     createdTermsCount++
+    // eslint-disable-next-line no-console
     console.log(`[seed terms] ${title} was successfully seeded`, {
       createdTerm,
     })
   }
+  // eslint-disable-next-line no-console
   console.log(
     `[seed terms]: ${skippedTermsCount} terms were skipped and ${createdTermsCount} terms were successfully seeded`,
   )

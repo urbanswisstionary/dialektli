@@ -8,6 +8,7 @@ import { Session } from "next-auth"
 import { SupportedLanguage } from "@/utils/getUserLang"
 import ShieldPlugin from "./shield-plugin"
 import SimpleObjectsPlugin from "@pothos/plugin-simple-objects"
+import { Language } from "@@/generated/graphql"
 
 const prisma = new PrismaClient({
   log: ["info", "warn"],
@@ -19,6 +20,7 @@ export const builder = new SchemaBuilder<{
     DateTime: { Input: Date; Output: Date }
     Json: { Input: unknown; Output: unknown }
     Role: { Input: Role; Output: Role }
+    Language: { Input: Language; Output: Language }
   }
   Context: {
     session: Session | null

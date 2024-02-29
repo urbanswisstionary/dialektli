@@ -29,6 +29,7 @@ const TermCard: FC<TermCardProps> = ({ term, disableActions }) => {
     <Card size="md" sx={{ wordBreak: "break-word" }}>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Stack direction="column" gap={1}>
+          <Flag mode="country" code={term.language} />
           {term.cantons ? (
             <Stack direction="row" gap={1} flexWrap="wrap">
               {term.cantons.map((canton, i) => (

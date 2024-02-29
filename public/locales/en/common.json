@@ -20,7 +20,8 @@
   },
   "filterBy": {
     "canton": "Filter by Canton",
-    "firstChar": "Filter by First Character"
+    "firstChar": "Filter by First Character",
+    "language": "Filter by Language"
   },
   "searchTermsInput": {
     "search": "Search"

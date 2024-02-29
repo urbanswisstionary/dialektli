@@ -4,7 +4,11 @@ import WordInput from "./components/wordInput"
 import WordContentInput from "./components/wordContentInput"
 import WordExamplesInput from "./components/wordExamplesInput"
 import { useUpdateTermMutations } from "@/hooks/useTerms"
-import { TermFragmentFragment, UpdateTermInput } from "@@/generated/graphql"
+import {
+  Language,
+  TermFragmentFragment,
+  UpdateTermInput,
+} from "@@/generated/graphql"
 import isEqual from "lodash/isEqual"
 import Box from "@mui/joy/Box"
 import Typography from "@mui/joy/Typography"
@@ -12,12 +16,14 @@ import { useRouter } from "next/router"
 import Link from "@mui/joy/Link"
 import SelectMultipleLocation from "@/ui/Autocomplete/selectMultipleLocations"
 import { Trans, useTranslation } from "next-i18next"
+import SelectSingleLanguage from "@/ui/Autocomplete/selectSingleLanguage"
 
 type EditTermState = {
   title?: string
   content?: string
   cantons?: string[]
   examples?: string[]
+  language?: Language
 }
 
 const EditTermForm: FC<{
@@ -145,6 +151,20 @@ const EditTermForm: FC<{
             sx={{ pt: 1 }}
             disabled={disableFields}
           />
+
+          <SelectSingleLanguage
+            label={t("term.language")}
+            required
+            value={
+              editTermState.language !== undefined
+                ? editTermState.language
+                : term.language
+            }
+            onChange={(language) => {
+              onChange("language", language)
+            }}
+          />
+
           <SelectMultipleLocation
             id="canton"
             label={t("term.canton")}

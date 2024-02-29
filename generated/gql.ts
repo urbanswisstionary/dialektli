@@ -18,9 +18,9 @@ const documents = {
     "\n      mutation UpdateUser($data: UpdateUserInput!) {\n        updateUser(data: $data) {\n          ...MeFragment\n        }\n      }\n    ": types.UpdateUserDocument,
     "\n      mutation ChangeUserRole($userId: String!, $role: Role!) {\n        changeUserRole(userId: $userId, role: $role) {\n          ...MeFragment\n        }\n      }\n    ": types.ChangeUserRoleDocument,
     "\n      mutation DeleteUser($data: UserIdInput!) {\n        deleteUser(data: $data) {\n          id\n        }\n      }\n    ": types.DeleteUserDocument,
-    "\n  fragment TermFragment on Term {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    likedByMe\n    dislikesCount\n    dislikedByMe\n    flaggedByMe\n\n    createdAt\n    updatedAt\n    cantons\n  }\n": types.TermFragmentFragmentDoc,
+    "\n  fragment TermFragment on Term {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    likedByMe\n    dislikesCount\n    dislikedByMe\n    flaggedByMe\n\n    createdAt\n    updatedAt\n    language\n    cantons\n  }\n": types.TermFragmentFragmentDoc,
     "\n  query TermsQuery($data: TermsQueryInput!) {\n    termsQuery(data: $data) {\n      terms {\n        ...TermFragment\n      }\n      count\n    }\n  }\n": types.TermsQueryDocument,
-    "\n  fragment AdminTermFragment on Term {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    dislikesCount\n    createdAt\n    updatedAt\n    cantons\n    flagged {\n      authorId\n      createdAt\n    }\n  }\n": types.AdminTermFragmentFragmentDoc,
+    "\n  fragment AdminTermFragment on Term {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    dislikesCount\n    createdAt\n    updatedAt\n    language\n    cantons\n    flagged {\n      authorId\n      createdAt\n    }\n  }\n": types.AdminTermFragmentFragmentDoc,
     "\n  query AdminTerms {\n    adminTerms {\n      terms {\n        ...AdminTermFragment\n      }\n      count\n    }\n  }\n": types.AdminTermsDocument,
     "\n      mutation CreateTerm($data: CreateTermInput!) {\n        createTerm(data: $data) {\n          id\n        }\n      }\n    ": types.CreateTermDocument,
     "\n      mutation UpdateTerm($data: UpdateTermInput!) {\n        updateTerm(data: $data) {\n          id\n        }\n      }\n    ": types.UpdateTermDocument,
@@ -68,7 +68,7 @@ export function graphql(source: "\n      mutation DeleteUser($data: UserIdInput!
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  fragment TermFragment on Term {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    likedByMe\n    dislikesCount\n    dislikedByMe\n    flaggedByMe\n\n    createdAt\n    updatedAt\n    cantons\n  }\n"): (typeof documents)["\n  fragment TermFragment on Term {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    likedByMe\n    dislikesCount\n    dislikedByMe\n    flaggedByMe\n\n    createdAt\n    updatedAt\n    cantons\n  }\n"];
+export function graphql(source: "\n  fragment TermFragment on Term {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    likedByMe\n    dislikesCount\n    dislikedByMe\n    flaggedByMe\n\n    createdAt\n    updatedAt\n    language\n    cantons\n  }\n"): (typeof documents)["\n  fragment TermFragment on Term {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    likedByMe\n    dislikesCount\n    dislikedByMe\n    flaggedByMe\n\n    createdAt\n    updatedAt\n    language\n    cantons\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -76,7 +76,7 @@ export function graphql(source: "\n  query TermsQuery($data: TermsQueryInput!) {
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  fragment AdminTermFragment on Term {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    dislikesCount\n    createdAt\n    updatedAt\n    cantons\n    flagged {\n      authorId\n      createdAt\n    }\n  }\n"): (typeof documents)["\n  fragment AdminTermFragment on Term {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    dislikesCount\n    createdAt\n    updatedAt\n    cantons\n    flagged {\n      authorId\n      createdAt\n    }\n  }\n"];
+export function graphql(source: "\n  fragment AdminTermFragment on Term {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    dislikesCount\n    createdAt\n    updatedAt\n    language\n    cantons\n    flagged {\n      authorId\n      createdAt\n    }\n  }\n"): (typeof documents)["\n  fragment AdminTermFragment on Term {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    content\n    examples\n    published\n    likesCount\n    dislikesCount\n    createdAt\n    updatedAt\n    language\n    cantons\n    flagged {\n      authorId\n      createdAt\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

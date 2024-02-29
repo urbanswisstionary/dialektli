@@ -1,57 +1,46 @@
 import Autocomplete from "@mui/joy/Autocomplete"
 import { FC, useMemo } from "react"
-import { LocationOption, getOptions } from "./helper"
 import FormControl, { FormControlProps } from "@mui/joy/FormControl"
 import FormLabel from "@mui/joy/FormLabel"
 import FormHelperText from "@mui/joy/FormHelperText"
 import SelectLocationOption from "./selectLocationOption"
 import SelectMultipleLocationTag from "./selectMultipleLocationTag"
 import { useTranslation } from "next-i18next"
+import { Language } from "@@/generated/graphql"
 
-type SelectMultipleLocationProps = Omit<
+type SelectMultipleLanguagesProps = Omit<
   FormControlProps,
   "value" | "onChange"
 > & {
-  value: string[] | null | undefined
-  onChange: (_locationCode: string[] | null) => void
-  mode: "canton" | "country"
+  value: Language[] | null | undefined
+  onChange: (_locationCode: Language[] | null) => void
   placeholder?: string
   helperText?: string
   label?: string
   limitTags?: number
-  groupOptions?: boolean
 }
 
-const SelectMultipleLocation: FC<SelectMultipleLocationProps> = ({
-  mode,
+const SelectMultipleLanguages: FC<SelectMultipleLanguagesProps> = ({
   placeholder,
   helperText,
   label,
   value,
   onChange,
   limitTags,
-  groupOptions,
   ...props
 }) => {
   const { t } = useTranslation("common")
-  const options = useMemo(() => {
-    const options = getOptions(mode)
-    return groupOptions
-      ? [...options].sort((a, b) =>
-          !!a.language && !!b.language
-            ? a.language.localeCompare(b.language)
-            : !a.language || !b.language
-              ? a.label.localeCompare(b.label)
-              : 0,
-        )
-      : options
-  }, [mode, groupOptions])
+  const options = useMemo(
+    () =>
+      Object.values(Language).map((language) => ({
+        label: t(`selectLanguage.${language}`),
+        code: language,
+      })),
+    [t],
+  )
 
   const values = useMemo(
-    () =>
-      (value ?? []).map((code) =>
-        options.find((o) => o.code === code),
-      ) as LocationOption[],
+    () => (value ?? []).map((code) => options.find((o) => o.code === code)!),
     [options, value],
   )
   return (
@@ -59,7 +48,7 @@ const SelectMultipleLocation: FC<SelectMultipleLocationProps> = ({
       {label ? <FormLabel>{label}</FormLabel> : null}
       <Autocomplete
         multiple
-        placeholder={placeholder ?? t(`term.${mode}FieldPlaceholder`)}
+        placeholder={placeholder ?? t(`selectLanguage.title`)}
         size="sm"
         autoHighlight
         options={options}
@@ -72,7 +61,7 @@ const SelectMultipleLocation: FC<SelectMultipleLocationProps> = ({
         renderOption={(optionProps, option) => (
           <SelectLocationOption
             {...optionProps}
-            mode={mode}
+            mode={"country"}
             label={option.label}
             flagCode={option.code}
           />
@@ -81,7 +70,7 @@ const SelectMultipleLocation: FC<SelectMultipleLocationProps> = ({
           tags.map((option, index) => (
             <SelectMultipleLocationTag
               option={option}
-              mode={mode}
+              mode={"country"}
               {...getTagProps({ index })}
               key={index}
             />
@@ -93,18 +82,10 @@ const SelectMultipleLocation: FC<SelectMultipleLocationProps> = ({
         closeText={t("actions.close")}
         filterSelectedOptions
         disableCloseOnSelect
-        groupBy={
-          groupOptions
-            ? (option) =>
-                option.language
-                  ? t(`selectLanguage.${option.language}`)
-                  : option.label[0]
-            : undefined
-        }
       />
       {helperText ? <FormHelperText>{helperText}</FormHelperText> : null}
     </FormControl>
   )
 }
 
-export default SelectMultipleLocation
+export default SelectMultipleLanguages

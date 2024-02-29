@@ -9,41 +9,40 @@ import SelectSingleLocation from "@/ui/Autocomplete/selectSingleLocation"
 import { ParsedUrlQuery } from "querystring"
 import { useRouter } from "next/router"
 import { setQueryOnPage } from "@/utils/setQueryOnPage"
-import SelectLetter from "@/ui/selectLetter"
+import SelectLetter from "@/ui/Select/selectLetter"
 import Accordion from "@/ui/Accordion"
 import TermsCardsList from "@/features/termsCardsList"
 import { usePaginationState } from "@/hooks/usePaginationState"
 import NewTermButton from "@/ui/NewTermButton"
 import { useTranslation } from "next-i18next"
 import { getStaticPropsTranslations } from "@/utils/i18n"
-import { getOptions } from "@/ui/Autocomplete/helper"
-import { allLetters } from "@/ui/selectLetter/helper"
 import { useMemo } from "react"
+import {
+  sanitizeCanton,
+  sanitizeFirstChar,
+  sanitizeLanguage,
+} from "@/utils/sanitizeQueries"
+import SelectSingleLanguage from "@/ui/Autocomplete/selectSingleLanguage"
 
 type Query = ParsedUrlQuery & {
   q?: string
   canton?: string
   firstChar?: string
+  language?: string
 }
-
-const sanitizeCanton = (canton?: string): string | undefined => {
-  const cantonsList = getOptions("canton").map((canton) => canton.code)
-  return canton && cantonsList.includes(canton) ? canton : undefined
-}
-const sanitizeFirstChar = (firstChar?: string): string | undefined =>
-  firstChar && allLetters.includes(firstChar[0]) ? firstChar[0] : undefined
 
 const Home: NextPage = () => {
   const { t } = useTranslation("common")
   const router = useRouter()
   const query = router.query as Query
   const me = useMe().me
-  const { sanitizedCanton, sanitizedFirstChar } = useMemo(
+  const { sanitizedCanton, sanitizedFirstChar, sanitizedLanguage } = useMemo(
     () => ({
       sanitizedCanton: sanitizeCanton(query.canton),
       sanitizedFirstChar: sanitizeFirstChar(query.firstChar),
+      sanitizedLanguage: sanitizeLanguage(query.language),
     }),
-    [query.canton, query.firstChar],
+    [query.canton, query.firstChar, query.language],
   )
   const { onDataCountChange, ...paginationProps } = usePaginationState()
 
@@ -57,6 +56,7 @@ const Home: NextPage = () => {
     slug: query.q,
     canton: sanitizedCanton,
     firstChar: sanitizedFirstChar,
+    language: sanitizedLanguage,
   })
 
   const termsQuery = data?.termsQuery ?? previousData?.termsQuery
@@ -69,6 +69,11 @@ const Home: NextPage = () => {
           <SearchTermsInput sx={{ flex: 1 }} disabled={loadingTermsQuery} />
           <NewTermButton disabled={loadingTermsQuery} />
         </Box>
+        <SelectSingleLanguage
+          value={sanitizedLanguage}
+          onChange={(language) => setQueryOnPage(router, { language })}
+          placeholder={t("filterBy.language")}
+        />
         <SelectSingleLocation
           mode="canton"
           value={sanitizedCanton}

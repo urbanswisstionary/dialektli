@@ -33,7 +33,7 @@ const SelectMultipleLocationTag: FC<SelectMultipleLocationTagProps> = ({
       }}
       {...props}
     >
-      {code}
+      {label}
     </Chip>
   </Tooltip>
 )

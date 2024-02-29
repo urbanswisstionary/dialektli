@@ -14,6 +14,6 @@ export const seedUsers = async () => {
     update: {},
     create: anonymourUser,
   })
-
+  // eslint-disable-next-line no-console
   console.log("[seed user]", { createdUser })
 }
