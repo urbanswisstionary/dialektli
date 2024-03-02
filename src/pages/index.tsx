@@ -80,6 +80,7 @@ const Home: NextPage = () => {
           onChange={(canton) => setQueryOnPage(router, { canton })}
           placeholder={t("filterBy.canton")}
           disabled={loadingTermsQuery}
+          groupOptions
         />
         {!query.q ? (
           <Accordion
