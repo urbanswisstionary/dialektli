@@ -23,10 +23,15 @@ const DMCAPage: NextPage = () => {
         http://www.copyright.gov.
       </Typography> */}
       <Box pt={5}>
-        <AspectRatio objectFit="contain" maxHeight={500}>
+        <AspectRatio
+          objectFit="contain"
+          maxHeight={500}
+          slotProps={{
+            content: { sx: { background: "transparent" } },
+          }}
+        >
           <img
             src="https://freesvg.org/img/under-construction_geek_man_01.png"
-            style={{ background: "white" }}
             alt="Under construction"
           />
         </AspectRatio>
