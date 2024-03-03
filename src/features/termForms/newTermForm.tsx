@@ -28,7 +28,7 @@ type Query = ParsedUrlQuery & {
   language?: string
 }
 
-const NewTermForm: FC<{ authorId?: string }> = ({ authorId }) => {
+const NewTermForm: FC = () => {
   const { t } = useTranslation("common")
   const { executeRecaptcha } = useReCaptcha()
 
@@ -52,7 +52,7 @@ const NewTermForm: FC<{ authorId?: string }> = ({ authorId }) => {
     data: createTermData,
     loading: createTermLoading,
   } = useCreateTermMutation()
-
+  const createdTerm = createTermData?.createTerm
   const onChange = <K extends keyof Query>(
     queryKey: K,
     value: Query[K] | null,
@@ -76,7 +76,6 @@ const NewTermForm: FC<{ authorId?: string }> = ({ authorId }) => {
             examples: sanitizedExamples,
             cantons: sanitizedCantons,
             language: sanitizedLanguage,
-            authorId,
           },
           (termId) => {
             if (termId) router.replace(`/term/${termId}/edit?review`)
@@ -92,7 +91,6 @@ const NewTermForm: FC<{ authorId?: string }> = ({ authorId }) => {
       console.error("error", error)
     }
   }, [
-    authorId,
     createTerm,
     executeRecaptcha,
     query.content,
@@ -128,7 +126,7 @@ const NewTermForm: FC<{ authorId?: string }> = ({ authorId }) => {
           label={t("term.title")}
           required
           sx={{ pt: 1 }}
-          disabled={!!createTermData?.createTerm?.id}
+          disabled={!!createdTerm}
         />
         <SelectSingleLanguage
           label={t("term.language")}
@@ -162,7 +160,7 @@ const NewTermForm: FC<{ authorId?: string }> = ({ authorId }) => {
           }
           required
           sx={{ pt: 1 }}
-          disabled={!!createTermData?.createTerm?.id}
+          disabled={!!createdTerm}
         />
 
         <WordExamplesInput
@@ -172,7 +170,7 @@ const NewTermForm: FC<{ authorId?: string }> = ({ authorId }) => {
           onChange={(examples) => {
             onChange("examples", examples)
           }}
-          disabled={!!createTermData?.createTerm?.id}
+          disabled={!!createdTerm}
         />
       </Card>
     </form>

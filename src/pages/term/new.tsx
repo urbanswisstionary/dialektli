@@ -29,7 +29,7 @@ const NewTermPage: NextPage = () => {
       />
       <RecaptchaProvider>
         <Layout hideSidebar={!me}>
-          <NewTermForm authorId={me?.id} />
+          <NewTermForm />
         </Layout>
       </RecaptchaProvider>
     </>
