@@ -197,21 +197,22 @@ const BugReportForm: FC = () => {
       />
 
       <FormLabel>Screenshots</FormLabel>
+      <FormHelperText>
+        If applicable, add screenshots to help explain your problem.
+      </FormHelperText>
       <ImageUploadInput
         value={screenshots.screenshot1}
         onChange={(screenshot1) =>
           setScreenshots((prev) => ({ ...prev, screenshot1 }))
         }
       />
+      <br />
       <ImageUploadInput
         value={screenshots.screenshot2}
         onChange={(screenshot2) =>
           setScreenshots((prev) => ({ ...prev, screenshot2 }))
         }
       />
-      <FormHelperText>
-        If applicable, add screenshots to help explain your problem.
-      </FormHelperText>
       <Box sx={{ mt: 2 }}>
         <Button type="submit" disabled={formState.loading}>
           {t("submit")}

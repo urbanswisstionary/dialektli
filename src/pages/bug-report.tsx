@@ -1,6 +1,6 @@
 import Typography from "@mui/joy/Typography"
 import Stack from "@mui/joy/Stack"
-import LayoutWithImage from "@/features/layout/layoutWithImage"
+import Layout from "@/features/layout/layout"
 import type { GetStaticProps, NextPage } from "next"
 import RecaptchaProvider from "@/providers/Recaptcha"
 import { getStaticPropsTranslations } from "@/utils/i18n"
@@ -27,7 +27,7 @@ const SignupPage: NextPage = () => {
         }}
       />
       <RecaptchaProvider>
-        <LayoutWithImage>
+        <Layout hideSidebar>
           <Stack gap={1}>
             <Typography level="h1" textAlign="center">
               {t("title")}
@@ -37,7 +37,7 @@ const SignupPage: NextPage = () => {
           <Stack gap={4}>
             <BugReportForm />
           </Stack>
-        </LayoutWithImage>
+        </Layout>
       </RecaptchaProvider>
     </>
   )
