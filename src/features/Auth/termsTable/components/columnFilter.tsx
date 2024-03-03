@@ -17,10 +17,20 @@ const ColumnFilter: FC<ColumnFilterProps> = ({ column }) => {
 
   const { sortedUniqueValues, uniqueValuesSize } = useMemo(
     () => {
-      const uniqueValues = column.getFacetedUniqueValues()
+      const uniqueValues = Array.from(column.getFacetedUniqueValues().keys())
+      // check if unqiue values are of type array like in the canton column
+      if (Array.isArray(uniqueValues[0])) {
+        const flattenedUniqueValues = Array.from(
+          new Set(uniqueValues.flatMap((values) => values)),
+        )
+        return {
+          uniqueValuesSize: flattenedUniqueValues.length,
+          sortedUniqueValues: flattenedUniqueValues.sort() as string[],
+        }
+      }
       return {
-        uniqueValuesSize: uniqueValues.size,
-        sortedUniqueValues: Array.from(uniqueValues.keys()).sort() as string[],
+        uniqueValuesSize: uniqueValues.length,
+        sortedUniqueValues: uniqueValues.sort() as string[],
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -52,12 +62,12 @@ const ColumnFilter: FC<ColumnFilterProps> = ({ column }) => {
         ) : null
       }
       renderOption={(optionProps, option) =>
-        column.id === "canton" ? (
+        column.id === "canton" || column.id === "language" ? (
           <SelectLocationOption
             {...optionProps}
-            mode="canton"
+            mode={column.id === "canton" ? "canton" : "country"}
             label={option}
-            flagCode={option.toLowerCase()}
+            flagCode={option}
           />
         ) : (
           <AutocompleteOption {...optionProps}>

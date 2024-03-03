@@ -85,6 +85,7 @@ const TermsTable: FC = () => {
         sortingFn: fuzzySort,
       },
       {
+        id: "language",
         header: t("term.language"),
         accessorKey: "language",
         accessorFn: ({ language }) => language,
@@ -106,6 +107,7 @@ const TermsTable: FC = () => {
         sortingFn: fuzzySort,
       },
       {
+        id: "canton",
         header: t("term.canton"),
         accessorKey: "canton",
         accessorFn: ({ cantons }) => (cantons.length ? cantons : "N/A"),
