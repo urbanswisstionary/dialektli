@@ -105,23 +105,10 @@ export const useCreateTermMutation = () => {
           if (onCompletedCallback) onCompletedCallback(data.createTerm?.id)
         },
         awaitRefetchQueries: true,
-        refetchQueries: () =>
-          data.authorId
-            ? [
-                { query: TermsQuery, variables: { data: {} } },
-                { query: AdminTermsQuery },
-              ]
-            : [{ query: TermsQuery, variables: { data: {} } }],
-        update: (cache, ctx) => {
-          if (data.authorId && ctx.data?.createTerm) {
-            cache.modify({
-              fields: {
-                terms: (_existingTerms = []) => {},
-                adminTerms: (_existingTerms = []) => {},
-              },
-            })
-          }
-        },
+        refetchQueries: () => [
+          { query: TermsQuery, variables: { data: {} } },
+          { query: AdminTermsQuery },
+        ],
       }),
     ...mutationResult,
   }
@@ -144,19 +131,10 @@ export const useUpdateTermMutations = () => {
         onCompleted: () => {
           if (onCompletedCallback) onCompletedCallback()
         },
+        awaitRefetchQueries: true,
         refetchQueries: [
           { query: TermQuery, variables: { data: { termId: data.id } } },
         ],
-        update: (cache, { data }) => {
-          if (data?.updateTerm) {
-            cache.modify({
-              fields: {
-                terms: (_existingTerms = []) => {},
-                adminTerms: (_existingTerms = []) => {},
-              },
-            })
-          }
-        },
       }),
     ...mutationResult,
   }
@@ -177,16 +155,6 @@ export const useDeleteTermMutation = () => {
         { query: TermsQuery, variables: { data: {} } },
         { query: AdminTermsQuery },
       ],
-      update: (cache, { data }) => {
-        if (data?.deleteTerm) {
-          cache.modify({
-            fields: {
-              terms: (_existingTerms = []) => {},
-              adminTerms: (_existingTerms = []) => {},
-            },
-          })
-        }
-      },
     },
   )
 
@@ -238,16 +206,6 @@ export const useTermAction = (termId: string) => {
           { query: TermsQuery, variables: { data: {} } },
           { query: AdminTermsQuery },
         ],
-        update: (cache, { data }) => {
-          if (data?.termAction) {
-            cache.modify({
-              fields: {
-                terms: (_existingTerms = []) => {},
-                adminTerms: (_existingTerms = []) => {},
-              },
-            })
-          }
-        },
       }),
     ...mutationResult,
   }

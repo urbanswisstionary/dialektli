@@ -179,7 +179,6 @@ const CreateTermInput = builder.inputType("CreateTermInput", {
     title: t.string({ required: true }),
     content: t.string(),
     examples: t.stringList(),
-    authorId: t.string(),
     cantons: t.stringList(),
     language: t.field({ type: Language }),
   }),
@@ -220,16 +219,12 @@ builder.mutationFields((t) => ({
     resolve: async (
       query,
       _root,
-      { data: { title, content, examples, cantons, authorId, language } },
+      { data: { title, content, examples, cantons, language } },
+      { session },
     ) => {
       try {
-        const author = authorId
-          ? { id: authorId }
-          : await prisma.user.findFirstOrThrow({
-              where: { email: "anonymous@swisstionary.ch" },
-              select: { id: true },
-            })
-
+        const author = session?.user
+        if (!author) throw new ApolloError({ errorMessage: "Not allowed" })
         return prisma.term.create({
           ...query,
           data: {
@@ -240,7 +235,7 @@ builder.mutationFields((t) => ({
               (example) => !!example.trim().length,
             ),
             language: language ?? undefined,
-            author: { connect: { id: author.id } },
+            author: { connect: { id: author?.id } },
           },
         })
       } catch (error) {
