@@ -73,6 +73,7 @@ const TermsQueryInput = builder.inputType("TermsQueryInput", {
     firstChar: t.string(),
     slug: t.string(),
     language: t.field({ type: Language }),
+    authorName: t.string(),
   }),
 })
 
@@ -93,7 +94,16 @@ builder.queryFields((t) => ({
     nullable: true,
     args: { data: t.arg({ type: TermsQueryInput, required: true }) },
     resolve: async (_root, { data }) => {
-      const { q, offset, limit, canton, firstChar, slug, language } = data
+      const {
+        q,
+        offset,
+        limit,
+        canton,
+        firstChar,
+        slug,
+        language,
+        authorName,
+      } = data
       const termsWhere: Prisma.TermFindManyArgs = {
         where: {
           AND: [
@@ -106,6 +116,7 @@ builder.queryFields((t) => ({
                   ? { startsWith: firstChar, mode: "insensitive" }
                   : undefined,
               language: language ?? undefined,
+              author: authorName ? { name: authorName } : undefined,
             },
             {
               OR: [

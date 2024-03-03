@@ -20,7 +20,7 @@ import {
 import type { AdminTermFragmentFragment, Language } from "@@/generated/graphql"
 import Divider from "@mui/joy/Divider"
 import Pagination from "@/ui/Pagination"
-import DebouncedInput from "./components/debouncedInput"
+import DebouncedInput from "../../../ui/debouncedInput"
 import TableHead from "./components/tableHeader"
 import TableBody from "./components/tableBody"
 import { formatDate, fuzzyFilter, fuzzySort } from "./termsTable.utils"
@@ -38,7 +38,7 @@ import { useTranslation } from "next-i18next"
 import { useMe } from "@/hooks/useMe"
 
 const TermsTable: FC = () => {
-  const { t } = useTranslation("common", { keyPrefix: "term" })
+  const { t } = useTranslation("common")
   const { isAdmin } = useMe()
   const {
     data,
@@ -77,7 +77,7 @@ const TermsTable: FC = () => {
       },
       {
         id: "author",
-        header: t("author"),
+        header: t("term.author"),
         accessorFn: ({ author }) => author?.name,
         cell: (info) => <Typography noWrap>{info.getValue()}</Typography>,
         footer: (props) => props.column.id,
@@ -85,7 +85,7 @@ const TermsTable: FC = () => {
         sortingFn: fuzzySort,
       },
       {
-        header: t("language"),
+        header: t("term.language"),
         accessorKey: "language",
         accessorFn: ({ language }) => language,
         cell: (info) => {
@@ -106,7 +106,7 @@ const TermsTable: FC = () => {
         sortingFn: fuzzySort,
       },
       {
-        header: t("canton"),
+        header: t("term.canton"),
         accessorKey: "canton",
         accessorFn: ({ cantons }) => (cantons.length ? cantons : "N/A"),
         cell: (info) => {
@@ -129,7 +129,7 @@ const TermsTable: FC = () => {
         sortingFn: fuzzySort,
       },
       {
-        header: t("title"),
+        header: t("term.title"),
         accessorKey: "title",
         cell: (info) => <Typography noWrap>{info.getValue()}</Typography>,
         footer: (props) => props.column.id,
@@ -146,7 +146,7 @@ const TermsTable: FC = () => {
       // },
       {
         id: "status",
-        header: t("status"),
+        header: t("term.status"),
         accessorFn: ({ published }) =>
           published ? "published" : "unpublished",
         cell: (info) => <TermStatusChip status={info.getValue<TermStatus>()} />,
@@ -154,7 +154,7 @@ const TermsTable: FC = () => {
       },
       {
         id: "flagged",
-        header: t("flagged"),
+        header: t("term.flagged"),
         accessorFn: ({ flagged }) => (flagged.length ? "True" : "False"),
         cell: (info) => {
           const status = info.getValue<string>()
@@ -168,7 +168,7 @@ const TermsTable: FC = () => {
       },
       {
         id: "updatedAt",
-        header: t("updatedAt"),
+        header: t("term.updatedAt"),
         accessorKey: "updatedAt",
         accessorFn: ({ updatedAt }) =>
           formatDate({ date: updatedAt, format: "DD. MMM YYYY H:mm" }),
@@ -227,9 +227,10 @@ const TermsTable: FC = () => {
         <Box sx={{ flex: 1 }}>
           <DebouncedInput
             value={globalFilter ?? ""}
-            onChange={(value) => setGlobalFilter(String(value))}
-            placeholder="Search"
+            onChange={(value) => setGlobalFilter(value)}
+            placeholder={t("actions.search")}
             disabled={loadingAdminTermsQuery}
+            size="lg"
           />
         </Box>
         <NewTermButton size="lg" disabled={loadingAdminTermsQuery} />

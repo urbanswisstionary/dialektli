@@ -1,33 +1,28 @@
-import { FC } from "react"
-
+import { FC, ReactNode } from "react"
 import FormControl, { FormControlProps } from "@mui/joy/FormControl"
 import FormLabel from "@mui/joy/FormLabel"
-import Input from "@mui/joy/Input"
+import FormHelperText from "@mui/joy/FormHelperText"
+import DebouncedInput from "@/ui/debouncedInput"
 
 const NameInput: FC<
   Omit<FormControlProps, "value" | "onChange"> & {
     value: string | null | undefined
     onChange: (_name: string) => void
+    helperText?: ReactNode
   }
-> = ({ value, onChange, sx, ...formControlProps }) => (
-  <FormControl
-    {...formControlProps}
-    sx={[
-      { display: { sm: "flex-column", md: "flex-row" } },
-      ...(Array.isArray(sx) ? sx : [sx]),
-    ]}
-    id="name"
-  >
+> = ({ value, onChange, helperText, size = "sm", ...formControlProps }) => (
+  <FormControl {...formControlProps} size={size}>
     {formControlProps.title ? (
       <FormLabel>{formControlProps.title}</FormLabel>
     ) : null}
-    <Input
-      size="sm"
+    <DebouncedInput
       value={value ?? ""}
-      onChange={({ currentTarget }) => onChange(currentTarget.value)}
+      onChange={(value) => onChange(value)}
       autoComplete="on"
       name="name"
+      disableClearable
     />
+    {helperText ? <FormHelperText>{helperText}</FormHelperText> : null}
   </FormControl>
 )
 

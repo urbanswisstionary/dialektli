@@ -1,7 +1,7 @@
 import { FC } from "react"
 import Head from "next/head"
 import type { DefaultSeoProps } from "next-seo"
-import { DefaultSeo } from "next-seo"
+import { DefaultSeo, NextSeo } from "next-seo"
 import { useTranslation } from "next-i18next"
 
 const defailtHeadData = ({
@@ -60,3 +60,19 @@ const HeadProvider: FC = () => {
 }
 
 export default HeadProvider
+
+export const NoSEO: FC = () => (
+  <NextSeo
+    noindex
+    nofollow
+    robotsProps={{
+      nosnippet: true,
+      notranslate: true,
+      noimageindex: true,
+      noarchive: true,
+      maxSnippet: -1,
+      maxImagePreview: "none",
+      maxVideoPreview: -1,
+    }}
+  />
+)

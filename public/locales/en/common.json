@@ -23,13 +23,11 @@
     "firstChar": "Filter by First Character",
     "language": "Filter by Language"
   },
-  "searchTermsInput": {
-    "search": "Search"
-  },
   "newTermButton": {
     "newTerm": "New Term"
   },
   "actions": {
+    "search": "Search",
     "open": "Open",
     "close": "Close",
     "clear": "Clear",
@@ -82,6 +80,12 @@
     },
     "passwordFieldLabel": "Password",
     "profile": {
+      "welcome": {
+        "title": "Welcome Aboard! 🎉 ",
+        "description": "You are now signed in. There's just one more step to truly make your mark, what name would you like to be known by?",
+        "helperText": "Please choose a unique name. it needs to be at least 3 characters long.",
+        "error": "Sorry, this name is already taken."
+      },
       "title": "Personal Information",
       "description": "Customize how your profile information will apper to the networks.",
       "name": "Name",
@@ -93,7 +97,8 @@
       "bioCharLeft": "character left",
       "bioCharsLeft": "characters left",
       "deleteAccount": "Delete Account",
-      "deleteAccountConfirmation": "Are you sure you want to delete your account? <bold>All your data will be deleted and cannot be restored!</bold>"
+      "deleteAccountConfirmation": "Are you sure you want to delete your account? <bold>All your data will be deleted and cannot be restored!</bold>",
+      "noUserFound": "No user found, please try to <0>Sign In</0> again"
     },
     "myTerms": {
       "title": "Terms"

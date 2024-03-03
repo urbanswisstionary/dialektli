@@ -3,6 +3,8 @@ import { MeQuery, Role, UpdateUserInput } from "@@/generated/graphql"
 import { getFragmentData, graphql } from "@@/generated"
 import { useSession } from "next-auth/react"
 import { AdminTermsQuery } from "./useTerms"
+import { useRouter } from "next/router"
+import { useEffect } from "react"
 
 export const MeFragment = graphql(/* GraphQL */ `
   fragment MeFragment on User {
@@ -41,22 +43,47 @@ export const ME_QUERY = graphql(/* GraphQL */ `
   }
 `)
 
+const welcomePath = "/account/welcome"
+const useHandleNewUser = (meQuery?: MeQuery) => {
+  const router = useRouter()
+  const { me } = getMe(meQuery)
+
+  useEffect(() => {
+    // if a new user signs in and has no name, redirect to welcome page so they can set their name
+    if (!!me && !me?.name.length && router.pathname !== welcomePath)
+      router?.push(welcomePath)
+  }, [me, router])
+}
 export const useMe = () => {
   const { status } = useSession()
-  const { data, refetch, ...props } = useQuery(ME_QUERY, {
+  const { data, refetch, ...rest } = useQuery(ME_QUERY, {
     fetchPolicy: "cache-and-network",
     skip: status !== "authenticated",
   })
 
+  useHandleNewUser(data)
+
   return {
     ...getMe(data),
     refetchMe: async () => getMe((await refetch())?.data),
-    ...props,
+    ...rest,
   }
 }
+export const useVerifyUserNameIsUniqueQuery = (
+  variables: { name: string },
+  skip?: boolean,
+) =>
+  useQuery(
+    graphql(/* GraphQL */ `
+      query VerifyUserNameIsUnique($name: String!) {
+        verifyUserNameIsUnique(name: $name)
+      }
+    `),
+    { variables, skip },
+  )
 
 export const useUpdateUserMutation = () => {
-  const [updateUser, { data, loading, error }] = useMutation(
+  const [updateUser, mutationData] = useMutation(
     graphql(/* GraphQL */ `
       mutation UpdateUser($data: UpdateUserInput!) {
         updateUser(data: $data) {
@@ -68,16 +95,22 @@ export const useUpdateUserMutation = () => {
   )
 
   return {
-    updateUser: async (userData: UpdateUserInput) =>
-      await updateUser({ variables: { data: userData } }),
-    data,
-    loading,
-    error,
+    updateUser: async (
+      data: UpdateUserInput,
+      onCompletedCallback?: () => void,
+    ) =>
+      await updateUser({
+        variables: { data },
+        onCompleted: () => {
+          if (onCompletedCallback) onCompletedCallback()
+        },
+      }),
+    ...mutationData,
   }
 }
 
 export const useChangeUserRoleMutation = () => {
-  const [changeUserRole, { data, loading, error }] = useMutation(
+  const [changeUserRole, mutationData] = useMutation(
     graphql(/* GraphQL */ `
       mutation ChangeUserRole($userId: String!, $role: Role!) {
         changeUserRole(userId: $userId, role: $role) {
@@ -91,14 +124,12 @@ export const useChangeUserRoleMutation = () => {
   return {
     changeUserRole: async (variables: { userId: string; role: Role }) =>
       await changeUserRole({ variables }),
-    data,
-    loading,
-    error,
+    ...mutationData,
   }
 }
 
 export const useDeleteUserMutation = () => {
-  const [deleteUser, { data, loading, error }] = useMutation(
+  const [deleteUser, mutationData] = useMutation(
     graphql(/* GraphQL */ `
       mutation DeleteUser($data: UserIdInput!) {
         deleteUser(data: $data) {
@@ -121,8 +152,6 @@ export const useDeleteUserMutation = () => {
         },
         refetchQueries: [{ query: ME_QUERY }, { query: AdminTermsQuery }],
       }),
-    data,
-    loading,
-    error,
+    ...mutationData,
   }
 }

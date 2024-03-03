@@ -17,6 +17,7 @@ import TermCardActionButton from "./termCardActionButton"
 import TermCardExample from "./termCardExamplesList"
 import Flag from "@/ui/Flag"
 import { useTranslation } from "next-i18next"
+import NextLink from "next/link"
 
 type TermCardProps = {
   term: TermFragmentFragment
@@ -65,7 +66,11 @@ const TermCard: FC<TermCardProps> = ({ term, disableActions }) => {
             ) : null}
             <div>
               <Typography level="body-xs">{t("term.author")}:</Typography>
-              <Typography level="body-sm">
+              <Typography
+                level="body-sm"
+                component={NextLink}
+                href={`/term/author/${term.author.name}`}
+              >
                 {term?.author.name ?? "annonymus"}
               </Typography>
             </div>

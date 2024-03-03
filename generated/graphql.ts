@@ -35,7 +35,7 @@ export type CreateUserInput = {
   country?: InputMaybe<Scalars['String']['input']>;
   email: Scalars['String']['input'];
   image?: InputMaybe<Scalars['String']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
 };
 
 export type Dislike = {
@@ -132,6 +132,7 @@ export type Query = {
   termsQuery?: Maybe<TermsWithCount>;
   user: User;
   users: Array<User>;
+  verifyUserNameIsUnique: Scalars['Boolean']['output'];
 };
 
 
@@ -147,6 +148,11 @@ export type QueryTermsQueryArgs = {
 
 export type QueryUserArgs = {
   email: Scalars['String']['input'];
+};
+
+
+export type QueryVerifyUserNameIsUniqueArgs = {
+  name: Scalars['String']['input'];
 };
 
 export enum Role {
@@ -188,6 +194,7 @@ export type TermIdInput = {
 };
 
 export type TermsQueryInput = {
+  authorName?: InputMaybe<Scalars['String']['input']>;
   canton?: InputMaybe<Scalars['String']['input']>;
   firstChar?: InputMaybe<Scalars['String']['input']>;
   language?: InputMaybe<Language>;
@@ -237,7 +244,7 @@ export type User = {
   likesCount: Scalars['Int']['output'];
   myPublishedTermsCount: Scalars['Int']['output'];
   myUnpublishedTermsCount: Scalars['Int']['output'];
-  name?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
   role: Role;
   terms: Array<Term>;
 };
@@ -246,7 +253,7 @@ export type UserIdInput = {
   userId: Scalars['String']['input'];
 };
 
-export type MeFragmentFragment = { __typename?: 'User', id: string, email: string, name?: string | null, role: Role, image?: string | null, bio?: string | null, country?: string | null, canton?: string | null, likesCount: number, dislikesCount: number, myPublishedTermsCount: number, myUnpublishedTermsCount: number, terms: Array<{ __typename?: 'Term', id: string, title: string }> } & { ' $fragmentName'?: 'MeFragmentFragment' };
+export type MeFragmentFragment = { __typename?: 'User', id: string, email: string, name: string, role: Role, image?: string | null, bio?: string | null, country?: string | null, canton?: string | null, likesCount: number, dislikesCount: number, myPublishedTermsCount: number, myUnpublishedTermsCount: number, terms: Array<{ __typename?: 'Term', id: string, title: string }> } & { ' $fragmentName'?: 'MeFragmentFragment' };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -255,6 +262,13 @@ export type MeQuery = { __typename?: 'Query', me: (
     { __typename?: 'User' }
     & { ' $fragmentRefs'?: { 'MeFragmentFragment': MeFragmentFragment } }
   ) };
+
+export type VerifyUserNameIsUniqueQueryVariables = Exact<{
+  name: Scalars['String']['input'];
+}>;
+
+
+export type VerifyUserNameIsUniqueQuery = { __typename?: 'Query', verifyUserNameIsUnique: boolean };
 
 export type UpdateUserMutationVariables = Exact<{
   data: UpdateUserInput;
@@ -284,7 +298,7 @@ export type DeleteUserMutationVariables = Exact<{
 
 export type DeleteUserMutation = { __typename?: 'Mutation', deleteUser?: { __typename?: 'User', id: string } | null };
 
-export type TermFragmentFragment = { __typename?: 'Term', id: string, title: string, content?: string | null, examples: Array<string>, published: boolean, likesCount: number, likedByMe: boolean, dislikesCount: number, dislikedByMe: boolean, flaggedByMe: boolean, createdAt: string, updatedAt?: string | null, language: Language, cantons: Array<string>, author: { __typename?: 'User', id: string, name?: string | null, image?: string | null } } & { ' $fragmentName'?: 'TermFragmentFragment' };
+export type TermFragmentFragment = { __typename?: 'Term', id: string, title: string, content?: string | null, examples: Array<string>, published: boolean, likesCount: number, likedByMe: boolean, dislikesCount: number, dislikedByMe: boolean, flaggedByMe: boolean, createdAt: string, updatedAt?: string | null, language: Language, cantons: Array<string>, author: { __typename?: 'User', id: string, name: string, image?: string | null } } & { ' $fragmentName'?: 'TermFragmentFragment' };
 
 export type TermsQueryQueryVariables = Exact<{
   data: TermsQueryInput;
@@ -296,7 +310,7 @@ export type TermsQueryQuery = { __typename?: 'Query', termsQuery?: { __typename?
       & { ' $fragmentRefs'?: { 'TermFragmentFragment': TermFragmentFragment } }
     )> } | null };
 
-export type AdminTermFragmentFragment = { __typename?: 'Term', id: string, title: string, content?: string | null, examples: Array<string>, published: boolean, likesCount: number, dislikesCount: number, createdAt: string, updatedAt?: string | null, language: Language, cantons: Array<string>, author: { __typename?: 'User', id: string, name?: string | null, image?: string | null }, flagged: Array<{ __typename?: 'Flag', authorId: string, createdAt: string }> } & { ' $fragmentName'?: 'AdminTermFragmentFragment' };
+export type AdminTermFragmentFragment = { __typename?: 'Term', id: string, title: string, content?: string | null, examples: Array<string>, published: boolean, likesCount: number, dislikesCount: number, createdAt: string, updatedAt?: string | null, language: Language, cantons: Array<string>, author: { __typename?: 'User', id: string, name: string, image?: string | null }, flagged: Array<{ __typename?: 'Flag', authorId: string, createdAt: string }> } & { ' $fragmentName'?: 'AdminTermFragmentFragment' };
 
 export type AdminTermsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -361,6 +375,7 @@ export const TermFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind"
 export const AdminTermFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AdminTermFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Term"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"author"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"examples"}},{"kind":"Field","name":{"kind":"Name","value":"published"}},{"kind":"Field","name":{"kind":"Name","value":"likesCount"}},{"kind":"Field","name":{"kind":"Name","value":"dislikesCount"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"language"}},{"kind":"Field","name":{"kind":"Name","value":"cantons"}},{"kind":"Field","name":{"kind":"Name","value":"flagged"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"authorId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]} as unknown as DocumentNode<AdminTermFragmentFragment, unknown>;
 export const TermOptionFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TermOptionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Term"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]} as unknown as DocumentNode<TermOptionFragmentFragment, unknown>;
 export const MeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MeFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MeFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"canton"}},{"kind":"Field","name":{"kind":"Name","value":"likesCount"}},{"kind":"Field","name":{"kind":"Name","value":"dislikesCount"}},{"kind":"Field","name":{"kind":"Name","value":"terms"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}},{"kind":"Field","name":{"kind":"Name","value":"myPublishedTermsCount"}},{"kind":"Field","name":{"kind":"Name","value":"myUnpublishedTermsCount"}}]}}]} as unknown as DocumentNode<MeQuery, MeQueryVariables>;
+export const VerifyUserNameIsUniqueDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"VerifyUserNameIsUnique"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"verifyUserNameIsUnique"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}}]}]}}]} as unknown as DocumentNode<VerifyUserNameIsUniqueQuery, VerifyUserNameIsUniqueQueryVariables>;
 export const UpdateUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateUserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MeFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MeFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"canton"}},{"kind":"Field","name":{"kind":"Name","value":"likesCount"}},{"kind":"Field","name":{"kind":"Name","value":"dislikesCount"}},{"kind":"Field","name":{"kind":"Name","value":"terms"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}},{"kind":"Field","name":{"kind":"Name","value":"myPublishedTermsCount"}},{"kind":"Field","name":{"kind":"Name","value":"myUnpublishedTermsCount"}}]}}]} as unknown as DocumentNode<UpdateUserMutation, UpdateUserMutationVariables>;
 export const ChangeUserRoleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"ChangeUserRole"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"role"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Role"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"changeUserRole"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"userId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userId"}}},{"kind":"Argument","name":{"kind":"Name","value":"role"},"value":{"kind":"Variable","name":{"kind":"Name","value":"role"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"MeFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MeFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"canton"}},{"kind":"Field","name":{"kind":"Name","value":"likesCount"}},{"kind":"Field","name":{"kind":"Name","value":"dislikesCount"}},{"kind":"Field","name":{"kind":"Name","value":"terms"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}},{"kind":"Field","name":{"kind":"Name","value":"myPublishedTermsCount"}},{"kind":"Field","name":{"kind":"Name","value":"myUnpublishedTermsCount"}}]}}]} as unknown as DocumentNode<ChangeUserRoleMutation, ChangeUserRoleMutationVariables>;
 export const DeleteUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UserIdInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<DeleteUserMutation, DeleteUserMutationVariables>;

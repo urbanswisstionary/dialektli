@@ -19,7 +19,7 @@ builder.prismaObject("User", {
       type: "DateTime",
       nullable: true,
     }),
-    name: t.exposeString("name", { nullable: true }),
+    name: t.exposeString("name"),
     bio: t.exposeString("bio", { nullable: true }),
     image: t.exposeString("image", { nullable: true }),
     role: t.expose("role", { type: "Role" }),
@@ -69,12 +69,25 @@ builder.queryFields((t) => ({
     shield: permissions.isAuthenticated,
     resolve: (query) => prisma.user.findMany({ ...query }),
   }),
+  verifyUserNameIsUnique: t.field({
+    type: "Boolean",
+    shield: permissions.isAuthenticated,
+    args: {
+      name: t.arg.string({ required: true }),
+    },
+    resolve: async (_root, { name }) => {
+      const user = await prisma.user.findFirst({
+        where: { name: { equals: name, mode: "insensitive" } },
+      })
+      return !user
+    },
+  }),
 }))
 
 const CreateUserInput = builder.inputType("CreateUserInput", {
   fields: (t) => ({
     email: t.string({ required: true }),
-    name: t.string(),
+    name: t.string({ required: true }),
     image: t.string(),
     bio: t.string(),
     country: t.string(),
@@ -114,7 +127,7 @@ builder.mutationFields((t) => ({
     resolve: async (
       query,
       _root,
-      { data: { id: userId, country, canton, ...data } },
+      { data: { id: userId, name, country, canton, ...data } },
       { session },
       _info,
     ) => {
@@ -132,7 +145,12 @@ builder.mutationFields((t) => ({
       return prisma.user.update({
         ...query,
         where: { id: userId },
-        data: { ...data, country, canton: country === "CH" ? canton : null },
+        data: {
+          ...data,
+          name: name ?? undefined,
+          country,
+          canton: country === "CH" ? canton : null,
+        },
       })
     },
   }),

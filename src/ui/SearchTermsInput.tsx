@@ -42,7 +42,7 @@ const SearchTermsInput: FC<SearchTermsInputProps> = ({
   helperText,
   ...props
 }) => {
-  const { t } = useTranslation("common", { keyPrefix: "searchTermsInput" })
+  const { t } = useTranslation("common", { keyPrefix: "actions" })
   const router = useRouter()
   const [query, setQuery] = useState("")
   const { data, previousData } = useSearchTermsQuery(query, !query.length)

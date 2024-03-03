@@ -1,16 +1,15 @@
 import Layout from "@/features/layout/layout"
 import { useMe } from "@/hooks/useMe"
-import Link from "@mui/joy/Link"
 import { GetStaticProps, NextPage } from "next"
 import dynamic from "next/dynamic"
-import NextLink from "next/link"
 import { useRouter } from "next/router"
 import type { ParsedUrlQuery } from "querystring"
 import Box from "@mui/joy/Box"
 import CircularProgress from "@mui/joy/CircularProgress"
 import Stack from "@mui/joy/Stack"
 import { getStaticPropsTranslations } from "@/utils/i18n"
-import { NextSeo } from "next-seo"
+import { NoSEO } from "@/providers/Head"
+import NoUserFound from "@/features/Auth/profile/components/noUserFound"
 
 const MyProfile = dynamic(() => import("@/features/Auth/profile"), {
   ssr: false,
@@ -29,21 +28,10 @@ const ProfilePage: NextPage = () => {
   const query = router.query as Query
 
   const view = query.view ?? "profile"
+
   return (
     <>
-      <NextSeo
-        noindex
-        nofollow
-        robotsProps={{
-          nosnippet: true,
-          notranslate: true,
-          noimageindex: true,
-          noarchive: true,
-          maxSnippet: -1,
-          maxImagePreview: "none",
-          maxVideoPreview: -1,
-        }}
-      />
+      <NoSEO />
       <Layout>
         <Box mt={2}>
           {meLoading ? (
@@ -66,16 +54,6 @@ const ProfilePage: NextPage = () => {
 }
 
 export default ProfilePage
-
-const NoUserFound = () => (
-  <>
-    User not found, try to{" "}
-    <Link component={NextLink} href={"/account/signin"}>
-      sign in
-    </Link>{" "}
-    again
-  </>
-)
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => ({
   props: { ...(await getStaticPropsTranslations(locale)) },

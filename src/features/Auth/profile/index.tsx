@@ -1,10 +1,13 @@
 import { FC, useState, useMemo } from "react"
 import Box from "@mui/joy/Box"
 import Stack from "@mui/joy/Stack"
-import { useDeleteUserMutation, useUpdateUserMutation } from "@/hooks/useMe"
+import {
+  useDeleteUserMutation,
+  useUpdateUserMutation,
+  useVerifyUserNameIsUniqueQuery,
+} from "@/hooks/useMe"
 import { MeFragmentFragment, UpdateUserInput } from "@@/generated/graphql"
 import ImageInput from "./components/imageInput"
-import NameInput from "./components/nameInput"
 import EmailInput from "./components/emailInput"
 import BioInput from "./components/bioInput"
 import SelectSingleLocation from "@/ui/Autocomplete/selectSingleLocation"
@@ -12,6 +15,7 @@ import Card from "@/ui/Card"
 import { useTranslation, Trans } from "next-i18next"
 import ConfirmDeleteModal from "@/ui/modals/confirmDelete"
 import { signOut } from "next-auth/react"
+import NameInput from "./components/nameInput"
 
 type EditProfileState = {
   name?: string
@@ -26,6 +30,32 @@ const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
   const { updateUser, loading: updateUserLoading } = useUpdateUserMutation()
   const { deleteUser, loading: deleteUserLoading } = useDeleteUserMutation()
   const [editProfileState, setEditProfileState] = useState<EditProfileState>({})
+  const nameLengthChecked = useMemo(() => {
+    if (editProfileState.name?.trim() === me.name)
+      // if the name is the same as the original, remove it from the state
+      setEditProfileState(({ name: _name, ...prev }) => ({ ...prev }))
+
+    return (
+      !!editProfileState.name &&
+      // editProfileState.name.trim() !== me.name &&
+      editProfileState.name.trim().length >= 3
+    )
+  }, [editProfileState.name, me.name])
+  const {
+    data: verifyUserNameIsUniqueQueryData,
+    loading: loadingVerifyUserNameIsUniqueQuery,
+  } = useVerifyUserNameIsUniqueQuery(
+    { name: editProfileState.name?.trim() ?? "" },
+    !nameLengthChecked,
+  )
+
+  const nameIsUnique = verifyUserNameIsUniqueQueryData?.verifyUserNameIsUnique
+
+  const allowSubmitNewName =
+    nameLengthChecked && !loadingVerifyUserNameIsUniqueQuery && !!nameIsUnique
+  const nameIsTaken =
+    !nameLengthChecked || nameIsUnique === undefined ? false : !nameIsUnique
+
   const [openDeleteConfirmation, setOpenDeleteConfirmation] = useState(false)
 
   const changesFound = useMemo(() => {
@@ -33,7 +63,9 @@ const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
       editProfileState,
     ) as (keyof EditProfileState)[]
     if (!me || !updatedFields.length) return false
-    return updatedFields.some((key) => editProfileState[key] !== me[key])
+    return updatedFields.some(
+      (key) => editProfileState[key]?.trim() !== me[key],
+    )
   }, [editProfileState, me])
 
   const onChange = <K extends keyof EditProfileState>(
@@ -64,7 +96,9 @@ const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
         actions={{
           save: {
             type: "submit",
-            disabled: !changesFound,
+            disabled:
+              !changesFound ||
+              editProfileState.name !== undefined && !allowSubmitNewName,
             loading: updateUserLoading,
 
             title: t("actions.save"),
@@ -85,7 +119,6 @@ const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
           </Box>
           <Box sx={{ flex: 1 }}>
             <NameInput
-              id="name"
               title={t("auth.profile.name")}
               value={
                 editProfileState?.name !== undefined
@@ -93,6 +126,11 @@ const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
                   : me.name
               }
               onChange={(name) => onChange("name", name)}
+              error={nameIsTaken}
+              color={allowSubmitNewName ? "success" : undefined}
+              helperText={
+                nameIsTaken ? t("auth.profile.welcome.error") : undefined
+              }
             />
           </Box>
         </Stack>

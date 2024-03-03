@@ -1,23 +1,41 @@
 import { FC, useEffect, useState } from "react"
-import Input from "@mui/joy/Input"
+import Input, { InputProps } from "@mui/joy/Input"
 import IconButton from "@mui/joy/IconButton"
 import ClearIcon from "@mui/icons-material/Clear"
 import { useTranslation } from "next-i18next"
 
-type DebouncedInputProps = {
-  value: string | number
-  onChange: (_value: string | number) => void
+type DebouncedInputProps = Omit<InputProps, "value" | "onChange"> & {
+  value: string
+  onChange: (_value: string) => void
   debounce?: number
-  placeholder?: string
-  disabled?: boolean
+  disableClearable?: boolean
 }
 
+/**
+ * DebouncedInput component for handling delayed input changes with optional clear functionality.
+ *
+ * @component
+ * @example
+ * // Usage example with TypeScript:
+ * <DebouncedInput
+ *   value={inputValue}
+ *   onChange={(value) => handleInputChange(value)}
+ *   debounce={500}
+ *   placeholder="Type something..."
+ * />
+ *
+ * @param {string} value - The current value of the input.
+ * @param {function} onChange - Callback function triggered on input change.
+ * @param {number} [debounce=500] - Debounce time in milliseconds (default is 500).
+ * @param {...InputProps} props - Additional props from JOY MUI Input component.
+ * @params {boolean} [disableClearable=false] - Disables the clear button when true.
+ */
 const DebouncedInput: FC<DebouncedInputProps> = ({
   value,
   onChange,
   debounce = 500,
-  placeholder,
-  disabled,
+  disableClearable,
+  ...props
 }) => {
   const { t } = useTranslation("common")
   const [inputState, setInputState] = useState(value)
@@ -37,7 +55,7 @@ const DebouncedInput: FC<DebouncedInputProps> = ({
       value={inputState}
       onChange={(e) => setInputState(e.target.value)}
       endDecorator={
-        inputState.toString().length ? (
+        !disableClearable && inputState.toString().length ? (
           <IconButton
             onClick={() => setInputState("")}
             title={t("actions.clear")}
@@ -46,9 +64,7 @@ const DebouncedInput: FC<DebouncedInputProps> = ({
           </IconButton>
         ) : null
       }
-      sx={{ py: 1, px: 2, borderRadius: "md", fontSize: "lg" }}
-      placeholder={placeholder}
-      disabled={disabled}
+      {...props}
     />
   )
 }

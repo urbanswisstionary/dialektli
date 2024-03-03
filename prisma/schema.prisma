@@ -109,7 +109,7 @@ enum Role {
 
 model User {
     id            String    @id @default(cuid())
-    name          String?
+    name          String    @unique @default("")
     email         String    @unique
     createdAt     DateTime  @default(now())
     emailVerified DateTime?
@@ -122,7 +122,7 @@ model User {
     role          Role      @default(USER)
     likes         Like[]
     dislikes      Dislike[]
-    country       String?
+    country       String?   @default("CH")
     canton        String?
     flags         Flag[]
 }

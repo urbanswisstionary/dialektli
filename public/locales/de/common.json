@@ -30,13 +30,11 @@
     "firstChar": "Filtern nach erstem Zeichen",
     "language": "Filtern nach Sprache"
   },
-  "searchTermsInput": {
-    "search": "Suche"
-  },
   "newTermButton": {
     "newTerm": "Neuer Begriff"
   },
   "actions": {
+    "search": "Suche",
     "open": "Öffnen",
     "close": "Schließen",
     "clear": "Leeren",
@@ -89,6 +87,12 @@
     },
     "passwordFieldLabel": "Passwort",
     "profile": {
+      "welcome": {
+        "title": "Willkommen an Bord! 🎉 ",
+        "description": "Sie sind jetzt angemeldet. Jetzt fehlt nur noch ein Schritt, um sich wirklich einen Namen zu machen. Unter welchem Namen möchten Sie bekannt sein?",
+        "helperText": "Bitte wählen Sie einen eindeutigen Namen. Er muss mindestens 3 Zeichen lang sein.",
+        "error": "Leider ist dieser Name bereits vergeben."
+      },
       "title": "Persönliche Informationen",
       "description": "Passen Sie an, wie Ihre Profilinformationen in den Netzwerken angezeigt werden.",
       "name": "Name",
@@ -100,7 +104,8 @@
       "bioCharLeft": "Zeichen übrig",
       "bioCharsLeft": "Zeichen übrig",
       "deleteAccount": "Konto löschen",
-      "deleteAccountConfirmation": "Sind Sie sicher, dass Sie Ihr Konto löschen möchten? <bold>Alle Ihre Daten werden gelöscht und können nicht wiederhergestellt werden!</bold>"
+      "deleteAccountConfirmation": "Sind Sie sicher, dass Sie Ihr Konto löschen möchten? <bold>Alle Ihre Daten werden gelöscht und können nicht wiederhergestellt werden!</bold>",
+      "noUserFound": "Kein Benutzer gefunden, Bitte versuchen Sie erneut, sich <0>anzumelden</0>"
     },
     "myTerms": {
       "title": "Begriffe"

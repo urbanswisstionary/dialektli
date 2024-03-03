@@ -23,13 +23,11 @@
     "firstChar": "Filtrer par premier caractère",
     "language": "Filtrer par langue"
   },
-  "searchTermsInput": {
-    "search": "Rechercher"
-  },
   "newTermButton": {
     "newTerm": "Nouveau terme"
   },
   "actions": {
+    "search": "Rechercher",
     "open": "Ouvrir",
     "close": "Fermer",
     "clear": "Effacer",
@@ -82,6 +80,12 @@
     },
     "passwordFieldLabel": "Mot de passe",
     "profile": {
+      "welcome": {
+        "title": "Bienvenue à bord! 🎉 ",
+        "description": "Vous êtes maintenant connecté. Il ne reste plus qu'une étape pour vraiment laisser votre marque, sous quel nom aimeriez-vous être connu?",
+        "helperText": "Veuillez choisir un nom unique. Il doit contenir au moins 3 caractères.",
+        "error": "Désolé, ce nom est déjà pris."
+      },
       "title": "Informations personnelles",
       "description": "Personnalisez la façon dont vos informations de profil apparaîtront sur les réseaux.",
       "name": "Nom",
@@ -93,7 +97,8 @@
       "bioCharLeft": "caractère restant",
       "bioCharsLeft": "caractères restants",
       "deleteAccount": "Supprimer le compte",
-      "deleteAccountConfirmation": "Êtes-vous sûr de vouloir supprimer votre compte? <bold>Toutes vos données seront supprimées et ne pourront pas être restaurées.</bold>"
+      "deleteAccountConfirmation": "Êtes-vous sûr de vouloir supprimer votre compte? <bold>Toutes vos données seront supprimées et ne pourront pas être restaurées.</bold>",
+      "noUserFound": "Aucun utilisateur trouvé, veuillez réessayer de vous <0>connecter</0>"
     },
     "myTerms": {
       "title": "Termes"

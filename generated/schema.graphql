@@ -13,7 +13,7 @@ input CreateUserInput {
   country: String
   email: String!
   image: String
-  name: String
+  name: String!
 }
 
 """
@@ -74,6 +74,7 @@ type Query {
   termsQuery(data: TermsQueryInput!): TermsWithCount
   user(email: String!): User!
   users: [User!]!
+  verifyUserNameIsUnique(name: String!): Boolean!
 }
 
 enum Role {
@@ -114,6 +115,7 @@ input TermIdInput {
 }
 
 input TermsQueryInput {
+  authorName: String
   canton: String
   firstChar: String
   language: Language
@@ -161,7 +163,7 @@ type User {
   likesCount: Int!
   myPublishedTermsCount: Int!
   myUnpublishedTermsCount: Int!
-  name: String
+  name: String!
   role: Role!
   terms: [Term!]!
 }
