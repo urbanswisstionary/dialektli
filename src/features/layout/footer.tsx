@@ -35,7 +35,7 @@ const Footer: FC = () => (
       </Grid>
       <Grid xs={12}>
         <Typography level="body-xs" textAlign="center">
-          © UrbanSwisstionary {new Date().getFullYear()}
+          © Dialektli {new Date().getFullYear()}
         </Typography>
       </Grid>
     </Grid>

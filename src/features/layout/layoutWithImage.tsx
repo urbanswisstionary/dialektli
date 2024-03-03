@@ -71,7 +71,7 @@ const LayoutWithImage: FC<PropsWithChildren> = ({ children }) => (
         >
           <SelectLocale />
           <Typography level="body-xs" textAlign="center">
-            © UrbanSwisstionary {new Date().getFullYear()}
+            © Dialektli {new Date().getFullYear()}
           </Typography>
         </Box>
       </Box>

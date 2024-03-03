@@ -7,7 +7,7 @@ import ListItem from "@mui/joy/ListItem"
 import Link from "@mui/joy/Link"
 import NextLink from "next/link"
 
-const companyName = "UrbanSwisstionary"
+const companyName = "Dialektli"
 
 const TermsOfServicePage: NextPage = () => {
   return (
@@ -17,8 +17,8 @@ const TermsOfServicePage: NextPage = () => {
         Nutzungsbedingungen
       </Typography>
       <Typography level="body-sm" mb={1}>
-        {companyName} (das „Unternehmen“) bietet urbanswisstionary.vercel.app
-        (die „Website“) gemäß den unten aufgeführten Nutzungsbedingungen an.
+        {companyName} (das „Unternehmen“) bietet dialektli.ch (die „Website“)
+        gemäß den unten aufgeführten Nutzungsbedingungen an.
       </Typography>
       <Typography level="body-sm">
         Das Unternehmen behält sich das Recht vor, diese Bedingungen von Zeit zu
@@ -27,7 +27,7 @@ const TermsOfServicePage: NextPage = () => {
         Nutzung der Website erklären Sie sich mit diesen Bedingungen
         einverstanden, die unter{" "}
         <Link component={NextLink} href="/tos">
-          https://urbanswisstionary.vercel.app/tos
+          https://dialektli.ch/tos
         </Link>{" "}
         verfügbar sind. Fragen zu den Nutzungsbedingungen können an die folgende
         E-Mail-Adresse gesendet werden:{" "}
@@ -231,7 +231,7 @@ const TermsOfServicePage: NextPage = () => {
         Die Nutzung der Website unterliegt unserer Datenschutzrichtlinie, welche
         Sie unter{" "}
         <Link component={NextLink} href="/privacy-policy">
-          https://urbanswisstionary.vercel.app/privacy-policy
+          https://dialektli.ch/privacy-policy
         </Link>{" "}
         einsehen können.
       </Typography>

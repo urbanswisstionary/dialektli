@@ -2,9 +2,9 @@
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
-  "name": "Urbanswisstionary",
-  "short_name": "urbanswisstionary",
-  "description": "It's a place to share current (colloquial) Swiss German words, sayings, phrases, that sort of thing",
+  "name": "Dialektli",
+  "short_name": "Dialektli",
+  "description": "Hier werden aktuelle (umgangssprachliche) schweizerdeutsche Wörter, Sprüche, Redewendungen usw. ausgetauscht.",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",

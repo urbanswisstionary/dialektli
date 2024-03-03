@@ -18,23 +18,23 @@ const defailtHeadData = ({
     title,
     description,
     locale: "de",
-    url: "https://urbanswisstionary.vercel.app/",
+    url: "https://dialektli.ch/",
     siteName: title,
     images: [
       {
-        url: "https://urbanswisstionary.vercel.app/_next/static/media/image1_0.459a6483.jpg",
+        url: "https://dialektli.ch/_next/static/media/image1_0.459a6483.jpg",
       },
     ],
   },
-  canonical: "https://urbanswisstionary.vercel.app/",
+  canonical: "https://dialektli.ch/",
   languageAlternates: [
     {
       hrefLang: "en",
-      href: "https://urbanswisstionary.vercel.app/en",
+      href: "https://dialektli.ch/en",
     },
     {
       hrefLang: "fr",
-      href: "https://urbanswisstionary.vercel.app/fr",
+      href: "https://dialektli.ch/fr",
     },
   ],
 })

@@ -9,7 +9,7 @@ type LogoProps = {
  * @param {string} size - The size of the logo. Defaults to "lg".
  */
 const Logo: FC<LogoProps> = ({ size = "lg" }) => (
-  <Typography level={`title-${size}`}>UrbanSwisstionary</Typography>
+  <Typography level={`title-${size}`}>Dialektli</Typography>
 )
 
 export default Logo
