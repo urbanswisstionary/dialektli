@@ -18,6 +18,10 @@ const TermsTable = dynamic(() => import("@/features/Auth/termsTable"), {
   ssr: false,
 })
 
+const UsersTable = dynamic(() => import("@/features/Auth/usersTable"), {
+  ssr: false,
+})
+
 type Query = ParsedUrlQuery & {
   view?: "terms" | "users"
 }
@@ -43,7 +47,7 @@ const ProfilePage: NextPage = () => {
           ) : view === "terms" ? (
             <TermsTable />
           ) : view === "users" && isAdmin ? (
-            <h1>Users table</h1>
+            <UsersTable />
           ) : (
             <MyProfile me={me} />
           )}

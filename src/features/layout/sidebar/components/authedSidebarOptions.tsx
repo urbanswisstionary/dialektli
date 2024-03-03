@@ -5,8 +5,8 @@ import GroupRoundedIcon from "@mui/icons-material/GroupRounded"
 import AllInboxIcon from "@mui/icons-material/AllInbox"
 import { useRouter } from "next/router"
 import type { ParsedUrlQuery } from "querystring"
-import RecentActorsIcon from "@mui/icons-material/RecentActors"
-import PersonAddIcon from "@mui/icons-material/PersonAdd"
+// import RecentActorsIcon from "@mui/icons-material/RecentActors"
+// import PersonAddIcon from "@mui/icons-material/PersonAdd"
 import SidebarOption from "./sidebarOption"
 import { useTranslation } from "next-i18next"
 
@@ -48,6 +48,13 @@ const AuthedSidebarOptions: FC<{
         hide={!isAdmin}
         label={t("users")}
         startDecorator={<GroupRoundedIcon />}
+        selected={isProfilePage && query.view === "users"}
+        link={getLink({ view: "users" })}
+      />
+      {/* <SidebarOption
+        hide={!isAdmin}
+        label={t("users")}
+        startDecorator={<GroupRoundedIcon />}
         nested
         defaultExpanded={!!query.users}
         nestedOptions={[
@@ -64,7 +71,7 @@ const AuthedSidebarOptions: FC<{
             startDecorator: <RecentActorsIcon />,
           },
         ]}
-      />
+      /> */}
     </List>
   )
 }

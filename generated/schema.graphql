@@ -1,5 +1,4 @@
 input CreateTermInput {
-  authorId: String
   cantons: [String!]
   content: String
   examples: [String!]
@@ -69,11 +68,11 @@ type Mutation {
 
 type Query {
   adminTerms: TermsWithCount
+  adminUser(data: UserIdInput!): User!
+  adminUsers: UsersWithCount
   me: User!
   term(data: TermIdInput!): Term
   termsQuery(data: TermsQueryInput!): TermsWithCount
-  user(email: String!): User!
-  users: [User!]!
   verifyUserNameIsUnique(name: String!): Boolean!
 }
 
@@ -170,4 +169,9 @@ type User {
 
 input UserIdInput {
   userId: String!
+}
+
+type UsersWithCount {
+  count: Int!
+  users: [User!]!
 }

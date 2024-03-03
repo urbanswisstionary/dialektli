@@ -1,4 +1,4 @@
-import { Role } from "@prisma/client"
+import { Prisma, Role } from "@prisma/client"
 import { builder } from "../builder"
 import prisma from "../../lib/prisma"
 import { ApolloError } from "@apollo/client"
@@ -8,8 +8,7 @@ import * as permissions from "../permissions"
 builder.enumType(Role, {
   name: "Role",
 })
-
-builder.prismaObject("User", {
+const UserType = builder.prismaObject("User", {
   // Optional name for the object, defaults to the name of the prisma model
   name: "User",
   fields: (t) => ({
@@ -45,6 +44,13 @@ builder.prismaObject("User", {
     flags: t.relation("flags"),
   }),
 })
+const UsersWithCountType = builder.simpleObject("UsersWithCount", {
+  fields: (t) => ({
+    users: t.field({ type: [UserType], nullable: false }),
+    count: t.int({ nullable: false }),
+  }),
+})
+
 builder.queryFields((t) => ({
   me: t.prismaField({
     type: "User",
@@ -55,19 +61,39 @@ builder.queryFields((t) => ({
         where: { id: session?.user?.id },
       }),
   }),
-  user: t.prismaField({
+  adminUser: t.prismaField({
     type: "User",
-    shield: permissions.isAuthenticated,
-    args: {
-      email: t.arg.string({ required: true }),
-    },
-    resolve: (query, _root, { email }) =>
-      prisma.user.findUniqueOrThrow({ ...query, where: { email } }),
+    shield: permissions.isAdmin,
+    args: { data: t.arg({ type: UserIdInput, required: true }) },
+    resolve: (query, _root, { data }) =>
+      prisma.user.findUniqueOrThrow({ ...query, where: { id: data.userId } }),
   }),
-  users: t.prismaField({
-    type: ["User"],
-    shield: permissions.isAuthenticated,
-    resolve: (query) => prisma.user.findMany({ ...query }),
+  adminUsers: t.field({
+    type: UsersWithCountType,
+    shield: permissions.isAdmin,
+    nullable: true,
+    resolve: async (_root, _args, { session }) => {
+      try {
+        const sessionUser = await prisma.user.findUniqueOrThrow({
+          where: { id: session?.user?.id },
+          select: { role: true },
+        })
+        if (sessionUser.role !== Role.ADMIN)
+          throw new ApolloError({ errorMessage: "Not Allowed" })
+
+        const usersWhere: Prisma.UserFindManyArgs = {
+          where: {},
+        }
+        const [users, count] = await prisma.$transaction([
+          prisma.user.findMany({ where: usersWhere.where }),
+          prisma.user.count({ where: usersWhere.where }),
+        ])
+        return { users, count }
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(error)
+      }
+    },
   }),
   verifyUserNameIsUnique: t.field({
     type: "Boolean",
