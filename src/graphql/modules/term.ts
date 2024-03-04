@@ -119,12 +119,12 @@ builder.queryFields((t) => ({
               author: authorName ? { name: authorName } : undefined,
             },
             {
-              OR: [
-                { title: q ? { contains: q, mode: "insensitive" } : undefined },
-                {
-                  content: q ? { contains: q, mode: "insensitive" } : undefined,
-                },
-              ],
+              OR: q
+                ? [
+                    { title: { contains: q, mode: "insensitive" } },
+                    { content: { contains: q, mode: "insensitive" } },
+                  ]
+                : undefined,
             },
           ],
         },

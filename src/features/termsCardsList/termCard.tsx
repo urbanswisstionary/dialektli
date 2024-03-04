@@ -17,7 +17,9 @@ import TermCardActionButton from "./termCardActionButton"
 import TermCardExample from "./termCardExamplesList"
 import Flag from "@/ui/Flag"
 import { useTranslation } from "next-i18next"
-import NextLink from "next/link"
+import { useRouter } from "next/router"
+import JoyLink from "@mui/joy/Link"
+import { setQueryOnPage } from "@/utils/setQueryOnPage"
 
 type TermCardProps = {
   term: TermFragmentFragment
@@ -25,7 +27,7 @@ type TermCardProps = {
 }
 const TermCard: FC<TermCardProps> = ({ term, disableActions }) => {
   const { t } = useTranslation("common")
-
+  const router = useRouter()
   return (
     <Card size="md" sx={{ wordBreak: "break-word" }}>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
@@ -61,18 +63,20 @@ const TermCard: FC<TermCardProps> = ({ term, disableActions }) => {
       >
         <CardActions sx={{ justifyContent: "space-between" }}>
           <Box sx={{ display: "flex", gap: 1.5 }}>
-            {term?.author.image ? (
+            {term.author.image ? (
               <Avatar src={term?.author.image} alt={term?.author.name ?? ""} />
             ) : null}
             <div>
               <Typography level="body-xs">{t("term.author")}:</Typography>
-              <Typography
+              <JoyLink
                 level="body-sm"
-                component={NextLink}
-                href={`/term/author/${term.author.name}`}
+                color="neutral"
+                onClick={() =>
+                  setQueryOnPage(router, { author: term.author.name })
+                }
               >
-                {term?.author.name ?? "annonymus"}
-              </Typography>
+                {term.author.name ?? "annonymus"}
+              </JoyLink>
             </div>
           </Box>
           <Box sx={{ display: "flex", gap: 1.5, paddingInline: 2 }}>
@@ -82,7 +86,7 @@ const TermCard: FC<TermCardProps> = ({ term, disableActions }) => {
               badgeContent={term?.dislikesCount}
               disabled={disableActions}
             >
-              {term?.dislikedByMe ? (
+              {term.dislikedByMe ? (
                 <ThumbDownRoundedIcon />
               ) : (
                 <ThumbDownTwoToneIcon />
@@ -91,10 +95,10 @@ const TermCard: FC<TermCardProps> = ({ term, disableActions }) => {
             <TermCardActionButton
               action="like"
               termId={term.id}
-              badgeContent={term?.likesCount}
+              badgeContent={term.likesCount}
               disabled={disableActions}
             >
-              {term?.likedByMe ? (
+              {term.likedByMe ? (
                 <ThumbUpRoundedIcon color="inherit" />
               ) : (
                 <ThumbUpTwoToneIcon />

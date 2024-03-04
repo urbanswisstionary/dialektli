@@ -8,8 +8,16 @@ import Search from "@mui/icons-material/Search"
 import { setQueryOnPage } from "@/utils/setQueryOnPage"
 import { useQuery } from "@apollo/client"
 import { getFragmentData, graphql } from "@@/generated"
-import { TermOptionFragmentFragment } from "@@/generated/graphql"
+import {
+  TermOptionFragmentFragment,
+  TermsQueryInput,
+} from "@@/generated/graphql"
 import { useTranslation } from "next-i18next"
+import { ParsedUrlQuery } from "querystring"
+
+type Query = ParsedUrlQuery & {
+  q?: string
+}
 
 const TermOptionFragment = graphql(/* GraphQL */ `
   fragment TermOptionFragment on Term {
@@ -18,7 +26,7 @@ const TermOptionFragment = graphql(/* GraphQL */ `
   }
 `)
 
-const useSearchTermsQuery = (q: string, skip?: boolean) =>
+const useSearchTermsQuery = (data: TermsQueryInput, skip?: boolean) =>
   useQuery(
     graphql(/* GraphQL */ `
       query SearchTerm($data: TermsQueryInput!) {
@@ -29,38 +37,50 @@ const useSearchTermsQuery = (q: string, skip?: boolean) =>
         }
       }
     `),
-    { variables: { data: { q } }, skip },
+    { variables: { data }, skip },
   )
 
 type SearchTermsInputProps = Omit<FormControlProps, "value" | "onChange"> & {
   label?: string
   helperText?: string
+  additionalQueryInput?: Omit<TermsQueryInput, "q" | "offset" | "limit">
 }
 
 const SearchTermsInput: FC<SearchTermsInputProps> = ({
   label,
   helperText,
+  additionalQueryInput = {},
   ...props
 }) => {
   const { t } = useTranslation("common", { keyPrefix: "actions" })
   const router = useRouter()
-  const [query, setQuery] = useState("")
-  const { data, previousData } = useSearchTermsQuery(query, !query.length)
+  const [q, setQ] = useState<string | null>(null)
+  const { data, previousData } = useSearchTermsQuery(
+    { q, ...additionalQueryInput },
+    !q,
+  )
   const [selectedOption, setSelectedOption] =
     useState<TermOptionFragmentFragment | null>(null) // store selected option to prevent a no known option error getting logged to the console
-  const options = query.length
-    ? getFragmentData(
-        TermOptionFragment,
-        data?.termsQuery?.terms ?? previousData?.termsQuery?.terms,
-      ) ?? []
-    : []
+  const options =
+    getFragmentData(
+      TermOptionFragment,
+      data?.termsQuery?.terms ?? previousData?.termsQuery?.terms,
+    ) ?? []
 
   return (
     <FormControl {...props} id="searchTerms" size="sm">
       {label ? <FormLabel>{label}</FormLabel> : null}
       <Autocomplete
         placeholder={t("search")}
-        options={selectedOption ? [selectedOption] : options}
+        isOptionEqualToValue={(option, value) => option.id === value.id}
+        options={
+          selectedOption
+            ? options.find(({ id }) => id === selectedOption.id)
+              ? options
+              : [selectedOption, ...options]
+            : options
+        }
+        filterOptions={(options) => options}
         groupBy={(option) => option.title[0]?.toUpperCase()}
         getOptionLabel={(option) => option.title}
         onChange={(_, option) => {
@@ -73,7 +93,13 @@ const SearchTermsInput: FC<SearchTermsInputProps> = ({
         blurOnSelect
         clearOnEscape
         autoComplete
-        onInputChange={(_, value) => setQuery(value.trim())}
+        onInputChange={(_, value) => setQ(value.trim())}
+        slotProps={{
+          input: {
+            value: q ?? (router.query as Query).q ?? "",
+          },
+        }}
+        disableClearable
       />
       {helperText ? <FormHelperText>{helperText}</FormHelperText> : null}
     </FormControl>

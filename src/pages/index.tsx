@@ -20,15 +20,13 @@ import { useMemo } from "react"
 import {
   sanitizeCanton,
   sanitizeFirstChar,
-  sanitizeLanguage,
 } from "@/utils/sanitizeQueries"
-import SelectSingleLanguage from "@/ui/Autocomplete/selectSingleLanguage"
 
 type Query = ParsedUrlQuery & {
   q?: string
   canton?: string
   firstChar?: string
-  language?: string
+  author?: string
 }
 
 const Home: NextPage = () => {
@@ -36,14 +34,18 @@ const Home: NextPage = () => {
   const router = useRouter()
   const query = router.query as Query
   const me = useMe().me
-  const { sanitizedCanton, sanitizedFirstChar, sanitizedLanguage } = useMemo(
-    () => ({
-      sanitizedCanton: sanitizeCanton(query.canton),
-      sanitizedFirstChar: sanitizeFirstChar(query.firstChar),
-      sanitizedLanguage: sanitizeLanguage(query.language),
-    }),
-    [query.canton, query.firstChar, query.language],
-  )
+  const { sanitizedQ, sanitizedCanton, sanitizedFirstChar, sanizedAuthor } =
+    useMemo(() => {
+      const trimmedQ = query.q?.trim() ?? ""
+      const trimmedAuthor = query.author?.trim() ?? ""
+      return {
+        sanitizedCanton: sanitizeCanton(query.canton),
+        sanitizedFirstChar: sanitizeFirstChar(query.firstChar),
+        sanitizedQ: trimmedQ.length ? trimmedQ : undefined,
+        sanizedAuthor: trimmedAuthor.length ? trimmedAuthor : undefined,
+      }
+    }, [query])
+
   const { onDataCountChange, ...paginationProps } = usePaginationState()
 
   const {
@@ -53,10 +55,10 @@ const Home: NextPage = () => {
   } = useTermsQuery({
     offset: (paginationProps.pageIndex - 1) * paginationProps.pageSize,
     limit: paginationProps.pageSize,
-    slug: query.q,
+    slug: sanitizedQ,
     canton: sanitizedCanton,
     firstChar: sanitizedFirstChar,
-    language: sanitizedLanguage,
+    authorName: sanizedAuthor,
   })
 
   const termsQuery = data?.termsQuery ?? previousData?.termsQuery
@@ -69,11 +71,6 @@ const Home: NextPage = () => {
           <SearchTermsInput sx={{ flex: 1 }} disabled={loadingTermsQuery} />
           <NewTermButton disabled={loadingTermsQuery} />
         </Box>
-        <SelectSingleLanguage
-          value={sanitizedLanguage}
-          onChange={(language) => setQueryOnPage(router, { language })}
-          placeholder={t("filterBy.language")}
-        />
         <SelectSingleLocation
           mode="canton"
           value={sanitizedCanton}
@@ -82,7 +79,7 @@ const Home: NextPage = () => {
           disabled={loadingTermsQuery}
           groupOptions
         />
-        {!query.q ? (
+        {!sanitizedQ ? (
           <Accordion
             content={[
               {
