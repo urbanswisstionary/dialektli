@@ -47,7 +47,7 @@ const TermCardShareButtons: FC<{
         url={url}
         quote={term.content ?? term.title}
         hashtag={`#${term.title}`}
-        size={33}
+        size={31}
         aria-label="Share on Facebook"
         style={shareButtonStyles}
       />
@@ -56,16 +56,21 @@ const TermCardShareButtons: FC<{
         url={url}
         title={term.title}
         hashtags={[`#${term.title}`]}
-        size={33}
-        style={shareButtonStyles}
+        size={31}
         aria-label="Share on Twitter"
+        style={shareButtonStyles}
       />
-      <LinkedinShare url={url} size={33} aria-label="Share on Linkedin" />
+      <LinkedinShare
+        url={url}
+        size={31}
+        aria-label="Share on Linkedin"
+        style={shareButtonStyles}
+      />
       <WhatsappShare
         url={url}
         title={term.title}
         separator=":: "
-        size={33}
+        size={31}
         aria-label="Share via Whatsapp"
         style={shareButtonStyles}
       />
@@ -73,7 +78,7 @@ const TermCardShareButtons: FC<{
         url={url}
         subject={term.title}
         body={term.content ?? ""}
-        size={33}
+        size={31}
         aria-label="Share via E-mail"
         style={shareButtonStyles}
       />
@@ -85,13 +90,17 @@ const TermCardShareButtons: FC<{
             background: "var(--joy-palette-background-level3)",
           },
         }}
+        size="sm"
         title={url}
         aria-label="Copy link"
         onClick={() => {
           navigator?.clipboard.writeText(url)
         }}
       >
-        <ContentCopyIcon fontSize={"small"} />
+        <ContentCopyIcon
+          fontSize={"small"}
+          sx={{  width: "15px" }}
+        />
       </IconButton>
     </Stack>
   )
