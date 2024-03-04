@@ -10,8 +10,8 @@ import ThumbUpRoundedIcon from "@mui/icons-material/ThumbUpRounded"
 import ThumbUpTwoToneIcon from "@mui/icons-material/ThumbUpTwoTone"
 import ThumbDownRoundedIcon from "@mui/icons-material/ThumbDownRounded"
 import ThumbDownTwoToneIcon from "@mui/icons-material/ThumbDownTwoTone"
-import FlagIcon from "@mui/icons-material/Flag"
-import FlagTwoToneIcon from "@mui/icons-material/FlagTwoTone"
+// import FlagIcon from "@mui/icons-material/Flag"
+// import FlagTwoToneIcon from "@mui/icons-material/FlagTwoTone"
 import { TermFragmentFragment } from "@@/generated/graphql"
 import TermCardActionButton from "./termCardActionButton"
 import TermCardExample from "./termCardExamplesList"
@@ -32,7 +32,7 @@ const TermCard: FC<TermCardProps> = ({ term, disableActions }) => {
     <Card size="md" sx={{ wordBreak: "break-word" }}>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Stack direction="column" gap={1}>
-          <Flag mode="country" code={term.language} />
+          {/* <Flag mode="country" code={term.language} /> */}
           {term.cantons ? (
             <Stack direction="row" gap={1} flexWrap="wrap">
               {term.cantons.map((canton, i) => (
@@ -42,14 +42,14 @@ const TermCard: FC<TermCardProps> = ({ term, disableActions }) => {
           ) : null}
           <Typography level="title-lg">{term?.title}</Typography>
         </Stack>
-        <TermCardActionButton
+        {/* <TermCardActionButton
           action="flag"
           termId={term.id}
           disabled={disableActions}
           color="warning"
         >
           {term.flaggedByMe ? <FlagIcon /> : <FlagTwoToneIcon />}
-        </TermCardActionButton>
+        </TermCardActionButton> */}
       </Stack>
 
       <Typography mb={2} level="body-xs">
