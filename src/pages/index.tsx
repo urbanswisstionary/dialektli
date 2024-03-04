@@ -17,10 +17,7 @@ import NewTermButton from "@/ui/NewTermButton"
 import { useTranslation } from "next-i18next"
 import { getStaticPropsTranslations } from "@/utils/i18n"
 import { useMemo } from "react"
-import {
-  sanitizeCanton,
-  sanitizeFirstChar,
-} from "@/utils/sanitizeQueries"
+import { sanitizeCanton, sanitizeFirstChar } from "@/utils/sanitizeQueries"
 
 type Query = ParsedUrlQuery & {
   q?: string
@@ -67,9 +64,15 @@ const Home: NextPage = () => {
   return (
     <Layout hideSidebar={!me}>
       <Stack sx={{ mt: 1, mb: 3, gap: 2 }}>
-        <Box sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column-reverse", sm: "row" },
+            gap: "1rem",
+          }}
+        >
           <SearchTermsInput sx={{ flex: 1 }} disabled={loadingTermsQuery} />
-          <NewTermButton disabled={loadingTermsQuery} />
+          <NewTermButton sx={{ flex: 1 }} disabled={loadingTermsQuery} />
         </Box>
         <SelectSingleLocation
           mode="canton"
