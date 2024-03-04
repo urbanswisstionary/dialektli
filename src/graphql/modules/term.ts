@@ -6,6 +6,16 @@ import * as permissions from "../permissions"
 import { ApolloError } from "@apollo/client"
 import { Language } from "./language"
 
+builder.prismaObject("Synonym", {
+  fields: (t) => ({
+    synonym: t.relation("synonym", {
+      description: "synonym of the parent term",
+    }),
+    synonymOf: t.relation("synonymOf", {
+      description: "the term that the parent term is a synonym of",
+    }),
+  }),
+})
 const TermObject = builder.prismaObject("Term", {
   fields: (t) => ({
     id: t.exposeID("id"),
@@ -54,6 +64,12 @@ const TermObject = builder.prismaObject("Term", {
     }),
     cantons: t.exposeStringList("cantons"),
     language: t.expose("language", { type: Language }),
+    synonymOf: t.relation("synonymOf", {
+      description: "the terms that the parent term is a synonym of",
+    }),
+    synonyms: t.relation("synonyms", {
+      description: "synonyms of the parent term",
+    }),
   }),
 })
 
@@ -181,6 +197,7 @@ const CreateTermInput = builder.inputType("CreateTermInput", {
     examples: t.stringList(),
     cantons: t.stringList(),
     language: t.field({ type: Language }),
+    synonymId: t.string(),
   }),
 })
 
@@ -219,13 +236,13 @@ builder.mutationFields((t) => ({
     resolve: async (
       query,
       _root,
-      { data: { title, content, examples, cantons, language } },
+      { data: { title, content, examples, cantons, language, synonymId } },
       { session },
     ) => {
       try {
         const author = session?.user
         if (!author) throw new ApolloError({ errorMessage: "Not allowed" })
-        return prisma.term.create({
+        const newTerm = await prisma.term.create({
           ...query,
           data: {
             title,
@@ -238,6 +255,15 @@ builder.mutationFields((t) => ({
             author: { connect: { id: author?.id } },
           },
         })
+        if (synonymId) {
+          await prisma.synonym.createMany({
+            data: [
+              { synonymId: newTerm.id, synonymOfId: synonymId },
+              { synonymId, synonymOfId: newTerm.id },
+            ],
+          })
+        }
+        return newTerm
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error(error)

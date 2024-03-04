@@ -9,6 +9,7 @@ import ChipDelete from "@mui/joy/ChipDelete"
 import IconButton from "@mui/joy/IconButton"
 import AddIcon from "@mui/icons-material/Add"
 import { useTranslation } from "next-i18next"
+import Stack from "@mui/joy/Stack"
 
 const WordExamplesInput: FC<{
   values: string[]
@@ -19,12 +20,10 @@ const WordExamplesInput: FC<{
 }> = ({ values, onChange, disabled, label, helperText }) => {
   const { t } = useTranslation("common", { keyPrefix: "term.editTerm" })
   return (
-    <>
+    <Stack pt={1}>
       {label ? (
         <FormLabel
           sx={{
-            pt: 1,
-            pb: 0,
             color: disabled
               ? "var(--joy-palette-neutral-plainDisabledColor)"
               : undefined,
@@ -33,10 +32,22 @@ const WordExamplesInput: FC<{
           {label}
         </FormLabel>
       ) : null}
+      {helperText ? (
+        <FormHelperText
+          sx={{
+            py: 1,
+            color: disabled
+              ? "var(--joy-palette-neutral-plainDisabledColor)"
+              : undefined,
+          }}
+        >
+          {helperText}
+        </FormHelperText>
+      ) : null}
       {values.map((example, i) => (
         <WordExampleInput
           key={i}
-          sx={{ marginTop: "8px !important" }}
+          sx={{ pb: 2 }}
           value={example}
           onChange={(example) => {
             const newExamples = [...values]
@@ -55,22 +66,10 @@ const WordExamplesInput: FC<{
       <Box
         sx={{
           display: "flex",
-          justifyContent: "space-between",
-          pl: 1,
-          pr: 1.5,
+          justifyContent: "flex-end",
+          px: 1.5,
         }}
       >
-        {helperText ? (
-          <FormHelperText
-            sx={{
-              color: disabled
-                ? "var(--joy-palette-neutral-plainDisabledColor)"
-                : undefined,
-            }}
-          >
-            {helperText}
-          </FormHelperText>
-        ) : null}
         <IconButton
           title={t("addExample")}
           variant="outlined"
@@ -82,7 +81,7 @@ const WordExamplesInput: FC<{
           <AddIcon />
         </IconButton>
       </Box>
-    </>
+    </Stack>
   )
 }
 
@@ -132,7 +131,7 @@ const WordExampleInput: FC<
               }}
               slotProps={{
                 root: {
-                  title:t("deleteExample"),
+                  title: t("deleteExample"),
                   onFocus: () => textareaRef.current?.focus(),
                 },
               }}

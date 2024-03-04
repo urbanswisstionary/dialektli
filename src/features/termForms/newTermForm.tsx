@@ -25,6 +25,7 @@ type Query = ParsedUrlQuery & {
   examples?: string[]
   cantons?: string[] | string
   language?: string
+  synonym?: string
 }
 
 const NewTermForm: FC = () => {
@@ -32,6 +33,7 @@ const NewTermForm: FC = () => {
 
   const router = useRouter()
   const query = router.query as Query
+  const synonym = (router.query as Query).synonym
 
   const { sanitizedCantons, sanitizedExamples, sanitizedLanguage } = useMemo(
     () => ({
@@ -68,6 +70,7 @@ const NewTermForm: FC = () => {
           examples: sanitizedExamples,
           cantons: sanitizedCantons,
           language: sanitizedLanguage,
+          synonymId: synonym,
         },
         (termId) => {
           if (termId) router.replace(`/term/${termId}/edit?review`)
@@ -89,7 +92,9 @@ const NewTermForm: FC = () => {
     >
       <Card
         title={t("term.newTerm.title")}
-        description={t("term.newTerm.description")}
+        description={t(
+          `term.newTerm.${synonym ? "newSynonym." : ""}description`,
+        )}
         actions={{
           save: { type: "submit", loading: createTermLoading },
         }}

@@ -28,6 +28,13 @@ export const TermFragment = graphql(/* GraphQL */ `
     updatedAt
     language
     cantons
+
+    synonyms {
+      synonymOf {
+        id
+        title
+      }
+    }
   }
 `)
 
@@ -175,12 +182,17 @@ const TermQuery = graphql(/* GraphQL */ `
     term(data: $data) {
       id
       ...TermFragment
+      synonyms {
+        synonymOf {
+          ...TermFragment
+        }
+      }
     }
   }
 `)
 
-export const useTerm = (termId: string) =>
-  useQuery(TermQuery, { variables: { data: { termId } }, skip: !termId })
+export const useTerm = (termId: string, skip?: boolean) =>
+  useQuery(TermQuery, { variables: { data: { termId } }, skip })
 
 export const useTermAction = (termId: string) => {
   const [termAction, mutationResult] = useMutation(

@@ -26,7 +26,7 @@ const EditTermPage: NextPage = () => {
   const router = useRouter()
   const query = router.query as Query
 
-  const { data, loading: loadingTerm } = useTerm(query.id)
+  const { data, loading: loadingTerm } = useTerm(query.id, !query.id)
 
   const loading = loadingMe || loadingTerm
   const term = getFragmentData(TermFragment, data?.term)

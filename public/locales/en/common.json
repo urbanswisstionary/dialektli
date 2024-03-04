@@ -153,11 +153,10 @@
     "descriptionFieldHelperText": "<bold>Write for a large audience.</bold> Lots of people will read this, so give some background information.",
     "examplesFieldHelperText": "Provide examples of how this term is used in context, or how it is used in a sentence. This will help others understand the term better.",
     "newTerm": {
-      "title": "New Term",
+      "title": "New Expression",
       "description": "All the definitions were written by people just like you. Now's your chance to add your own!",
-      "recapchaError": {
-        "message": "Sorry but an error was found.",
-        "clickHere": "Click here to refresh the page and try again"
+      "newSynonym": {
+        "description": "Expand the lexicon. Add definitions."
       }
     },
     "editTerm": {
@@ -192,7 +191,16 @@
   },
   "seo": {
     "title": "Dialektli",
-    "description": "Dialektli is a community-run dictionary for Swiss slang and dialects. It is a place where language is given a little more space to be freely explored and constructed in the moment. Current (colloquial) Swiss German words, sayings, idioms, etc. are exchanged here."
+    "description": "Dialektli is a community-run dictionary for Swiss slang and dialects. It is a place where language is given a little more space to be freely explored and constructed in the moment. Current (colloquial) Swiss German words, sayings, idioms, etc. are exchanged here.",
+    "share": {
+      "shareButton": "Share",
+      "facebook": "Share via Facebook",
+      "twitter": "Share via Twitter",
+      "linkedin": "Share via LinkedIn",
+      "whatsapp": "Share via Whatsapp",
+      "email": "Share via Email",
+      "copyLink": "Copy Link"
+    }
   },
   "bugReport": {
     "title": "Bug Report Form",

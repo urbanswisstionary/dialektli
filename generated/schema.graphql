@@ -3,6 +3,7 @@ input CreateTermInput {
   content: String
   examples: [String!]
   language: Language
+  synonymId: String
   title: String!
 }
 
@@ -81,6 +82,14 @@ enum Role {
   USER
 }
 
+type Synonym {
+  """synonym of the parent term"""
+  synonym: Term!
+
+  """the term that the parent term is a synonym of"""
+  synonymOf: Term!
+}
+
 type Term {
   author: User!
   cantons: [String!]!
@@ -98,6 +107,12 @@ type Term {
   likes: [Like!]!
   likesCount: Int!
   published: Boolean!
+
+  """the terms that the parent term is a synonym of"""
+  synonymOf: [Synonym!]!
+
+  """synonyms of the parent term"""
+  synonyms: [Synonym!]!
   title: String!
   updatedAt: DateTime
 }
