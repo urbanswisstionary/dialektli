@@ -109,13 +109,13 @@ const Sidebar: FC = () => {
         {me ? <AuthedSidebarOptions isAdmin={isAdmin} /> : null}
 
         <List size="sm" sx={{ mt: "auto", flexGrow: 0 }}>
-          <Divider sx={{ mb: 1, mt: 2 }} />
           <SidebarOption
             label={t("support")}
             startDecorator={<SupportRoundedIcon />}
             disabled
             selected={router.pathname === "/support"}
             link="/support"
+            hide
           />
           <Divider />
 
