@@ -20,6 +20,7 @@ import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
 import JoyLink from "@mui/joy/Link"
 import { setQueryOnPage } from "@/utils/setQueryOnPage"
+import TermCardShareButtons from "./termCardShareButton"
 
 type TermCardProps = {
   term: TermFragmentFragment
@@ -42,14 +43,6 @@ const TermCard: FC<TermCardProps> = ({ term, disableActions }) => {
           ) : null}
           <Typography level="title-lg">{term?.title}</Typography>
         </Stack>
-        {/* <TermCardActionButton
-          action="flag"
-          termId={term.id}
-          disabled={disableActions}
-          color="warning"
-        >
-          {term.flaggedByMe ? <FlagIcon /> : <FlagTwoToneIcon />}
-        </TermCardActionButton> */}
       </Stack>
 
       <Typography mb={2} level="body-xs">
@@ -105,6 +98,9 @@ const TermCard: FC<TermCardProps> = ({ term, disableActions }) => {
               )}
             </TermCardActionButton>
           </Box>
+        </CardActions>
+        <CardActions sx={{ justifyContent: "center", mt: 2 }}>
+          <TermCardShareButtons term={term} />
         </CardActions>
       </CardOverflow>
     </Card>
