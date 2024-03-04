@@ -2,6 +2,7 @@ import { FC } from "react"
 import type { DefaultSeoProps } from "next-seo"
 import { DefaultSeo, NextSeo } from "next-seo"
 import { useTranslation } from "next-i18next"
+import Head from "next/head"
 
 const defailtHeadData = ({
   title,
@@ -40,12 +41,19 @@ const defailtHeadData = ({
 const HeadProvider: FC = () => {
   const { t } = useTranslation("common", { keyPrefix: "seo" })
   return (
-    <DefaultSeo
-      {...defailtHeadData({
-        title: t("title"),
-        description: t("description"),
-      })}
-    />
+    <Head>
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0"
+      />
+
+      <DefaultSeo
+        {...defailtHeadData({
+          title: t("title"),
+          description: t("description"),
+        })}
+      />
+    </Head>
   )
 }
 
