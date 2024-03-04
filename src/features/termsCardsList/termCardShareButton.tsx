@@ -35,7 +35,7 @@ const shareButtonStyles: CSSProperties = {
 const TermCardShareButtons: FC<{
   term: TermFragmentFragment
 }> = ({ term }) => {
-  const url = `${window.location.origin}/term/${term.id}`
+  const url = `${typeof window !== "undefined" ? window?.location.origin : ""}/term/${term.id}`
   return (
     <Stack
       direction="row"
@@ -85,10 +85,11 @@ const TermCardShareButtons: FC<{
       <IconButton
         sx={{
           borderRadius: "50%",
-          background: "var(--joy-palette-background-level1)",
+          background: "var(--joy-palette-background-level2)",
           ":hover": {
-            background: "var(--joy-palette-background-level3)",
+            background: "var(--joy-palette-background-level2)",
           },
+          padding: "7px 10px",
         }}
         size="sm"
         title={url}
@@ -97,10 +98,7 @@ const TermCardShareButtons: FC<{
           navigator?.clipboard.writeText(url)
         }}
       >
-        <ContentCopyIcon
-          fontSize={"small"}
-          sx={{  width: "15px" }}
-        />
+        <ContentCopyIcon fontSize={"small"} sx={{ width: "15px" }} />
       </IconButton>
     </Stack>
   )
