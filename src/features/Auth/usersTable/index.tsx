@@ -23,6 +23,9 @@ import TableHead from "./components/tableHeader"
 import TableBody from "./components/tableBody"
 import { fuzzyFilter, fuzzySort } from "./table.utils"
 import TermStatusChip from "@/ui/TermStatusChip"
+import List from "@mui/joy/List"
+import UsersListItem from "./components/usersListItem"
+
 import Typography from "@mui/joy/Typography"
 import Flag from "@/ui/Flag"
 import Stack from "@mui/joy/Stack"
@@ -30,7 +33,7 @@ import NewTermButton from "@/ui/NewTermButton"
 import { getFragmentData } from "@@/generated"
 import CircularProgress from "@mui/joy/CircularProgress"
 import { useTranslation } from "next-i18next"
-import { useMe } from "@/hooks/useMe"
+import { useMe } from "@/hooks/useUsers"
 import { AdminUsersFragment, useAdminUsersQuery } from "@/hooks/useUsers"
 
 const UsersTable: FC = () => {
@@ -246,19 +249,45 @@ const UsersTable: FC = () => {
           <CircularProgress size="lg" variant="soft" />
         </Stack>
       ) : (
-        <Table
-          aria-labelledby="tableTitle"
-          stickyHeader
-          hoverRow
-          sx={{
-            "--TableRow-hoverBackground":
-              "var(--joy-palette-background-level1)",
-            "--TableCell-paddingY": "4px",
-          }}
-        >
-          <TableHead headerGroups={table.getHeaderGroups()} />
-          <TableBody rows={rows} />
-        </Table>
+        <>
+          <Box sx={{ display: { xs: "none", md: "block" } }}>
+            <Table
+              aria-labelledby="tableTitle"
+              stickyHeader
+              hoverRow
+              sx={{
+                "--TableRow-hoverBackground":
+                  "var(--joy-palette-background-level1)",
+                "--TableCell-paddingY": "4px",
+              }}
+            >
+              <TableHead headerGroups={table.getHeaderGroups()} />
+              <TableBody rows={rows} />
+            </Table>
+          </Box>
+          <Box sx={{ display: { xs: "block", md: "none" } }}>
+            <List
+              size="sm"
+              sx={{
+                "--ListItem-paddingX": 0,
+                "> *": {
+                  "&:hover": {
+                    background: "var(--joy-palette-background-level1)",
+                  },
+                  ":not(:last-of-type)": {
+                    borderBottom: "solid 1px",
+                    borderColor: "divider",
+                  },
+                  ":not(:first-of-type)": { pt: 2 },
+                },
+              }}
+            >
+              {rows.map(({ original: user }) => (
+                <UsersListItem key={user.id} user={user} />
+              ))}
+            </List>
+          </Box>
+        </>
       )}
       <Divider sx={{ mb: 2 }} />
       <Box px={2}>

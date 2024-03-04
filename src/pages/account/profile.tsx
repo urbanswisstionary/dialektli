@@ -1,5 +1,5 @@
 import Layout from "@/features/layout/layout"
-import { useMe } from "@/hooks/useMe"
+import { useMe } from "@/hooks/useUsers"
 import { GetStaticProps, NextPage } from "next"
 import dynamic from "next/dynamic"
 import { useRouter } from "next/router"

@@ -4,7 +4,7 @@ import IconButton, { IconButtonProps } from "@mui/joy/IconButton"
 import AddIcon from "@mui/icons-material/Add"
 import JoyLink from "@mui/joy/Link"
 import { useTranslation } from "next-i18next"
-import { useMe } from "@/hooks/useMe"
+import { useMe } from "@/hooks/useUsers"
 
 const NewTermButton: FC<
   Pick<IconButtonProps, "size"> & { disabled?: boolean }

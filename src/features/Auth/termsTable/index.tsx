@@ -35,7 +35,7 @@ import { AdminTermFragment, useAdminTermsQuery } from "@/hooks/useTerms"
 import { getFragmentData } from "@@/generated"
 import CircularProgress from "@mui/joy/CircularProgress"
 import { useTranslation } from "next-i18next"
-import { useMe } from "@/hooks/useMe"
+import { useMe } from "@/hooks/useUsers"
 
 const TermsTable: FC = () => {
   const { t } = useTranslation("common")

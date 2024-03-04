@@ -7,7 +7,7 @@ import { useTermAction } from "@/hooks/useTerms"
 import NextLink from "next/link"
 import Link from "@mui/joy/Link"
 import { useTranslation, Trans } from "next-i18next"
-import { useMe } from "@/hooks/useMe"
+import { useMe } from "@/hooks/useUsers"
 
 type TermCardActionButtonProps = PropsWithChildren<{
   badgeContent?: number | string

@@ -4,7 +4,7 @@ import TermCard from "@/features/termsCardsList/termCard"
 import Pagination, { PaginationProps } from "@/ui/Pagination"
 import { FragmentType, getFragmentData } from "@@/generated"
 import { TermFragment } from "@/hooks/useTerms"
-import { useMe } from "@/hooks/useMe"
+import { useMe } from "@/hooks/useUsers"
 import CircularProgress from "@mui/joy/CircularProgress"
 import { useTranslation } from "next-i18next"
 

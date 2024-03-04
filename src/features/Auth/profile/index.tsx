@@ -5,7 +5,7 @@ import {
   useDeleteUserMutation,
   useUpdateUserMutation,
   useVerifyUserNameIsUniqueQuery,
-} from "@/hooks/useMe"
+} from "@/hooks/useUsers"
 import { MeFragmentFragment, UpdateUserInput } from "@@/generated/graphql"
 import ImageInput from "./components/imageInput"
 import EmailInput from "./components/emailInput"
@@ -98,7 +98,7 @@ const MyProfile: FC<{ me: MeFragmentFragment }> = ({ me }) => {
             type: "submit",
             disabled:
               !changesFound ||
-              editProfileState.name !== undefined && !allowSubmitNewName,
+              (editProfileState.name !== undefined && !allowSubmitNewName),
             loading: updateUserLoading,
 
             title: t("actions.save"),

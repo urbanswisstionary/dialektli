@@ -9,7 +9,7 @@ import Logo from "@/ui/Logo"
 import Box from "@mui/joy/Box"
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded"
 import { useRouter } from "next/router"
-import { useMe } from "@/hooks/useMe"
+import { useMe } from "@/hooks/useUsers"
 import { useTranslation } from "next-i18next"
 
 const signinPagePathname = "/account/signin"

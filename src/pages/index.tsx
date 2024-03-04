@@ -1,4 +1,4 @@
-import { useMe } from "@/hooks/useMe"
+import { useMe } from "@/hooks/useUsers"
 import Layout from "@/features/layout/layout"
 import SearchTermsInput from "@/ui/SearchTermsInput"
 import Box from "@mui/joy/Box"

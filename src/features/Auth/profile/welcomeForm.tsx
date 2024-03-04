@@ -5,7 +5,7 @@ import { useTranslation } from "next-i18next"
 import {
   useUpdateUserMutation,
   useVerifyUserNameIsUniqueQuery,
-} from "@/hooks/useMe"
+} from "@/hooks/useUsers"
 import { useRouter } from "next/router"
 import NameInput from "./components/nameInput"
 

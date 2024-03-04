@@ -1,7 +1,7 @@
 import { GetStaticProps, NextPage } from "next"
 import Layout from "@/features/layout/layout"
 import NewTermForm from "@/features/termForms/newTermForm"
-import { useMe } from "@/hooks/useMe"
+import { useMe } from "@/hooks/useUsers"
 import { getStaticPropsTranslations } from "@/utils/i18n"
 import { NextSeo } from "next-seo"
 import dynamic from "next/dynamic"

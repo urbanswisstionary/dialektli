@@ -1,7 +1,7 @@
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next"
 import { useRouter } from "next/router"
 import Layout from "@/features/layout/layout"
-import { useMe } from "@/hooks/useMe"
+import { useMe } from "@/hooks/useUsers"
 import { ParsedUrlQuery } from "querystring"
 import { TermFragment, useTerm } from "@/hooks/useTerms"
 import { getFragmentData } from "@@/generated"

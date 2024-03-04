@@ -1,5 +1,5 @@
 import LayoutWithImage from "@/features/layout/layoutWithImage"
-import { useMe } from "@/hooks/useMe"
+import { useMe } from "@/hooks/useUsers"
 import Link from "@mui/joy/Link"
 import { GetStaticProps, NextPage } from "next"
 import dynamic from "next/dynamic"
