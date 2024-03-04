@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 ## Bug Report Form
-If you encounter a bug in Urban Dictionary, let us know!
+If you encounter a bug in Dialektli, let us know!
 
 **Describe the bug**
 A clear and concise description of what the bug is.

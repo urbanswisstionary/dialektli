@@ -106,7 +106,7 @@
   },
   "guidelinesPage": {
     "title": "Directives de contenu",
-    "description": "Urban Swisstionary est une communauté pour tout le monde, y compris vous. Tout le monde peut publier une définition, mais afin de rendre les choses amusantes pour tout le monde, nous vous demandons de suivre les règles suivantes :",
+    "description": "Dialektli est une communauté pour tout le monde, y compris vous. Tout le monde peut publier une définition, mais afin de rendre les choses amusantes pour tout le monde, nous vous demandons de suivre les règles suivantes :",
 
     "dos": [
       {
@@ -115,7 +115,7 @@
       },
       {
         "title": "Soyez créatif.",
-        "description": "Certaines des meilleures définitions sur Urban Swisstionary trouvent des façons humoristiques de se moquer de l'autorité, ou mettent une touche astucieuse sur les événements actuels. Certaines d'entre elles sont simplement bizarres. Nous sommes d'accord avec ça."
+        "description": "Certaines des meilleures définitions sur Dialektli trouvent des façons humoristiques de se moquer de l'autorité, ou mettent une touche astucieuse sur les événements actuels. Certaines d'entre elles sont simplement bizarres. Nous sommes d'accord avec ça."
       },
       {
         "title": "Amusez-vous.",
@@ -193,8 +193,8 @@
     "toHome": "Retour à la page d'accueil"
   },
   "seo": {
-    "title": "Urban Swisstionary",
-    "description": "Urban Swisstionary est un dictionnaire communautaire d'argot et de dialectes suisses. C'est un endroit où le langage a un peu plus d'espace pour être exploré et construit librement, sur le moment. C'est un endroit pour partager des mots, des dictons, des phrases actuels (familiers) suisses allemands, français, italiens et romanches, ce genre de choses."
+    "title": "Dialektli",
+    "description": "Dialektli est un dictionnaire communautaire d'argot et de dialectes suisses. C’est un lieu où le langage bénéficie d’un peu plus d’espace pour être librement exploré et construit sur le moment. Ici sont échangés des mots, dictons, expressions idiomatiques suisses allemands courants (familiers), etc."
   },
   "bugReport": {
     "title": "Formulaire de rapport de bug",

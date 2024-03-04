@@ -113,7 +113,7 @@
   },
   "guidelinesPage": {
     "title": "Richtlinien für Inhalte",
-    "description": "Urban Swisstionary ist eine Community für alle, auch für Sie. Jeder kann eine Definition veröffentlichen, aber um es für alle unterhaltsam zu halten, bitten wir Sie, die folgenden Grundregeln zu befolgen:",
+    "description": "Dialektli ist eine Community für alle, auch für Sie. Jeder kann eine Definition veröffentlichen, aber um es für alle unterhaltsam zu halten, bitten wir Sie, die folgenden Grundregeln zu befolgen:",
 
     "dos": [
       {
@@ -122,7 +122,7 @@
       },
       {
         "title": "Sei kreativ.",
-        "description": "Einige der besten Definitionen auf Urban Swisstionary finden humorvolle Möglichkeiten, Autorität zu verspotten, oder setzen einen cleveren Twist auf aktuelle Ereignisse. Einige von ihnen sind einfach seltsam. Wir haben damit kein Problem."
+        "description": "Einige der besten Definitionen auf Dialektli finden humorvolle Möglichkeiten, Autorität zu verspotten, oder setzen einen cleveren Twist auf aktuelle Ereignisse. Einige von ihnen sind einfach seltsam. Wir haben damit kein Problem."
       },
       {
         "title": "Haben Sie Spaß.",
@@ -199,8 +199,8 @@
     "toHome": "Zur Startseite"
   },
   "seo": {
-    "title": "Urban Swisstionary",
-    "description": "Urban Swisstionary ist ein von der Community betriebenes Wörterbuch für Schweizer Slang und Dialekte. Es ist ein Ort, an dem die Sprache etwas mehr Raum hat, um im Augenblick frei erforscht und konstruiert zu werden. Es ist ein Ort, an dem aktuelle (umgangssprachliche) Schweizerdeutsche, französische, italienische und rätoromanische Wörter, Redewendungen, Phrasen usw. ausgetauscht werden können."
+    "title": "Dialektli",
+    "description": "Dialektli ist ein von der Community geführtes Wörterbuch für Schweizer Slang und Dialekte. Es ist ein Ort, an dem die Sprache etwas mehr Raum bekommt, um im Moment frei erforscht und konstruiert zu werden. Hier werden aktuelle (umgangssprachliche) schweizerdeutsche Wörter, Sprüche, Redewendungen usw. ausgetauscht."
   },
   "bugReport": {
     "title": "Bug-Report-Formular",

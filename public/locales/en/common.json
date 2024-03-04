@@ -106,7 +106,7 @@
   },
   "guidelinesPage": {
     "title": "Content Guidelines",
-    "description": "Urban Swisstionary is a community for everyone, including you. Anybody can post a definition, but in order to keep things fun for everyone, we ask that you follow the following ground rules:",
+    "description": "Dialektli is a community for everyone, including you. Anybody can post a definition, but in order to keep things fun for everyone, we ask that you follow the following ground rules:",
 
     "dos": [
       {
@@ -115,7 +115,7 @@
       },
       {
         "title": "Be creative.",
-        "description": "Some of the best definitions on Urban Swisstionary find humorous ways to poke fun at authority, or put a clever twist on current events. Some of them are just straight up weird. We're okay with that."
+        "description": "Some of the best definitions on Dialektli find humorous ways to poke fun at authority, or put a clever twist on current events. Some of them are just straight up weird. We're okay with that."
       },
       {
         "title": "Have fun.",
@@ -191,8 +191,8 @@
     "toHome": "Home Page"
   },
   "seo": {
-    "title": "Urban Swisstionary",
-    "description": "Urban Swisstionary is a community-driven dictionary for Swiss slang and dialects. It's a place where language has a little more space to be explored and constructed freely, in the moment. It's a place to share current (colloquial) Swiss German, French, Italian and Romansh words, sayings, phrases, that sort of thing."
+    "title": "Dialektli",
+    "description": "Dialektli is a community-run dictionary for Swiss slang and dialects. It is a place where language is given a little more space to be freely explored and constructed in the moment. Current (colloquial) Swiss German words, sayings, idioms, etc. are exchanged here."
   },
   "bugReport": {
     "title": "Bug Report Form",
