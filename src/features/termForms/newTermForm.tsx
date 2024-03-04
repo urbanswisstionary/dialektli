@@ -1,4 +1,4 @@
-import { FC, useCallback, useMemo } from "react"
+import { FC, useMemo } from "react"
 import Card from "@/ui/Card"
 import ReviewGuidelines from "@/features/termForms/components/reviewGuidelines"
 import WordInput from "./components/wordInput"
@@ -12,7 +12,6 @@ import { setQueryOnPage } from "@/utils/setQueryOnPage"
 import { ParsedUrlQuery } from "querystring"
 import SelectMultipleLocation from "@/ui/Autocomplete/selectMultipleLocations"
 import { Trans, useTranslation } from "next-i18next"
-import { useReCaptcha } from "next-recaptcha-v3"
 import SelectSingleLanguage from "@/ui/Autocomplete/selectSingleLanguage"
 import {
   sanitizeCantons,
@@ -30,7 +29,6 @@ type Query = ParsedUrlQuery & {
 
 const NewTermForm: FC = () => {
   const { t } = useTranslation("common")
-  const { executeRecaptcha } = useReCaptcha()
 
   const router = useRouter()
   const query = router.query as Query
@@ -60,46 +58,26 @@ const NewTermForm: FC = () => {
     setQueryOnPage(router, { [queryKey]: value?.length ? value : null })
   }
   const preventSubmit = !query.title || !query.content || createTermLoading
-  const onSubmit = useCallback(async () => {
-    try {
-      const recaptchaToken = await executeRecaptcha("new_term")
-      const recaptchaRes = await fetch("/api/recaptcha", {
-        method: "POST",
-        body: recaptchaToken,
-      })
 
-      if (recaptchaRes.ok) {
-        createTerm(
-          {
-            title: query.title!,
-            content: query.content,
-            examples: sanitizedExamples,
-            cantons: sanitizedCantons,
-            language: sanitizedLanguage,
-          },
-          (termId) => {
-            if (termId) router.replace(`/term/${termId}/edit?review`)
-          },
-        )
-      } else {
-        const text = await recaptchaRes.text()
-        // eslint-disable-next-line no-console
-        console.error("Recaptcha failed", text)
-      }
+  const onSubmit = async () => {
+    try {
+      createTerm(
+        {
+          title: query.title!,
+          content: query.content,
+          examples: sanitizedExamples,
+          cantons: sanitizedCantons,
+          language: sanitizedLanguage,
+        },
+        (termId) => {
+          if (termId) router.replace(`/term/${termId}/edit?review`)
+        },
+      )
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error("error", error)
     }
-  }, [
-    createTerm,
-    executeRecaptcha,
-    query.content,
-    query.title,
-    router,
-    sanitizedCantons,
-    sanitizedExamples,
-    sanitizedLanguage,
-  ])
+  }
 
   return (
     <form
