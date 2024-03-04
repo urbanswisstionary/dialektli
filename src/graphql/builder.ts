@@ -5,10 +5,10 @@ import PrismaPlugin from "@pothos/plugin-prisma"
 import type PrismaTypes from "../../generated/pothos-types"
 import { DateTimeResolver, JSONResolver } from "graphql-scalars"
 import { Session } from "next-auth"
-import { SupportedLanguage } from "@/utils/getUserLang"
 import ShieldPlugin from "./shield-plugin"
 import SimpleObjectsPlugin from "@pothos/plugin-simple-objects"
 import { Language } from "@@/generated/graphql"
+import { Locale } from "next/router"
 
 const prisma = new PrismaClient({
   log: ["info", "warn"],
@@ -24,7 +24,7 @@ export const builder = new SchemaBuilder<{
   }
   Context: {
     session: Session | null
-    lang: SupportedLanguage
+    lang: Locale
   }
 }>({
   plugins: [PrismaPlugin, ShieldPlugin, SimpleObjectsPlugin],
