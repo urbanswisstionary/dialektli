@@ -8,6 +8,7 @@ import NextLink from "next/link"
 import Link from "@mui/joy/Link"
 import { useTranslation, Trans } from "next-i18next"
 import { useMe } from "@/hooks/useUsers"
+import { sendGTMEvent } from "@next/third-parties/google"
 
 type TermCardActionButtonProps = PropsWithChildren<{
   badgeContent?: number | string
@@ -36,7 +37,14 @@ const TermCardActionButton: FC<TermCardActionButtonProps> = ({
 
   const { termAction, loading: termActionLoading } = useTermAction(termId)
 
-  const onActionClick = () => termAction(action)
+  const onActionClick = () => {
+    sendGTMEvent({
+      event: "term_action",
+      action,
+      termId,
+    })
+    termAction(action)
+  }
 
   const content = (
     <Badge
