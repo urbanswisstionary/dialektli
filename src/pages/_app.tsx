@@ -2,6 +2,7 @@ import Providers, { ProviderProps } from "@/providers"
 import type { AppProps } from "next/app"
 import { FC } from "react"
 import { appWithTranslation } from "next-i18next"
+import { i18n } from "../../next-i18next.config"
 
 import {
   ApolloClient,
@@ -32,7 +33,7 @@ const withApolloClient = withApollo(
     const headerLink = setContext(async (_, { headers }) => ({
       headers: {
         ...headers,
-        "accept-language": router?.locale ?? "en",
+        "accept-language": router?.locale ?? i18n.defaultLocale,
       },
     }))
 
