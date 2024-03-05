@@ -1,5 +1,5 @@
 /* eslint-disable */
-import type { Prisma, Like, Dislike, Flag, Term, Account, Session, User, VerificationToken } from "@prisma/client";
+import type { Prisma, Like, Dislike, Flag, Term, Synonym, Account, Session, User, VerificationToken } from "@prisma/client";
 export default interface PrismaTypes {
     Like: {
         Name: "Like";
@@ -86,8 +86,8 @@ export default interface PrismaTypes {
         Where: Prisma.TermWhereInput;
         Create: {};
         Update: {};
-        RelationName: "author" | "likes" | "dislikes" | "flagged";
-        ListRelations: "likes" | "dislikes" | "flagged";
+        RelationName: "author" | "likes" | "dislikes" | "flagged" | "synonymOf" | "synonyms";
+        ListRelations: "likes" | "dislikes" | "flagged" | "synonymOf" | "synonyms";
         Relations: {
             author: {
                 Shape: User | null;
@@ -107,6 +107,41 @@ export default interface PrismaTypes {
             flagged: {
                 Shape: Flag[];
                 Name: "Flag";
+                Nullable: false;
+            };
+            synonymOf: {
+                Shape: Synonym[];
+                Name: "Synonym";
+                Nullable: false;
+            };
+            synonyms: {
+                Shape: Synonym[];
+                Name: "Synonym";
+                Nullable: false;
+            };
+        };
+    };
+    Synonym: {
+        Name: "Synonym";
+        Shape: Synonym;
+        Include: Prisma.SynonymInclude;
+        Select: Prisma.SynonymSelect;
+        OrderBy: Prisma.SynonymOrderByWithRelationInput;
+        WhereUnique: Prisma.SynonymWhereUniqueInput;
+        Where: Prisma.SynonymWhereInput;
+        Create: {};
+        Update: {};
+        RelationName: "synonymOf" | "synonym";
+        ListRelations: never;
+        Relations: {
+            synonymOf: {
+                Shape: Term;
+                Name: "Term";
+                Nullable: false;
+            };
+            synonym: {
+                Shape: Term;
+                Name: "Term";
                 Nullable: false;
             };
         };

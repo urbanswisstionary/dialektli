@@ -1,9 +1,14 @@
 import { TermFragmentFragment } from "@@/generated/graphql"
 import type { FC } from "react"
-import Stack from "@mui/joy/Stack"
 import ContentCopyIcon from "@mui/icons-material/ContentCopy"
 import IconButton from "@mui/joy/IconButton"
 import dynamic from "next/dynamic"
+import ShareIcon from "@mui/icons-material/Share"
+import Dropdown from "@mui/joy/Dropdown"
+import Menu from "@mui/joy/Menu"
+import MenuButton from "@mui/joy/MenuButton"
+import MenuItem from "@mui/joy/MenuItem"
+import { useTranslation } from "next-i18next"
 
 const EmailShare = dynamic(
   () => import("react-share-lite").then((module) => module.EmailShare),
@@ -30,63 +35,71 @@ const WhatsappShare = dynamic(
 const TermCardShareButtons: FC<{
   term: TermFragmentFragment
 }> = ({ term }) => {
+  const { t } = useTranslation("common", { keyPrefix: "seo.share" })
   const url = `${typeof window !== "undefined" ? window?.location.origin : ""}/term/${term.id}`
 
   const buttonProps = {
     url,
     title: term.title,
-    size: 31,
-    round: true,
+    size: 32,
+    borderRadius: 10,
   } as const
-  return (
-    <Stack
-      direction="row"
-      gap={1}
-      alignItems={"flex-start"}
-      sx={{ transform: "scale(0.75)" }}
-    >
-      <FacebookShare
-        {...buttonProps}
-        quote={term.content ?? term.title}
-        hashtag={`#${term.title}`}
-        aria-label="Share on Facebook"
-      />
 
-      <TwitterShare
-        {...buttonProps}
-        hashtags={[`#${term.title}`]}
-        aria-label="Share on Twitter"
-      />
-      <LinkedinShare {...buttonProps} aria-label="Share on Linkedin" />
-      <WhatsappShare
-        {...buttonProps}
-        separator=":: "
-        aria-label="Share via Whatsapp"
-      />
-      <EmailShare
-        {...buttonProps}
-        subject={term.title}
-        body={term.content ?? ""}
-        aria-label="Share via E-mail"
-      />
-      <IconButton
-        sx={{
-          borderRadius: "50%",
-          background: "var(--joy-palette-background-level2)",
-          ":hover": {
-            background: "var(--joy-palette-background-level2)",
-          },
+  return (
+    <Dropdown>
+      <MenuButton
+        slots={{ root: IconButton }}
+        slotProps={{
+          root: { variant: "outlined", color: "neutral", size: "sm" },
         }}
+        title={t("shareButton")}
+      >
+        <ShareIcon fontSize="small" />
+      </MenuButton>
+      <Menu
         size="sm"
-        title={url}
-        aria-label="Copy link"
-        onClick={() => {
-          navigator?.clipboard.writeText(url)
+        disablePortal
+        keepMounted
+        sx={{
+          padding: 0,
+          "> *": { pb: 0, pt: 0.75 },
+          "> :first-child": { pt: 1 },
+          "> :last-child": { pb: 1 },
         }}
       >
-        <ContentCopyIcon fontSize={"small"} sx={{ width: "15px" }} />
-      </IconButton>
-    </Stack>
+        <MenuItem title={t("facebook")}>
+          <FacebookShare
+            {...buttonProps}
+            quote={term.content ?? term.title}
+            hashtag={`#${term.title}`}
+          />
+        </MenuItem>
+        <MenuItem title={t("twitter")}>
+          <TwitterShare {...buttonProps} hashtags={[`#${term.title}`]} />
+        </MenuItem>
+        <MenuItem title={t("linkedin")}>
+          <LinkedinShare {...buttonProps} />
+        </MenuItem>
+        <MenuItem title={t("whatsapp")}>
+          <WhatsappShare {...buttonProps} separator=":: " />
+        </MenuItem>
+        <MenuItem title={t("email")}>
+          <EmailShare
+            {...buttonProps}
+            subject={term.title}
+            body={term.content ?? ""}
+          />
+        </MenuItem>
+        <MenuItem
+          title={t("copyLink")}
+          onClick={() => navigator?.clipboard.writeText(url)}
+        >
+          <IconButton variant="outlined" size="sm">
+            <ContentCopyIcon fontSize={"small"} />
+          </IconButton>
+        </MenuItem>
+      </Menu>
+    </Dropdown>
   )
 }
 export default TermCardShareButtons

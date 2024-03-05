@@ -5,7 +5,6 @@ import Stack from "@mui/joy/Stack"
 import Box from "@mui/joy/Box"
 import CardActions from "@mui/joy/CardActions"
 import CardOverflow from "@mui/joy/CardOverflow"
-import Avatar from "@mui/joy/Avatar"
 import ThumbUpRoundedIcon from "@mui/icons-material/ThumbUpRounded"
 import ThumbUpTwoToneIcon from "@mui/icons-material/ThumbUpTwoTone"
 import ThumbDownRoundedIcon from "@mui/icons-material/ThumbDownRounded"
@@ -21,6 +20,10 @@ import { useRouter } from "next/router"
 import JoyLink from "@mui/joy/Link"
 import { setQueryOnPage } from "@/utils/setQueryOnPage"
 import TermCardShareButtons from "./termCardShareButton"
+import List from "@mui/joy/List"
+import ListItem from "@mui/joy/ListItem"
+
+const synonymPath = (termId: string = "[id]") => `/term/${termId}`
 
 type TermCardProps = {
   term: TermFragmentFragment
@@ -29,9 +32,14 @@ type TermCardProps = {
 const TermCard: FC<TermCardProps> = ({ term, disableActions }) => {
   const { t } = useTranslation("common")
   const router = useRouter()
+
   return (
     <Card size="md" sx={{ wordBreak: "break-word" }}>
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="flex-start"
+      >
         <Stack direction="column" gap={1}>
           {/* <Flag mode="country" code={term.language} /> */}
           {term.cantons ? (
@@ -43,6 +51,7 @@ const TermCard: FC<TermCardProps> = ({ term, disableActions }) => {
           ) : null}
           <Typography level="title-lg">{term?.title}</Typography>
         </Stack>
+        <TermCardShareButtons term={term} />
       </Stack>
 
       <Typography mb={2} level="body-xs">
@@ -51,27 +60,58 @@ const TermCard: FC<TermCardProps> = ({ term, disableActions }) => {
 
       <TermCardExample examples={term?.examples} />
 
+      <CardOverflow sx={{ gap: 0 }}>
+        <Typography
+          level="title-sm"
+          sx={{ borderBottom: "1.5px solid", borderColor: "divider", pb: 1 }}
+        >
+          Synonyms:
+        </Typography>
+        <List>
+          {term.synonyms.length ? (
+            term.synonyms.map(({ synonymOf: s }, i) => (
+              <div key={i}>
+                <ListItem key={i}>
+                  <JoyLink href={synonymPath(s.id)} level="body-sm">
+                    {s.title}
+                  </JoyLink>
+                </ListItem>
+              </div>
+            ))
+          ) : (
+            <ListItem>
+              <Typography level="body-sm">Nothing yet :/</Typography>
+            </ListItem>
+          )}
+          <ListItem>
+            <JoyLink
+              href={`/term/new?synonym=${term.id}`}
+              level="title-sm"
+              fontWeight={600}
+            >
+              Suggest Synonym
+            </JoyLink>
+          </ListItem>
+        </List>
+      </CardOverflow>
       <CardOverflow
         sx={{ borderTop: "1px solid", borderColor: "divider", px: 2 }}
       >
         <CardActions sx={{ justifyContent: "space-between" }}>
-          <Box sx={{ display: "flex", gap: 1.5 }}>
-            {term.author.image ? (
-              <Avatar src={term?.author.image} alt={term?.author.name ?? ""} />
-            ) : null}
-            <div>
-              <Typography level="body-xs">{t("term.author")}:</Typography>
-              <JoyLink
-                level="body-sm"
-                color="neutral"
-                onClick={() =>
-                  setQueryOnPage(router, { author: term.author.name })
-                }
-              >
-                {term.author.name ?? "annonymus"}
-              </JoyLink>
-            </div>
-          </Box>
+          {/* author */}
+          <Stack direction="row" gap={1}>
+            <Typography level="title-sm">{t("term.author")}:</Typography>
+            <JoyLink
+              level="body-sm"
+              onClick={() =>
+                setQueryOnPage(router, { author: term.author.name })
+              }
+            >
+              {term.author.name ?? "anonymous"}
+            </JoyLink>
+          </Stack>
+
+          {/* actions (like / dislike) */}
           <Box sx={{ display: "flex", gap: 1.5, paddingInline: 2 }}>
             <TermCardActionButton
               action="dislike"
@@ -98,9 +138,6 @@ const TermCard: FC<TermCardProps> = ({ term, disableActions }) => {
               )}
             </TermCardActionButton>
           </Box>
-        </CardActions>
-        <CardActions sx={{ justifyContent: "center", mt: 2, p: 0 }}>
-          <TermCardShareButtons term={term} />
         </CardActions>
       </CardOverflow>
     </Card>

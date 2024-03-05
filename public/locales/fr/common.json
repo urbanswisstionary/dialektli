@@ -153,11 +153,10 @@
     "descriptionFieldHelperText": "<bold>Écrivez pour un large public.</bold> Beaucoup de personnes liront ceci, alors donnez quelques informations de base.",
     "examplesFieldHelperText": "Fournissez des exemples de la façon dont ce terme est utilisé dans le contexte, ou comment il est utilisé dans une phrase. Cela aidera les autres à comprendre le terme.",
     "newTerm": {
-      "title": "Nouveau terme",
+      "title": "Nouvelle expression",
       "description": "Toutes les définitions ont été rédigées par des personnes comme vous. C'est maintenant votre chance d'ajouter la vôtre !",
-      "recapchaError": {
-        "message": "Désolé, mais une erreur a été trouvée.",
-        "clickHere": "Cliquez ici pour rafraîchir la page et réessayer"
+      "newSynonym": {
+        "description": "Développez le lexique. Ajoutez des définitions."
       }
     },
     "editTerm": {
@@ -194,7 +193,16 @@
   },
   "seo": {
     "title": "Dialektli",
-    "description": "Dialektli est un dictionnaire communautaire d'argot et de dialectes suisses. C’est un lieu où le langage bénéficie d’un peu plus d’espace pour être librement exploré et construit sur le moment. Ici sont échangés des mots, dictons, expressions idiomatiques suisses allemands courants (familiers), etc."
+    "description": "Dialektli est un dictionnaire communautaire d'argot et de dialectes suisses. C’est un lieu où le langage bénéficie d’un peu plus d’espace pour être librement exploré et construit sur le moment. Ici sont échangés des mots, dictons, expressions idiomatiques suisses allemands courants (familiers), etc.",
+    "share": {
+      "shareButton": "Partager",
+      "facebook": "Partager via Facebook",
+      "twitter": "Partager via Twitter",
+      "linkedin": "Partager via LinkedIn",
+      "whatsapp": "Partager via Whatsapp",
+      "email": "Partager par e-mail",
+      "copyLink": "Copier le lien"
+    }
   },
   "bugReport": {
     "title": "Formulaire de rapport de bug",

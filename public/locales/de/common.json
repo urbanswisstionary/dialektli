@@ -161,11 +161,10 @@
     "descriptionFieldHelperText": "<bold>Schreiben Sie für ein großes Publikum.</bold> Viele Menschen werden dies lesen, also geben Sie einige Hintergrundinformationen.",
     "examplesFieldHelperText": "Geben Sie Beispiele dafür, wie dieser Begriff im Kontext verwendet wird, oder wie er in einem Satz verwendet wird. Dies wird anderen helfen, den Begriff besser zu verstehen.",
     "newTerm": {
-      "title": "Neuer Begriff",
+      "title": "Neuer Ausdruck",
       "description": "Alle Definitionen wurden von Menschen wie Ihnen geschrieben. Jetzt haben Sie die Möglichkeit, Ihre eigene hinzuzufügen!",
-      "recapchaError": {
-        "message": "Entschuldigung, es wurde ein Fehler gefunden.",
-        "clickHere": "Klicken Sie hier, um die Seite zu aktualisieren und es erneut zu versuchen"
+      "newSynonym": {
+        "description": "Erweitere das Lexikon. Ergänze Definitionen."
       }
     },
     "editTerm": {
@@ -200,7 +199,16 @@
   },
   "seo": {
     "title": "Dialektli",
-    "description": "Dialektli ist ein von der Community geführtes Wörterbuch für Schweizer Slang und Dialekte. Es ist ein Ort, an dem die Sprache etwas mehr Raum bekommt, um im Moment frei erforscht und konstruiert zu werden. Hier werden aktuelle (umgangssprachliche) schweizerdeutsche Wörter, Sprüche, Redewendungen usw. ausgetauscht."
+    "description": "Dialektli ist ein von der Community geführtes Wörterbuch für Schweizer Slang und Dialekte. Es ist ein Ort, an dem die Sprache etwas mehr Raum bekommt, um im Moment frei erforscht und konstruiert zu werden. Hier werden aktuelle (umgangssprachliche) schweizerdeutsche Wörter, Sprüche, Redewendungen usw. ausgetauscht.",
+    "share": {
+      "shareButton": "Teilen",
+      "facebook": "Über Facebook teilen",
+      "twitter": "Über Twitter teilen",
+      "linkedin": "Über LinkedIn teilen",
+      "whatsapp": "Über Whatsapp teilen",
+      "email": "Per E-mail teilen",
+      "copyLink": "Link kopieren"
+    }
   },
   "bugReport": {
     "title": "Bug-Report-Formular",
