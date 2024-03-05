@@ -40,20 +40,39 @@ const defailtHeadData = ({
 })
 const HeadProvider: FC = () => {
   const { t } = useTranslation("common", { keyPrefix: "seo" })
+  const meta = defailtHeadData({
+    title: t("title"),
+    description: t("description"),
+  })
   return (
-    <Head>
-      <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0"
-      />
+    <>
+      <Head>
+        <title>{meta.title}</title>
+        <meta key="desc" name="description" content={meta.description} />
+        <meta
+          name="keywords"
+          content="dictionary, Swiss German, languag, translation, dialect, vocabulary, multilingual"
+        />
+        <meta name="author" content="Dialektli" />
 
-      <DefaultSeo
-        {...defailtHeadData({
-          title: t("title"),
-          description: t("description"),
-        })}
-      />
-    </Head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0"
+        />
+        <meta property="og:locale" content="de_CH" />
+
+        <meta property="og:type" content={meta.openGraph?.type} />
+        <meta property="og:site_name" content={meta.title} />
+        <meta property="og:title" content={meta.title} />
+        <meta property="og:description" content={meta.description} />
+        <meta
+          property="og:image"
+          content="https://dialektli.ch/_next/static/media/image1_0.459a6483.jpg"
+        />
+        <link rel="canonical" href={meta.canonical} />
+      </Head>
+      <DefaultSeo {...meta} />
+    </>
   )
 }
 
