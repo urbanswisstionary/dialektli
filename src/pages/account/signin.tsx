@@ -9,7 +9,7 @@ import Button from "@/ui/Button"
 import { getStaticPropsTranslations } from "@/utils/i18n"
 import { useTranslation } from "next-i18next"
 import { NextSeo } from "next-seo"
-import FacebookIcon from "@/ui/icons/FacebookIcon"
+// import FacebookIcon from "@/ui/icons/FacebookIcon"
 import { BuiltInProviderType } from "next-auth/providers"
 
 const SigninPage: NextPage = () => {

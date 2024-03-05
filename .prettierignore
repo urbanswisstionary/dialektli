@@ -3,3 +3,5 @@
 generated/
 node_modules/
 prisma/migrations/
+
+*.md

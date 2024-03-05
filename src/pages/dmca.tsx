@@ -5,10 +5,10 @@ import { GetStaticProps, NextPage } from "next"
 import Layout from "@/features/layout/layout"
 import Typography from "@mui/joy/Typography"
 import { getStaticPropsTranslations } from "@/utils/i18n"
-import { useTranslation } from "next-i18next"
+// import { useTranslation } from "next-i18next"
 
 const DMCAPage: NextPage = () => {
-  const { t } = useTranslation("common", { keyPrefix: "guidelinesPage" })
+  // const { t } = useTranslation("common", { keyPrefix: "guidelinesPage" })
 
   return (
     <Layout hideSidebar>

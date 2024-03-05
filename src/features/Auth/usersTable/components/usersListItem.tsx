@@ -1,7 +1,5 @@
 import type { FC } from "react"
-import Box from "@mui/joy/Box"
 import type { AdminUsersFragmentFragment } from "@@/generated/graphql"
-import TermStatusChip from "../../../../ui/TermStatusChip"
 import Typography from "@mui/joy/Typography"
 import ListItem from "@mui/joy/ListItem"
 import ListItemContent from "@mui/joy/ListItemContent"
