@@ -33,6 +33,7 @@ export const TermFragment = graphql(/* GraphQL */ `
       synonymOf {
         id
         title
+        cantons
       }
     }
   }

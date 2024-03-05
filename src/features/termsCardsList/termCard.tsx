@@ -22,6 +22,8 @@ import { setQueryOnPage } from "@/utils/setQueryOnPage"
 import TermCardShareButtons from "./termCardShareButton"
 import List from "@mui/joy/List"
 import ListItem from "@mui/joy/ListItem"
+import ListDivider from "@mui/joy/ListDivider"
+import Grid from "@mui/joy/Grid"
 
 const synonymPath = (termId: string = "[id]") => `/term/${termId}`
 
@@ -70,19 +72,35 @@ const TermCard: FC<TermCardProps> = ({ term, disableActions }) => {
         <List>
           {term.synonyms.length ? (
             term.synonyms.map(({ synonymOf: s }, i) => (
-              <div key={i}>
-                <ListItem key={i}>
-                  <JoyLink href={synonymPath(s.id)} level="body-sm">
-                    {s.title}
-                  </JoyLink>
-                </ListItem>
-              </div>
+              <ListItem key={i}>
+                <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+                  <Grid xs={8}>
+                    <JoyLink href={synonymPath(s.id)} level="body-sm">
+                      {s.title}
+                    </JoyLink>
+                  </Grid>
+                  <Grid
+                    xs={4}
+                    sx={{
+                      display: "flex",
+                      justifyContent: "end",
+                      flexWrap: "wrap",
+                      gap: "2px",
+                    }}
+                  >
+                    {s.cantons.map((canton, i) => (
+                      <Flag key={i} mode="canton" code={canton} />
+                    ))}
+                  </Grid>
+                </Grid>
+              </ListItem>
             ))
           ) : (
             <ListItem>
               <Typography level="body-sm">Nothing yet :/</Typography>
             </ListItem>
           )}
+          <ListDivider />
           <ListItem>
             <JoyLink
               href={`/term/new?synonym=${term.id}`}
