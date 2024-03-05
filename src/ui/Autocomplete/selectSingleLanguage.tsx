@@ -17,6 +17,7 @@ type SelectSingleLanguageProps = Omit<
   placeholder?: string
   helperText?: string
   label?: string
+  disableClearable?: boolean
 }
 
 const SelectSingleLanguage: FC<SelectSingleLanguageProps> = ({
@@ -25,6 +26,7 @@ const SelectSingleLanguage: FC<SelectSingleLanguageProps> = ({
   label,
   helperText,
   placeholder,
+  disableClearable,
   ...props
 }) => {
   const { t } = useTranslation("common")
@@ -39,7 +41,7 @@ const SelectSingleLanguage: FC<SelectSingleLanguageProps> = ({
 
   const valueIndex = useMemo(
     () => options.findIndex((c) => c.code === value),
-    [value, options],
+    [options, value],
   )
 
   return (
@@ -65,6 +67,7 @@ const SelectSingleLanguage: FC<SelectSingleLanguageProps> = ({
         openText={t("actions.open")}
         clearText={t("actions.clear")}
         closeText={t("actions.close")}
+        disableClearable={disableClearable}
       />
       {helperText ? <FormHelperText>{helperText}</FormHelperText> : null}
     </FormControl>
