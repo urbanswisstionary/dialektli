@@ -18,6 +18,7 @@ import {
   sanitizeExamples,
   sanitizeLanguage,
 } from "@/utils/sanitizeQueries"
+import { Language } from "@@/generated/graphql"
 
 type Query = ParsedUrlQuery & {
   title?: string
@@ -43,7 +44,7 @@ const NewTermForm: FC = () => {
       sanitizedExamples: sanitizeExamples(
         typeof query.examples === "string" ? [query.examples] : query.examples,
       ),
-      sanitizedLanguage: sanitizeLanguage(query.language),
+      sanitizedLanguage: sanitizeLanguage(query.language) ?? Language.De,
     }),
     [query.cantons, query.examples, query.language],
   )
@@ -118,6 +119,7 @@ const NewTermForm: FC = () => {
           onChange={(language) => {
             onChange("language", language)
           }}
+          disableClearable
         />
         <SelectMultipleLocation
           label={t("term.canton")}
