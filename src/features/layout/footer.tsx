@@ -5,42 +5,46 @@ import SelectLocale from "@/ui/Select/selectLocale"
 import Grid, { GridProps } from "@mui/joy/Grid"
 import NextLink from "next/link"
 import JoyLink, { LinkProps } from "@mui/joy/Link"
+import { useTranslation } from "next-i18next"
 
-const Footer: FC = () => (
-  <Box
-    component="footer"
-    sx={{
-      width: "100%",
-      maxWidth: "1024px",
-      margin: "0 auto",
-      mt: "auto",
-      pt: 10,
-    }}
-  >
-    <Grid container spacing={{ xs: 2, md: 3 }} sx={{ flexGrow: 1 }}>
-      <GridItem>
-        <Link href="/tos">Terms of Service</Link>
-      </GridItem>
-      <GridItem>
-        <Link href="/privacy-policy">Privacy Policy</Link>
-      </GridItem>
-      <GridItem>
-        <Link href="/dmca">DMCA</Link>
-      </GridItem>
-      <GridItem>
-        <Link href="/bug-report">Bug Report</Link>
-      </GridItem>
-      <Grid xs={12} sm={3} md={3}>
-        <SelectLocale />
+const Footer: FC = () => {
+  const { t } = useTranslation("common", { keyPrefix: "layout.footer" })
+  return (
+    <Box
+      component="footer"
+      sx={{
+        width: "100%",
+        maxWidth: "1024px",
+        margin: "0 auto",
+        mt: "auto",
+        pt: 10,
+      }}
+    >
+      <Grid container spacing={{ xs: 2, md: 3 }} sx={{ flexGrow: 1 }}>
+        <GridItem>
+          <Link href="/tos">{t("termsOfService")}</Link>
+        </GridItem>
+        <GridItem>
+          <Link href="/privacy-policy">{t("privacyPolicy")}</Link>
+        </GridItem>
+        <GridItem>
+          <Link href="/dmca">{t("dmca")}</Link>
+        </GridItem>
+        <GridItem>
+          <Link href="/bug-report">{t("bugReport")}</Link>
+        </GridItem>
+        <Grid xs={12} sm={3} md={3}>
+          <SelectLocale />
+        </Grid>
+        <Grid xs={12}>
+          <Typography level="body-xs" textAlign="center">
+            © Dialektli {new Date().getFullYear()}
+          </Typography>
+        </Grid>
       </Grid>
-      <Grid xs={12}>
-        <Typography level="body-xs" textAlign="center">
-          © Dialektli {new Date().getFullYear()}
-        </Typography>
-      </Grid>
-    </Grid>
-  </Box>
-)
+    </Box>
+  )
+}
 
 export default Footer
 

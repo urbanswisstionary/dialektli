@@ -2,6 +2,7 @@
   "true": "Wahr",
   "false": "Falsch",
   "noData": "Keine Daten",
+  "landingPageTitle": "Dialektli: Ein umfassendes Repositorium zeitgenössischer Deutschschweizer Sprachschätze",
   "selectLanguage": {
     "title": "Sprache auswählen",
     "en": "English",
@@ -23,6 +24,12 @@
       "users": "Benutzer",
       "createNewUser": "Neuen Benutzer erstellen",
       "rolesAndPermissions": "Rollen und Berechtigungen"
+    },
+    "footer": {
+      "termsOfService": "Nutzungsbedingungen",
+      "privacyPolicy": "Datenschutzbestimmungen",
+      "dmca": "DMCA",
+      "bugReport": "einen Fehler melden"
     }
   },
   "filterBy": {

@@ -75,7 +75,7 @@ const Sidebar: FC = () => {
       />
       <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
         <Link href="/" passHref>
-          <Logo size="md" />
+          <Logo />
         </Link>
 
         <ColorSchemeToggle sx={{ ml: "auto" }} />

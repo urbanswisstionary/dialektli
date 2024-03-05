@@ -9,9 +9,6 @@ import SelectSingleLocation from "@/ui/Autocomplete/selectSingleLocation"
 import { ParsedUrlQuery } from "querystring"
 import { useRouter } from "next/router"
 import { setQueryOnPage } from "@/utils/setQueryOnPage"
-import SelectLetter from "@/ui/Select/selectLetter"
-import Accordion from "@/ui/Accordion"
-import TermsCardsList from "@/features/termsCardsList"
 import { usePaginationState } from "@/hooks/usePaginationState"
 import NewTermButton from "@/ui/NewTermButton"
 import { useTranslation } from "next-i18next"
@@ -19,6 +16,15 @@ import { getStaticPropsTranslations } from "@/utils/i18n"
 import { useMemo } from "react"
 import { sanitizeCanton, sanitizeFirstChar } from "@/utils/sanitizeQueries"
 import { Typography } from "@mui/joy"
+import dynamic from "next/dynamic"
+
+const SelectLetter = dynamic(() => import("@/ui/Select/selectLetter"), {
+  ssr: false,
+})
+const Accordion = dynamic(() => import("@/ui/Accordion"), { ssr: false })
+const TermsCardsList = dynamic(() => import("@/features/termsCardsList"), {
+  ssr: false,
+})
 
 type Query = ParsedUrlQuery & {
   q?: string
@@ -65,12 +71,8 @@ const Home: NextPage = () => {
   return (
     <Layout hideSidebar={!me}>
       <Stack sx={{ mt: 1, mb: 3, gap: 2 }}>
-        <Typography
-          level="title-lg"
-          component="h1"
-          sx={{ visibility: "hidden", height: 0 }}
-        >
-          {t("seo.description")}
+        <Typography level="title-md" component="h1">
+          {t("landingPageTitle")}
         </Typography>
         <Box
           sx={{

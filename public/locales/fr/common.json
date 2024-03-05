@@ -2,6 +2,7 @@
   "true": "Vrai",
   "false": "Faux",
   "noData": "Aucune donnée",
+  "landingPageTitle": "Dialektli: Un répertoire complet des trésors contemporains de la langue suisse allemande",
   "selectLanguage": {
     "title": "Choisir la langue"
   },
@@ -16,6 +17,12 @@
       "users": "Utilisateurs",
       "createNewUser": "Créer un nouvel utilisateur",
       "rolesAndPermissions": "Rôles et permissions"
+    },
+    "footer": {
+      "termsOfService": "Conditions d'utilisation",
+      "privacyPolicy": "Politique de confidentialité",
+      "dmca": "DMCA",
+      "bugReport": "Signaler un bug"
     }
   },
   "filterBy": {
