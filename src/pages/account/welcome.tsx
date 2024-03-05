@@ -1,9 +1,9 @@
 import LayoutWithImage from "@/features/layout/layoutWithImage"
 import { useMe } from "@/hooks/useUsers"
-import Link from "@mui/joy/Link"
+
 import { GetStaticProps, NextPage } from "next"
 import dynamic from "next/dynamic"
-import NextLink from "next/link"
+
 import { useRouter } from "next/router"
 import Box from "@mui/joy/Box"
 import CircularProgress from "@mui/joy/CircularProgress"
@@ -26,10 +26,10 @@ const WelcomePage: NextPage = () => {
   const router = useRouter()
   const { me, loading: meLoading } = useMe()
 
-  // if (me && me.name.length) {
-  //   router.replace(`/account/profile`)
-  //   return <>redirecting...</>
-  // }
+  if (me && me.name.length) {
+    router.replace(`/account/profile`)
+    return <>redirecting...</>
+  }
 
   return (
     <>
