@@ -99,7 +99,7 @@ const TermCard: FC<TermCardProps> = ({ term, disableActions }) => {
             </TermCardActionButton>
           </Box>
         </CardActions>
-        <CardActions sx={{ justifyContent: "center", mt: 2 }}>
+        <CardActions sx={{ justifyContent: "center", mt: 2, p: 0 }}>
           <TermCardShareButtons term={term} />
         </CardActions>
       </CardOverflow>

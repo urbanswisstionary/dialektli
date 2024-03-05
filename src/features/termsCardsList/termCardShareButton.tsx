@@ -1,5 +1,5 @@
 import { TermFragmentFragment } from "@@/generated/graphql"
-import { CSSProperties, FC } from "react"
+import type { FC } from "react"
 import Stack from "@mui/joy/Stack"
 import ContentCopyIcon from "@mui/icons-material/ContentCopy"
 import IconButton from "@mui/joy/IconButton"
@@ -27,60 +27,47 @@ const WhatsappShare = dynamic(
   { ssr: false },
 )
 
-const shareButtonStyles: CSSProperties = {
-  paddingTop: "1px",
-  display: "flex",
-  borderRadius: "50%",
-}
 const TermCardShareButtons: FC<{
   term: TermFragmentFragment
 }> = ({ term }) => {
   const url = `${typeof window !== "undefined" ? window?.location.origin : ""}/term/${term.id}`
+
+  const buttonProps = {
+    url,
+    title: term.title,
+    size: 31,
+    round: true,
+  } as const
   return (
     <Stack
       direction="row"
       gap={1}
-      alignItems={"start"}
-      sx={{ svg: { borderRadius: "50%" } }}
+      alignItems={"flex-start"}
+      sx={{ transform: "scale(0.75)" }}
     >
       <FacebookShare
-        url={url}
+        {...buttonProps}
         quote={term.content ?? term.title}
         hashtag={`#${term.title}`}
-        size={31}
         aria-label="Share on Facebook"
-        style={shareButtonStyles}
       />
 
       <TwitterShare
-        url={url}
-        title={term.title}
+        {...buttonProps}
         hashtags={[`#${term.title}`]}
-        size={31}
         aria-label="Share on Twitter"
-        style={shareButtonStyles}
       />
-      <LinkedinShare
-        url={url}
-        size={31}
-        aria-label="Share on Linkedin"
-        style={shareButtonStyles}
-      />
+      <LinkedinShare {...buttonProps} aria-label="Share on Linkedin" />
       <WhatsappShare
-        url={url}
-        title={term.title}
+        {...buttonProps}
         separator=":: "
-        size={31}
         aria-label="Share via Whatsapp"
-        style={shareButtonStyles}
       />
       <EmailShare
-        url={url}
+        {...buttonProps}
         subject={term.title}
         body={term.content ?? ""}
-        size={31}
         aria-label="Share via E-mail"
-        style={shareButtonStyles}
       />
       <IconButton
         sx={{
@@ -89,7 +76,6 @@ const TermCardShareButtons: FC<{
           ":hover": {
             background: "var(--joy-palette-background-level2)",
           },
-          padding: "7px 10px",
         }}
         size="sm"
         title={url}
