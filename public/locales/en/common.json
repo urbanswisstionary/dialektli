@@ -12,7 +12,7 @@
       "home": "Home",
       "support": "Support",
       "profile": "My Profile",
-      "terms": "My Terms",
+      "terms": "My Expressions",
       "users": "Users",
       "createNewUser": "Create New User",
       "rolesAndPermissions": "Roles & Permissions"
@@ -24,7 +24,7 @@
     "language": "Filter by Language"
   },
   "newTermButton": {
-    "newTerm": "New Term"
+    "newTerm": "New Expression"
   },
   "actions": {
     "search": "Search",
@@ -101,7 +101,7 @@
       "noUserFound": "No user found, please try to <0>Sign In</0> again"
     },
     "myTerms": {
-      "title": "Terms"
+      "title": "Expressions"
     }
   },
   "guidelinesPage": {
@@ -134,24 +134,23 @@
     ]
   },
   "term": {
-    "term": "Term",
-    "description": "Description",
+    "term": "Expression",
+    "description": "Definition",
     "author": "Author",
-    "country": "Country",
+    "language": "Language",
     "canton": "Canton",
-    "title": "term",
+    "title": "Expression",
     "status": "Status",
     "flagged": "Flagged",
     "published": "Published",
     "unpublished": "Unpublished",
     "updatedAt": "Updated At",
     "examples": "Examples",
-    "pleaseSignInForTermAction": "Please <0>Sign In</0> to '{{action}}' this term.",
+    "pleaseSignInForTermAction": "Please <0>Sign In</0> to '{{action}}' this expression.",
     "cantonFieldPlaceholder": "Select canton",
-    "countryFieldPlaceholder": "Select country",
-    "cantonFieldHelperText": "Select the cantons this term is associated with",
+    "cantonFieldHelperText": "Select the cantons this expression is associated with",
     "descriptionFieldHelperText": "<bold>Write for a large audience.</bold> Lots of people will read this, so give some background information.",
-    "examplesFieldHelperText": "Provide examples of how this term is used in context, or how it is used in a sentence. This will help others understand the term better.",
+    "examplesFieldHelperText": "Provide examples of how this expression is used in context, or how it is used in a sentence. This will help others understand the expression better.",
     "newTerm": {
       "title": "New Expression",
       "description": "All the definitions were written by people just like you. Now's your chance to add your own!",
@@ -160,16 +159,16 @@
       }
     },
     "editTerm": {
-      "title": "Edit Term",
-      "notAuthorizedWarning": "You are not authorized to edit this term",
-      "claimOwnership": "If you contributed this value and would like to <0>Claim Ownership</0> over this value.",
-      "claimOwnershipAnonymous": "To make changes, please log in to your account and <0>Claim Ownership</0> of the term, or in case you prefer to remain anonymous, your term will be submitted for review by an administrator before being published anonymously.",
+      "title": "Edit Expression",
+      "notAuthorizedWarning": "You are not authorized to edit this expression",
+      "claimOwnership": "If you contributed this exporession and would like to <0>Claim Ownership</0> over this exporession.",
+      "claimOwnershipAnonymous": "To make changes, please log in to your account and <0>Claim Ownership</0> of the expression, or in case you prefer to remain anonymous, your expression will be submitted for review by an administrator before being published anonymously.",
       "claimOwnershipLinkHref": "mailto:urbanswisstionary@gmail.com?subject=Claim ownership over '{{termTitle}}', id '{{termId}}'&body=Hi, I would like to claim ownership over '{{termTitle}}', id '{{termId}}' and here I provide proofs of my claim.",
       "addExample": "Add another example",
       "deleteExample": "Delete example"
     },
     "reviewGuidelines": {
-      "pleaseReviewContentGuidelines": "Please review our <0>Content Guidelines</0> before submitting your term.",
+      "pleaseReviewContentGuidelines": "Please review our <0>Content Guidelines</0> before submitting your expression.",
       "shortVersion": {
         "title": "Here's the short version:",
         "dos": [

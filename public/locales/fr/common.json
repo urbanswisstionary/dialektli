@@ -12,7 +12,7 @@
       "home": "Accueil",
       "support": "Support",
       "profile": "Mon profil",
-      "terms": "Mes termes",
+      "terms": "Mes expressions",
       "users": "Utilisateurs",
       "createNewUser": "Créer un nouvel utilisateur",
       "rolesAndPermissions": "Rôles et permissions"
@@ -24,7 +24,7 @@
     "language": "Filtrer par langue"
   },
   "newTermButton": {
-    "newTerm": "Nouveau terme"
+    "newTerm": "Nouvelle expression"
   },
   "actions": {
     "search": "Rechercher",
@@ -101,7 +101,7 @@
       "noUserFound": "Aucun utilisateur trouvé, veuillez réessayer de vous <0>connecter</0>"
     },
     "myTerms": {
-      "title": "Termes"
+      "title": "Expressions"
     }
   },
   "guidelinesPage": {
@@ -134,24 +134,23 @@
     ]
   },
   "term": {
-    "term": "Terme",
-    "description": "Description",
+    "term": "Expression",
+    "description": "Définition",
     "author": "Auteur",
-    "country": "Pays",
+    "language": "Langue",
     "canton": "Canton",
-    "title": "terme",
+    "title": "Expression",
     "status": "Statut",
     "flagged": "Signalé",
     "published": "Publié",
     "unpublished": "Non publié",
     "updatedAt": "Mis à jour le",
     "examples": "Exemples",
-    "pleaseSignInForTermAction": "Veuillez <0>vous connecter</0> pour '{{action}}' ce terme.",
+    "pleaseSignInForTermAction": "Veuillez <0>vous connecter</0> pour '{{action}}' ce expression.",
     "cantonFieldPlaceholder": "Sélectionnez le canton",
-    "countryFieldPlaceholder": "Sélectionnez le pays",
-    "cantonFieldHelperText": "Sélectionnez les cantons associés à ce terme",
+    "cantonFieldHelperText": "Sélectionnez les cantons auxquels cette expression est associée",
     "descriptionFieldHelperText": "<bold>Écrivez pour un large public.</bold> Beaucoup de personnes liront ceci, alors donnez quelques informations de base.",
-    "examplesFieldHelperText": "Fournissez des exemples de la façon dont ce terme est utilisé dans le contexte, ou comment il est utilisé dans une phrase. Cela aidera les autres à comprendre le terme.",
+    "examplesFieldHelperText": "Fournissez des exemples de la manière dont cette expression est utilisée dans son contexte, ou de la manière dont elle est utilisée dans une phrase. Cela aidera les autres à mieux comprendre l'expression.",
     "newTerm": {
       "title": "Nouvelle expression",
       "description": "Toutes les définitions ont été rédigées par des personnes comme vous. C'est maintenant votre chance d'ajouter la vôtre !",
@@ -160,16 +159,16 @@
       }
     },
     "editTerm": {
-      "title": "Modifier le terme",
-      "notAuthorizedWarning": "Vous n'êtes pas autorisé à modifier ce terme",
-      "claimOwnership": "Si vous avez contribué à cette valeur et souhaitez <0>réclamer la propriété</0> sur cette valeur.",
-      "claimOwnershipAnonymous": "Pour apporter des modifications, veuillez vous connecter à votre compte et <0>Réclamer la propriété</0> du terme, ou si vous préférez rester anonyme, votre terme sera soumis pour examen par un administrateur avant d'être publié de manière anonyme.",
+      "title": "Modifier l'expression",
+      "notAuthorizedWarning": "Vous n'êtes pas autorisé à modifier cette expression",
+      "claimOwnership": "Si vous avez contribué à cette exposition et souhaitez <0>réclamer la propriété</0> sur cette exposition.",
+      "claimOwnershipAnonymous": "Pour apporter des modifications, veuillez vous connecter à votre compte et <0>Réclamer la propriété</0> de l'expression, ou si vous préférez rester anonyme, votre expression sera soumise pour examen par un administrateur avant d'être publié de manière anonyme.",
       "claimOwnershipLinkHref": "mailto:urbanswisstionary@gmail.com?subject=Réclamez la propriété de '{{termTitle}}', identifiant '{{termId}}'&body=Bonjour, je voudrais revendiquer la propriété de '{{termTitle}}', id '{{termId}}' et je fournis ici les preuves de ma réclamation.",
       "addExample": "Ajouter un autre exemple",
       "deleteExample": "Supprimer l'exemple"
     },
     "reviewGuidelines": {
-      "pleaseReviewContentGuidelines": "Veuillez consulter nos <0>Directives de contenu</0> avant de soumettre votre terme.",
+      "pleaseReviewContentGuidelines": "Veuillez consulter nos <0>Consignes relatives au contenu</0> avant de soumettre votre expression.",
       "shortVersion": {
         "title": "Voici la version abrégée :",
         "dos": [
