@@ -18,6 +18,7 @@ import { useTranslation } from "next-i18next"
 import { getStaticPropsTranslations } from "@/utils/i18n"
 import { useMemo } from "react"
 import { sanitizeCanton, sanitizeFirstChar } from "@/utils/sanitizeQueries"
+import { Typography } from "@mui/joy"
 
 type Query = ParsedUrlQuery & {
   q?: string
@@ -64,6 +65,13 @@ const Home: NextPage = () => {
   return (
     <Layout hideSidebar={!me}>
       <Stack sx={{ mt: 1, mb: 3, gap: 2 }}>
+        <Typography
+          level="title-lg"
+          component="h1"
+          sx={{ visibility: "hidden", height: 0 }}
+        >
+          {t("seo.description")}
+        </Typography>
         <Box
           sx={{
             display: "flex",
