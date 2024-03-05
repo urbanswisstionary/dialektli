@@ -17,6 +17,7 @@
     "prisma:generate": "prisma generate",
     "prisma:studio": "prisma studio",
     "prepare": "husky",
+    "generate:sitemap": "tsx scripts/generate-sitemap.ts",
     "seed": "prisma db seed"
   },
   "prisma": {
@@ -84,10 +85,12 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
     "eslint-plugin-react": "^7.33.2",
+    "globby": "^14.0.1",
     "husky": "^9.0.11",
     "prettier": "^3.2.5",
     "prisma": "^5.10.2",
     "ts-node": "^10.9.2",
+    "tsx": "^4.7.1",
     "typescript": "^5.3.3"
   },
   "packageManager": "yarn@4.1.0"
