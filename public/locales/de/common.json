@@ -155,6 +155,7 @@
     "examples": "Beispiele",
     "pleaseSignInForTermAction": "Bitte <0>melden Sie sich an</0>, um '{{action}}' für den Ausdruck.",
     "cantonFieldPlaceholder": "Kanton auswählen",
+    "countryFieldPlaceholder": "Land auswählen",
     "cantonFieldHelperText": "Wählen Sie die Kantone aus, mit denen dieser Ausdruck verbunden ist",
     "descriptionFieldHelperText": "<bold>Schreiben Sie für ein großes Publikum.</bold> Viele Menschen werden dies lesen, also geben Sie einige Hintergrundinformationen.",
     "examplesFieldHelperText": "Geben Sie Beispiele dafür, wie dieser Ausdruck im Kontext verwendet wird, oder wie er in einem Satz verwendet wird. Dies wird anderen helfen, den Ausdruck besser zu verstehen.",

@@ -148,6 +148,7 @@
     "examples": "Exemples",
     "pleaseSignInForTermAction": "Veuillez <0>vous connecter</0> pour '{{action}}' ce expression.",
     "cantonFieldPlaceholder": "Sélectionnez le canton",
+    "countryFieldPlaceholder": "Sélectionnez le pays",
     "cantonFieldHelperText": "Sélectionnez les cantons auxquels cette expression est associée",
     "descriptionFieldHelperText": "<bold>Écrivez pour un large public.</bold> Beaucoup de personnes liront ceci, alors donnez quelques informations de base.",
     "examplesFieldHelperText": "Fournissez des exemples de la manière dont cette expression est utilisée dans son contexte, ou de la manière dont elle est utilisée dans une phrase. Cela aidera les autres à mieux comprendre l'expression.",
