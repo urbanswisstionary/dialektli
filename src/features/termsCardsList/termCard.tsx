@@ -101,7 +101,7 @@ const TermCard: FC<TermCardProps> = ({ term, disableActions }) => {
               level="title-sm"
               fontWeight={600}
             >
-              Suggest Synonym
+              {t("term.suggestSynonym")}
             </JoyLink>
           </ListItem>
         </List>

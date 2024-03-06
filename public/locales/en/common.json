@@ -189,7 +189,8 @@
           { "title": "never post people's personal information." }
         ]
       }
-    }
+    },
+    "suggestSynonym": "Expand our dictionary - suggest a synonym!"
   },
   "404Page": {
     "title": "404",

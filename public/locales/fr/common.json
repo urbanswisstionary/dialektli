@@ -191,7 +191,8 @@
           }
         ]
       }
-    }
+    },
+    "suggestSynonym": "Élargissez notre dictionnaire - proposez un synonyme !"
   },
   "404Page": {
     "title": "404",
