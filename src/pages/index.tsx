@@ -15,7 +15,6 @@ import { useTranslation } from "next-i18next"
 import { getStaticPropsTranslations } from "@/utils/i18n"
 import { useMemo } from "react"
 import { sanitizeCanton, sanitizeFirstChar } from "@/utils/sanitizeQueries"
-import { Typography } from "@mui/joy"
 import dynamic from "next/dynamic"
 
 const SelectLetter = dynamic(() => import("@/ui/Select/selectLetter"), {
@@ -71,9 +70,6 @@ const Home: NextPage = () => {
   return (
     <Layout hideSidebar={!me}>
       <Stack sx={{ mt: 1, mb: 3, gap: 2 }}>
-        <Typography level="title-md" component="h1">
-          {t("landingPageTitle")}
-        </Typography>
         <Box
           sx={{
             display: "flex",
