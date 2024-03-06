@@ -70,37 +70,31 @@ const TermCard: FC<TermCardProps> = ({ term, disableActions }) => {
           Synonyms:
         </Typography>
         <List>
-          {term.synonyms.length ? (
-            term.synonyms.map(({ synonymOf: s }, i) => (
-              <ListItem key={i}>
-                <Grid container spacing={2} sx={{ flexGrow: 1 }}>
-                  <Grid xs={8}>
-                    <JoyLink href={synonymPath(s.id)} level="body-sm">
-                      {s.title}
-                    </JoyLink>
-                  </Grid>
-                  <Grid
-                    xs={4}
-                    sx={{
-                      display: "flex",
-                      justifyContent: "end",
-                      flexWrap: "wrap",
-                      gap: "2px",
-                    }}
-                  >
-                    {s.cantons.map((canton, i) => (
-                      <Flag key={i} mode="canton" code={canton} />
-                    ))}
-                  </Grid>
+          {term.synonyms.map(({ synonymOf: s }, i) => (
+            <ListItem key={i}>
+              <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+                <Grid xs={8}>
+                  <JoyLink href={synonymPath(s.id)} level="body-sm">
+                    {s.title}
+                  </JoyLink>
                 </Grid>
-              </ListItem>
-            ))
-          ) : (
-            <ListItem>
-              <Typography level="body-sm">Nothing yet :/</Typography>
+                <Grid
+                  xs={4}
+                  sx={{
+                    display: "flex",
+                    justifyContent: "end",
+                    flexWrap: "wrap",
+                    gap: "2px",
+                  }}
+                >
+                  {s.cantons.map((canton, i) => (
+                    <Flag key={i} mode="canton" code={canton} />
+                  ))}
+                </Grid>
+              </Grid>
             </ListItem>
-          )}
-          <ListDivider />
+          ))}
+          {term.synonyms.length ? <ListDivider /> : null}
           <ListItem>
             <JoyLink
               href={`/term/new?synonym=${term.id}`}
