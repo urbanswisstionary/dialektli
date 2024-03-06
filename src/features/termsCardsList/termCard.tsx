@@ -112,7 +112,9 @@ const TermCard: FC<TermCardProps> = ({ term, disableActions }) => {
         <CardActions sx={{ justifyContent: "space-between" }}>
           {/* author */}
           <Stack direction="row" gap={1}>
-            <Typography level="title-sm">{t("term.author")}:</Typography>
+            <Typography level="title-sm" sx={{ wordBreak: "normal" }}>
+              {t("term.author")}:
+            </Typography>
             <JoyLink
               level="body-sm"
               onClick={() =>
