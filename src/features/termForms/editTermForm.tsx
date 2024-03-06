@@ -3,7 +3,7 @@ import Card from "@/ui/Card"
 import WordInput from "./components/wordInput"
 import WordContentInput from "./components/wordContentInput"
 import WordExamplesInput from "./components/wordExamplesInput"
-import { useUpdateTermMutations } from "@/hooks/useTerms"
+import { useDeleteTermMutation, useUpdateTermMutations } from "@/hooks/useTerms"
 import {
   Language,
   TermFragmentFragment,
@@ -17,6 +17,7 @@ import Link from "@mui/joy/Link"
 import SelectMultipleLocation from "@/ui/Autocomplete/selectMultipleLocations"
 import { Trans, useTranslation } from "next-i18next"
 import SelectSingleLanguage from "@/ui/Autocomplete/selectSingleLanguage"
+import Checkbox from "./components/checkbox"
 
 type EditTermState = {
   title?: string
@@ -24,20 +25,20 @@ type EditTermState = {
   cantons?: string[]
   examples?: string[]
   language?: Language
+  published?: boolean
 }
 
 const EditTermForm: FC<{
   term: TermFragmentFragment
   authorized: boolean
-  reviewBeforPublish?: boolean
-  anonymous?: boolean
-}> = ({ term, authorized, reviewBeforPublish, anonymous }) => {
+}> = ({ term, authorized }) => {
   const { t } = useTranslation("common")
 
   const router = useRouter()
+  const { deleteTerm, loading: loadingDeleteTerm } = useDeleteTermMutation()
   const {
     updateTerm,
-    loading: updateTermLoading,
+    loading: loadingUpdateTerm,
     data: updateTermData,
   } = useUpdateTermMutations()
   const [editTermState, setEditTermState] = useState<EditTermState>({})
@@ -64,9 +65,9 @@ const EditTermForm: FC<{
   ) => setEditTermState((prev) => ({ ...prev, [key]: value }))
 
   const disableFields =
-    !authorized || (updateTermLoading && !!updateTermData?.updateTerm?.id)
+    !authorized || (loadingUpdateTerm && !!updateTermData?.updateTerm?.id)
   const preventSubmit =
-    !authorized || updateTermLoading || (!changesFound && term.published)
+    !authorized || loadingUpdateTerm || (!changesFound && term.published)
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
@@ -77,10 +78,10 @@ const EditTermForm: FC<{
       content: editTermState.content,
       cantons: editTermState.cantons,
       examples: editTermState.examples,
-      published: true,
+      published: editTermState.published,
     }
     updateTerm(updateTermInput, () =>
-      router.push("/account/profile?view=terms"),
+      router.push("/account/profile?view=expressions"),
     )
   }
 
@@ -104,38 +105,35 @@ const EditTermForm: FC<{
             <Typography level="body-lg" color="warning" p={2}>
               {t("term.editTerm.notAuthorizedWarning")}
             </Typography>
-            {!reviewBeforPublish ? (
-              <Typography level="body-md" color="warning" px={2}>
-                <Trans
-                  i18nKey={"term.editTerm.claimOwnership"}
-                  components={[claimOwnershipLink]}
-                />
-              </Typography>
-            ) : null}
-          </>
-        ) : null}
 
-        {reviewBeforPublish && anonymous ? (
-          <Typography level="body-md" color="warning" px={2}>
-            <Trans
-              i18nKey={"term.editTerm.claimOwnershipAnonymous"}
-              components={[claimOwnershipLink]}
-            />
-          </Typography>
+            <Typography level="body-md" color="warning" px={2}>
+              <Trans
+                i18nKey={"term.editTerm.claimOwnership"}
+                components={[claimOwnershipLink]}
+              />
+            </Typography>
+          </>
         ) : null}
       </Box>
       <form onSubmit={onSubmit}>
         <Card
           actions={{
-            save: {
-              type: "submit",
-              loading: updateTermLoading,
-              disabled: preventSubmit,
-              title: t("actions.publish"),
+            delete: {
+              disabled: loadingDeleteTerm,
+              onClick: () =>
+                deleteTerm(term.id, () =>
+                  router.push("/account/profile?view=expressions"),
+                ),
             },
             cancel: {
-              disabled: !changesFound || updateTermLoading,
+              disabled: !changesFound || loadingUpdateTerm,
               onClick: () => setEditTermState({}),
+            },
+            save: {
+              type: "submit",
+              loading: loadingUpdateTerm,
+              disabled: preventSubmit,
+              title: t("actions.save"),
             },
           }}
         >
@@ -150,6 +148,16 @@ const EditTermForm: FC<{
             required
             sx={{ pt: 1 }}
             disabled={disableFields}
+          />
+
+          <Checkbox
+            checked={
+              editTermState.published !== undefined
+                ? editTermState.published
+                : term.published
+            }
+            onChange={(published) => onChange("published", published)}
+            label={t("term.published")}
           />
 
           <SelectSingleLanguage

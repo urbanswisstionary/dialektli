@@ -25,8 +25,6 @@ import ListItem from "@mui/joy/ListItem"
 import ListDivider from "@mui/joy/ListDivider"
 import Grid from "@mui/joy/Grid"
 
-const synonymPath = (termId: string = "[id]") => `/term/${termId}`
-
 type TermCardProps = {
   term: TermFragmentFragment
   disableActions?: boolean
@@ -74,7 +72,7 @@ const TermCard: FC<TermCardProps> = ({ term, disableActions }) => {
             <ListItem key={i}>
               <Grid container spacing={2} sx={{ flexGrow: 1 }}>
                 <Grid xs={8}>
-                  <JoyLink href={synonymPath(s.id)} level="body-sm">
+                  <JoyLink href={`/expression/${s.id}`} level="body-sm">
                     {s.title}
                   </JoyLink>
                 </Grid>
@@ -97,7 +95,7 @@ const TermCard: FC<TermCardProps> = ({ term, disableActions }) => {
           {term.synonyms.length ? <ListDivider /> : null}
           <ListItem>
             <JoyLink
-              href={`/term/new?synonym=${term.id}`}
+              href={`/expression/new?synonym=${term.id}`}
               level="title-sm"
               fontWeight={600}
             >
@@ -121,7 +119,7 @@ const TermCard: FC<TermCardProps> = ({ term, disableActions }) => {
                 setQueryOnPage(router, { author: term.author.name })
               }
             >
-              {term.author.name ?? "anonymous"}
+              {term.author.name}
             </JoyLink>
           </Stack>
 

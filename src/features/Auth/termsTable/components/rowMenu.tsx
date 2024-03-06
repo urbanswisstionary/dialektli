@@ -42,7 +42,7 @@ const RowMenu: FC<{ term: AdminTermFragmentFragment }> = ({ term }) => {
           <MoreHorizRoundedIcon />
         </MenuButton>
         <Menu size="sm" sx={{ minWidth: 140 }}>
-          <MenuItem component={Link} href={`/term/${term.id}/edit`}>
+          <MenuItem component={Link} href={`/expression/${term.id}/edit`}>
             {t("edit")}
           </MenuItem>
 

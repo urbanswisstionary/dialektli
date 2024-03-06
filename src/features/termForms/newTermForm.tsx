@@ -74,7 +74,7 @@ const NewTermForm: FC = () => {
           synonymId: synonym,
         },
         (termId) => {
-          if (termId) router.replace(`/term/${termId}/edit?review`)
+          if (termId) router.replace(`/expression/${termId}/edit`)
         },
       )
     } catch (error) {

@@ -14,7 +14,7 @@ import NoUserFound from "@/features/Auth/profile/components/noUserFound"
 const MyProfile = dynamic(() => import("@/features/Auth/profile"), {
   ssr: false,
 })
-const TermsTable = dynamic(() => import("@/features/Auth/termsTable"), {
+const ExpressionsTable = dynamic(() => import("@/features/Auth/termsTable"), {
   ssr: false,
 })
 
@@ -23,7 +23,7 @@ const UsersTable = dynamic(() => import("@/features/Auth/usersTable"), {
 })
 
 type Query = ParsedUrlQuery & {
-  view?: "terms" | "users"
+  view?: "expressions" | "users"
 }
 
 const ProfilePage: NextPage = () => {
@@ -44,8 +44,8 @@ const ProfilePage: NextPage = () => {
             </Stack>
           ) : !me ? (
             <NoUserFound />
-          ) : view === "terms" ? (
-            <TermsTable />
+          ) : view === "expressions" ? (
+            <ExpressionsTable />
           ) : view === "users" && isAdmin ? (
             <UsersTable />
           ) : (

@@ -17,7 +17,7 @@ const EditTermForm = dynamic(
   { ssr: false },
 )
 
-type Query = ParsedUrlQuery & { id: string; review?: string }
+type Query = ParsedUrlQuery & { id: string }
 
 const EditTermPage: NextPage = () => {
   const { t } = useTranslation("common")
@@ -57,12 +57,7 @@ const EditTermPage: NextPage = () => {
             />
           </Stack>
         ) : term ? (
-          <EditTermForm
-            term={term}
-            authorized={authorized}
-            reviewBeforPublish={query.review !== undefined}
-            anonymous={!me}
-          />
+          <EditTermForm term={term} authorized={authorized} />
         ) : (
           <>{t("noData")}</>
         )}

@@ -169,7 +169,6 @@
       "title": "Modifier l'expression",
       "notAuthorizedWarning": "Vous n'êtes pas autorisé à modifier cette expression",
       "claimOwnership": "Si vous avez contribué à cette exposition et souhaitez <0>réclamer la propriété</0> sur cette exposition.",
-      "claimOwnershipAnonymous": "Pour apporter des modifications, veuillez vous connecter à votre compte et <0>Réclamer la propriété</0> de l'expression, ou si vous préférez rester anonyme, votre expression sera soumise pour examen par un administrateur avant d'être publié de manière anonyme.",
       "claimOwnershipLinkHref": "mailto:urbanswisstionary@gmail.com?subject=Réclamez la propriété de '{{termTitle}}', identifiant '{{termId}}'&body=Bonjour, je voudrais revendiquer la propriété de '{{termTitle}}', id '{{termId}}' et je fournis ici les preuves de ma réclamation.",
       "addExample": "Ajouter un autre exemple",
       "deleteExample": "Supprimer l'exemple"

@@ -176,7 +176,6 @@
       "title": "Ausdruck bearbeiten",
       "notAuthorizedWarning": "Sie sind nicht berechtigt, diesen Ausdruck zu bearbeiten",
       "claimOwnership": "Wenn Sie diesen Wert beigesteuert haben und <0>Eigentum an diesem Wert beanspruchen</0> möchten.",
-      "claimOwnershipAnonymous": "Um Änderungen vorzunehmen, melden Sie sich bitte bei Ihrem Konto an und <0>beanspruchen Sie die Eigentümerschaft</0> des Ausdrucks. Wenn Sie anonym bleiben möchten, wird Ihr Ausdruck vor der anonymen Veröffentlichung von einem Administrator überprüft.",
       "claimOwnershipLinkHref": "mailto:urbanswisstionary@gmail.com?subject=Beanspruchen Sie das Eigentum an '{{termTitle}}', ID '{{termId}}'&body=Hallo, ich möchte Eigentum an '{{termTitle}}', ID, beanspruchen '{{termId}}' und hier liefere ich Beweise für meinen Anspruch.",
       "addExample": "Ein weiteres Beispiel hinzufügen",
       "deleteExample": "Beispiel löschen"

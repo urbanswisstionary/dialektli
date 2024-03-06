@@ -36,7 +36,7 @@ const TermCardShareButtons: FC<{
   term: TermFragmentFragment
 }> = ({ term }) => {
   const { t } = useTranslation("common", { keyPrefix: "seo.share" })
-  const url = `${typeof window !== "undefined" ? window?.location.origin : ""}/term/${term.id}`
+  const url = `${typeof window !== "undefined" ? window?.location.origin : ""}/expression/${term.id}`
 
   const buttonProps = {
     url,

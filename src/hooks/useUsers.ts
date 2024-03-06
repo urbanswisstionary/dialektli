@@ -56,7 +56,7 @@ const useHandleNewUser = (meQuery?: MeQuery) => {
 }
 export const useMe = () => {
   const { status: sessionStatus } = useSession()
-  const { data, refetch, ...rest } = useQuery(ME_QUERY, {
+  const { data, refetch, loading, ...rest } = useQuery(ME_QUERY, {
     fetchPolicy: "cache-and-network",
     skip: sessionStatus !== "authenticated",
   })
@@ -66,8 +66,8 @@ export const useMe = () => {
   return {
     ...getMe(data),
     refetchMe: async () => getMe((await refetch())?.data),
+    loading: loading || sessionStatus === "loading",
     ...rest,
-    sessionStatus,
   }
 }
 export const useVerifyUserNameIsUniqueQuery = (

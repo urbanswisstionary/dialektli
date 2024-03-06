@@ -11,13 +11,23 @@ import { useTranslation } from "next-i18next"
 import { NextSeo } from "next-seo"
 // import FacebookIcon from "@/ui/icons/FacebookIcon"
 import { BuiltInProviderType } from "next-auth/providers"
+import { ParsedUrlQuery } from "querystring"
+import { useRouter } from "next/router"
+
+type Query = ParsedUrlQuery & {
+  redirect?: string
+}
 
 const SigninPage: NextPage = () => {
   const { t } = useTranslation("common", { keyPrefix: "auth.signinPage" })
+
+  const router = useRouter()
+  const query = router.query as Query
+
   const onClick = (provider: BuiltInProviderType) => {
     signIn(provider, {
       redirect: false,
-      callbackUrl: `${window?.location?.origin}`,
+      callbackUrl: `${query.redirect ? query.redirect : "/"}`,
     })
   }
 

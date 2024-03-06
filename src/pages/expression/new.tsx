@@ -4,9 +4,25 @@ import NewTermForm from "@/features/termForms/newTermForm"
 import { useMe } from "@/hooks/useUsers"
 import { getStaticPropsTranslations } from "@/utils/i18n"
 import { NextSeo } from "next-seo"
+import { ParsedUrlQuery } from "querystring"
+import CircularProgress from "@mui/joy/CircularProgress"
+import { useRouter } from "next/router"
+import Stack from "@mui/joy/Stack"
+
+type Query = ParsedUrlQuery & {
+  synonym?: string
+}
 
 const NewTermPage: NextPage = () => {
-  const { me } = useMe()
+  const { me, loading: loadingMe } = useMe()
+  const router = useRouter()
+  const query = router.query as Query
+
+  if (!loadingMe && !me) {
+    const redirectParam = `?redirect=/expression/new${query.synonym ? `?synonym=${query.synonym}` : ""}`
+    router?.push(`/account/signin${redirectParam}`)
+    return <>Redirecting ...</>
+  }
 
   return (
     <>
@@ -25,7 +41,17 @@ const NewTermPage: NextPage = () => {
       />
 
       <Layout hideSidebar={!me}>
-        <NewTermForm />
+        {loadingMe ? (
+          <Stack>
+            <CircularProgress
+              sx={{ alignSelf: "center", my: 5 }}
+              size="lg"
+              variant="soft"
+            />
+          </Stack>
+        ) : (
+          <NewTermForm />
+        )}
       </Layout>
     </>
   )

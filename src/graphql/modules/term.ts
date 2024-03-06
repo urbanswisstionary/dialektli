@@ -253,6 +253,7 @@ builder.mutationFields((t) => ({
             ),
             language: language ?? undefined,
             author: { connect: { id: author?.id } },
+            published: true,
           },
         })
         if (synonymId) {

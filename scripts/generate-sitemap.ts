@@ -9,7 +9,7 @@ const func = async () => {
     // List of pages
     "*/pages/**/*.tsx",
     "!*/pages/account/*.tsx",
-    "!*/pages/term/[id]/edit.tsx",
+    "!*/pages/expression/[id]/edit.tsx",
     "!*/pages/_*.tsx",
     "!*/pages/api", // Exclude API routes
     "!*/pages/404.tsx", // Exclude custom 404 page
