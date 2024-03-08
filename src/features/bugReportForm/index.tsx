@@ -139,6 +139,7 @@ const BugReportForm: FC = () => {
         textareaProps={{
           placeholder: t("reproductionSteps.placeholder"),
           name: "reproductionSteps",
+          minRows: 9,
         }}
         disabled={formState.loading}
       />
