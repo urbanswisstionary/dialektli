@@ -9,6 +9,7 @@ import Menu from "@mui/joy/Menu"
 import MenuButton from "@mui/joy/MenuButton"
 import MenuItem from "@mui/joy/MenuItem"
 import { useTranslation } from "next-i18next"
+import JoyLink from "@mui/joy/Link"
 
 const EmailShare = dynamic(
   () => import("react-share-lite").then((module) => module.EmailShare),
@@ -93,10 +94,21 @@ const TermCardShareButtons: FC<{
         <MenuItem
           title={t("copyLink")}
           onClick={() => navigator?.clipboard.writeText(url)}
+          sx={{ justifyContent: "center" }}
         >
-          <IconButton variant="outlined" size="sm">
+          <JoyLink
+            variant="outlined"
+            color="neutral"
+            href={url}
+            onClick={(e) => e.preventDefault()}
+            sx={{
+              py: 0.7,
+              px: 0.7,
+              borderRadius: "sm",
+            }}
+          >
             <ContentCopyIcon fontSize={"small"} />
-          </IconButton>
+          </JoyLink>
         </MenuItem>
       </Menu>
     </Dropdown>
