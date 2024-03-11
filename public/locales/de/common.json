@@ -19,7 +19,7 @@
       "home": "Startseite",
       "support": "Support",
       "profile": "Mein Profil",
-      "terms": "Meine Ausdrücke",
+      "expressions": "Meine Ausdrücke",
       "users": "Benutzer",
       "createNewUser": "Neuen Benutzer erstellen",
       "rolesAndPermissions": "Rollen und Berechtigungen"
@@ -36,8 +36,8 @@
     "firstChar": "Filtern nach erstem Zeichen",
     "language": "Filtern nach Sprache"
   },
-  "newTermButton": {
-    "newTerm": "Neuer Ausdruck"
+  "newExpressionButton": {
+    "newExpression": "Neuer Ausdruck"
   },
   "actions": {
     "search": "Suche",
@@ -112,9 +112,6 @@
       "deleteAccount": "Konto löschen",
       "deleteAccountConfirmation": "Sind Sie sicher, dass Sie Ihr Konto löschen möchten? <bold>Alle Ihre Daten werden gelöscht und können nicht wiederhergestellt werden!</bold>",
       "noUserFound": "Kein Benutzer gefunden, Bitte versuchen Sie erneut, sich <0>anzumelden</0>"
-    },
-    "myTerms": {
-      "title": "Ausdrücke"
     }
   },
   "guidelinesPage": {
@@ -146,8 +143,8 @@
       }
     ]
   },
-  "term": {
-    "term": "Ausdruck",
+  "expression": {
+    "expression": "Ausdruck",
     "description": "Beschreibung",
     "author": "Autor",
     "language": "Sprache",
@@ -161,24 +158,24 @@
     "example": "Beispiel",
     "examples": "Beispiele",
     "synonyms": "Synonyme",
-    "pleaseSignInForTermAction": "Bitte <0>melden Sie sich an</0>, um '{{action}}' für den Ausdruck.",
+    "pleaseSignInForExpressionAction": "Bitte <0>melden Sie sich an</0>, um '{{action}}' für den Ausdruck.",
     "cantonFieldPlaceholder": "Kanton auswählen",
     "countryFieldPlaceholder": "Land auswählen",
     "cantonFieldHelperText": "Wählen Sie die Kantone aus, mit denen dieser Ausdruck verbunden ist",
     "descriptionFieldHelperText": "<bold>Schreiben Sie für ein großes Publikum.</bold> Viele Menschen werden dies lesen, also geben Sie einige Hintergrundinformationen.",
     "examplesFieldHelperText": "Geben Sie Beispiele dafür, wie dieser Ausdruck im Kontext verwendet wird, oder wie er in einem Satz verwendet wird. Dies wird anderen helfen, den Ausdruck besser zu verstehen.",
-    "newTerm": {
+    "newExpression": {
       "title": "Neuer Ausdruck",
       "description": "Alle Definitionen wurden von Menschen wie Ihnen geschrieben. Jetzt haben Sie die Möglichkeit, Ihre eigene hinzuzufügen!",
       "newSynonym": {
         "description": "Erweitere das Lexikon. Ergänze Definitionen."
       }
     },
-    "editTerm": {
+    "editExpression": {
       "title": "Ausdruck bearbeiten",
       "notAuthorizedWarning": "Sie sind nicht berechtigt, diesen Ausdruck zu bearbeiten",
       "claimOwnership": "Wenn Sie diesen Wert beigesteuert haben und <0>Eigentum an diesem Wert beanspruchen</0> möchten.",
-      "claimOwnershipLinkHref": "mailto:urbanswisstionary@gmail.com?subject=Beanspruchen Sie das Eigentum an '{{termTitle}}', ID '{{termId}}'&body=Hallo, ich möchte Eigentum an '{{termTitle}}', ID, beanspruchen '{{termId}}' und hier liefere ich Beweise für meinen Anspruch.",
+      "claimOwnershipLinkHref": "mailto:urbanswisstionary@gmail.com?subject=Beanspruchen Sie das Eigentum an '{{expressionTitle}}', ID '{{expressionId}}'&body=Hallo, ich möchte Eigentum an '{{expressionTitle}}', ID, beanspruchen '{{expressionId}}' und hier liefere ich Beweise für meinen Anspruch.",
       "addExample": "Ein weiteres Beispiel hinzufügen",
       "deleteExample": "Beispiel löschen"
     },

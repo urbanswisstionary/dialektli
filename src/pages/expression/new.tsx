@@ -13,7 +13,7 @@ type Query = ParsedUrlQuery & {
   synonym?: string
 }
 
-const NewTermPage: NextPage = () => {
+const NewExpressionPage: NextPage = () => {
   const { me, loading: loadingMe } = useMe()
   const router = useRouter()
   const query = router.query as Query
@@ -57,7 +57,7 @@ const NewTermPage: NextPage = () => {
   )
 }
 
-export default NewTermPage
+export default NewExpressionPage
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => ({
   props: { ...(await getStaticPropsTranslations(locale)) },

@@ -37,7 +37,7 @@ const AuthedSidebarOptions: FC<{
         link={getLink()}
       />
       <SidebarOption
-        label={t("terms")}
+        label={t("expressions")}
         startDecorator={<AllInboxIcon />}
         selected={isProfilePage && query.view === "expressions"}
         link={getLink({ view: "expressions" })}

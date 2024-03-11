@@ -1,9 +1,9 @@
 import type { FC } from "react"
 import Box from "@mui/joy/Box"
 import RowMenu from "./rowMenu"
-import type { AdminTermFragmentFragment } from "@@/generated/graphql"
-import { formatDate } from "../termsTable.utils"
-import TermStatusChip from "../../../../ui/TermStatusChip"
+import type { AdminExpressionFragmentFragment } from "@@/generated/graphql"
+import { formatDate } from "../expressionsTable.utils"
+import ExpressionStatusChip from "../../../../ui/ExpressionStatusChip"
 import Typography from "@mui/joy/Typography"
 import ListItem from "@mui/joy/ListItem"
 import ListItemContent from "@mui/joy/ListItemContent"
@@ -11,25 +11,27 @@ import ListItemDecorator from "@mui/joy/ListItemDecorator"
 import Stack from "@mui/joy/Stack"
 import Flag from "@/ui/Flag"
 
-const TermsListItem: FC<{ term: AdminTermFragmentFragment }> = ({ term }) => (
+const ExpressionsListItem: FC<{
+  expression: AdminExpressionFragmentFragment
+}> = ({ expression }) => (
   <ListItem sx={{ display: "flex", alignItems: "start", pr: 1 }}>
     <ListItemContent sx={{ display: "flex", gap: 2, alignItems: "start" }}>
       <ListItemDecorator>
-        <RowMenu term={term} />
+        <RowMenu expression={expression} />
       </ListItemDecorator>
 
       <ListItemContent sx={{ flex: 1 }}>
         <Typography fontWeight={600} gutterBottom>
-          {term.title}
+          {expression.title}
         </Typography>
 
         <Typography level="body-xs" gutterBottom>
-          {term.content}
+          {expression.definition}
         </Typography>
 
-        {term.examples.length ? (
+        {expression.examples.length ? (
           <Stack gap={1}>
-            {term.examples.map((example, i) => (
+            {expression.examples.map((example, i) => (
               <Typography
                 key={i}
                 level="body-xs"
@@ -43,16 +45,18 @@ const TermsListItem: FC<{ term: AdminTermFragmentFragment }> = ({ term }) => (
         ) : null}
         <Box sx={{ my: 1 }}>
           <Typography level="body-xs">
-            <b>Last Updated:</b> {formatDate({ date: term.updatedAt })}
+            <b>Last Updated:</b> {formatDate({ date: expression.updatedAt })}
           </Typography>
         </Box>
       </ListItemContent>
       <Stack gap={2} width={120} sx={{ direction: "rtl", pr: 2 }}>
-        {/* <Flag mode="country" code={term.language} /> */}
-        <TermStatusChip status={term.published ? "published" : "unpublished"} />
-        {term.cantons.length ? (
+        {/* <Flag mode="country" code={expression.language} /> */}
+        <ExpressionStatusChip
+          status={expression.published ? "published" : "unpublished"}
+        />
+        {expression.cantons.length ? (
           <Stack direction="row" gap={1} flexWrap="wrap" pb={1}>
-            {term.cantons.map((canton, i) => (
+            {expression.cantons.map((canton, i) => (
               <Flag key={i} mode="canton" code={canton} />
             ))}
           </Stack>
@@ -61,4 +65,4 @@ const TermsListItem: FC<{ term: AdminTermFragmentFragment }> = ({ term }) => (
     </ListItemContent>
   </ListItem>
 )
-export default TermsListItem
+export default ExpressionsListItem

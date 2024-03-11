@@ -9,18 +9,19 @@ import { Language } from "./language"
 builder.prismaObject("Synonym", {
   fields: (t) => ({
     synonym: t.relation("synonym", {
-      description: "synonym of the parent term",
+      description: "synonym of the parent expression",
     }),
     synonymOf: t.relation("synonymOf", {
-      description: "the term that the parent term is a synonym of",
+      description: "the expression that the parent expression is a synonym of",
     }),
   }),
 })
-const TermObject = builder.prismaObject("Term", {
+
+const Expression = builder.prismaObject("Expression", {
   fields: (t) => ({
     id: t.exposeID("id"),
     title: t.exposeString("title"),
-    content: t.exposeString("content", { nullable: true }),
+    definition: t.exposeString("definition", { nullable: true }),
     examples: t.relation("examples"),
     published: t.exposeBoolean("published"),
     createdAt: t.expose("createdAt", { type: "DateTime" }),
@@ -28,12 +29,12 @@ const TermObject = builder.prismaObject("Term", {
     author: t.relation("author"),
     likes: t.relation("likes"),
     likesCount: t.int({
-      resolve: ({ id }) => prisma.like.count({ where: { termId: id } }),
+      resolve: ({ id }) => prisma.like.count({ where: { expressionId: id } }),
     }),
     likedByMe: t.boolean({
       resolve: async ({ id }, _args, { session }) => {
         return (await prisma.like.findFirst({
-          where: { termId: id, authorId: session?.user?.id },
+          where: { expressionId: id, authorId: session?.user?.id },
         }))
           ? true
           : false
@@ -41,12 +42,13 @@ const TermObject = builder.prismaObject("Term", {
     }),
     dislikes: t.relation("dislikes"),
     dislikesCount: t.int({
-      resolve: ({ id }) => prisma.dislike.count({ where: { termId: id } }),
+      resolve: ({ id }) =>
+        prisma.dislike.count({ where: { expressionId: id } }),
     }),
     dislikedByMe: t.boolean({
       resolve: async ({ id }, _args, { session }) => {
         return (await prisma.dislike.findFirst({
-          where: { termId: id, authorId: session?.user?.id },
+          where: { expressionId: id, authorId: session?.user?.id },
         }))
           ? true
           : false
@@ -56,7 +58,7 @@ const TermObject = builder.prismaObject("Term", {
     flaggedByMe: t.boolean({
       resolve: async ({ id }, _args, { session }) => {
         return (await prisma.flag.findFirst({
-          where: { termId: id, authorId: session?.user?.id },
+          where: { expressionId: id, authorId: session?.user?.id },
         }))
           ? true
           : false
@@ -65,22 +67,22 @@ const TermObject = builder.prismaObject("Term", {
     cantons: t.exposeStringList("cantons"),
     language: t.expose("language", { type: Language }),
     synonymOf: t.relation("synonymOf", {
-      description: "the terms that the parent term is a synonym of",
+      description: "the expressions that the parent expression is a synonym of",
     }),
     synonyms: t.relation("synonyms", {
-      description: "synonyms of the parent term",
+      description: "synonyms of the parent expression",
     }),
   }),
 })
 
-const TermsWithCountType = builder.simpleObject("TermsWithCount", {
+const ExpressionsWithCountType = builder.simpleObject("ExpressionsWithCount", {
   fields: (t) => ({
-    terms: t.field({ type: [TermObject], nullable: false }),
+    expressions: t.field({ type: [Expression], nullable: false }),
     count: t.int({ nullable: false }),
   }),
 })
 
-const TermsQueryInput = builder.inputType("TermsQueryInput", {
+const ExpressionsQueryInput = builder.inputType("ExpressionsQueryInput", {
   fields: (t) => ({
     q: t.string(),
     offset: t.int(),
@@ -94,21 +96,21 @@ const TermsQueryInput = builder.inputType("TermsQueryInput", {
 })
 
 builder.queryFields((t) => ({
-  term: t.prismaField({
-    type: "Term",
+  expression: t.prismaField({
+    type: "Expression",
     shield: allow,
     nullable: true,
     args: {
-      data: t.arg({ type: TermIdInput, required: true }),
+      data: t.arg({ type: ExpressionIdInput, required: true }),
     },
-    resolve: async (query, _root, { data: { termId } }, _ctx, _info) =>
-      prisma.term.findUnique({ ...query, where: { id: termId } }),
+    resolve: async (query, _root, { data: { expressionId } }, _ctx, _info) =>
+      prisma.expression.findUnique({ ...query, where: { id: expressionId } }),
   }),
-  termsQuery: t.field({
-    type: TermsWithCountType,
+  expressionsQuery: t.field({
+    type: ExpressionsWithCountType,
     shield: allow,
     nullable: true,
-    args: { data: t.arg({ type: TermsQueryInput, required: true }) },
+    args: { data: t.arg({ type: ExpressionsQueryInput, required: true }) },
     resolve: async (_root, { data }) => {
       const {
         q,
@@ -120,7 +122,7 @@ builder.queryFields((t) => ({
         language,
         authorName,
       } = data
-      const termsWhere: Prisma.TermFindManyArgs = {
+      const expressionsWhere: Prisma.ExpressionFindManyArgs = {
         where: {
           AND: [
             {
@@ -138,28 +140,28 @@ builder.queryFields((t) => ({
               OR: q
                 ? [
                     { title: { contains: q, mode: "insensitive" } },
-                    { content: { contains: q, mode: "insensitive" } },
+                    { definition: { contains: q, mode: "insensitive" } },
                   ]
                 : undefined,
             },
           ],
         },
       }
-      const [terms, count] = await prisma.$transaction([
-        prisma.term.findMany({
-          where: termsWhere.where,
+      const [expressions, count] = await prisma.$transaction([
+        prisma.expression.findMany({
+          where: expressionsWhere.where,
           skip: offset ?? undefined,
           take: limit ?? undefined,
           orderBy: q ? { title: "asc" } : { createdAt: "desc" },
         }),
-        prisma.term.count({ where: termsWhere.where }),
+        prisma.expression.count({ where: expressionsWhere.where }),
       ])
 
-      return { terms, count }
+      return { expressions, count }
     },
   }),
-  adminTerms: t.field({
-    type: TermsWithCountType,
+  adminExpressions: t.field({
+    type: ExpressionsWithCountType,
     shield: permissions.isAdminOrMe,
     nullable: true,
     args: {},
@@ -167,21 +169,21 @@ builder.queryFields((t) => ({
       try {
         if (!session?.user) return null
 
-        const termsWhere: Prisma.TermFindManyArgs = {
+        const expressionsWhere: Prisma.ExpressionFindManyArgs = {
           where: {
             authorId:
               session.user.role === Role.ADMIN ? undefined : session.user.id,
           },
         }
-        const [terms, count] = await prisma.$transaction([
-          prisma.term.findMany({
-            where: termsWhere.where,
+        const [expressions, count] = await prisma.$transaction([
+          prisma.expression.findMany({
+            where: expressionsWhere.where,
             orderBy: { updatedAt: "desc" },
           }),
-          prisma.term.count({ where: termsWhere.where }),
+          prisma.expression.count({ where: expressionsWhere.where }),
         ])
 
-        return { terms, count }
+        return { expressions, count }
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error(error)
@@ -190,93 +192,90 @@ builder.queryFields((t) => ({
   }),
 }))
 
-const CreateTermInput = builder.inputType("CreateTermInput", {
+const CreateExpressionInput = builder.inputType("CreateExpressionInput", {
   fields: (t) => ({
     title: t.string({ required: true }),
-    content: t.string(),
-    examples: t.stringList(),
+    definition: t.string(),
     cantons: t.stringList(),
     language: t.field({ type: Language }),
     synonymId: t.string(),
   }),
 })
 
-const UpdateTermInput = builder.inputType("UpdateTermInput", {
+const UpdateExpressionInput = builder.inputType("UpdateExpressionInput", {
   fields: (t) => ({
     id: t.string({ required: true }),
     title: t.string(),
-    content: t.string(),
+    definition: t.string(),
     published: t.boolean(),
     cantons: t.stringList(),
   }),
 })
 
-const TermActionInput = builder.inputType("TermActionInput", {
+const ExpressionActionInput = builder.inputType("ExpressionActionInput", {
   fields: (t) => ({
-    termId: t.string({ required: true }),
+    expressionId: t.string({ required: true }),
     like: t.boolean(),
     dislike: t.boolean(),
     flag: t.boolean(),
   }),
 })
 
-const TermIdInput = builder.inputType("TermIdInput", {
+const ExpressionIdInput = builder.inputType("ExpressionIdInput", {
   fields: (t) => ({
-    termId: t.string({ required: true }),
+    expressionId: t.string({ required: true }),
   }),
 })
-const CreateTermExampleInput = builder.inputType("CreateTermExampleInput", {
-  fields: (t) => ({
-    termId: t.string({ required: true }),
-    content: t.string({ required: true }),
-  }),
-})
+const CreateExpressionExampleInput = builder.inputType(
+  "CreateExpressionExampleInput",
+  {
+    fields: (t) => ({
+      expressionId: t.string({ required: true }),
+      definition: t.string({ required: true }),
+    }),
+  },
+)
 
-const UpdateTermExampleInput = builder.inputType("UpdateTermExampleInput", {
-  fields: (t) => ({
-    exampleId: t.string({ required: true }),
-    content: t.string({ required: true }),
-  }),
-})
+const UpdateExpressionExampleInput = builder.inputType(
+  "UpdateExpressionExampleInput",
+  {
+    fields: (t) => ({
+      exampleId: t.string({ required: true }),
+      definition: t.string({ required: true }),
+    }),
+  },
+)
 
-const DeleteTermExampleInput = builder.inputType("DeleteTermExampleInput", {
-  fields: (t) => ({
-    exampleId: t.string({ required: true }),
-  }),
-})
+const DeleteExpressionExampleInput = builder.inputType(
+  "DeleteExpressionExampleInput",
+  {
+    fields: (t) => ({
+      exampleId: t.string({ required: true }),
+    }),
+  },
+)
 
 builder.mutationFields((t) => ({
-  createTerm: t.prismaField({
-    type: "Term",
+  createExpression: t.prismaField({
+    type: "Expression",
     shield: permissions.isAuthenticated,
     nullable: true,
-    args: { data: t.arg({ type: CreateTermInput, required: true }) },
+    args: { data: t.arg({ type: CreateExpressionInput, required: true }) },
     resolve: async (
       query,
       _root,
-      { data: { title, content, examples, cantons, language, synonymId } },
+      { data: { title, definition, cantons, language, synonymId } },
       { session },
     ) => {
       try {
         const author = session?.user
         if (!author) throw new ApolloError({ errorMessage: "Not allowed" })
-        const newTerm = await prisma.term.create({
+        const newExpression = await prisma.expression.create({
           ...query,
           data: {
             title,
-            content,
+            definition,
             cantons: cantons ?? [],
-            examples: {
-              createMany: {
-                skipDuplicates: true,
-                data: (examples ?? [])
-                  .filter((example) => !!example.trim().length)
-                  .map((content) => ({
-                    content,
-                    authorId: author.id,
-                  })),
-              },
-            },
             language: language ?? undefined,
             author: { connect: { id: author?.id } },
             published: true,
@@ -285,49 +284,49 @@ builder.mutationFields((t) => ({
         if (synonymId) {
           await prisma.synonym.createMany({
             data: [
-              { synonymId: newTerm.id, synonymOfId: synonymId },
-              { synonymId, synonymOfId: newTerm.id },
+              { synonymId: newExpression.id, synonymOfId: synonymId },
+              { synonymId, synonymOfId: newExpression.id },
             ],
           })
         }
-        return newTerm
+        return newExpression
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error(error)
       }
     },
   }),
-  updateTerm: t.prismaField({
-    type: "Term",
+  updateExpression: t.prismaField({
+    type: "Expression",
     shield: permissions.isAdminOrMe,
     nullable: true,
-    args: { data: t.arg({ type: UpdateTermInput, required: true }) },
+    args: { data: t.arg({ type: UpdateExpressionInput, required: true }) },
     resolve: async (
       query,
       _root,
-      { data: { id, title, content, published, cantons } },
+      { data: { id, title, definition, published, cantons } },
       { session },
       _info,
     ) => {
       try {
         if (!session?.user)
           throw new ApolloError({ errorMessage: "Not allowed" })
-        const term = await prisma.term.findUnique({
+        const expression = await prisma.expression.findUnique({
           where: { id },
           select: { authorId: true },
         })
         if (
-          term?.authorId !== session.user.id &&
+          expression?.authorId !== session.user.id &&
           session.user.role !== Role.ADMIN
         )
           throw new ApolloError({ errorMessage: "Not allowed" })
 
-        return prisma.term.update({
+        return prisma.expression.update({
           ...query,
           where: { id },
           data: {
             title: title ?? undefined,
-            content: content ?? undefined,
+            definition: definition ?? undefined,
             published: published ?? undefined,
             cantons: cantons ? { set: cantons } : undefined,
           },
@@ -338,27 +337,27 @@ builder.mutationFields((t) => ({
       }
     },
   }),
-  deleteTerm: t.prismaField({
-    type: "Term",
+  deleteExpression: t.prismaField({
+    type: "Expression",
     shield: permissions.isAdminOrMe,
     nullable: true,
-    args: { data: t.arg({ type: TermIdInput, required: true }) },
-    resolve: async (query, _root, { data: { termId } }, { session }) => {
+    args: { data: t.arg({ type: ExpressionIdInput, required: true }) },
+    resolve: async (query, _root, { data: { expressionId } }, { session }) => {
       if (!session?.user) throw new ApolloError({ errorMessage: "Not allowed" })
       try {
-        const term = await prisma.term.findFirstOrThrow({
-          where: { id: termId },
+        const expression = await prisma.expression.findFirstOrThrow({
+          where: { id: expressionId },
           select: { authorId: true },
         })
         if (
-          term?.authorId !== session.user.id &&
+          expression?.authorId !== session.user.id &&
           session.user.role !== Role.ADMIN
         )
           throw new ApolloError({ errorMessage: "Not allowed" })
 
-        return prisma.term.delete({
+        return prisma.expression.delete({
           ...query,
-          where: { id: termId },
+          where: { id: expressionId },
         })
       } catch (error) {
         // eslint-disable-next-line no-console
@@ -366,19 +365,23 @@ builder.mutationFields((t) => ({
       }
     },
   }),
-  termAction: t.boolean({
+  expressionAction: t.boolean({
     shield: permissions.isAuthenticated,
     args: {
-      data: t.arg({ type: TermActionInput, required: true }),
+      data: t.arg({ type: ExpressionActionInput, required: true }),
     },
-    resolve: async (_root, { data: { termId, ...data } }, { session }) => {
+    resolve: async (
+      _root,
+      { data: { expressionId, ...data } },
+      { session },
+    ) => {
       try {
         if (!session?.user) return false
 
         const authorId = session.user.id
 
-        const term = await prisma.term.findUnique({
-          where: { id: termId },
+        const expression = await prisma.expression.findUnique({
+          where: { id: expressionId },
           select: {
             likes: { where: { authorId } },
             dislikes: { where: { authorId } },
@@ -386,7 +389,8 @@ builder.mutationFields((t) => ({
           },
         })
 
-        if (!term) throw new ApolloError({ errorMessage: "Term not found" })
+        if (!expression)
+          throw new ApolloError({ errorMessage: "Expression not found" })
 
         const action =
           "like" in data
@@ -396,63 +400,63 @@ builder.mutationFields((t) => ({
               : "flag" in data
                 ? "flag"
                 : null
-        const termId_authorId = { termId, authorId }
+        const expressionId_authorId = { expressionId, authorId }
 
         switch (action) {
           case "like": {
-            const updatedTerm = await prisma.term.update({
-              where: { id: termId },
-              data: term.likes.length
-                ? { likes: { delete: { termId_authorId } } }
+            const updatedExpression = await prisma.expression.update({
+              where: { id: expressionId },
+              data: expression.likes.length
+                ? { likes: { delete: { expressionId_authorId } } }
                 : {
                     likes: {
                       connectOrCreate: {
                         create: { authorId },
-                        where: { termId_authorId },
+                        where: { expressionId_authorId },
                       },
                     },
-                    dislikes: term.dislikes.length
-                      ? { delete: { termId_authorId } }
+                    dislikes: expression.dislikes.length
+                      ? { delete: { expressionId_authorId } }
                       : undefined,
                   },
             })
 
-            return !!updatedTerm
+            return !!updatedExpression
           }
           case "dislike": {
-            const updatedTerm = await prisma.term.update({
-              where: { id: termId },
-              data: term.dislikes.length
-                ? { dislikes: { delete: { termId_authorId } } }
+            const updatedExpression = await prisma.expression.update({
+              where: { id: expressionId },
+              data: expression.dislikes.length
+                ? { dislikes: { delete: { expressionId_authorId } } }
                 : {
                     dislikes: {
                       connectOrCreate: {
                         create: { authorId },
-                        where: { termId_authorId },
+                        where: { expressionId_authorId },
                       },
                     },
-                    likes: term.likes.length
-                      ? { delete: { termId_authorId } }
+                    likes: expression.likes.length
+                      ? { delete: { expressionId_authorId } }
                       : undefined,
                   },
             })
-            return !!updatedTerm
+            return !!updatedExpression
           }
           case "flag": {
-            const updatedTerm = await prisma.term.update({
-              where: { id: termId },
-              data: term.flagged.length
-                ? { flagged: { delete: { termId_authorId } } }
+            const updatedExpression = await prisma.expression.update({
+              where: { id: expressionId },
+              data: expression.flagged.length
+                ? { flagged: { delete: { expressionId_authorId } } }
                 : {
                     flagged: {
                       connectOrCreate: {
                         create: { authorId },
-                        where: { termId_authorId },
+                        where: { expressionId_authorId },
                       },
                     },
                   },
             })
-            return !!updatedTerm
+            return !!updatedExpression
           }
           default:
             return false
@@ -464,25 +468,25 @@ builder.mutationFields((t) => ({
       }
     },
   }),
-  createTermExample: t.prismaField({
-    type: "TermExample",
+  createExpressionExample: t.prismaField({
+    type: "ExpressionExample",
     shield: permissions.isAuthenticated,
     nullable: true,
     args: {
-      data: t.arg({ type: CreateTermExampleInput, required: true }),
+      data: t.arg({ type: CreateExpressionExampleInput, required: true }),
     },
     resolve: async (
       query,
       _root,
-      { data: { termId, content } },
+      { data: { expressionId, definition } },
       { session },
     ) => {
       try {
-        return prisma.termExample.create({
+        return prisma.expressionExample.create({
           ...query,
           data: {
-            termId,
-            content,
+            expressionId,
+            definition,
             authorId: session?.user?.id,
           },
         })
@@ -493,20 +497,25 @@ builder.mutationFields((t) => ({
       }
     },
   }),
-  updateTermExample: t.prismaField({
-    type: "TermExample",
+  updateExpressionExample: t.prismaField({
+    type: "ExpressionExample",
     shield: permissions.isAuthenticated,
     nullable: true,
     args: {
-      data: t.arg({ type: UpdateTermExampleInput, required: true }),
+      data: t.arg({ type: UpdateExpressionExampleInput, required: true }),
     },
-    resolve: async (query, _root, { data: { exampleId, content } }, _ctx) => {
+    resolve: async (
+      query,
+      _root,
+      { data: { exampleId, definition } },
+      _ctx,
+    ) => {
       try {
-        return prisma.termExample.update({
+        return prisma.expressionExample.update({
           ...query,
           where: { id: exampleId },
           data: {
-            content,
+            definition,
           },
         })
       } catch (error) {
@@ -516,16 +525,16 @@ builder.mutationFields((t) => ({
       }
     },
   }),
-  deleteTermExample: t.prismaField({
-    type: "TermExample",
+  deleteExpressionExample: t.prismaField({
+    type: "ExpressionExample",
     shield: permissions.isAuthenticated,
     nullable: true,
     args: {
-      data: t.arg({ type: DeleteTermExampleInput, required: true }),
+      data: t.arg({ type: DeleteExpressionExampleInput, required: true }),
     },
     resolve: async (query, _root, { data: { exampleId } }, _ctx) => {
       try {
-        return prisma.termExample.delete({
+        return prisma.expressionExample.delete({
           ...query,
           where: { id: exampleId },
         })

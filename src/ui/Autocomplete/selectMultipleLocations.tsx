@@ -59,7 +59,7 @@ const SelectMultipleLocation: FC<SelectMultipleLocationProps> = ({
       {label ? <FormLabel>{label}</FormLabel> : null}
       <Autocomplete
         multiple
-        placeholder={placeholder ?? t(`term.${mode}FieldPlaceholder`)}
+        placeholder={placeholder ?? t(`expression.${mode}FieldPlaceholder`)}
         size="sm"
         autoHighlight
         options={options}

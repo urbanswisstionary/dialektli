@@ -9,14 +9,14 @@ import Typography from "@mui/joy/Typography"
 import { Tooltip } from "@mui/joy"
 import { useTranslation } from "next-i18next"
 
-export type TermStatus = "published" | "unpublished" | "flagged"
+export type ExpressionStatus = "published" | "unpublished" | "flagged"
 
-const TermStatusChip: FC<{ status: TermStatus } & BoxProps> = ({
+const ExpressionStatusChip: FC<{ status: ExpressionStatus } & BoxProps> = ({
   status,
   sx,
   ...props
 }) => {
-  const { t } = useTranslation("common", { keyPrefix: "term" })
+  const { t } = useTranslation("common", { keyPrefix: "expression" })
 
   return (
     <Tooltip title={t(status)}>
@@ -63,4 +63,4 @@ const TermStatusChip: FC<{ status: TermStatus } & BoxProps> = ({
   )
 }
 
-export default TermStatusChip
+export default ExpressionStatusChip

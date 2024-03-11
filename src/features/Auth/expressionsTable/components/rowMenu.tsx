@@ -8,25 +8,32 @@ import MoreHorizRoundedIcon from "@mui/icons-material/MoreHorizRounded"
 import DeleteForever from "@mui/icons-material/DeleteForever"
 import { FC, useCallback, useState } from "react"
 import Link from "next/link"
-import type { AdminTermFragmentFragment } from "@@/generated/graphql"
+import type { AdminExpressionFragmentFragment } from "@@/generated/graphql"
 import ListItemDecorator from "@mui/joy/ListItemDecorator"
-import { useDeleteTermMutation, useUpdateTermMutations } from "@/hooks/useTerms"
+import {
+  useDeleteExpressionMutation,
+  useUpdateExpressionMutations,
+} from "@/hooks/useExpressions"
 import CircularProgress from "@mui/joy/CircularProgress"
 import { useTranslation } from "next-i18next"
 import ConfirmDeleteModal from "@/ui/modals/confirmDelete"
 
-const RowMenu: FC<{ term: AdminTermFragmentFragment }> = ({ term }) => {
+const RowMenu: FC<{ expression: AdminExpressionFragmentFragment }> = ({
+  expression,
+}) => {
   const { t } = useTranslation("common", { keyPrefix: "actions" })
   const [openDeleteConfirmation, setOpenDeleteConfirmation] = useState(false)
-  const { deleteTerm, loading: deleteTermLoading } = useDeleteTermMutation()
-  const { updateTerm, loading: updateTermLoading } = useUpdateTermMutations()
+  const { deleteExpression, loading: deleteExpressionLoading } =
+    useDeleteExpressionMutation()
+  const { updateExpression, loading: updateExpressionLoading } =
+    useUpdateExpressionMutations()
   const publishOrUpublishHandler = useCallback(
     () =>
-      updateTerm({
-        id: term.id,
-        published: !term.published,
+      updateExpression({
+        id: expression.id,
+        published: !expression.published,
       }),
-    [term.id, term.published, updateTerm],
+    [expression.id, expression.published, updateExpression],
   )
   return (
     <>
@@ -42,17 +49,17 @@ const RowMenu: FC<{ term: AdminTermFragmentFragment }> = ({ term }) => {
           <MoreHorizRoundedIcon />
         </MenuButton>
         <Menu size="sm" sx={{ minWidth: 140 }}>
-          <MenuItem component={Link} href={`/expression/${term.id}/edit`}>
+          <MenuItem component={Link} href={`/expression/${expression.id}/edit`}>
             {t("edit")}
           </MenuItem>
 
           <MenuItem
             sx={{ justifyContent: "space-between" }}
             onClick={publishOrUpublishHandler}
-            disabled={updateTermLoading}
+            disabled={updateExpressionLoading}
           >
-            {t(term.published ? "unpublish" : "publish")}
-            {updateTermLoading ? (
+            {t(expression.published ? "unpublish" : "publish")}
+            {updateExpressionLoading ? (
               <ListItemDecorator>
                 <CircularProgress size="sm" />
               </ListItemDecorator>
@@ -64,11 +71,11 @@ const RowMenu: FC<{ term: AdminTermFragmentFragment }> = ({ term }) => {
             color="danger"
             sx={{ justifyContent: "space-between" }}
             onClick={() => setOpenDeleteConfirmation(true)}
-            disabled={deleteTermLoading}
+            disabled={deleteExpressionLoading}
           >
             {t("delete")}
             <ListItemDecorator sx={{ color: "danger" }}>
-              {deleteTermLoading ? (
+              {deleteExpressionLoading ? (
                 <CircularProgress size="sm" color="danger" />
               ) : (
                 <DeleteForever />
@@ -80,11 +87,13 @@ const RowMenu: FC<{ term: AdminTermFragmentFragment }> = ({ term }) => {
       <ConfirmDeleteModal
         open={openDeleteConfirmation}
         onClose={() => setOpenDeleteConfirmation(false)}
-        loading={deleteTermLoading}
+        loading={deleteExpressionLoading}
         onDelete={() =>
-          deleteTerm(term.id, () => setOpenDeleteConfirmation(false))
+          deleteExpression(expression.id, () =>
+            setOpenDeleteConfirmation(false),
+          )
         }
-        dialogContent={`${t("confirmDelete")} ${term.title}?`}
+        dialogContent={`${t("confirmDelete")} ${expression.title}?`}
       />
     </>
   )

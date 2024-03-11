@@ -1,16 +1,16 @@
 import { builder } from "../builder"
 
-builder.prismaObject("TermExample", {
-  name: "TermExample",
+builder.prismaObject("ExpressionExample", {
+  name: "ExpressionExample",
   fields: (t) => ({
     id: t.exposeID("id"),
     createdAt: t.expose("createdAt", { type: "DateTime" }),
     updatedAt: t.expose("updatedAt", { type: "DateTime", nullable: true }),
-    term: t.relation("term"),
-    termId: t.exposeID("termId"),
+    expression: t.relation("expression"),
+    expressionId: t.exposeID("expressionId"),
     author: t.relation("author"),
     authorId: t.exposeID("authorId", { nullable: true }),
-    content: t.exposeString("content"),
+    definition: t.exposeString("definition"),
     cantons: t.exposeStringList("cantons"),
   }),
 })

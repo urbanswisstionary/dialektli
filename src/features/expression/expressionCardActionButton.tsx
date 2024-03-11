@@ -3,16 +3,16 @@ import IconButton, { IconButtonProps } from "@mui/joy/IconButton"
 import Badge from "@mui/joy/Badge"
 import CircularProgress from "@mui/joy/CircularProgress"
 import Tooltip from "@mui/joy/Tooltip"
-import { useTermAction } from "@/hooks/useTerms"
+import { useExpressionAction } from "@/hooks/useExpressions"
 import NextLink from "next/link"
 import Link from "@mui/joy/Link"
 import { useTranslation, Trans } from "next-i18next"
 import { useMe } from "@/hooks/useUsers"
 
-type TermCardActionButtonProps = PropsWithChildren<{
+type ExpressionCardActionButtonProps = PropsWithChildren<{
   badgeContent?: number | string
   disabled?: boolean
-  termId: string
+  expressionId: string
   action: "like" | "dislike" | "flag"
   color?: IconButtonProps["color"]
   variant?: IconButtonProps["variant"]
@@ -20,24 +20,25 @@ type TermCardActionButtonProps = PropsWithChildren<{
   sx?: IconButtonProps["sx"]
 }>
 
-const TermCardActionButton: FC<TermCardActionButtonProps> = ({
+const ExpressionCardActionButton: FC<ExpressionCardActionButtonProps> = ({
   children,
   variant = "plain",
   size = "sm",
   sx,
   badgeContent,
   disabled,
-  termId,
+  expressionId,
   action,
   ...props
 }) => {
   const { me } = useMe()
   const { t } = useTranslation("common")
 
-  const { termAction, loading: termActionLoading } = useTermAction(termId)
+  const { expressionAction, loading: loadingExpressionAction } =
+    useExpressionAction(expressionId)
 
   const onActionClick = () => {
-    termAction(action)
+    expressionAction(action)
   }
 
   const content = (
@@ -65,7 +66,7 @@ const TermCardActionButton: FC<TermCardActionButtonProps> = ({
         onClick={!me || disabled ? undefined : onActionClick}
         {...props}
       >
-        {termActionLoading ? (
+        {loadingExpressionAction ? (
           <CircularProgress variant={variant} size={size} color="neutral" />
         ) : (
           children
@@ -79,7 +80,7 @@ const TermCardActionButton: FC<TermCardActionButtonProps> = ({
         variant="soft"
         title={
           <Trans
-            i18nKey={"term.pleaseSignInForTermAction"}
+            i18nKey={"expression.pleaseSignInForExpressionAction"}
             components={[
               <Link key="link" component={NextLink} href="/account/signin" />,
             ]}
@@ -94,4 +95,4 @@ const TermCardActionButton: FC<TermCardActionButtonProps> = ({
     )
   return content
 }
-export default TermCardActionButton
+export default ExpressionCardActionButton

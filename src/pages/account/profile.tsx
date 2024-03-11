@@ -14,9 +14,10 @@ import NoUserFound from "@/features/Auth/profile/components/noUserFound"
 const MyProfile = dynamic(() => import("@/features/Auth/profile"), {
   ssr: false,
 })
-const ExpressionsTable = dynamic(() => import("@/features/Auth/termsTable"), {
-  ssr: false,
-})
+const ExpressionsTable = dynamic(
+  () => import("@/features/Auth/expressionsTable"),
+  { ssr: false },
+)
 
 const UsersTable = dynamic(() => import("@/features/Auth/usersTable"), {
   ssr: false,

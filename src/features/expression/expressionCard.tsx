@@ -11,25 +11,28 @@ import ThumbDownRoundedIcon from "@mui/icons-material/ThumbDownRounded"
 import ThumbDownTwoToneIcon from "@mui/icons-material/ThumbDownTwoTone"
 // import FlagIcon from "@mui/icons-material/Flag"
 // import FlagTwoToneIcon from "@mui/icons-material/FlagTwoTone"
-import { TermFragmentFragment } from "@@/generated/graphql"
-import TermCardActionButton from "./expressionCardActionButton"
-import TermCardExamples from "./expressionCardExamples"
+import { ExpressionFragmentFragment } from "@@/generated/graphql"
+import ExpressionCardActionButton from "./expressionCardActionButton"
+import ExpressionCardExamples from "./expressionCardExamples"
 import Flag from "@/ui/Flag"
 import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
 import JoyLink from "@mui/joy/Link"
 import { setQueryOnPage } from "@/utils/setQueryOnPage"
-import TermCardShareButtons from "./expressionCardShareButton"
-import TermCardSynonyms from "./expressionCardSynonyms"
+import ExpressionCardShareButtons from "./expressionCardShareButton"
+import ExpressionCardSynonyms from "./expressionCardSynonyms"
 import { formatExpressionDate } from "./utils"
 import NextLink from "next/link"
 
-type TermCardProps = {
-  term: TermFragmentFragment
+type ExpressionCardProps = {
+  expression: ExpressionFragmentFragment
   disableActions?: boolean
 }
 
-const TermCard: FC<TermCardProps> = ({ term, disableActions }) => {
+const ExpressionCard: FC<ExpressionCardProps> = ({
+  expression,
+  disableActions,
+}) => {
   const { t } = useTranslation("common")
   const router = useRouter()
 
@@ -41,39 +44,39 @@ const TermCard: FC<TermCardProps> = ({ term, disableActions }) => {
         alignItems="flex-start"
       >
         <Stack direction="column" gap={1}>
-          {/* <Flag mode="country" code={term.language} /> */}
-          {term.cantons ? (
+          {/* <Flag mode="country" code={expression.language} /> */}
+          {expression.cantons ? (
             <Stack direction="row" gap={1} flexWrap="wrap">
-              {term.cantons.map((canton, i) => (
+              {expression.cantons.map((canton, i) => (
                 <Flag key={i} mode="canton" code={canton} />
               ))}
             </Stack>
           ) : null}
-          <Typography level="title-lg">{term?.title}</Typography>
+          <Typography level="title-lg">{expression?.title}</Typography>
           <JoyLink
             level="body-xs"
             component={NextLink}
-            href={`/expression/${term.id}`}
+            href={`/expression/${expression.id}`}
           >
             {formatExpressionDate({
-              date: term?.createdAt,
+              date: expression?.createdAt,
               locale: router.locale,
             })}
           </JoyLink>
         </Stack>
-        <TermCardShareButtons term={term} />
+        <ExpressionCardShareButtons expression={expression} />
       </Stack>
 
       <Typography mb={2} level="body-sm">
-        {term?.content}
+        {expression?.definition}
       </Typography>
 
       <CardOverflow sx={{ gap: 0 }}>
-        <TermCardExamples term={term} />
+        <ExpressionCardExamples expression={expression} />
       </CardOverflow>
 
       <CardOverflow sx={{ gap: 0 }}>
-        <TermCardSynonyms term={term} />
+        <ExpressionCardSynonyms expression={expression} />
       </CardOverflow>
       <CardOverflow
         sx={{ borderTop: "1px solid", borderColor: "divider", px: 2 }}
@@ -82,44 +85,44 @@ const TermCard: FC<TermCardProps> = ({ term, disableActions }) => {
           {/* author */}
           <Stack direction="row" gap={1}>
             <Typography level="title-sm" sx={{ wordBreak: "normal" }}>
-              {t("term.author")}:
+              {t("expression.author")}:
             </Typography>
             <JoyLink
               level="body-sm"
               onClick={() =>
-                setQueryOnPage(router, { author: term.author.name })
+                setQueryOnPage(router, { author: expression.author.name })
               }
             >
-              {term.author.name}
+              {expression.author.name}
             </JoyLink>
           </Stack>
 
           {/* actions (like / dislike) */}
           <Box sx={{ display: "flex", gap: 1.5, paddingInline: 2 }}>
-            <TermCardActionButton
+            <ExpressionCardActionButton
               action="dislike"
-              termId={term.id}
-              badgeContent={term?.dislikesCount}
+              expressionId={expression.id}
+              badgeContent={expression?.dislikesCount}
               disabled={disableActions}
             >
-              {term.dislikedByMe ? (
+              {expression.dislikedByMe ? (
                 <ThumbDownRoundedIcon />
               ) : (
                 <ThumbDownTwoToneIcon />
               )}
-            </TermCardActionButton>
-            <TermCardActionButton
+            </ExpressionCardActionButton>
+            <ExpressionCardActionButton
               action="like"
-              termId={term.id}
-              badgeContent={term.likesCount}
+              expressionId={expression.id}
+              badgeContent={expression.likesCount}
               disabled={disableActions}
             >
-              {term.likedByMe ? (
+              {expression.likedByMe ? (
                 <ThumbUpRoundedIcon color="inherit" />
               ) : (
                 <ThumbUpTwoToneIcon />
               )}
-            </TermCardActionButton>
+            </ExpressionCardActionButton>
           </Box>
         </CardActions>
       </CardOverflow>
@@ -127,4 +130,4 @@ const TermCard: FC<TermCardProps> = ({ term, disableActions }) => {
   )
 }
 
-export default TermCard
+export default ExpressionCard

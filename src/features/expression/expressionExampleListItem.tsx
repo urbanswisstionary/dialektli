@@ -4,11 +4,11 @@ import ListItemDecorator from "@mui/joy/ListItemDecorator"
 import ListItemContent from "@mui/joy/ListItemContent"
 import { useTranslation } from "next-i18next"
 import {
-  useDeleteTermExampleMutation,
-  useUpdateTermExampleMutation,
-} from "@/hooks/useTerms"
+  useDeleteExpressionExampleMutation,
+  useUpdateExpressionExampleMutation,
+} from "@/hooks/useExpressions"
 import Typography from "@mui/joy/Typography"
-import { TermExampleFragmentFragment } from "@@/generated/graphql"
+import { ExpressionExampleFragmentFragment } from "@@/generated/graphql"
 import ExpressionExampleInput from "./expressionExampleInput"
 import IconButton from "@mui/joy/IconButton"
 import EditIcon from "@mui/icons-material/Edit"
@@ -22,7 +22,7 @@ import DeleteForever from "@mui/icons-material/DeleteForever"
 
 const ExpressionExampleListItem: FC<{
   preventEdit?: boolean
-  example: TermExampleFragmentFragment
+  example: ExpressionExampleFragmentFragment
   exampleNumber?: number
   editOnLoad?: boolean
 }> = ({ preventEdit, example, exampleNumber, editOnLoad = false }) => {
@@ -32,10 +32,10 @@ const ExpressionExampleListItem: FC<{
   )
   const [openDeleteConfirmation, setOpenDeleteConfirmation] =
     useState<boolean>(false)
-  const { updateTermExample, loading: loadingUpdateTermExample } =
-    useUpdateTermExampleMutation()
-  const { deleteTermExample, loading: loadingDeleteTermExample } =
-    useDeleteTermExampleMutation()
+  const { updateExpressionExample, loading: loadingUpdateExpressionExample } =
+    useUpdateExpressionExampleMutation()
+  const { deleteExpressionExample, loading: loadingDeleteExpressionExample } =
+    useDeleteExpressionExampleMutation()
   return (
     <ListItem>
       {preventEdit ? null : (
@@ -74,7 +74,7 @@ const ExpressionExampleListItem: FC<{
               <MenuItem
                 color="danger"
                 onClick={() => setOpenDeleteConfirmation(true)}
-                disabled={loadingDeleteTermExample}
+                disabled={loadingDeleteExpressionExample}
                 title={t("actions.delete")}
               >
                 <IconButton color="danger">
@@ -87,36 +87,39 @@ const ExpressionExampleListItem: FC<{
       )}
       {!editExampleContent ? (
         <ListItemContent>
-          <Typography level="body-sm">{example.content}</Typography>
+          <Typography level="body-sm">{example.definition}</Typography>
         </ListItemContent>
       ) : (
         <ListItemContent>
           <ExpressionExampleInput
             exampleNumber={exampleNumber}
-            exampleContent={example.content}
-            disabled={loadingUpdateTermExample || loadingDeleteTermExample}
+            exampleContent={example.definition}
+            disabled={
+              loadingUpdateExpressionExample || loadingDeleteExpressionExample
+            }
             onCancel={() => setEditExampleContent(false)}
-            onSave={(content) => {
-              if (!content.trim().length) {
-                deleteTermExample(example.id, () =>
+            onSave={(definition) => {
+              if (!definition.trim().length) {
+                deleteExpressionExample(example.id, () =>
                   setEditExampleContent(false),
                 )
               } else {
-                updateTermExample({ content, exampleId: example.id }, () =>
-                  setEditExampleContent(false),
+                updateExpressionExample(
+                  { definition, exampleId: example.id },
+                  () => setEditExampleContent(false),
                 )
               }
             }}
-            onSaveLoading={loadingUpdateTermExample}
+            onSaveLoading={loadingUpdateExpressionExample}
           />
         </ListItemContent>
       )}
       <ConfirmDeleteModal
         open={openDeleteConfirmation}
         onClose={() => setOpenDeleteConfirmation(false)}
-        loading={loadingDeleteTermExample}
+        loading={loadingDeleteExpressionExample}
         onDelete={() => {
-          deleteTermExample(example.id)
+          deleteExpressionExample(example.id)
         }}
         dialogContent={`${t("actions.confirmDelete")}?`}
       />

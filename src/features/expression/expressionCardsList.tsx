@@ -1,23 +1,28 @@
 import type { FC } from "react"
 import Box, { BoxProps } from "@mui/joy/Box"
-import TermCard from "@/features/expression/expressionCard"
+import ExpressionCard from "@/features/expression/expressionCard"
 import Pagination, { PaginationProps } from "@/ui/Pagination"
 import { FragmentType, getFragmentData } from "@@/generated"
-import { TermFragment } from "@/hooks/useTerms"
+import { ExpressionFragment } from "@/hooks/useExpressions"
 import { useMe } from "@/hooks/useUsers"
 import CircularProgress from "@mui/joy/CircularProgress"
 import { useTranslation } from "next-i18next"
 
-type TermsCardsListProps = Pick<BoxProps, "sx"> & {
+type ExpressionsCardsListProps = Pick<BoxProps, "sx"> & {
   paginationProps?: PaginationProps
-  terms?: FragmentType<typeof TermFragment>[]
+  expressions?: FragmentType<typeof ExpressionFragment>[]
   loading?: boolean
 }
 
-const TermsCardsList: FC<TermsCardsListProps> = ({ sx, loading, ...props }) => {
+const ExpressionsCardsList: FC<ExpressionsCardsListProps> = ({
+  sx,
+  loading,
+  ...props
+}) => {
   const { t } = useTranslation("common")
   const { me } = useMe()
-  const terms = getFragmentData(TermFragment, props.terms) ?? []
+  const expressions =
+    getFragmentData(ExpressionFragment, props.expressions) ?? []
 
   const pagination = (
     <Pagination disabled={loading} {...props.paginationProps} />
@@ -37,9 +42,13 @@ const TermsCardsList: FC<TermsCardsListProps> = ({ sx, loading, ...props }) => {
           size="lg"
           variant="soft"
         />
-      ) : terms.length ? (
-        terms.map((term) => (
-          <TermCard key={term.id} term={term} disableActions={!me} />
+      ) : expressions.length ? (
+        expressions.map((expression) => (
+          <ExpressionCard
+            key={expression.id}
+            expression={expression}
+            disableActions={!me}
+          />
         ))
       ) : (
         <>{t("noData")}</>
@@ -49,4 +58,4 @@ const TermsCardsList: FC<TermsCardsListProps> = ({ sx, loading, ...props }) => {
   )
 }
 
-export default TermsCardsList
+export default ExpressionsCardsList

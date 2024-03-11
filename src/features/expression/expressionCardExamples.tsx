@@ -5,11 +5,11 @@ import ListItem from "@mui/joy/ListItem"
 import { useTranslation } from "next-i18next"
 import { getFragmentData } from "@@/generated"
 import {
-  TermExampleFragment,
-  useCreateTermExampleMutation,
-} from "@/hooks/useTerms"
+  ExpressionExampleFragment,
+  useCreateExpressionExampleMutation,
+} from "@/hooks/useExpressions"
 import Box, { BoxProps } from "@mui/joy/Box"
-import { TermFragmentFragment } from "@@/generated/graphql"
+import { ExpressionFragmentFragment } from "@@/generated/graphql"
 import JoyLink from "@mui/joy/Link"
 import ListDivider from "@mui/joy/ListDivider/ListDivider"
 import ExpressionExampleInput from "./expressionExampleInput"
@@ -19,8 +19,8 @@ import FormHelperText from "@mui/joy/FormHelperText"
 import IconButton from "@mui/joy/IconButton"
 import AddIcon from "@mui/icons-material/Add"
 
-type TermCardExamplesProps = {
-  term: TermFragmentFragment
+type ExpressionCardExamplesProps = {
+  expression: ExpressionFragmentFragment
   disabled?: boolean
   addExampleButtonProps?: {
     type?: AddExampleProps["type"]
@@ -28,17 +28,20 @@ type TermCardExamplesProps = {
   }
 }
 
-const TermCardExamples: FC<TermCardExamplesProps> = ({
-  term,
+const ExpressionCardExamples: FC<ExpressionCardExamplesProps> = ({
+  expression,
   addExampleButtonProps = { type: "link" },
   disabled,
 }) => {
   const { me, isAdmin } = useMe()
-  const { t } = useTranslation("common", { keyPrefix: "term" })
-  const examples = getFragmentData(TermExampleFragment, term.examples)
-  const [newExampleContent, setNewExampleContent] = useState<boolean>(false)
-  const { createTermExample, loading: loadingCreateTermExample } =
-    useCreateTermExampleMutation()
+  const { t } = useTranslation("common", { keyPrefix: "expression" })
+  const examples = getFragmentData(
+    ExpressionExampleFragment,
+    expression.examples,
+  )
+  const [newExampleContent, setNewExampleDefinition] = useState<boolean>(false)
+  const { createExpressionExample, loading: loadingCreateExpressionExample } =
+    useCreateExpressionExampleMutation()
 
   return (
     <List
@@ -76,18 +79,19 @@ const TermCardExamples: FC<TermCardExamplesProps> = ({
       {newExampleContent ? (
         <Box pt={1}>
           <ExpressionExampleInput
-            disabled={loadingCreateTermExample}
-            onCancel={() => setNewExampleContent(false)}
-            onSave={(content) => {
-              if (!content.trim().length) {
-                setNewExampleContent(false)
+            disabled={loadingCreateExpressionExample}
+            onCancel={() => setNewExampleDefinition(false)}
+            onSave={(definition) => {
+              if (!definition.trim().length) {
+                setNewExampleDefinition(false)
               } else {
-                createTermExample({ content, termId: term.id }, () =>
-                  setNewExampleContent(false),
+                createExpressionExample(
+                  { definition, expressionId: expression.id },
+                  () => setNewExampleDefinition(false),
                 )
               }
             }}
-            onSaveLoading={loadingCreateTermExample}
+            onSaveLoading={loadingCreateExpressionExample}
           />
           <FormHelperText
             sx={{
@@ -101,12 +105,12 @@ const TermCardExamples: FC<TermCardExamplesProps> = ({
           </FormHelperText>
         </Box>
       ) : null}
-      {term.examples.length ? <ListDivider /> : null}
+      {expression.examples.length ? <ListDivider /> : null}
       <ListItem>
         <AddExample
-          onClick={() => setNewExampleContent(true)}
+          onClick={() => setNewExampleDefinition(true)}
           disabled={disabled || newExampleContent}
-          loading={loadingCreateTermExample}
+          loading={loadingCreateExpressionExample}
           type={addExampleButtonProps?.type}
           sx={addExampleButtonProps?.sx}
         />
@@ -115,7 +119,7 @@ const TermCardExamples: FC<TermCardExamplesProps> = ({
   )
 }
 
-export default TermCardExamples
+export default ExpressionCardExamples
 
 type AddExampleProps = {
   type?: "iconButton" | "link"
@@ -131,7 +135,7 @@ const AddExample: FC<AddExampleProps> = ({
   type,
   sx,
 }) => {
-  const { t } = useTranslation("common", { keyPrefix: "term" })
+  const { t } = useTranslation("common", { keyPrefix: "expression" })
   if (type === "link")
     return (
       <Box
@@ -160,7 +164,7 @@ const AddExample: FC<AddExampleProps> = ({
         ]}
       >
         <IconButton
-          title={t("editTerm.addExample")}
+          title={t("editExpression.addExample")}
           variant="outlined"
           color="neutral"
           size="md"

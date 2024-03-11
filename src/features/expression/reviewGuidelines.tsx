@@ -8,7 +8,9 @@ import GuidelinesList from "@/ui/GuidelineList"
 import { useTranslation, Trans } from "next-i18next"
 
 const ReviewGuidelines: FC = () => {
-  const { t } = useTranslation("common", { keyPrefix: "term.reviewGuidelines" })
+  const { t } = useTranslation("common", {
+    keyPrefix: "expression.reviewGuidelines",
+  })
 
   return (
     <Card sx={{ paddingBlock: 0 }}>

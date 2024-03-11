@@ -8,15 +8,17 @@ import ListDivider from "@mui/joy/ListDivider"
 import Grid from "@mui/joy/Grid"
 import JoyLink from "@mui/joy/Link"
 
-import { TermFragmentFragment } from "@@/generated/graphql"
+import { ExpressionFragmentFragment } from "@@/generated/graphql"
 import Flag from "@/ui/Flag"
 
-type TermCardSynonymsProps = {
-  term: TermFragmentFragment
+type ExpressionCardSynonymsProps = {
+  expression: ExpressionFragmentFragment
 }
 
-const TermCardSynonyms: FC<TermCardSynonymsProps> = ({ term }) => {
-  const { t } = useTranslation("common", { keyPrefix: "term" })
+const ExpressionCardSynonyms: FC<ExpressionCardSynonymsProps> = ({
+  expression,
+}) => {
+  const { t } = useTranslation("common", { keyPrefix: "expression" })
 
   return (
     <List>
@@ -30,7 +32,7 @@ const TermCardSynonyms: FC<TermCardSynonymsProps> = ({ term }) => {
       >
         {t("synonyms")}:
       </ListSubHeader>
-      {term.synonyms.map(({ synonymOf: s }, i) => (
+      {expression.synonyms.map(({ synonymOf: s }, i) => (
         <ListItem key={i}>
           <ListItemContent>
             <Grid container spacing={2} sx={{ flexGrow: 1 }}>
@@ -56,10 +58,10 @@ const TermCardSynonyms: FC<TermCardSynonymsProps> = ({ term }) => {
           </ListItemContent>
         </ListItem>
       ))}
-      {term.synonyms.length ? <ListDivider /> : null}
+      {expression.synonyms.length ? <ListDivider /> : null}
       <ListItem sx={{ listStyleType: "none" }}>
         <JoyLink
-          href={`/expression/new?synonym=${term.id}`}
+          href={`/expression/new?synonym=${expression.id}`}
           level="title-sm"
           fontWeight={600}
         >
@@ -70,4 +72,4 @@ const TermCardSynonyms: FC<TermCardSynonymsProps> = ({ term }) => {
   )
 }
 
-export default TermCardSynonyms
+export default ExpressionCardSynonyms

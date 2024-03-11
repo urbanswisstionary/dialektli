@@ -4,7 +4,7 @@ import GoogleIcon from "@/ui/icons/GoogleIcon"
 import { signIn } from "next-auth/react"
 import LayoutWithImage from "@/features/layout/layoutWithImage"
 import type { GetStaticProps, NextPage } from "next"
-import Button from "@/ui/Button"
+import Button from "@mui/joy/Button"
 
 import { getStaticPropsTranslations } from "@/utils/i18n"
 import { useTranslation } from "next-i18next"

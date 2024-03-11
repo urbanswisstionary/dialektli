@@ -12,7 +12,7 @@
       "home": "Accueil",
       "support": "Support",
       "profile": "Mon profil",
-      "terms": "Mes expressions",
+      "expressions": "Mes expressions",
       "users": "Utilisateurs",
       "createNewUser": "Créer un nouvel utilisateur",
       "rolesAndPermissions": "Rôles et permissions"
@@ -29,8 +29,8 @@
     "firstChar": "Filtrer par premier caractère",
     "language": "Filtrer par langue"
   },
-  "newTermButton": {
-    "newTerm": "Nouvelle expression"
+  "newExpressionButton": {
+    "newExpression": "Nouvelle expression"
   },
   "actions": {
     "search": "Rechercher",
@@ -105,9 +105,6 @@
       "deleteAccount": "Supprimer le compte",
       "deleteAccountConfirmation": "Êtes-vous sûr de vouloir supprimer votre compte? <bold>Toutes vos données seront supprimées et ne pourront pas être restaurées.</bold>",
       "noUserFound": "Aucun utilisateur trouvé, veuillez réessayer de vous <0>connecter</0>"
-    },
-    "myTerms": {
-      "title": "Expressions"
     }
   },
   "guidelinesPage": {
@@ -139,8 +136,8 @@
       }
     ]
   },
-  "term": {
-    "term": "Expression",
+  "expression": {
+    "expression": "Expression",
     "description": "Définition",
     "author": "Auteur",
     "language": "Langue",
@@ -154,24 +151,24 @@
     "example": "Exemple",
     "examples": "Exemples",
     "synonyms": "Synonymes",
-    "pleaseSignInForTermAction": "Veuillez <0>vous connecter</0> pour '{{action}}' ce expression.",
+    "pleaseSignInForExpressionAction": "Veuillez <0>vous connecter</0> pour '{{action}}' ce expression.",
     "cantonFieldPlaceholder": "Sélectionnez le canton",
     "countryFieldPlaceholder": "Sélectionnez le pays",
     "cantonFieldHelperText": "Sélectionnez les cantons auxquels cette expression est associée",
     "descriptionFieldHelperText": "<bold>Écrivez pour un large public.</bold> Beaucoup de personnes liront ceci, alors donnez quelques informations de base.",
     "examplesFieldHelperText": "Fournissez des exemples de la manière dont cette expression est utilisée dans son contexte, ou de la manière dont elle est utilisée dans une phrase. Cela aidera les autres à mieux comprendre l'expression.",
-    "newTerm": {
+    "newExpression": {
       "title": "Nouvelle expression",
       "description": "Toutes les définitions ont été rédigées par des personnes comme vous. C'est maintenant votre chance d'ajouter la vôtre !",
       "newSynonym": {
         "description": "Développez le lexique. Ajoutez des définitions."
       }
     },
-    "editTerm": {
+    "editExpression": {
       "title": "Modifier l'expression",
       "notAuthorizedWarning": "Vous n'êtes pas autorisé à modifier cette expression",
       "claimOwnership": "Si vous avez contribué à cette exposition et souhaitez <0>réclamer la propriété</0> sur cette exposition.",
-      "claimOwnershipLinkHref": "mailto:urbanswisstionary@gmail.com?subject=Réclamez la propriété de '{{termTitle}}', identifiant '{{termId}}'&body=Bonjour, je voudrais revendiquer la propriété de '{{termTitle}}', id '{{termId}}' et je fournis ici les preuves de ma réclamation.",
+      "claimOwnershipLinkHref": "mailto:urbanswisstionary@gmail.com?subject=Réclamez la propriété de '{{expressionTitle}}', identifiant '{{expressionId}}'&body=Bonjour, je voudrais revendiquer la propriété de '{{expressionTitle}}', id '{{expressionId}}' et je fournis ici les preuves de ma réclamation.",
       "addExample": "Ajouter un autre exemple",
       "deleteExample": "Supprimer l'exemple"
     },

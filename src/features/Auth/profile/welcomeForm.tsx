@@ -1,6 +1,6 @@
 import { FC, FormEvent, useState } from "react"
 import Box from "@mui/joy/Box"
-import Button from "@/ui/Button"
+import Button from "@mui/joy/Button"
 import { useTranslation } from "next-i18next"
 import {
   useUpdateUserMutation,

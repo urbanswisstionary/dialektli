@@ -1,4 +1,4 @@
-import { TermFragmentFragment } from "@@/generated/graphql"
+import { ExpressionFragmentFragment } from "@@/generated/graphql"
 import type { FC } from "react"
 import ContentCopyIcon from "@mui/icons-material/ContentCopy"
 import IconButton from "@mui/joy/IconButton"
@@ -33,15 +33,15 @@ const WhatsappShare = dynamic(
   { ssr: false },
 )
 
-const TermCardShareButtons: FC<{
-  term: TermFragmentFragment
-}> = ({ term }) => {
+const ExpressionCardShareButtons: FC<{
+  expression: ExpressionFragmentFragment
+}> = ({ expression }) => {
   const { t } = useTranslation("common", { keyPrefix: "seo.share" })
-  const url = `${typeof window !== "undefined" ? window?.location.origin : ""}/expression/${term.id}`
+  const url = `${typeof window !== "undefined" ? window?.location.origin : ""}/expression/${expression.id}`
 
   const buttonProps = {
     url,
-    title: term.title,
+    title: expression.title,
     size: 32,
     borderRadius: 10,
   } as const
@@ -71,12 +71,12 @@ const TermCardShareButtons: FC<{
         <MenuItem title={t("facebook")}>
           <FacebookShare
             {...buttonProps}
-            quote={term.content ?? term.title}
-            hashtag={`#${term.title}`}
+            quote={expression.definition ?? expression.title}
+            hashtag={`#${expression.title}`}
           />
         </MenuItem>
         <MenuItem title={t("twitter")}>
-          <TwitterShare {...buttonProps} hashtags={[`#${term.title}`]} />
+          <TwitterShare {...buttonProps} hashtags={[`#${expression.title}`]} />
         </MenuItem>
         <MenuItem title={t("linkedin")}>
           <LinkedinShare {...buttonProps} />
@@ -87,8 +87,8 @@ const TermCardShareButtons: FC<{
         <MenuItem title={t("email")}>
           <EmailShare
             {...buttonProps}
-            subject={term.title}
-            body={term.content ?? ""}
+            subject={expression.title}
+            body={expression.definition ?? ""}
           />
         </MenuItem>
         <MenuItem
@@ -114,4 +114,4 @@ const TermCardShareButtons: FC<{
     </Dropdown>
   )
 }
-export default TermCardShareButtons
+export default ExpressionCardShareButtons

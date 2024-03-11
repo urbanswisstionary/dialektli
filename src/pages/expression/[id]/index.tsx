@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import Layout from "@/features/layout/layout"
 import { useMe } from "@/hooks/useUsers"
 import { ParsedUrlQuery } from "querystring"
-import { TermFragment, useTerm } from "@/hooks/useTerms"
+import { ExpressionFragment, useExpression } from "@/hooks/useExpressions"
 import { getFragmentData } from "@@/generated"
 import dynamic from "next/dynamic"
 import { getStaticPropsTranslations } from "@/utils/i18n"
@@ -12,9 +12,12 @@ import Stack from "@mui/joy/Stack"
 import { useTranslation } from "next-i18next"
 import HeadProvider from "@/providers/Head"
 
-const TermCard = dynamic(() => import("@/features/expression/expressionCard"), {
-  ssr: false,
-})
+const ExpressionCard = dynamic(
+  () => import("@/features/expression/expressionCard"),
+  {
+    ssr: false,
+  },
+)
 
 type Query = ParsedUrlQuery & { id: string }
 
@@ -25,17 +28,20 @@ const ExpressionIdPage: NextPage = () => {
   const router = useRouter()
   const query = router.query as Query
 
-  const { data, loading: loadingTerm } = useTerm(query.id, !query.id)
+  const { data, loading: loadingExpression } = useExpression(
+    query.id,
+    !query.id,
+  )
 
-  const loading = loadingMe || loadingTerm
-  const term = getFragmentData(TermFragment, data?.term)
+  const loading = loadingMe || loadingExpression
+  const expression = getFragmentData(ExpressionFragment, data?.expression)
 
   return (
     <>
       <HeadProvider
-        title={term?.title}
-        description={term?.content}
-        pagePathname={`/expression/${term?.id}`}
+        title={expression?.title}
+        description={expression?.definition}
+        pagePathname={`/expression/${expression?.id}`}
       />
 
       <Layout hideSidebar={!me}>
@@ -47,8 +53,8 @@ const ExpressionIdPage: NextPage = () => {
               variant="soft"
             />
           </Stack>
-        ) : term ? (
-          <TermCard term={term} disableActions={!me} />
+        ) : expression ? (
+          <ExpressionCard expression={expression} disableActions={!me} />
         ) : (
           <>{t("noData")}</>
         )}

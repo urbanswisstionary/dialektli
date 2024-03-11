@@ -4,7 +4,7 @@ import FormLabel from "@mui/joy/FormLabel"
 import Input from "@mui/joy/Input"
 
 import { FC, FormEvent, useCallback } from "react"
-import Button from "@/ui/Button"
+import Button from "@mui/joy/Button"
 import { useReCaptcha } from "next-recaptcha-v3"
 import { useTranslation } from "next-i18next"
 

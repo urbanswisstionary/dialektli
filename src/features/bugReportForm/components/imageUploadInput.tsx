@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import type { FC } from "react"
 import { Box } from "@mui/joy"
-import Button from "@/ui/Button"
+import Button from "@mui/joy/Button"
 import { useTranslation } from "next-i18next"
 import ImageUploading, {
   ImageType,

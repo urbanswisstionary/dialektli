@@ -1,16 +1,16 @@
 import { useMe } from "@/hooks/useUsers"
 import Layout from "@/features/layout/layout"
-import SearchTermsInput from "@/ui/SearchTermsInput"
+import SearchExpressionsInput from "@/ui/SearchExpressionsInput"
 import Box from "@mui/joy/Box"
 import Stack from "@mui/joy/Stack"
 import { GetStaticProps, NextPage } from "next"
-import { useTermsQuery } from "@/hooks/useTerms"
+import { useExpressionsQuery } from "@/hooks/useExpressions"
 import SelectSingleLocation from "@/ui/Autocomplete/selectSingleLocation"
 import { ParsedUrlQuery } from "querystring"
 import { useRouter } from "next/router"
 import { setQueryOnPage } from "@/utils/setQueryOnPage"
 import { usePaginationState } from "@/hooks/usePaginationState"
-import NewTermButton from "@/ui/NewTermButton"
+import NewExpressionButton from "@/ui/NewExpressionButton"
 import { useTranslation } from "next-i18next"
 import { getStaticPropsTranslations } from "@/utils/i18n"
 import { useMemo } from "react"
@@ -22,11 +22,9 @@ const SelectLetter = dynamic(() => import("@/ui/Select/selectLetter"), {
   ssr: false,
 })
 const Accordion = dynamic(() => import("@/ui/Accordion"), { ssr: false })
-const TermsCardsList = dynamic(
+const ExpressionCardsList = dynamic(
   () => import("@/features/expression/expressionCardsList"),
-  {
-    ssr: false,
-  },
+  { ssr: false },
 )
 
 type Query = ParsedUrlQuery & {
@@ -58,8 +56,8 @@ const Home: NextPage = () => {
   const {
     data,
     previousData,
-    loading: loadingTermsQuery,
-  } = useTermsQuery({
+    loading: loadingExpressionsQuerysQuery,
+  } = useExpressionsQuery({
     offset: (paginationProps.pageIndex - 1) * paginationProps.pageSize,
     limit: paginationProps.pageSize,
     slug: sanitizedQ,
@@ -68,8 +66,9 @@ const Home: NextPage = () => {
     authorName: sanizedAuthor,
   })
 
-  const termsQuery = data?.termsQuery ?? previousData?.termsQuery
-  onDataCountChange(termsQuery?.count)
+  const expressionsQuery =
+    data?.expressionsQuery ?? previousData?.expressionsQuery
+  onDataCountChange(expressionsQuery?.count)
 
   return (
     <>
@@ -83,15 +82,21 @@ const Home: NextPage = () => {
               gap: "1rem",
             }}
           >
-            <SearchTermsInput sx={{ flex: 1 }} disabled={loadingTermsQuery} />
-            <NewTermButton sx={{ flex: 1 }} disabled={loadingTermsQuery} />
+            <SearchExpressionsInput
+              sx={{ flex: 1 }}
+              disabled={loadingExpressionsQuerysQuery}
+            />
+            <NewExpressionButton
+              sx={{ flex: 1 }}
+              disabled={loadingExpressionsQuerysQuery}
+            />
           </Box>
           <SelectSingleLocation
             mode="canton"
             value={sanitizedCanton}
             onChange={(canton) => setQueryOnPage(router, { canton })}
             placeholder={t("filterBy.canton")}
-            disabled={loadingTermsQuery}
+            disabled={loadingExpressionsQuerysQuery}
             groupOptions
           />
           {!sanitizedQ ? (
@@ -109,7 +114,7 @@ const Home: NextPage = () => {
                             sanitizedFirstChar === firstChar ? null : firstChar,
                         })
                       }
-                      disabled={loadingTermsQuery}
+                      disabled={loadingExpressionsQuerysQuery}
                     />
                   ),
                 },
@@ -117,10 +122,10 @@ const Home: NextPage = () => {
             />
           ) : null}
         </Stack>
-        <TermsCardsList
-          terms={termsQuery?.terms}
+        <ExpressionCardsList
+          expressions={expressionsQuery?.expressions}
           paginationProps={paginationProps}
-          loading={loadingTermsQuery}
+          loading={loadingExpressionsQuerysQuery}
         />
       </Layout>
     </>

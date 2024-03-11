@@ -2,11 +2,14 @@ import { FC, FormEventHandler, useMemo, useState } from "react"
 import Card from "@/ui/Card"
 import ExpressionInput from "./expressionInput"
 import ExpressionDefinitionInput from "./expressionDefinitionInput"
-import { useDeleteTermMutation, useUpdateTermMutations } from "@/hooks/useTerms"
+import {
+  useDeleteExpressionMutation,
+  useUpdateExpressionMutations,
+} from "@/hooks/useExpressions"
 import {
   Language,
-  TermFragmentFragment,
-  UpdateTermInput,
+  ExpressionFragmentFragment,
+  UpdateExpressionInput,
 } from "@@/generated/graphql"
 import isEqual from "lodash/isEqual"
 import Box from "@mui/joy/Box"
@@ -16,31 +19,31 @@ import Link from "@mui/joy/Link"
 import SelectMultipleLocation from "@/ui/Autocomplete/selectMultipleLocations"
 import { Trans, useTranslation } from "next-i18next"
 // import SelectSingleLanguage from "@/ui/Autocomplete/selectSingleLanguage"
-import TermCardExamples from "./expressionCardExamples"
+import ExpressionCardExamples from "./expressionCardExamples"
 import FormControl from "@mui/joy/FormControl"
 import Checkbox from "@mui/joy/Checkbox"
 
 type EditExpressionState = {
   title?: string
-  content?: string
+  definition?: string
   cantons?: string[]
   language?: Language
   published?: boolean
 }
 
 const EditExpressionForm: FC<{
-  term: TermFragmentFragment
+  expression: ExpressionFragmentFragment
   authorized: boolean
-}> = ({ term, authorized }) => {
+}> = ({ expression, authorized }) => {
   const { t } = useTranslation("common")
   const router = useRouter()
-  const { deleteTerm, loading: loadingDeleteExpression } =
-    useDeleteTermMutation()
+  const { deleteExpression, loading: loadingDeleteExpression } =
+    useDeleteExpressionMutation()
   const {
-    updateTerm,
+    updateExpression,
     loading: loadingUpdateExpression,
     data: updateExpressionData,
-  } = useUpdateTermMutations()
+  } = useUpdateExpressionMutations()
   const [editExpressionState, setEditExpressionState] =
     useState<EditExpressionState>({})
 
@@ -57,10 +60,10 @@ const EditExpressionForm: FC<{
                 (example) => example.length,
               )
             : editExpressionState[key],
-          term[key],
+          expression[key],
         ),
     )
-  }, [editExpressionState, term])
+  }, [editExpressionState, expression])
 
   const onChange = <K extends keyof EditExpressionState>(
     key: K,
@@ -69,21 +72,23 @@ const EditExpressionForm: FC<{
 
   const disableFields =
     !authorized ||
-    (loadingUpdateExpression && !!updateExpressionData?.updateTerm?.id)
+    (loadingUpdateExpression && !!updateExpressionData?.updateExpression?.id)
   const preventSubmit =
-    !authorized || loadingUpdateExpression || (!changesFound && term.published)
+    !authorized ||
+    loadingUpdateExpression ||
+    (!changesFound && expression.published)
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
     if (preventSubmit) return
-    const updateTermInput: UpdateTermInput = {
-      id: term.id,
+    const updateExpressionInput: UpdateExpressionInput = {
+      id: expression.id,
       title: editExpressionState.title,
-      content: editExpressionState.content,
+      definition: editExpressionState.definition,
       cantons: editExpressionState.cantons,
       published: editExpressionState.published,
     }
-    updateTerm(updateTermInput, () =>
+    updateExpression(updateExpressionInput, () =>
       router.push("/account/profile?view=expressions"),
     )
   }
@@ -91,9 +96,9 @@ const EditExpressionForm: FC<{
   const claimOwnershipLink = (
     <Link
       key="claimOwnershipLinkHref"
-      href={t("term.editTerm.claimOwnershipLinkHref", {
-        termTitle: term.title,
-        termId: term.id,
+      href={t("expression.editExpression.claimOwnershipLinkHref", {
+        expressionTitle: expression.title,
+        expressionId: expression.id,
       })}
     />
   )
@@ -101,17 +106,17 @@ const EditExpressionForm: FC<{
     <form onSubmit={onSubmit}>
       <Box sx={{ mb: 1, alignItems: { xs: "start", sm: "center" } }}>
         <Typography px={2} level="h2" component="h1">
-          {t("term.editTerm.title")}
+          {t("expression.editExpression.title")}
         </Typography>
         {!authorized ? (
           <>
             <Typography level="body-lg" color="warning" p={2}>
-              {t("term.editTerm.notAuthorizedWarning")}
+              {t("expression.editExpression.notAuthorizedWarning")}
             </Typography>
 
             <Typography level="body-md" color="warning" px={2}>
               <Trans
-                i18nKey={"term.editTerm.claimOwnership"}
+                i18nKey={"expression.editExpression.claimOwnership"}
                 components={[claimOwnershipLink]}
               />
             </Typography>
@@ -123,7 +128,7 @@ const EditExpressionForm: FC<{
           delete: {
             disabled: loadingDeleteExpression,
             onClick: () =>
-              deleteTerm(term.id, () =>
+              deleteExpression(expression.id, () =>
                 router.push("/account/profile?view=expressions"),
               ),
           },
@@ -140,11 +145,11 @@ const EditExpressionForm: FC<{
         }}
       >
         <ExpressionInput
-          label={t("term.term")}
+          label={t("expression.expression")}
           value={
             editExpressionState.title !== undefined
               ? editExpressionState.title
-              : term.title
+              : expression.title
           }
           onChange={(title) => onChange("title", title)}
           required
@@ -156,22 +161,22 @@ const EditExpressionForm: FC<{
             checked={
               editExpressionState.published !== undefined
                 ? editExpressionState.published
-                : term.published
+                : expression.published
             }
             onChange={({ currentTarget: { checked } }) =>
               onChange("published", checked)
             }
-            label={t("term.published")}
+            label={t("expression.published")}
           />
         </FormControl>
 
         {/* <SelectSingleLanguage
-            label={t("term.language")}
+            label={t("expression.language")}
             required
             value={
               editTermState.language !== undefined
                 ? editTermState.language
-                : term.language
+                : expression.language
             }
             onChange={(language) => {
               onChange("language", language)
@@ -180,40 +185,40 @@ const EditExpressionForm: FC<{
 
         <SelectMultipleLocation
           id="canton"
-          label={t("term.canton")}
+          label={t("expression.canton")}
           mode="canton"
           value={
             (editExpressionState.cantons !== undefined
               ? editExpressionState.cantons
-              : term.cantons.length
-                ? term.cantons
+              : expression.cantons.length
+                ? expression.cantons
                 : null) ?? null
           }
           onChange={(cantons) => onChange("cantons", cantons)}
-          helperText={t("term.cantonFieldHelperText")}
+          helperText={t("expression.cantonFieldHelperText")}
           disabled={disableFields}
           groupOptions
         />
         <ExpressionDefinitionInput
           value={
-            (editExpressionState.content !== undefined
-              ? editExpressionState.content
-              : term.content) ?? ""
+            (editExpressionState.definition !== undefined
+              ? editExpressionState.definition
+              : expression.definition) ?? ""
           }
-          onChange={(value) => onChange("content", value)}
-          label={t("term.description")}
+          onChange={(value) => onChange("definition", value)}
+          label={t("expression.description")}
           required
           sx={{ pt: 1 }}
           disabled={disableFields}
           helperText={
             <Trans
-              i18nKey={"term.descriptionFieldHelperText"}
+              i18nKey={"expression.descriptionFieldHelperText"}
               components={{ bold: <b /> }}
             />
           }
         />
-        <TermCardExamples
-          term={term}
+        <ExpressionCardExamples
+          expression={expression}
           addExampleButtonProps={{
             type: "iconButton",
             sx: { justifyContent: "flex-end" },

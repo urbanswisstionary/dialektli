@@ -22,7 +22,7 @@ const UserType = builder.prismaObject("User", {
     bio: t.exposeString("bio", { nullable: true }),
     image: t.exposeString("image", { nullable: true }),
     role: t.expose("role", { type: "Role" }),
-    terms: t.relation("terms"),
+    expressions: t.relation("expressions"),
     likes: t.relation("likes"),
     likesCount: t.int({
       resolve: ({ id }) => prisma.like.count({ where: { authorId: id } }),
@@ -33,13 +33,17 @@ const UserType = builder.prismaObject("User", {
     }),
     country: t.exposeString("country", { nullable: true }),
     canton: t.exposeString("canton", { nullable: true }),
-    myPublishedTermsCount: t.int({
+    myPublishedExpressionsCount: t.int({
       resolve: (parent) =>
-        prisma.term.count({ where: { authorId: parent.id, published: true } }),
+        prisma.expression.count({
+          where: { authorId: parent.id, published: true },
+        }),
     }),
-    myUnpublishedTermsCount: t.int({
+    myUnpublishedExpressionsCount: t.int({
       resolve: async (parent) =>
-        prisma.term.count({ where: { authorId: parent.id, published: false } }),
+        prisma.expression.count({
+          where: { authorId: parent.id, published: false },
+        }),
     }),
     flags: t.relation("flags"),
   }),

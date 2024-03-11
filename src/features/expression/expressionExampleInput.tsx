@@ -59,7 +59,7 @@ const ExpressionExampleInput: FC<
               onDelete={() => setContent("")}
               slotProps={{
                 root: {
-                  title: t("term.editTerm.deleteExample"),
+                  title: t("expression.editExpression.deleteExample"),
                   onFocus: () => textareaRef.current?.focus(),
                 },
               }}

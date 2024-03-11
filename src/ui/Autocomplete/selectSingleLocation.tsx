@@ -54,7 +54,7 @@ const SelectSingleLocation: FC<SelectSingleLocationProps> = ({
     <FormControl {...props}>
       {label ? <FormLabel>{label}</FormLabel> : null}
       <Autocomplete
-        placeholder={placeholder ?? t(`term.${mode}FieldPlaceholder`)}
+        placeholder={placeholder ?? t(`expression.${mode}FieldPlaceholder`)}
         size="sm"
         autoHighlight
         isOptionEqualToValue={(option, value) => option.code === value?.code}

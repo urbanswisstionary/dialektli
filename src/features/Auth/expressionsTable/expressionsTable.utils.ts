@@ -1,7 +1,7 @@
 import dayjs from "dayjs"
 import { sortingFns, FilterFn, SortingFn } from "@tanstack/react-table"
 import { rankItem, compareItems } from "@tanstack/match-sorter-utils"
-import type { AdminTermFragmentFragment } from "@@/generated/graphql"
+import type { AdminExpressionFragmentFragment } from "@@/generated/graphql"
 
 export const formatDate = ({
   date,
@@ -15,7 +15,7 @@ export const formatDate = ({
   return d.isValid() ? d.format(format) : "Invalid Date"
 }
 
-export const fuzzyFilter: FilterFn<AdminTermFragmentFragment> = (
+export const fuzzyFilter: FilterFn<AdminExpressionFragmentFragment> = (
   row,
   columnId,
   value,
@@ -31,7 +31,7 @@ export const fuzzyFilter: FilterFn<AdminTermFragmentFragment> = (
   return itemRank.passed
 }
 
-export const fuzzySort: SortingFn<AdminTermFragmentFragment> = (
+export const fuzzySort: SortingFn<AdminExpressionFragmentFragment> = (
   rowA,
   rowB,
   columnId,

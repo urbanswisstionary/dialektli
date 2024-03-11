@@ -12,7 +12,7 @@
       "home": "Home",
       "support": "Support",
       "profile": "My Profile",
-      "terms": "My Expressions",
+      "expressions": "My Expressions",
       "users": "Users",
       "createNewUser": "Create New User",
       "rolesAndPermissions": "Roles & Permissions"
@@ -29,8 +29,8 @@
     "firstChar": "Filter by First Character",
     "language": "Filter by Language"
   },
-  "newTermButton": {
-    "newTerm": "New Expression"
+  "newExpressionButton": {
+    "newExpression": "New Expression"
   },
   "actions": {
     "search": "Search",
@@ -105,9 +105,6 @@
       "deleteAccount": "Delete Account",
       "deleteAccountConfirmation": "Are you sure you want to delete your account? <bold>All your data will be deleted and cannot be restored!</bold>",
       "noUserFound": "No user found, please try to <0>Sign In</0> again"
-    },
-    "myTerms": {
-      "title": "Expressions"
     }
   },
   "guidelinesPage": {
@@ -139,8 +136,8 @@
       }
     ]
   },
-  "term": {
-    "term": "Expression",
+  "expression": {
+    "expression": "Expression",
     "description": "Definition",
     "author": "Author",
     "language": "Language",
@@ -154,24 +151,24 @@
     "example": "Example",
     "examples": "Examples",
     "synonyms": "Synonyms",
-    "pleaseSignInForTermAction": "Please <0>Sign In</0> to '{{action}}' this expression.",
+    "pleaseSignInForExpressionAction": "Please <0>Sign In</0> to '{{action}}' this expression.",
     "cantonFieldPlaceholder": "Select canton",
     "countryFieldPlaceholder": "Select country",
     "cantonFieldHelperText": "Select the cantons this expression is associated with",
     "descriptionFieldHelperText": "<bold>Write for a large audience.</bold> Lots of people will read this, so give some background information.",
     "examplesFieldHelperText": "Provide examples of how this expression is used in context, or how it is used in a sentence. This will help others understand the expression better.",
-    "newTerm": {
+    "newExpression": {
       "title": "New Expression",
       "description": "All the definitions were written by people just like you. Now's your chance to add your own!",
       "newSynonym": {
         "description": "Expand the lexicon. Add definitions."
       }
     },
-    "editTerm": {
+    "editExpression": {
       "title": "Edit Expression",
       "notAuthorizedWarning": "You are not authorized to edit this expression",
       "claimOwnership": "If you contributed this exporession and would like to <0>Claim Ownership</0> over this exporession.",
-      "claimOwnershipLinkHref": "mailto:urbanswisstionary@gmail.com?subject=Claim ownership over '{{termTitle}}', id '{{termId}}'&body=Hi, I would like to claim ownership over '{{termTitle}}', id '{{termId}}' and here I provide proofs of my claim.",
+      "claimOwnershipLinkHref": "mailto:urbanswisstionary@gmail.com?subject=Claim ownership over '{{expressionTitle}}', id '{{expressionId}}'&body=Hi, I would like to claim ownership over '{{expressionTitle}}', id '{{expressionId}}' and here I provide proofs of my claim.",
       "addExample": "Add another example",
       "deleteExample": "Delete example"
     },

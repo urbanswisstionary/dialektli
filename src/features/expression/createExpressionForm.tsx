@@ -3,7 +3,7 @@ import Card from "@/ui/Card"
 import ReviewGuidelines from "@/features/expression/reviewGuidelines"
 import ExpressionInput from "./expressionInput"
 import ExpressionDefinitionInput from "./expressionDefinitionInput"
-import { useCreateTermMutation } from "@/hooks/useTerms"
+import { useCreateExpressionMutation } from "@/hooks/useExpressions"
 import { useRouter } from "next/router"
 
 import { setQueryOnPage } from "@/utils/setQueryOnPage"
@@ -40,11 +40,11 @@ const CreateExpressionForm: FC = () => {
     [query.cantons, query.language],
   )
   const {
-    createTerm,
-    data: createTermData,
-    loading: createTermLoading,
-  } = useCreateTermMutation()
-  const createdTerm = createTermData?.createTerm
+    createExpression,
+    data: createExpressionData,
+    loading: createExpressionLoading,
+  } = useCreateExpressionMutation()
+  const createdExpression = createExpressionData?.createExpression
   const onChange = <K extends keyof Query>(
     queryKey: K,
     value: Query[K] | null,
@@ -52,14 +52,14 @@ const CreateExpressionForm: FC = () => {
     setQueryOnPage(router, { [queryKey]: value?.length ? value : null })
   }
   const preventSubmit =
-    !query.expression || !query.definition || createTermLoading
+    !query.expression || !query.definition || createExpressionLoading
 
   const onSubmit = async () => {
     try {
-      createTerm(
+      createExpression(
         {
           title: query.expression!,
-          content: query.definition,
+          definition: query.definition,
           cantons: sanitizedCantons,
           language: sanitizedLanguage,
           synonymId: synonym,
@@ -83,12 +83,12 @@ const CreateExpressionForm: FC = () => {
       }}
     >
       <Card
-        title={t("term.newTerm.title")}
+        title={t("expression.newExpression.title")}
         description={t(
-          `term.newTerm.${synonym ? "newSynonym." : ""}description`,
+          `expression.newExpression.${synonym ? "newSynonym." : ""}description`,
         )}
         actions={{
-          save: { type: "submit", loading: createTermLoading },
+          save: { type: "submit", loading: createExpressionLoading },
         }}
       >
         <ReviewGuidelines />
@@ -98,13 +98,13 @@ const CreateExpressionForm: FC = () => {
           onChange={(value) => {
             onChange("expression", value)
           }}
-          label={t("term.title")}
+          label={t("expression.title")}
           required
           sx={{ pt: 1 }}
-          disabled={!!createdTerm}
+          disabled={!!createdExpression}
         />
         {/* <SelectSingleLanguage
-          label={t("term.language")}
+          label={t("expression.language")}
           required
           value={sanitizedLanguage}
           onChange={(language) => {
@@ -113,9 +113,9 @@ const CreateExpressionForm: FC = () => {
           disableClearable
         /> */}
         <SelectMultipleLocation
-          label={t("term.canton")}
+          label={t("expression.canton")}
           mode="canton"
-          helperText={t("term.cantonFieldHelperText")}
+          helperText={t("expression.cantonFieldHelperText")}
           value={sanitizedCantons}
           onChange={(cantons) => {
             onChange("cantons", cantons)
@@ -127,16 +127,16 @@ const CreateExpressionForm: FC = () => {
           onChange={(value) => {
             onChange("definition", value)
           }}
-          label={t("term.description")}
+          label={t("expression.description")}
           helperText={
             <Trans
-              i18nKey="term.descriptionFieldHelperText"
+              i18nKey="expression.descriptionFieldHelperText"
               components={{ bold: <b /> }}
             />
           }
           required
           sx={{ pt: 1 }}
-          disabled={!!createdTerm}
+          disabled={!!createdExpression}
         />
       </Card>
     </form>

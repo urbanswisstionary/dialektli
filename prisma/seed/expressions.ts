@@ -2,92 +2,92 @@ import { Language, Prisma } from "@prisma/client"
 import prisma from "../../src/lib/prisma"
 import { anonymourUser } from "./users"
 
-const SEED_TERMS: Prisma.TermCreateArgs["data"][] = [
+const SEED_EXPRESSIONS: Prisma.ExpressionCreateArgs["data"][] = [
   {
     title: "Bolä",
-    content: "Geschlechtsverkehr",
+    definition: "Geschlechtsverkehr",
     cantons: ["LU"],
     language: Language.DE,
 
     examples: {
       createMany: {
         data: [
-          { content: "Ich gang die huer go bolä" },
-          { content: "Ich bi rattig, ich ha scho lang nimm boläd" },
+          { definition: "Ich gang die huer go bolä" },
+          { definition: "Ich bi rattig, ich ha scho lang nimm boläd" },
         ],
       },
     },
   },
   // {
   //   title: "Negerwurscht",
-  //   content: "Despektierlich für Banane",
+  //   definition: "Despektierlich für Banane",
   //   cantons: ["OW"],
   //   language: Language.DE,
   //   examples: {
   //     createMany: {
   //       data: [
-  //         { content: "Ich glaib ich frus a Negerwurscht" },
-  //         { content: "Dä Neger hed a grossi Wurscht" },
+  //         { definition: "Ich glaib ich frus a Negerwurscht" },
+  //         { definition: "Dä Neger hed a grossi Wurscht" },
   //       ],
   //     },
   //   },
   // },
   {
     title: "Hai",
-    content: "häi: heim, nach Hause; Häi: das Daheim.",
+    definition: "häi: heim, nach Hause; Häi: das Daheim.",
     cantons: ["OW"],
     language: Language.DE,
     examples: {
       createMany: {
         data: [
-          { content: "I Huis und Häi." },
-          { content: "Huis und Häi verlyyrä." },
-          { content: "um Huis und Häi cho." },
+          { definition: "I Huis und Häi." },
+          { definition: "Huis und Häi verlyyrä." },
+          { definition: "um Huis und Häi cho." },
         ],
       },
     },
   },
   {
     title: "Grüessech",
-    content: "Hallo; Grüezi; Sali",
+    definition: "Hallo; Grüezi; Sali",
     cantons: ["BE"],
     language: Language.DE,
     examples: {
       createMany: {
         data: [
-          { content: "Grüessech, wie gohts?" },
-          { content: "Grüessech, wie bisch?" },
-          { content: "Grüessech, wie geits?" },
+          { definition: "Grüessech, wie gohts?" },
+          { definition: "Grüessech, wie bisch?" },
+          { definition: "Grüessech, wie geits?" },
         ],
       },
     },
   },
   {
     title: "Guetzle",
-    content: "Kekse; Plätzchen",
+    definition: "Kekse; Plätzchen",
     cantons: ["BE", "ZH", "LU"],
     language: Language.DE,
     examples: {
       createMany: {
         data: [
-          { content: "Hesch scho guetzlet?" },
-          { content: "I ha guetzlet" },
-          { content: "Guetzle mache" },
+          { definition: "Hesch scho guetzlet?" },
+          { definition: "I ha guetzlet" },
+          { definition: "Guetzle mache" },
         ],
       },
     },
   },
   {
     title: "Güx",
-    content: "Spaß; Scherz",
+    definition: "Spaß; Scherz",
     cantons: ["BE"],
     language: Language.DE,
     examples: {
       createMany: {
         data: [
-          { content: "Mach kei güx!" },
-          { content: "Das isch kei güx!" },
-          { content: "Das isch e güx!" },
+          { definition: "Mach kei güx!" },
+          { definition: "Das isch kei güx!" },
+          { definition: "Das isch e güx!" },
         ],
       },
     },
@@ -95,126 +95,129 @@ const SEED_TERMS: Prisma.TermCreateArgs["data"][] = [
 
   {
     title: "schröpfe",
-    content:
+    definition:
       "Schreibweisen: schräpfe, gschräpft Bedeutung: 1. schröpfen, 2. ausbeuten, aussaugen, ausnehmen usw.; jmd. (z.B. den Autofahrern) mit mehr oder weniger Berechtigung (zu)viel Geld abnehmen, wie es der Staat durch Parkbussen macht",
     cantons: ["BE"],
     language: Language.DE,
     examples: {
       createMany: {
-        data: [{ content: "I ha mi am letschte Sunntig gschräpft gfühlt." }],
+        data: [{ definition: "I ha mi am letschte Sunntig gschräpft gfühlt." }],
       },
     },
   },
   {
     title: "Mutsch",
-    content:
+    definition:
       "allgemein etwas Rundes, Abgestumpftes, beleibte Person, rundliches Kind, Ziege ohne Hörner, kleiner Käselaib.",
     cantons: ["BE"],
   },
   {
     title: "Mutschlitürgg",
-    content:
+    definition:
       "Bedeutung: beleibter Mann oder Junge. Das Wort ist eine spielerische Weiterbildung von 'Mutsch' oder 'Mutschli', was einen rundlichen Käselaib, eine Ziege ohne Hörner oder eben auch ein beleibtes Kind bezeichnen konnte. Wenn bloss der Kopf gemeint war, sprach man eher von einem > Mutschligrind oder Mutschgrind.",
     cantons: ["BE"],
   },
   {
     title: "De Fisch mache",
-    content:
+    definition:
       "Lassen Sie ein Ereignis, ein Gespräch oder einen Ort, den Sie nicht mögen, stillschweigend hinter sich – das ist das Äquivalent dazu, still und leise der schlimmen oder lästigen Situation zu entfliehen, in der Sie sich befanden.",
     cantons: ["ZH"],
     language: Language.DE,
     examples: {
       createMany: {
         data: [
-          { content: "I mues jetzt de Fisch mache" },
-          { content: "I ha gestern de Fisch gmacht" },
+          { definition: "I mues jetzt de Fisch mache" },
+          { definition: "I ha gestern de Fisch gmacht" },
         ],
       },
     },
   },
   {
     title: "Schräpfe",
-    content: "A local dish made with flour, water, and salt, fried in butter.",
+    definition:
+      "A local dish made with flour, water, and salt, fried in butter.",
     cantons: ["OW"],
     language: Language.DE,
     examples: {
       createMany: {
         data: [
-          { content: "Hesch scho Schräpfe probiert?" },
-          { content: "I ha Schräpfe gmacht" },
-          { content: "Schräpfe ässe" },
+          { definition: "Hesch scho Schräpfe probiert?" },
+          { definition: "I ha Schräpfe gmacht" },
+          { definition: "Schräpfe ässe" },
         ],
       },
     },
   },
   {
     title: "Gschpänig",
-    content: "Cute or charming, often applied to children or small animals.",
+    definition: "Cute or charming, often applied to children or small animals.",
     cantons: ["OW"],
     language: Language.DE,
     examples: {
       createMany: {
         data: [
-          { content: "Das chli Bäbi isch so gschpänig!" },
-          { content: "Hesch das chline Chätzli gseh? Es isch so gschpänig!" },
-          { content: "E chli gschpänigi Chlapf" },
+          { definition: "Das chli Bäbi isch so gschpänig!" },
+          {
+            definition: "Hesch das chline Chätzli gseh? Es isch so gschpänig!",
+          },
+          { definition: "E chli gschpänigi Chlapf" },
         ],
       },
     },
   },
   {
     title: "Chnüppel",
-    content:
+    definition:
       "A small stick or twig, commonly used in local expressions or idioms.",
     cantons: ["OW"],
     language: Language.DE,
     examples: {
       createMany: {
         data: [
-          { content: "Chnüppeli sammle" },
-          { content: "Mit em Chnüppel spiele" },
-          { content: "E chli Chnüppelholz" },
+          { definition: "Chnüppeli sammle" },
+          { definition: "Mit em Chnüppel spiele" },
+          { definition: "E chli Chnüppelholz" },
         ],
       },
     },
   },
   {
     title: "Trübeli",
-    content:
+    definition:
       "Cloudy or murky weather, often used to describe the sky or water conditions.",
     cantons: ["OW"],
     language: Language.DE,
     examples: {
       createMany: {
         data: [
-          { content: "Es isch hüt Trübeli drauße" },
-          { content: "Im See isch es Trübeli" },
-          { content: "Trübeli überm Berg" },
+          { definition: "Es isch hüt Trübeli drauße" },
+          { definition: "Im See isch es Trübeli" },
+          { definition: "Trübeli überm Berg" },
         ],
       },
     },
   },
   {
     title: "Schuppel",
-    content:
+    definition:
       "A term that might refer to a gentle shake or a light pat, used in various contexts such as expressing affection or getting someone's attention.",
     cantons: ["OW"],
     language: Language.DE,
     examples: {
       createMany: {
         data: [
-          { content: "E chli Schuppel als Liebesbeweis" },
-          { content: "Schuppel uf de Rücke" },
-          { content: "Gib em es Schuppel" },
+          { definition: "E chli Schuppel als Liebesbeweis" },
+          { definition: "Schuppel uf de Rücke" },
+          { definition: "Gib em es Schuppel" },
         ],
       },
     },
   },
 ]
 
-export const seedTerms = async () => {
-  let skippedTermsCount = 0
-  let createdTermsCount = 0
+export const seedExpression = async () => {
+  let skippedExpressionssCount = 0
+  let createdExpressionsCount = 0
   const anonymourUserId = (
     await prisma.user.findFirst({
       where: { email: anonymourUser.email },
@@ -224,37 +227,37 @@ export const seedTerms = async () => {
 
   if (!anonymourUserId)
     throw new Error("Anonymous user not found, please seed users first.")
-  for (const { title, content, cantons, examples } of SEED_TERMS) {
-    const existingTerm = await prisma.term.findFirst({
-      where: { title, content, authorId: anonymourUserId },
+  for (const { title, definition, cantons, examples } of SEED_EXPRESSIONS) {
+    const existingExpression = await prisma.expression.findFirst({
+      where: { title, definition, authorId: anonymourUserId },
       select: { id: true },
     })
-    if (existingTerm) {
+    if (existingExpression) {
       // eslint-disable-next-line no-console
       console.log(
-        `[seed term] Skipping ${title} as it already exists, id: ${existingTerm.id}.`,
+        `[seed expression] Skipping ${title} as it already exists, id: ${existingExpression.id}.`,
       )
-      skippedTermsCount++
+      skippedExpressionssCount++
       continue
     }
-    const createdTerm = await prisma.term.create({
+    const createdExpression = await prisma.expression.create({
       data: {
         title,
-        content,
+        definition,
         cantons,
         examples,
         author: { connect: { id: anonymourUserId } },
         published: true,
       },
     })
-    createdTermsCount++
+    createdExpressionsCount++
     // eslint-disable-next-line no-console
-    console.log(`[seed terms] ${title} was successfully seeded`, {
-      createdTerm,
+    console.log(`[seed expressions] ${title} was successfully seeded`, {
+      createdExpression: createdExpression,
     })
   }
   // eslint-disable-next-line no-console
   console.log(
-    `[seed terms]: ${skippedTermsCount} terms were skipped and ${createdTermsCount} terms were successfully seeded`,
+    `[seed expressions]: ${skippedExpressionssCount} expressions were skipped and ${createdExpressionsCount} expressions were successfully seeded`,
   )
 }

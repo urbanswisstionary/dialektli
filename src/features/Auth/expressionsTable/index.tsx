@@ -4,7 +4,7 @@ import Table from "@mui/joy/Table"
 import Sheet from "@mui/joy/Sheet"
 import Checkbox from "@mui/joy/Checkbox"
 import RowMenu from "./components/rowMenu"
-import type { TermStatus } from "@/ui/TermStatusChip"
+import type { ExpressionStatus } from "@/ui/ExpressionStatusChip"
 import {
   useReactTable,
   ColumnFiltersState,
@@ -18,7 +18,7 @@ import {
   ColumnDef,
 } from "@tanstack/react-table"
 import type {
-  AdminTermFragmentFragment,
+  AdminExpressionFragmentFragment,
   // Language
 } from "@@/generated/graphql"
 import Divider from "@mui/joy/Divider"
@@ -26,38 +26,49 @@ import Pagination from "@/ui/Pagination"
 import DebouncedInput from "../../../ui/debouncedInput"
 import TableHead from "./components/tableHeader"
 import TableBody from "./components/tableBody"
-import { formatDate, fuzzyFilter, fuzzySort } from "./termsTable.utils"
-import TermStatusChip from "@/ui/TermStatusChip"
+import { formatDate, fuzzyFilter, fuzzySort } from "./expressionsTable.utils"
+import ExpressionStatusChip from "@/ui/ExpressionStatusChip"
 import List from "@mui/joy/List"
 import Typography from "@mui/joy/Typography"
-import TermsListItem from "./components/termsListItem"
+import ExpressionsListItem from "./components/expressionsListItem"
 import Flag from "@/ui/Flag"
 import Stack from "@mui/joy/Stack"
-import NewTermButton from "@/ui/NewTermButton"
-import { AdminTermFragment, useAdminTermsQuery } from "@/hooks/useTerms"
+import NewExpressionButton from "@/ui/NewExpressionButton"
+import {
+  AdminExpressionFragment,
+  useAdminExpressionsQuery,
+} from "@/hooks/useExpressions"
 import { getFragmentData } from "@@/generated"
 import CircularProgress from "@mui/joy/CircularProgress"
 import { useTranslation } from "next-i18next"
 import { useMe } from "@/hooks/useUsers"
 
-const TermsTable: FC = () => {
+const ExpressionsTable: FC = () => {
   const { t } = useTranslation("common")
   const { isAdmin } = useMe()
   const {
     data,
     previousData,
-    loading: loadingAdminTermsQuery,
-  } = useAdminTermsQuery()
-  const terms = useMemo(() => {
-    const adminTerms = data?.adminTerms ?? previousData?.adminTerms
-    return [...(getFragmentData(AdminTermFragment, adminTerms?.terms) ?? [])]
-  }, [data?.adminTerms, previousData?.adminTerms])
+    loading: loadingAdminExpressionsQuery,
+  } = useAdminExpressionsQuery()
+  const expressions = useMemo(() => {
+    const adminExpressions =
+      data?.adminExpressions ?? previousData?.adminExpressions
+    return [
+      ...(getFragmentData(
+        AdminExpressionFragment,
+        adminExpressions?.expressions,
+      ) ?? []),
+    ]
+  }, [data?.adminExpressions, previousData?.adminExpressions])
 
   const [globalFilter, setGlobalFilter] = useState("")
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
-  const columns = useMemo<ColumnDef<AdminTermFragmentFragment, any>[]>(() => {
-    const columns: ColumnDef<AdminTermFragmentFragment, any>[] = [
+  const columns = useMemo<
+    ColumnDef<AdminExpressionFragmentFragment, any>[]
+  >(() => {
+    const columns: ColumnDef<AdminExpressionFragmentFragment, any>[] = [
       {
         id: "select",
         header: ({ table }) => (
@@ -80,7 +91,7 @@ const TermsTable: FC = () => {
       },
       {
         id: "author",
-        header: t("term.author"),
+        header: t("expression.author"),
         accessorFn: ({ author }) => author?.name,
         cell: (info) => <Typography noWrap>{info.getValue()}</Typography>,
         footer: (props) => props.column.id,
@@ -89,7 +100,7 @@ const TermsTable: FC = () => {
       },
       // {
       //   id: "language",
-      //   header: t("term.language"),
+      //   header: t("expression.language"),
       //   accessorKey: "language",
       //   accessorFn: ({ language }) => language,
       //   cell: (info) => {
@@ -111,7 +122,7 @@ const TermsTable: FC = () => {
       // },
       {
         id: "canton",
-        header: t("term.canton"),
+        header: t("expression.canton"),
         accessorKey: "canton",
         accessorFn: ({ cantons }) => (cantons.length ? cantons : "N/A"),
         cell: (info) => {
@@ -134,7 +145,7 @@ const TermsTable: FC = () => {
         sortingFn: fuzzySort,
       },
       {
-        header: t("term.title"),
+        header: t("expression.title"),
         accessorKey: "title",
         cell: (info) => <Typography noWrap>{info.getValue()}</Typography>,
         footer: (props) => props.column.id,
@@ -151,20 +162,22 @@ const TermsTable: FC = () => {
       // },
       {
         id: "status",
-        header: t("term.status"),
+        header: t("expression.status"),
         accessorFn: ({ published }) =>
           published ? "published" : "unpublished",
-        cell: (info) => <TermStatusChip status={info.getValue<TermStatus>()} />,
+        cell: (info) => (
+          <ExpressionStatusChip status={info.getValue<ExpressionStatus>()} />
+        ),
         footer: (props) => props.column.id,
       },
       {
         id: "flagged",
-        header: t("term.flagged"),
+        header: t("expression.flagged"),
         accessorFn: ({ flagged }) => (flagged.length ? "True" : "False"),
         cell: (info) => {
           const status = info.getValue<string>()
           return status === "True" ? (
-            <TermStatusChip status={"flagged"} />
+            <ExpressionStatusChip status={"flagged"} />
           ) : (
             <></>
           )
@@ -173,7 +186,7 @@ const TermsTable: FC = () => {
       },
       {
         id: "updatedAt",
-        header: t("term.updatedAt"),
+        header: t("expression.updatedAt"),
         accessorKey: "updatedAt",
         accessorFn: ({ updatedAt }) =>
           formatDate({ date: updatedAt, format: "DD. MMM YYYY H:mm" }),
@@ -183,9 +196,11 @@ const TermsTable: FC = () => {
         id: "actions",
         header: "",
         footer: (props) => props.column.id,
-        accessorFn: (term) => term,
+        accessorFn: (expression) => expression,
         cell: (info) => (
-          <RowMenu term={info.getValue<AdminTermFragmentFragment>()} />
+          <RowMenu
+            expression={info.getValue<AdminExpressionFragmentFragment>()}
+          />
         ),
         enableColumnFilter: false,
         enableGlobalFilter: false,
@@ -199,7 +214,7 @@ const TermsTable: FC = () => {
   }, [isAdmin, t])
 
   const table = useReactTable({
-    data: terms,
+    data: expressions,
     columns,
     filterFns: {
       fuzzy: fuzzyFilter,
@@ -234,13 +249,16 @@ const TermsTable: FC = () => {
             value={globalFilter ?? ""}
             onChange={(value) => setGlobalFilter(value)}
             placeholder={t("actions.search")}
-            disabled={loadingAdminTermsQuery}
+            disabled={loadingAdminExpressionsQuery}
             size="lg"
           />
         </Box>
-        <NewTermButton size="lg" disabled={loadingAdminTermsQuery} />
+        <NewExpressionButton
+          size="lg"
+          disabled={loadingAdminExpressionsQuery}
+        />
       </Stack>
-      {loadingAdminTermsQuery ? (
+      {loadingAdminExpressionsQuery ? (
         <Stack direction="row" justifyContent="center" my={5}>
           <CircularProgress size="lg" variant="soft" />
         </Stack>
@@ -278,8 +296,11 @@ const TermsTable: FC = () => {
                 },
               }}
             >
-              {rows.map(({ original: term }) => (
-                <TermsListItem key={term.id} term={term} />
+              {rows.map(({ original: expression }) => (
+                <ExpressionsListItem
+                  key={expression.id}
+                  expression={expression}
+                />
               ))}
             </List>
           </Box>
@@ -293,11 +314,11 @@ const TermsTable: FC = () => {
           onPageChange={(page) => table.setPageIndex(page - 1)}
           pageSize={table.getState().pagination.pageSize}
           onPageSizeChange={table.setPageSize}
-          disabled={loadingAdminTermsQuery}
+          disabled={loadingAdminExpressionsQuery}
         />
       </Box>
     </Sheet>
   )
 }
 
-export default TermsTable
+export default ExpressionsTable

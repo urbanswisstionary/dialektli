@@ -1,5 +1,5 @@
 /* eslint-disable */
-import type { Prisma, Like, Dislike, Flag, Term, TermExample, Synonym, Account, Session, User, VerificationToken } from "@prisma/client";
+import type { Prisma, Like, Dislike, Flag, Expression, ExpressionExample, Synonym, Account, Session, User, VerificationToken } from "@prisma/client";
 export default interface PrismaTypes {
     Like: {
         Name: "Like";
@@ -11,12 +11,12 @@ export default interface PrismaTypes {
         Where: Prisma.LikeWhereInput;
         Create: {};
         Update: {};
-        RelationName: "term" | "author";
+        RelationName: "expression" | "author";
         ListRelations: never;
         Relations: {
-            term: {
-                Shape: Term;
-                Name: "Term";
+            expression: {
+                Shape: Expression;
+                Name: "Expression";
                 Nullable: false;
             };
             author: {
@@ -36,12 +36,12 @@ export default interface PrismaTypes {
         Where: Prisma.DislikeWhereInput;
         Create: {};
         Update: {};
-        RelationName: "term" | "author";
+        RelationName: "expression" | "author";
         ListRelations: never;
         Relations: {
-            term: {
-                Shape: Term;
-                Name: "Term";
+            expression: {
+                Shape: Expression;
+                Name: "Expression";
                 Nullable: false;
             };
             author: {
@@ -61,12 +61,12 @@ export default interface PrismaTypes {
         Where: Prisma.FlagWhereInput;
         Create: {};
         Update: {};
-        RelationName: "term" | "author";
+        RelationName: "expression" | "author";
         ListRelations: never;
         Relations: {
-            term: {
-                Shape: Term;
-                Name: "Term";
+            expression: {
+                Shape: Expression;
+                Name: "Expression";
                 Nullable: false;
             };
             author: {
@@ -76,14 +76,14 @@ export default interface PrismaTypes {
             };
         };
     };
-    Term: {
-        Name: "Term";
-        Shape: Term;
-        Include: Prisma.TermInclude;
-        Select: Prisma.TermSelect;
-        OrderBy: Prisma.TermOrderByWithRelationInput;
-        WhereUnique: Prisma.TermWhereUniqueInput;
-        Where: Prisma.TermWhereInput;
+    Expression: {
+        Name: "Expression";
+        Shape: Expression;
+        Include: Prisma.ExpressionInclude;
+        Select: Prisma.ExpressionSelect;
+        OrderBy: Prisma.ExpressionOrderByWithRelationInput;
+        WhereUnique: Prisma.ExpressionWhereUniqueInput;
+        Where: Prisma.ExpressionWhereInput;
         Create: {};
         Update: {};
         RelationName: "author" | "likes" | "dislikes" | "flagged" | "synonymOf" | "synonyms" | "examples";
@@ -120,28 +120,28 @@ export default interface PrismaTypes {
                 Nullable: false;
             };
             examples: {
-                Shape: TermExample[];
-                Name: "TermExample";
+                Shape: ExpressionExample[];
+                Name: "ExpressionExample";
                 Nullable: false;
             };
         };
     };
-    TermExample: {
-        Name: "TermExample";
-        Shape: TermExample;
-        Include: Prisma.TermExampleInclude;
-        Select: Prisma.TermExampleSelect;
-        OrderBy: Prisma.TermExampleOrderByWithRelationInput;
-        WhereUnique: Prisma.TermExampleWhereUniqueInput;
-        Where: Prisma.TermExampleWhereInput;
+    ExpressionExample: {
+        Name: "ExpressionExample";
+        Shape: ExpressionExample;
+        Include: Prisma.ExpressionExampleInclude;
+        Select: Prisma.ExpressionExampleSelect;
+        OrderBy: Prisma.ExpressionExampleOrderByWithRelationInput;
+        WhereUnique: Prisma.ExpressionExampleWhereUniqueInput;
+        Where: Prisma.ExpressionExampleWhereInput;
         Create: {};
         Update: {};
-        RelationName: "term" | "author";
+        RelationName: "expression" | "author";
         ListRelations: never;
         Relations: {
-            term: {
-                Shape: Term;
-                Name: "Term";
+            expression: {
+                Shape: Expression;
+                Name: "Expression";
                 Nullable: false;
             };
             author: {
@@ -165,13 +165,13 @@ export default interface PrismaTypes {
         ListRelations: never;
         Relations: {
             synonymOf: {
-                Shape: Term;
-                Name: "Term";
+                Shape: Expression;
+                Name: "Expression";
                 Nullable: false;
             };
             synonym: {
-                Shape: Term;
-                Name: "Term";
+                Shape: Expression;
+                Name: "Expression";
                 Nullable: false;
             };
         };
@@ -226,12 +226,12 @@ export default interface PrismaTypes {
         Where: Prisma.UserWhereInput;
         Create: {};
         Update: {};
-        RelationName: "terms" | "accounts" | "sessions" | "likes" | "dislikes" | "flags" | "examples";
-        ListRelations: "terms" | "accounts" | "sessions" | "likes" | "dislikes" | "flags" | "examples";
+        RelationName: "expressions" | "accounts" | "sessions" | "likes" | "dislikes" | "flags" | "examples";
+        ListRelations: "expressions" | "accounts" | "sessions" | "likes" | "dislikes" | "flags" | "examples";
         Relations: {
-            terms: {
-                Shape: Term[];
-                Name: "Term";
+            expressions: {
+                Shape: Expression[];
+                Name: "Expression";
                 Nullable: false;
             };
             accounts: {
@@ -260,8 +260,8 @@ export default interface PrismaTypes {
                 Nullable: false;
             };
             examples: {
-                Shape: TermExample[];
-                Name: "TermExample";
+                Shape: ExpressionExample[];
+                Name: "ExpressionExample";
                 Nullable: false;
             };
         };

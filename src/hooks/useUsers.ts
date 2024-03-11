@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@apollo/client"
 import { MeQuery, Role, UpdateUserInput } from "@@/generated/graphql"
 import { getFragmentData, graphql } from "@@/generated"
 import { useSession } from "next-auth/react"
-import { AdminTermsQuery } from "./useTerms"
+import { AdminExpressionsQuery } from "./useExpressions"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 
@@ -18,12 +18,12 @@ export const MeFragment = graphql(/* GraphQL */ `
     canton
     likesCount
     dislikesCount
-    terms {
+    expressions {
       id
       title
     }
-    myPublishedTermsCount
-    myUnpublishedTermsCount
+    myPublishedExpressionsCount
+    myUnpublishedExpressionsCount
   }
 `)
 
@@ -151,7 +151,7 @@ export const useDeleteUserMutation = () => {
         onCompleted: () => {
           if (onCompletedCallback) onCompletedCallback()
         },
-        refetchQueries: [{ query: ME_QUERY }, { query: AdminTermsQuery }],
+        refetchQueries: [{ query: ME_QUERY }, { query: AdminExpressionsQuery }],
       }),
     ...mutationData,
   }
@@ -166,18 +166,18 @@ export const AdminUserFragment = graphql(/* GraphQL */ `
     bio
     image
     role
-    terms {
+    expressions {
       id
-      ...AdminTermFragment
+      ...AdminExpressionFragment
     }
     country
     canton
     likesCount
     dislikesCount
-    publishedTermsCount: myPublishedTermsCount
-    unpublishedTermsCount: myUnpublishedTermsCount
+    publishedExpressionsCount: myPublishedExpressionsCount
+    unpublishedExpressionsCount: myUnpublishedExpressionsCount
     flags {
-      termId
+      expressionId
       createdAt
     }
   }
@@ -204,8 +204,8 @@ export const AdminUsersFragment = graphql(/* GraphQL */ `
     canton
     likesCount
     dislikesCount
-    publishedTermsCount: myPublishedTermsCount
-    unpublishedTermsCount: myUnpublishedTermsCount
+    publishedExpressionsCount: myPublishedExpressionsCount
+    unpublishedExpressionsCount: myUnpublishedExpressionsCount
   }
 `)
 

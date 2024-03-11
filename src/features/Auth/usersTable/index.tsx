@@ -22,14 +22,14 @@ import DebouncedInput from "../../../ui/debouncedInput"
 import TableHead from "./components/tableHeader"
 import TableBody from "./components/tableBody"
 import { fuzzyFilter, fuzzySort } from "./table.utils"
-import TermStatusChip from "@/ui/TermStatusChip"
+import ExpressionStatusChip from "@/ui/ExpressionStatusChip"
 import List from "@mui/joy/List"
 import UsersListItem from "./components/usersListItem"
 
 import Typography from "@mui/joy/Typography"
 import Flag from "@/ui/Flag"
 import Stack from "@mui/joy/Stack"
-import NewTermButton from "@/ui/NewTermButton"
+import NewExpressionButton from "@/ui/NewExpressionButton"
 import { getFragmentData } from "@@/generated"
 import CircularProgress from "@mui/joy/CircularProgress"
 import { useTranslation } from "next-i18next"
@@ -128,8 +128,9 @@ const UsersTable: FC = () => {
       },
       {
         id: "published",
-        header: () => <TermStatusChip status="published" />,
-        accessorFn: ({ publishedTermsCount }) => `${publishedTermsCount}`,
+        header: () => <ExpressionStatusChip status="published" />,
+        accessorFn: ({ publishedExpressionsCount }) =>
+          `${publishedExpressionsCount}`,
         cell: (info) => {
           return (
             <Stack direction="row" justifyContent="center">
@@ -142,8 +143,9 @@ const UsersTable: FC = () => {
       },
       {
         id: "unpublished",
-        header: () => <TermStatusChip status="unpublished" />,
-        accessorFn: ({ unpublishedTermsCount }) => `${unpublishedTermsCount}`,
+        header: () => <ExpressionStatusChip status="unpublished" />,
+        accessorFn: ({ unpublishedExpressionsCount }) =>
+          `${unpublishedExpressionsCount}`,
         cell: (info) => {
           return (
             <Stack direction="row" justifyContent="center">
@@ -242,7 +244,7 @@ const UsersTable: FC = () => {
             size="lg"
           />
         </Box>
-        <NewTermButton size="lg" disabled={loadingAdminUsersQuery} />
+        <NewExpressionButton size="lg" disabled={loadingAdminUsersQuery} />
       </Stack>
       {loadingAdminUsersQuery ? (
         <Stack direction="row" justifyContent="center" my={5}>

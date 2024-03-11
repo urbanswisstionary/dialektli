@@ -1,12 +1,11 @@
-input CreateTermExampleInput {
-  content: String!
-  termId: String!
+input CreateExpressionExampleInput {
+  definition: String!
+  expressionId: String!
 }
 
-input CreateTermInput {
+input CreateExpressionInput {
   cantons: [String!]
-  content: String
-  examples: [String!]
+  definition: String
   language: Language
   synonymId: String
   title: String!
@@ -26,7 +25,7 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTime
 
-input DeleteTermExampleInput {
+input DeleteExpressionExampleInput {
   exampleId: String!
 }
 
@@ -34,16 +33,82 @@ type Dislike {
   author: User!
   authorId: ID!
   createdAt: DateTime!
-  term: Term!
-  termId: ID!
+  expression: Expression!
+  expressionId: ID!
+}
+
+type Expression {
+  author: User!
+  cantons: [String!]!
+  createdAt: DateTime!
+  definition: String
+  dislikedByMe: Boolean!
+  dislikes: [Dislike!]!
+  dislikesCount: Int!
+  examples: [ExpressionExample!]!
+  flagged: [Flag!]!
+  flaggedByMe: Boolean!
+  id: ID!
+  language: Language!
+  likedByMe: Boolean!
+  likes: [Like!]!
+  likesCount: Int!
+  published: Boolean!
+
+  """the expressions that the parent expression is a synonym of"""
+  synonymOf: [Synonym!]!
+
+  """synonyms of the parent expression"""
+  synonyms: [Synonym!]!
+  title: String!
+  updatedAt: DateTime
+}
+
+input ExpressionActionInput {
+  dislike: Boolean
+  expressionId: String!
+  flag: Boolean
+  like: Boolean
+}
+
+type ExpressionExample {
+  author: User!
+  authorId: ID
+  cantons: [String!]!
+  createdAt: DateTime!
+  definition: String!
+  expression: Expression!
+  expressionId: ID!
+  id: ID!
+  updatedAt: DateTime
+}
+
+input ExpressionIdInput {
+  expressionId: String!
+}
+
+input ExpressionsQueryInput {
+  authorName: String
+  canton: String
+  firstChar: String
+  language: Language
+  limit: Int
+  offset: Int
+  q: String
+  slug: String
+}
+
+type ExpressionsWithCount {
+  count: Int!
+  expressions: [Expression!]!
 }
 
 type Flag {
   author: User!
   authorId: ID!
   createdAt: DateTime!
-  term: Term!
-  termId: ID!
+  expression: Expression!
+  expressionId: ID!
 }
 
 """
@@ -61,31 +126,31 @@ type Like {
   author: User!
   authorId: ID!
   createdAt: DateTime!
-  term: Term!
-  termId: ID!
+  expression: Expression!
+  expressionId: ID!
 }
 
 type Mutation {
   changeUserRole(role: Role!, userId: String!): User
-  createTerm(data: CreateTermInput!): Term
-  createTermExample(data: CreateTermExampleInput!): TermExample
+  createExpression(data: CreateExpressionInput!): Expression
+  createExpressionExample(data: CreateExpressionExampleInput!): ExpressionExample
   createUser(data: CreateUserInput!): User
-  deleteTerm(data: TermIdInput!): Term
-  deleteTermExample(data: DeleteTermExampleInput!): TermExample
+  deleteExpression(data: ExpressionIdInput!): Expression
+  deleteExpressionExample(data: DeleteExpressionExampleInput!): ExpressionExample
   deleteUser(data: UserIdInput!): User
-  termAction(data: TermActionInput!): Boolean!
-  updateTerm(data: UpdateTermInput!): Term
-  updateTermExample(data: UpdateTermExampleInput!): TermExample
+  expressionAction(data: ExpressionActionInput!): Boolean!
+  updateExpression(data: UpdateExpressionInput!): Expression
+  updateExpressionExample(data: UpdateExpressionExampleInput!): ExpressionExample
   updateUser(data: UpdateUserInput!): User
 }
 
 type Query {
-  adminTerms: TermsWithCount
+  adminExpressions: ExpressionsWithCount
   adminUser(data: UserIdInput!): User!
   adminUsers: UsersWithCount
+  expression(data: ExpressionIdInput!): Expression
+  expressionsQuery(data: ExpressionsQueryInput!): ExpressionsWithCount
   me: User!
-  term(data: TermIdInput!): Term
-  termsQuery(data: TermsQueryInput!): TermsWithCount
   verifyUserNameIsUnique(name: String!): Boolean!
 }
 
@@ -95,87 +160,21 @@ enum Role {
 }
 
 type Synonym {
-  """synonym of the parent term"""
-  synonym: Term!
+  """synonym of the parent expression"""
+  synonym: Expression!
 
-  """the term that the parent term is a synonym of"""
-  synonymOf: Term!
+  """the expression that the parent expression is a synonym of"""
+  synonymOf: Expression!
 }
 
-type Term {
-  author: User!
-  cantons: [String!]!
-  content: String
-  createdAt: DateTime!
-  dislikedByMe: Boolean!
-  dislikes: [Dislike!]!
-  dislikesCount: Int!
-  examples: [TermExample!]!
-  flagged: [Flag!]!
-  flaggedByMe: Boolean!
-  id: ID!
-  language: Language!
-  likedByMe: Boolean!
-  likes: [Like!]!
-  likesCount: Int!
-  published: Boolean!
-
-  """the terms that the parent term is a synonym of"""
-  synonymOf: [Synonym!]!
-
-  """synonyms of the parent term"""
-  synonyms: [Synonym!]!
-  title: String!
-  updatedAt: DateTime
-}
-
-input TermActionInput {
-  dislike: Boolean
-  flag: Boolean
-  like: Boolean
-  termId: String!
-}
-
-type TermExample {
-  author: User!
-  authorId: ID
-  cantons: [String!]!
-  content: String!
-  createdAt: DateTime!
-  id: ID!
-  term: Term!
-  termId: ID!
-  updatedAt: DateTime
-}
-
-input TermIdInput {
-  termId: String!
-}
-
-input TermsQueryInput {
-  authorName: String
-  canton: String
-  firstChar: String
-  language: Language
-  limit: Int
-  offset: Int
-  q: String
-  slug: String
-}
-
-type TermsWithCount {
-  count: Int!
-  terms: [Term!]!
-}
-
-input UpdateTermExampleInput {
-  content: String!
+input UpdateExpressionExampleInput {
+  definition: String!
   exampleId: String!
 }
 
-input UpdateTermInput {
+input UpdateExpressionInput {
   cantons: [String!]
-  content: String
+  definition: String
   id: String!
   published: Boolean
   title: String
@@ -198,16 +197,16 @@ type User {
   dislikesCount: Int!
   email: String!
   emailVerified: DateTime
+  expressions: [Expression!]!
   flags: [Flag!]!
   id: ID!
   image: String
   likes: [Like!]!
   likesCount: Int!
-  myPublishedTermsCount: Int!
-  myUnpublishedTermsCount: Int!
+  myPublishedExpressionsCount: Int!
+  myUnpublishedExpressionsCount: Int!
   name: String!
   role: Role!
-  terms: [Term!]!
 }
 
 input UserIdInput {

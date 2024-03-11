@@ -15,39 +15,39 @@ generator pothos {
 }
 
 model Like {
-  term      Term      @relation(fields: [termId], references: [id], onDelete: Cascade)
-  termId    String
-  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  authorId  String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
+  expression   Expression @relation(fields: [expressionId], references: [id], onDelete: Cascade)
+  expressionId String
+  author       User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId     String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime?  @updatedAt
 
-  @@id([termId, authorId])
-  @@unique([termId, authorId])
+  @@id([expressionId, authorId])
+  @@unique([expressionId, authorId])
 }
 
 model Dislike {
-  term      Term      @relation(fields: [termId], references: [id], onDelete: Cascade)
-  termId    String
-  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  authorId  String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
+  expression   Expression @relation(fields: [expressionId], references: [id], onDelete: Cascade)
+  expressionId String
+  author       User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId     String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime?  @updatedAt
 
-  @@id([termId, authorId])
-  @@unique([termId, authorId])
+  @@id([expressionId, authorId])
+  @@unique([expressionId, authorId])
 }
 
 model Flag {
-  term      Term      @relation(fields: [termId], references: [id], onDelete: Cascade)
-  termId    String
-  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  authorId  String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
+  expression   Expression @relation(fields: [expressionId], references: [id], onDelete: Cascade)
+  expressionId String
+  author       User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId     String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime?  @updatedAt
 
-  @@id([termId, authorId])
-  @@unique([termId, authorId])
+  @@id([expressionId, authorId])
+  @@unique([expressionId, authorId])
 }
 
 enum Language {
@@ -56,41 +56,41 @@ enum Language {
   IT
 }
 
-model Term {
-  id        String        @id @default(cuid())
-  title     String
-  content   String?
-  published Boolean       @default(false)
-  author    User?         @relation(fields: [authorId], references: [id])
-  authorId  String?
-  likes     Like[]
-  dislikes  Dislike[]
-  createdAt DateTime      @default(now())
-  updatedAt DateTime?     @updatedAt
-  flagged   Flag[]
-  cantons   String[]
-  language  Language      @default(DE)
-  synonymOf Synonym[]     @relation("synonymOf") /// the terms that the parent term is a synonym of
-  synonyms  Synonym[]     @relation("synonym") /// synonyms of the parent term
-  examples  TermExample[]
+model Expression {
+  id         String              @id @default(cuid())
+  title      String
+  definition String?
+  published  Boolean             @default(false)
+  author     User?               @relation(fields: [authorId], references: [id])
+  authorId   String?
+  likes      Like[]
+  dislikes   Dislike[]
+  createdAt  DateTime            @default(now())
+  updatedAt  DateTime?           @updatedAt
+  flagged    Flag[]
+  cantons    String[]
+  language   Language            @default(DE)
+  synonymOf  Synonym[]           @relation("synonymOf") /// the expressions that the parent expression is a synonym of
+  synonyms   Synonym[]           @relation("synonym") /// synonyms of the parent expression
+  examples   ExpressionExample[]
 }
 
-model TermExample {
-  id        String    @id @default(cuid())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-  term      Term      @relation(fields: [termId], references: [id], onDelete: Cascade)
-  termId    String
-  content   String
-  author    User?     @relation(fields: [authorId], references: [id])
-  authorId  String?
-  cantons   String[]
+model ExpressionExample {
+  id           String     @id @default(cuid())
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime?  @updatedAt
+  expression   Expression @relation(fields: [expressionId], references: [id], onDelete: Cascade)
+  expressionId String
+  definition   String
+  author       User?      @relation(fields: [authorId], references: [id])
+  authorId     String?
+  cantons      String[]
 }
 
 model Synonym {
-  synonymOf   Term   @relation("synonymOf", fields: [synonymOfId], references: [id], onDelete: Cascade) /// the term that the parent term is a synonym of
+  synonymOf   Expression @relation("synonymOf", fields: [synonymOfId], references: [id], onDelete: Cascade) /// the expression that the parent expression is a synonym of
   synonymOfId String
-  synonym     Term   @relation("synonym", fields: [synonymId], references: [id], onDelete: Cascade) /// synonym of the parent term
+  synonym     Expression @relation("synonym", fields: [synonymId], references: [id], onDelete: Cascade) /// synonym of the parent expression
   synonymId   String
 
   @@id([synonymId, synonymOfId])
@@ -131,24 +131,24 @@ enum Role {
 }
 
 model User {
-  id            String        @id @default(cuid())
-  name          String        @unique @default("")
-  email         String        @unique
-  createdAt     DateTime      @default(now())
+  id            String              @id @default(cuid())
+  name          String              @unique @default("")
+  email         String              @unique
+  createdAt     DateTime            @default(now())
   emailVerified DateTime?
   password      String?
   image         String?
   bio           String?
-  terms         Term[]
+  expressions   Expression[]
   accounts      Account[]
   sessions      Session[]
-  role          Role          @default(USER)
+  role          Role                @default(USER)
   likes         Like[]
   dislikes      Dislike[]
-  country       String?       @default("CH")
+  country       String?             @default("CH")
   canton        String?
   flags         Flag[]
-  examples      TermExample[]
+  examples      ExpressionExample[]
 }
 
 model VerificationToken {
