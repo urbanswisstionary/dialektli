@@ -13,12 +13,13 @@
     "generate:types": "graphql-codegen",
     "generate:types:watch": "graphql-codegen --watch",
     "format": "prettier --write .",
-    "prisma:migrate": "prisma migrate dev",
+    "prisma:migrate": "prisma migrate dev && yarn print:db",
     "prisma:generate": "prisma generate",
     "prisma:studio": "prisma studio",
     "prepare": "husky",
     "generate:sitemap": "tsx scripts/generate-sitemap.ts",
-    "seed": "prisma db seed"
+    "seed": "prisma db seed",
+    "print:db": "cp prisma/schema.prisma ./schema.prisma && sed -i.bak -e 's| // uses connection pooling||g' -e '/POSTGRES_URL_NON_POOLING/d' ./schema.prisma && yarn prisma-uml ./schema.prisma --output svg --file ./db.svg && rm ./schema.prisma.bak && rm ./schema.prisma"
   },
   "prisma": {
     "seed": "ts-node --transpile-only ./prisma/seed/index.ts"
@@ -89,6 +90,7 @@
     "husky": "^9.0.11",
     "prettier": "^3.2.5",
     "prisma": "^5.10.2",
+    "prisma-uml": "^1.1.18",
     "ts-node": "^10.9.2",
     "tsx": "^4.7.1",
     "typescript": "^5.3.3"
