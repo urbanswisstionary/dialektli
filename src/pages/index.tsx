@@ -16,14 +16,18 @@ import { getStaticPropsTranslations } from "@/utils/i18n"
 import { useMemo } from "react"
 import { sanitizeCanton, sanitizeFirstChar } from "@/utils/sanitizeQueries"
 import dynamic from "next/dynamic"
+import HeadProvider from "@/providers/Head"
 
 const SelectLetter = dynamic(() => import("@/ui/Select/selectLetter"), {
   ssr: false,
 })
 const Accordion = dynamic(() => import("@/ui/Accordion"), { ssr: false })
-const TermsCardsList = dynamic(() => import("@/features/termsCardsList"), {
-  ssr: false,
-})
+const TermsCardsList = dynamic(
+  () => import("@/features/expression/expressionCardsList"),
+  {
+    ssr: false,
+  },
+)
 
 type Query = ParsedUrlQuery & {
   q?: string
@@ -68,55 +72,58 @@ const Home: NextPage = () => {
   onDataCountChange(termsQuery?.count)
 
   return (
-    <Layout hideSidebar={!me}>
-      <Stack sx={{ mt: 1, mb: 3, gap: 2 }}>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: { xs: "column-reverse", sm: "row" },
-            gap: "1rem",
-          }}
-        >
-          <SearchTermsInput sx={{ flex: 1 }} disabled={loadingTermsQuery} />
-          <NewTermButton sx={{ flex: 1 }} disabled={loadingTermsQuery} />
-        </Box>
-        <SelectSingleLocation
-          mode="canton"
-          value={sanitizedCanton}
-          onChange={(canton) => setQueryOnPage(router, { canton })}
-          placeholder={t("filterBy.canton")}
-          disabled={loadingTermsQuery}
-          groupOptions
-        />
-        {!sanitizedQ ? (
-          <Accordion
-            content={[
-              {
-                label: t("filterBy.firstChar"),
-                expanded: !!sanitizedFirstChar,
-                children: (
-                  <SelectLetter
-                    value={sanitizedFirstChar}
-                    onChange={(firstChar) =>
-                      setQueryOnPage(router, {
-                        firstChar:
-                          sanitizedFirstChar === firstChar ? null : firstChar,
-                      })
-                    }
-                    disabled={loadingTermsQuery}
-                  />
-                ),
-              },
-            ]}
+    <>
+      <HeadProvider />
+      <Layout hideSidebar={!me}>
+        <Stack sx={{ mt: 1, mb: 3, gap: 2 }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column-reverse", sm: "row" },
+              gap: "1rem",
+            }}
+          >
+            <SearchTermsInput sx={{ flex: 1 }} disabled={loadingTermsQuery} />
+            <NewTermButton sx={{ flex: 1 }} disabled={loadingTermsQuery} />
+          </Box>
+          <SelectSingleLocation
+            mode="canton"
+            value={sanitizedCanton}
+            onChange={(canton) => setQueryOnPage(router, { canton })}
+            placeholder={t("filterBy.canton")}
+            disabled={loadingTermsQuery}
+            groupOptions
           />
-        ) : null}
-      </Stack>
-      <TermsCardsList
-        terms={termsQuery?.terms}
-        paginationProps={paginationProps}
-        loading={loadingTermsQuery}
-      />
-    </Layout>
+          {!sanitizedQ ? (
+            <Accordion
+              content={[
+                {
+                  label: t("filterBy.firstChar"),
+                  expanded: !!sanitizedFirstChar,
+                  children: (
+                    <SelectLetter
+                      value={sanitizedFirstChar}
+                      onChange={(firstChar) =>
+                        setQueryOnPage(router, {
+                          firstChar:
+                            sanitizedFirstChar === firstChar ? null : firstChar,
+                        })
+                      }
+                      disabled={loadingTermsQuery}
+                    />
+                  ),
+                },
+              ]}
+            />
+          ) : null}
+        </Stack>
+        <TermsCardsList
+          terms={termsQuery?.terms}
+          paginationProps={paginationProps}
+          loading={loadingTermsQuery}
+        />
+      </Layout>
+    </>
   )
 }
 

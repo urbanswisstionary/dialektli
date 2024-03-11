@@ -17,7 +17,10 @@ import {
   getSortedRowModel,
   ColumnDef,
 } from "@tanstack/react-table"
-import type { AdminTermFragmentFragment, Language } from "@@/generated/graphql"
+import type {
+  AdminTermFragmentFragment,
+  // Language
+} from "@@/generated/graphql"
 import Divider from "@mui/joy/Divider"
 import Pagination from "@/ui/Pagination"
 import DebouncedInput from "../../../ui/debouncedInput"
@@ -84,28 +87,28 @@ const TermsTable: FC = () => {
         filterFn: "fuzzy",
         sortingFn: fuzzySort,
       },
-      {
-        id: "language",
-        header: t("term.language"),
-        accessorKey: "language",
-        accessorFn: ({ language }) => language,
-        cell: (info) => {
-          const language = info.getValue<Language>()
-          return (
-            <Stack
-              direction="row"
-              gap={1}
-              flexWrap="wrap"
-              justifyContent="center"
-            >
-              <Flag mode="country" code={language} />
-            </Stack>
-          )
-        },
-        footer: (props) => props.column.id,
-        filterFn: "fuzzy",
-        sortingFn: fuzzySort,
-      },
+      // {
+      //   id: "language",
+      //   header: t("term.language"),
+      //   accessorKey: "language",
+      //   accessorFn: ({ language }) => language,
+      //   cell: (info) => {
+      //     const language = info.getValue<Language>()
+      //     return (
+      //       <Stack
+      //         direction="row"
+      //         gap={1}
+      //         flexWrap="wrap"
+      //         justifyContent="center"
+      //       >
+      //         <Flag mode="country" code={language} />
+      //       </Stack>
+      //     )
+      //   },
+      //   footer: (props) => props.column.id,
+      //   filterFn: "fuzzy",
+      //   sortingFn: fuzzySort,
+      // },
       {
         id: "canton",
         header: t("term.canton"),

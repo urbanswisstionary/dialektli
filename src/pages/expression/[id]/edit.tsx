@@ -13,7 +13,7 @@ import { useTranslation } from "next-i18next"
 import { NextSeo } from "next-seo"
 
 const EditTermForm = dynamic(
-  () => import("@/features/termForms/editTermForm"),
+  () => import("@/features/expression/editExpressionForm"),
   { ssr: false },
 )
 

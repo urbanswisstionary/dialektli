@@ -12,9 +12,6 @@ export const sanitizeCantons = (cantons: string[] = []): string[] => {
   return cantons.filter((canton) => cantonsList.includes(canton))
 }
 
-export const sanitizeExamples = (examples: string[] = [""]): string[] =>
-  examples.slice(0, 3)
-
 export const sanitizeFirstChar = (firstChar?: string): string | undefined =>
   firstChar && allLetters.includes(firstChar[0]) ? firstChar[0] : undefined
 

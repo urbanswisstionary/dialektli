@@ -12,23 +12,23 @@ import ThumbDownTwoToneIcon from "@mui/icons-material/ThumbDownTwoTone"
 // import FlagIcon from "@mui/icons-material/Flag"
 // import FlagTwoToneIcon from "@mui/icons-material/FlagTwoTone"
 import { TermFragmentFragment } from "@@/generated/graphql"
-import TermCardActionButton from "./termCardActionButton"
-import TermCardExample from "./termCardExamplesList"
+import TermCardActionButton from "./expressionCardActionButton"
+import TermCardExamples from "./expressionCardExamples"
 import Flag from "@/ui/Flag"
 import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
 import JoyLink from "@mui/joy/Link"
 import { setQueryOnPage } from "@/utils/setQueryOnPage"
-import TermCardShareButtons from "./termCardShareButton"
-import List from "@mui/joy/List"
-import ListItem from "@mui/joy/ListItem"
-import ListDivider from "@mui/joy/ListDivider"
-import Grid from "@mui/joy/Grid"
+import TermCardShareButtons from "./expressionCardShareButton"
+import TermCardSynonyms from "./expressionCardSynonyms"
+import { formatExpressionDate } from "./utils"
+import NextLink from "next/link"
 
 type TermCardProps = {
   term: TermFragmentFragment
   disableActions?: boolean
 }
+
 const TermCard: FC<TermCardProps> = ({ term, disableActions }) => {
   const { t } = useTranslation("common")
   const router = useRouter()
@@ -50,59 +50,30 @@ const TermCard: FC<TermCardProps> = ({ term, disableActions }) => {
             </Stack>
           ) : null}
           <Typography level="title-lg">{term?.title}</Typography>
+          <JoyLink
+            level="body-xs"
+            component={NextLink}
+            href={`/expression/${term.id}`}
+          >
+            {formatExpressionDate({
+              date: term?.createdAt,
+              locale: router.locale,
+            })}
+          </JoyLink>
         </Stack>
         <TermCardShareButtons term={term} />
       </Stack>
 
-      <Typography mb={2} level="body-xs">
+      <Typography mb={2} level="body-sm">
         {term?.content}
       </Typography>
 
-      <TermCardExample examples={term?.examples} />
+      <CardOverflow sx={{ gap: 0 }}>
+        <TermCardExamples term={term} />
+      </CardOverflow>
 
       <CardOverflow sx={{ gap: 0 }}>
-        <Typography
-          level="title-sm"
-          sx={{ borderBottom: "1.5px solid", borderColor: "divider", pb: 1 }}
-        >
-          Synonyms:
-        </Typography>
-        <List>
-          {term.synonyms.map(({ synonymOf: s }, i) => (
-            <ListItem key={i}>
-              <Grid container spacing={2} sx={{ flexGrow: 1 }}>
-                <Grid xs={8}>
-                  <JoyLink href={`/expression/${s.id}`} level="body-sm">
-                    {s.title}
-                  </JoyLink>
-                </Grid>
-                <Grid
-                  xs={4}
-                  sx={{
-                    display: "flex",
-                    justifyContent: "end",
-                    flexWrap: "wrap",
-                    gap: "2px",
-                  }}
-                >
-                  {s.cantons.map((canton, i) => (
-                    <Flag key={i} mode="canton" code={canton} />
-                  ))}
-                </Grid>
-              </Grid>
-            </ListItem>
-          ))}
-          {term.synonyms.length ? <ListDivider /> : null}
-          <ListItem>
-            <JoyLink
-              href={`/expression/new?synonym=${term.id}`}
-              level="title-sm"
-              fontWeight={600}
-            >
-              {t("term.suggestSynonym")}
-            </JoyLink>
-          </ListItem>
-        </List>
+        <TermCardSynonyms term={term} />
       </CardOverflow>
       <CardOverflow
         sx={{ borderTop: "1px solid", borderColor: "divider", px: 2 }}

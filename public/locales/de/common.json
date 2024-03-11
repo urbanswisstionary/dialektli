@@ -158,7 +158,9 @@
     "published": "Veröffentlicht",
     "unpublished": "Nicht veröffentlicht",
     "updatedAt": "Aktualisiert am",
+    "example": "Beispiel",
     "examples": "Beispiele",
+    "synonyms": "Synonyme",
     "pleaseSignInForTermAction": "Bitte <0>melden Sie sich an</0>, um '{{action}}' für den Ausdruck.",
     "cantonFieldPlaceholder": "Kanton auswählen",
     "countryFieldPlaceholder": "Land auswählen",
@@ -195,6 +197,7 @@
         ]
       }
     },
+    "suggestExample": "Erweitern Sie unser Wörterbuch - ein Beispiel vorschlagen!",
     "suggestSynonym": "Erweitern Sie unser Wörterbuch - ein Synonym vorschlagen!"
   },
   "404Page": {

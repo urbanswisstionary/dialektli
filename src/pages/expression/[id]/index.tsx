@@ -10,15 +10,15 @@ import { getStaticPropsTranslations } from "@/utils/i18n"
 import CircularProgress from "@mui/joy/CircularProgress"
 import Stack from "@mui/joy/Stack"
 import { useTranslation } from "next-i18next"
-import { NextSeo } from "next-seo"
+import HeadProvider from "@/providers/Head"
 
-const TermCard = dynamic(() => import("@/features/termsCardsList/termCard"), {
+const TermCard = dynamic(() => import("@/features/expression/expressionCard"), {
   ssr: false,
 })
 
 type Query = ParsedUrlQuery & { id: string }
 
-const TermIdPage: NextPage = () => {
+const ExpressionIdPage: NextPage = () => {
   const { t } = useTranslation("common")
 
   const { me, loading: loadingMe } = useMe()
@@ -32,7 +32,12 @@ const TermIdPage: NextPage = () => {
 
   return (
     <>
-      <NextSeo title={term?.title} description={term?.content ?? undefined} />
+      <HeadProvider
+        title={term?.title}
+        description={term?.content}
+        pagePathname={`/expression/${term?.id}`}
+      />
+
       <Layout hideSidebar={!me}>
         {loading ? (
           <Stack>
@@ -52,7 +57,7 @@ const TermIdPage: NextPage = () => {
   )
 }
 
-export default TermIdPage
+export default ExpressionIdPage
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => ({
   props: { ...(await getStaticPropsTranslations(locale)) },

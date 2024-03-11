@@ -151,7 +151,9 @@
     "published": "Published",
     "unpublished": "Unpublished",
     "updatedAt": "Updated At",
+    "example": "Example",
     "examples": "Examples",
+    "synonyms": "Synonyms",
     "pleaseSignInForTermAction": "Please <0>Sign In</0> to '{{action}}' this expression.",
     "cantonFieldPlaceholder": "Select canton",
     "countryFieldPlaceholder": "Select country",
@@ -188,6 +190,7 @@
         ]
       }
     },
+    "suggestExample": "Expand our dictionary - suggest an example!",
     "suggestSynonym": "Expand our dictionary - suggest a synonym!"
   },
   "404Page": {

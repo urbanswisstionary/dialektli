@@ -1,6 +1,6 @@
 import { GetStaticProps, NextPage } from "next"
 import Layout from "@/features/layout/layout"
-import NewTermForm from "@/features/termForms/newTermForm"
+import CreateExpressionForm from "@/features/expression/createExpressionForm"
 import { useMe } from "@/hooks/useUsers"
 import { getStaticPropsTranslations } from "@/utils/i18n"
 import { NextSeo } from "next-seo"
@@ -50,7 +50,7 @@ const NewTermPage: NextPage = () => {
             />
           </Stack>
         ) : (
-          <NewTermForm />
+          <CreateExpressionForm />
         )}
       </Layout>
     </>

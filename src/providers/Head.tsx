@@ -7,9 +7,13 @@ import Head from "next/head"
 const defailtHeadData = ({
   title,
   description,
+  pagePathname,
+  siteName,
 }: {
   title: string
   description: string
+  pagePathname: string
+  siteName: string
 }): DefaultSeoProps => ({
   title,
   description,
@@ -18,31 +22,37 @@ const defailtHeadData = ({
     title,
     description,
     locale: "de",
-    url: "https://dialektli.ch/",
-    siteName: title,
+    url: `https://dialektli.ch${pagePathname}`,
+    siteName,
     images: [
       {
         url: "https://dialektli.ch/_next/static/media/image1_0.459a6483.jpg",
       },
     ],
   },
-  canonical: "https://dialektli.ch/",
+  canonical: `https://dialektli.ch${pagePathname}`,
   languageAlternates: [
     {
       hrefLang: "en",
-      href: "https://dialektli.ch/en",
+      href: `https://dialektli.ch/en${pagePathname}`,
     },
     {
       hrefLang: "fr",
-      href: "https://dialektli.ch/fr",
+      href: `https://dialektli.ch/fr${pagePathname}`,
     },
   ],
 })
-const HeadProvider: FC = () => {
-  const { t } = useTranslation("common", { keyPrefix: "seo" })
+const HeadProvider: FC<{
+  title?: string | null
+  description?: string | null
+  pagePathname?: string
+}> = ({ title, description, pagePathname }) => {
+  const { t } = useTranslation("common")
   const meta = defailtHeadData({
-    title: t("title"),
-    description: t("description"),
+    title: title ?? t("seo.title"),
+    description: description ?? t("seo.description"),
+    pagePathname: pagePathname ?? "/",
+    siteName: t("seo.title"),
   })
   return (
     <>

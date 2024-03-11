@@ -1,11 +1,26 @@
 import { graphql } from "@@/generated"
 import {
+  CreateTermExampleInput,
+  UpdateTermExampleInput,
   CreateTermInput,
   TermsQueryInput,
   UpdateTermInput,
 } from "@@/generated/graphql"
 import { useMutation, useQuery } from "@apollo/client"
 
+export const TermExampleFragment = graphql(/* GraphQL */ `
+  fragment TermExampleFragment on TermExample {
+    id
+    content
+    cantons
+    createdAt
+    term {
+      id
+      title
+    }
+    authorId
+  }
+`)
 export const TermFragment = graphql(/* GraphQL */ `
   fragment TermFragment on Term {
     id
@@ -16,7 +31,9 @@ export const TermFragment = graphql(/* GraphQL */ `
     }
     title
     content
-    examples
+    examples {
+      ...TermExampleFragment
+    }
     published
     likesCount
     likedByMe
@@ -63,7 +80,9 @@ export const AdminTermFragment = graphql(/* GraphQL */ `
     }
     title
     content
-    examples
+    examples {
+      ...TermExampleFragment
+    }
     published
     likesCount
     dislikesCount
@@ -218,6 +237,107 @@ export const useTermAction = (termId: string) => {
         refetchQueries: () => [
           { query: TermsQuery, variables: { data: {} } },
           { query: AdminTermsQuery },
+        ],
+      }),
+    ...mutationResult,
+  }
+}
+
+export const useCreateTermExampleMutation = () => {
+  const [createTermExample, mutationResult] = useMutation(
+    graphql(/* GraphQL */ `
+      mutation CreateTermExample($data: CreateTermExampleInput!) {
+        createTermExample(data: $data) {
+          id
+        }
+      }
+    `),
+  )
+
+  return {
+    createTermExample: (
+      data: CreateTermExampleInput,
+      onCompletedCallback?: () => void,
+    ) =>
+      createTermExample({
+        variables: { data },
+        onCompleted: () => {
+          if (onCompletedCallback) onCompletedCallback()
+        },
+        awaitRefetchQueries: true,
+        refetchQueries: () => [
+          { query: TermQuery, variables: { data: { termId: data.termId } } },
+        ],
+      }),
+    ...mutationResult,
+  }
+}
+
+export const useUpdateTermExampleMutation = () => {
+  const [updateTermExample, mutationResult] = useMutation(
+    graphql(/* GraphQL */ `
+      mutation UpdateTermExample($data: UpdateTermExampleInput!) {
+        updateTermExample(data: $data) {
+          id
+          termId
+        }
+      }
+    `),
+  )
+
+  return {
+    updateTermExample: (
+      data: UpdateTermExampleInput,
+      onCompletedCallback?: () => void,
+    ) =>
+      updateTermExample({
+        variables: { data },
+        onCompleted: () => {
+          if (onCompletedCallback) onCompletedCallback()
+        },
+        awaitRefetchQueries: true,
+        refetchQueries: (res) => [
+          {
+            query: TermQuery,
+            variables: {
+              data: { termId: res.data?.updateTermExample?.termId },
+            },
+            skip: !res.data?.updateTermExample?.termId,
+          },
+        ],
+      }),
+    ...mutationResult,
+  }
+}
+
+export const useDeleteTermExampleMutation = () => {
+  const [deleteTermExample, mutationResult] = useMutation(
+    graphql(/* GraphQL */ `
+      mutation DeleteTermExample($data: DeleteTermExampleInput!) {
+        deleteTermExample(data: $data) {
+          id
+          termId
+        }
+      }
+    `),
+  )
+
+  return {
+    deleteTermExample: (exampleId: string, onCompletedCallback?: () => void) =>
+      deleteTermExample({
+        variables: { data: { exampleId } },
+        onCompleted: () => {
+          if (onCompletedCallback) onCompletedCallback()
+        },
+        awaitRefetchQueries: true,
+        refetchQueries: (res) => [
+          {
+            query: TermQuery,
+            variables: {
+              data: { termId: res.data?.deleteTermExample?.termId },
+            },
+            skip: !res.data?.deleteTermExample?.termId,
+          },
         ],
       }),
     ...mutationResult,

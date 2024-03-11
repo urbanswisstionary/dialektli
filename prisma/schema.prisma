@@ -57,22 +57,34 @@ enum Language {
 }
 
 model Term {
-  id        String    @id @default(cuid())
+  id        String        @id @default(cuid())
   title     String
   content   String?
-  examples  String[]
-  published Boolean   @default(false)
-  author    User?     @relation(fields: [authorId], references: [id])
+  published Boolean       @default(false)
+  author    User?         @relation(fields: [authorId], references: [id])
   authorId  String?
   likes     Like[]
   dislikes  Dislike[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
+  createdAt DateTime      @default(now())
+  updatedAt DateTime?     @updatedAt
   flagged   Flag[]
   cantons   String[]
-  language  Language  @default(DE)
-  synonymOf Synonym[] @relation("synonymOf") /// the terms that the parent term is a synonym of
-  synonyms  Synonym[] @relation("synonym") /// synonyms of the parent term
+  language  Language      @default(DE)
+  synonymOf Synonym[]     @relation("synonymOf") /// the terms that the parent term is a synonym of
+  synonyms  Synonym[]     @relation("synonym") /// synonyms of the parent term
+  examples  TermExample[]
+}
+
+model TermExample {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  term      Term      @relation(fields: [termId], references: [id], onDelete: Cascade)
+  termId    String
+  content   String
+  author    User?     @relation(fields: [authorId], references: [id])
+  authorId  String?
+  cantons   String[]
 }
 
 model Synonym {
@@ -119,10 +131,10 @@ enum Role {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String    @unique @default("")
-  email         String    @unique
-  createdAt     DateTime  @default(now())
+  id            String        @id @default(cuid())
+  name          String        @unique @default("")
+  email         String        @unique
+  createdAt     DateTime      @default(now())
   emailVerified DateTime?
   password      String?
   image         String?
@@ -130,12 +142,13 @@ model User {
   terms         Term[]
   accounts      Account[]
   sessions      Session[]
-  role          Role      @default(USER)
+  role          Role          @default(USER)
   likes         Like[]
   dislikes      Dislike[]
-  country       String?   @default("CH")
+  country       String?       @default("CH")
   canton        String?
   flags         Flag[]
+  examples      TermExample[]
 }
 
 model VerificationToken {

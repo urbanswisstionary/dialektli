@@ -1,5 +1,5 @@
 /* eslint-disable */
-import type { Prisma, Like, Dislike, Flag, Term, Synonym, Account, Session, User, VerificationToken } from "@prisma/client";
+import type { Prisma, Like, Dislike, Flag, Term, TermExample, Synonym, Account, Session, User, VerificationToken } from "@prisma/client";
 export default interface PrismaTypes {
     Like: {
         Name: "Like";
@@ -86,8 +86,8 @@ export default interface PrismaTypes {
         Where: Prisma.TermWhereInput;
         Create: {};
         Update: {};
-        RelationName: "author" | "likes" | "dislikes" | "flagged" | "synonymOf" | "synonyms";
-        ListRelations: "likes" | "dislikes" | "flagged" | "synonymOf" | "synonyms";
+        RelationName: "author" | "likes" | "dislikes" | "flagged" | "synonymOf" | "synonyms" | "examples";
+        ListRelations: "likes" | "dislikes" | "flagged" | "synonymOf" | "synonyms" | "examples";
         Relations: {
             author: {
                 Shape: User | null;
@@ -118,6 +118,36 @@ export default interface PrismaTypes {
                 Shape: Synonym[];
                 Name: "Synonym";
                 Nullable: false;
+            };
+            examples: {
+                Shape: TermExample[];
+                Name: "TermExample";
+                Nullable: false;
+            };
+        };
+    };
+    TermExample: {
+        Name: "TermExample";
+        Shape: TermExample;
+        Include: Prisma.TermExampleInclude;
+        Select: Prisma.TermExampleSelect;
+        OrderBy: Prisma.TermExampleOrderByWithRelationInput;
+        WhereUnique: Prisma.TermExampleWhereUniqueInput;
+        Where: Prisma.TermExampleWhereInput;
+        Create: {};
+        Update: {};
+        RelationName: "term" | "author";
+        ListRelations: never;
+        Relations: {
+            term: {
+                Shape: Term;
+                Name: "Term";
+                Nullable: false;
+            };
+            author: {
+                Shape: User | null;
+                Name: "User";
+                Nullable: true;
             };
         };
     };
@@ -196,8 +226,8 @@ export default interface PrismaTypes {
         Where: Prisma.UserWhereInput;
         Create: {};
         Update: {};
-        RelationName: "terms" | "accounts" | "sessions" | "likes" | "dislikes" | "flags";
-        ListRelations: "terms" | "accounts" | "sessions" | "likes" | "dislikes" | "flags";
+        RelationName: "terms" | "accounts" | "sessions" | "likes" | "dislikes" | "flags" | "examples";
+        ListRelations: "terms" | "accounts" | "sessions" | "likes" | "dislikes" | "flags" | "examples";
         Relations: {
             terms: {
                 Shape: Term[];
@@ -227,6 +257,11 @@ export default interface PrismaTypes {
             flags: {
                 Shape: Flag[];
                 Name: "Flag";
+                Nullable: false;
+            };
+            examples: {
+                Shape: TermExample[];
+                Name: "TermExample";
                 Nullable: false;
             };
         };

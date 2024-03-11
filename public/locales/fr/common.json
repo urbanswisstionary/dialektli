@@ -151,7 +151,9 @@
     "published": "Publié",
     "unpublished": "Non publié",
     "updatedAt": "Mis à jour le",
+    "example": "Exemple",
     "examples": "Exemples",
+    "synonyms": "Synonymes",
     "pleaseSignInForTermAction": "Veuillez <0>vous connecter</0> pour '{{action}}' ce expression.",
     "cantonFieldPlaceholder": "Sélectionnez le canton",
     "countryFieldPlaceholder": "Sélectionnez le pays",
@@ -190,7 +192,8 @@
         ]
       }
     },
-    "suggestSynonym": "Élargissez notre dictionnaire - proposez un synonyme !"
+    "suggestExample": "Élargissez notre dictionnaire - proposez un exemple!",
+    "suggestSynonym": "Élargissez notre dictionnaire - proposez un synonyme!"
   },
   "404Page": {
     "title": "404",

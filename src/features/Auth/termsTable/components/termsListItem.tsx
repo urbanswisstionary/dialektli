@@ -36,7 +36,7 @@ const TermsListItem: FC<{ term: AdminTermFragmentFragment }> = ({ term }) => (
                 gutterBottom
                 sx={{ wordBreak: "break-word" }}
               >
-                {example}
+                {"example"}
               </Typography>
             ))}
           </Stack>
@@ -48,7 +48,7 @@ const TermsListItem: FC<{ term: AdminTermFragmentFragment }> = ({ term }) => (
         </Box>
       </ListItemContent>
       <Stack gap={2} width={120} sx={{ direction: "rtl", pr: 2 }}>
-        <Flag mode="country" code={term.language} />
+        {/* <Flag mode="country" code={term.language} /> */}
         <TermStatusChip status={term.published ? "published" : "unpublished"} />
         {term.cantons.length ? (
           <Stack direction="row" gap={1} flexWrap="wrap" pb={1}>

@@ -1,3 +1,8 @@
+input CreateTermExampleInput {
+  content: String!
+  termId: String!
+}
+
 input CreateTermInput {
   cantons: [String!]
   content: String
@@ -20,6 +25,10 @@ input CreateUserInput {
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
 scalar DateTime
+
+input DeleteTermExampleInput {
+  exampleId: String!
+}
 
 type Dislike {
   author: User!
@@ -59,11 +68,14 @@ type Like {
 type Mutation {
   changeUserRole(role: Role!, userId: String!): User
   createTerm(data: CreateTermInput!): Term
+  createTermExample(data: CreateTermExampleInput!): TermExample
   createUser(data: CreateUserInput!): User
   deleteTerm(data: TermIdInput!): Term
+  deleteTermExample(data: DeleteTermExampleInput!): TermExample
   deleteUser(data: UserIdInput!): User
   termAction(data: TermActionInput!): Boolean!
   updateTerm(data: UpdateTermInput!): Term
+  updateTermExample(data: UpdateTermExampleInput!): TermExample
   updateUser(data: UpdateUserInput!): User
 }
 
@@ -98,7 +110,7 @@ type Term {
   dislikedByMe: Boolean!
   dislikes: [Dislike!]!
   dislikesCount: Int!
-  examples: [String!]!
+  examples: [TermExample!]!
   flagged: [Flag!]!
   flaggedByMe: Boolean!
   id: ID!
@@ -124,6 +136,18 @@ input TermActionInput {
   termId: String!
 }
 
+type TermExample {
+  author: User!
+  authorId: ID
+  cantons: [String!]!
+  content: String!
+  createdAt: DateTime!
+  id: ID!
+  term: Term!
+  termId: ID!
+  updatedAt: DateTime
+}
+
 input TermIdInput {
   termId: String!
 }
@@ -144,10 +168,14 @@ type TermsWithCount {
   terms: [Term!]!
 }
 
+input UpdateTermExampleInput {
+  content: String!
+  exampleId: String!
+}
+
 input UpdateTermInput {
   cantons: [String!]
   content: String
-  examples: [String!]
   id: String!
   published: Boolean
   title: String

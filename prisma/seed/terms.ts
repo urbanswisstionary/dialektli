@@ -8,56 +8,89 @@ const SEED_TERMS: Prisma.TermCreateArgs["data"][] = [
     content: "Geschlechtsverkehr",
     cantons: ["LU"],
     language: Language.DE,
-    examples: [
-      "Ich gang die huer go bolä",
-      "Ich bi rattig, ich ha scho lang nimm boläd",
-    ],
+
+    examples: {
+      createMany: {
+        data: [
+          { content: "Ich gang die huer go bolä" },
+          { content: "Ich bi rattig, ich ha scho lang nimm boläd" },
+        ],
+      },
+    },
   },
   // {
   //   title: "Negerwurscht",
   //   content: "Despektierlich für Banane",
   //   cantons: ["OW"],
   //   language: Language.DE,
-  //   examples: [
-  //     "Ich glaib ich frus a Negerwurscht",
-  //     "Dä Neger hed a grossi Wurscht",
-  //   ],
+  //   examples: {
+  //     createMany: {
+  //       data: [
+  //         { content: "Ich glaib ich frus a Negerwurscht" },
+  //         { content: "Dä Neger hed a grossi Wurscht" },
+  //       ],
+  //     },
+  //   },
   // },
   {
     title: "Hai",
     content: "häi: heim, nach Hause; Häi: das Daheim.",
     cantons: ["OW"],
     language: Language.DE,
-    examples: [
-      "I Huis und Häi.",
-      "Huis und Häi verlyyrä.",
-      "um Huis und Häi cho.",
-    ],
+    examples: {
+      createMany: {
+        data: [
+          { content: "I Huis und Häi." },
+          { content: "Huis und Häi verlyyrä." },
+          { content: "um Huis und Häi cho." },
+        ],
+      },
+    },
   },
   {
     title: "Grüessech",
     content: "Hallo; Grüezi; Sali",
     cantons: ["BE"],
     language: Language.DE,
-    examples: [
-      "Grüessech, wie gohts?",
-      "Grüessech, wie bisch?",
-      "Grüessech, wie geits?",
-    ],
+    examples: {
+      createMany: {
+        data: [
+          { content: "Grüessech, wie gohts?" },
+          { content: "Grüessech, wie bisch?" },
+          { content: "Grüessech, wie geits?" },
+        ],
+      },
+    },
   },
   {
     title: "Guetzle",
     content: "Kekse; Plätzchen",
     cantons: ["BE", "ZH", "LU"],
     language: Language.DE,
-    examples: ["Hesch scho guetzlet?", "I ha guetzlet", "Guetzle mache"],
+    examples: {
+      createMany: {
+        data: [
+          { content: "Hesch scho guetzlet?" },
+          { content: "I ha guetzlet" },
+          { content: "Guetzle mache" },
+        ],
+      },
+    },
   },
   {
     title: "Güx",
     content: "Spaß; Scherz",
     cantons: ["BE"],
     language: Language.DE,
-    examples: ["Mach kei güx!", "Das isch kei güx!", "Das isch e güx!"],
+    examples: {
+      createMany: {
+        data: [
+          { content: "Mach kei güx!" },
+          { content: "Das isch kei güx!" },
+          { content: "Das isch e güx!" },
+        ],
+      },
+    },
   },
 
   {
@@ -66,7 +99,11 @@ const SEED_TERMS: Prisma.TermCreateArgs["data"][] = [
       "Schreibweisen: schräpfe, gschräpft Bedeutung: 1. schröpfen, 2. ausbeuten, aussaugen, ausnehmen usw.; jmd. (z.B. den Autofahrern) mit mehr oder weniger Berechtigung (zu)viel Geld abnehmen, wie es der Staat durch Parkbussen macht",
     cantons: ["BE"],
     language: Language.DE,
-    examples: ["I ha mi am letschte Sunntig gschräpft gfühlt."],
+    examples: {
+      createMany: {
+        data: [{ content: "I ha mi am letschte Sunntig gschräpft gfühlt." }],
+      },
+    },
   },
   {
     title: "Mutsch",
@@ -86,29 +123,44 @@ const SEED_TERMS: Prisma.TermCreateArgs["data"][] = [
       "Lassen Sie ein Ereignis, ein Gespräch oder einen Ort, den Sie nicht mögen, stillschweigend hinter sich – das ist das Äquivalent dazu, still und leise der schlimmen oder lästigen Situation zu entfliehen, in der Sie sich befanden.",
     cantons: ["ZH"],
     language: Language.DE,
-    examples: ["I mues jetzt de Fisch mache", "I ha gestern de Fisch gmacht"],
+    examples: {
+      createMany: {
+        data: [
+          { content: "I mues jetzt de Fisch mache" },
+          { content: "I ha gestern de Fisch gmacht" },
+        ],
+      },
+    },
   },
   {
     title: "Schräpfe",
     content: "A local dish made with flour, water, and salt, fried in butter.",
     cantons: ["OW"],
     language: Language.DE,
-    examples: [
-      "Hesch scho Schräpfe probiert?",
-      "I ha Schräpfe gmacht",
-      "Schräpfe ässe",
-    ],
+    examples: {
+      createMany: {
+        data: [
+          { content: "Hesch scho Schräpfe probiert?" },
+          { content: "I ha Schräpfe gmacht" },
+          { content: "Schräpfe ässe" },
+        ],
+      },
+    },
   },
   {
     title: "Gschpänig",
     content: "Cute or charming, often applied to children or small animals.",
     cantons: ["OW"],
     language: Language.DE,
-    examples: [
-      "Das chli Bäbi isch so gschpänig!",
-      "Hesch das chline Chätzli gseh? Es isch so gschpänig!",
-      "E chli gschpänigi Chlapf",
-    ],
+    examples: {
+      createMany: {
+        data: [
+          { content: "Das chli Bäbi isch so gschpänig!" },
+          { content: "Hesch das chline Chätzli gseh? Es isch so gschpänig!" },
+          { content: "E chli gschpänigi Chlapf" },
+        ],
+      },
+    },
   },
   {
     title: "Chnüppel",
@@ -116,11 +168,15 @@ const SEED_TERMS: Prisma.TermCreateArgs["data"][] = [
       "A small stick or twig, commonly used in local expressions or idioms.",
     cantons: ["OW"],
     language: Language.DE,
-    examples: [
-      "Chnüppeli sammle",
-      "Mit em Chnüppel spiele",
-      "E chli Chnüppelholz",
-    ],
+    examples: {
+      createMany: {
+        data: [
+          { content: "Chnüppeli sammle" },
+          { content: "Mit em Chnüppel spiele" },
+          { content: "E chli Chnüppelholz" },
+        ],
+      },
+    },
   },
   {
     title: "Trübeli",
@@ -128,11 +184,15 @@ const SEED_TERMS: Prisma.TermCreateArgs["data"][] = [
       "Cloudy or murky weather, often used to describe the sky or water conditions.",
     cantons: ["OW"],
     language: Language.DE,
-    examples: [
-      "Es isch hüt Trübeli drauße",
-      "Im See isch es Trübeli",
-      "Trübeli überm Berg",
-    ],
+    examples: {
+      createMany: {
+        data: [
+          { content: "Es isch hüt Trübeli drauße" },
+          { content: "Im See isch es Trübeli" },
+          { content: "Trübeli überm Berg" },
+        ],
+      },
+    },
   },
   {
     title: "Schuppel",
@@ -140,11 +200,15 @@ const SEED_TERMS: Prisma.TermCreateArgs["data"][] = [
       "A term that might refer to a gentle shake or a light pat, used in various contexts such as expressing affection or getting someone's attention.",
     cantons: ["OW"],
     language: Language.DE,
-    examples: [
-      "E chli Schuppel als Liebesbeweis",
-      "Schuppel uf de Rücke",
-      "Gib em es Schuppel",
-    ],
+    examples: {
+      createMany: {
+        data: [
+          { content: "E chli Schuppel als Liebesbeweis" },
+          { content: "Schuppel uf de Rücke" },
+          { content: "Gib em es Schuppel" },
+        ],
+      },
+    },
   },
 ]
 

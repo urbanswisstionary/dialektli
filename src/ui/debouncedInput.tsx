@@ -19,16 +19,16 @@ type DebouncedInputProps = Omit<InputProps, "value" | "onChange"> & {
  * // Usage example with TypeScript:
  * <DebouncedInput
  *   value={inputValue}
- *   onChange={(value) => handleInputChange(value)}
+ *   onChange={(value: string) => handleInputChange(value)}
  *   debounce={500}
  *   placeholder="Type something..."
  * />
  *
  * @param {string} value - The current value of the input.
- * @param {function} onChange - Callback function triggered on input change.
+ * @param {(_value: string) => void} onChange - Callback function triggered on input change.
  * @param {number} [debounce=500] - Debounce time in milliseconds (default is 500).
- * @param {...InputProps} props - Additional props from JOY MUI Input component.
- * @params {boolean} [disableClearable=false] - Disables the clear button when true.
+ * @param {boolean} [disableClearable=false] - Disables the clear button when true.
+ * @params {...InputProps} props - Additional props from JOY MUI Input component.
  */
 const DebouncedInput: FC<DebouncedInputProps> = ({
   value,

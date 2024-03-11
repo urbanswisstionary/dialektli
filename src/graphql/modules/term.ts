@@ -21,7 +21,7 @@ const TermObject = builder.prismaObject("Term", {
     id: t.exposeID("id"),
     title: t.exposeString("title"),
     content: t.exposeString("content", { nullable: true }),
-    examples: t.exposeStringList("examples"),
+    examples: t.relation("examples"),
     published: t.exposeBoolean("published"),
     createdAt: t.expose("createdAt", { type: "DateTime" }),
     updatedAt: t.expose("updatedAt", { type: "DateTime", nullable: true }),
@@ -206,7 +206,6 @@ const UpdateTermInput = builder.inputType("UpdateTermInput", {
     id: t.string({ required: true }),
     title: t.string(),
     content: t.string(),
-    examples: t.stringList(),
     published: t.boolean(),
     cantons: t.stringList(),
   }),
@@ -224,6 +223,25 @@ const TermActionInput = builder.inputType("TermActionInput", {
 const TermIdInput = builder.inputType("TermIdInput", {
   fields: (t) => ({
     termId: t.string({ required: true }),
+  }),
+})
+const CreateTermExampleInput = builder.inputType("CreateTermExampleInput", {
+  fields: (t) => ({
+    termId: t.string({ required: true }),
+    content: t.string({ required: true }),
+  }),
+})
+
+const UpdateTermExampleInput = builder.inputType("UpdateTermExampleInput", {
+  fields: (t) => ({
+    exampleId: t.string({ required: true }),
+    content: t.string({ required: true }),
+  }),
+})
+
+const DeleteTermExampleInput = builder.inputType("DeleteTermExampleInput", {
+  fields: (t) => ({
+    exampleId: t.string({ required: true }),
   }),
 })
 
@@ -248,9 +266,17 @@ builder.mutationFields((t) => ({
             title,
             content,
             cantons: cantons ?? [],
-            examples: (examples ?? []).filter(
-              (example) => !!example.trim().length,
-            ),
+            examples: {
+              createMany: {
+                skipDuplicates: true,
+                data: (examples ?? [])
+                  .filter((example) => !!example.trim().length)
+                  .map((content) => ({
+                    content,
+                    authorId: author.id,
+                  })),
+              },
+            },
             language: language ?? undefined,
             author: { connect: { id: author?.id } },
             published: true,
@@ -279,7 +305,7 @@ builder.mutationFields((t) => ({
     resolve: async (
       query,
       _root,
-      { data: { id, title, content, published, cantons, examples } },
+      { data: { id, title, content, published, cantons } },
       { session },
       _info,
     ) => {
@@ -302,7 +328,6 @@ builder.mutationFields((t) => ({
           data: {
             title: title ?? undefined,
             content: content ?? undefined,
-            examples: examples ?? undefined,
             published: published ?? undefined,
             cantons: cantons ? { set: cantons } : undefined,
           },
@@ -436,6 +461,78 @@ builder.mutationFields((t) => ({
         // eslint-disable-next-line no-console
         console.log(error)
         return false
+      }
+    },
+  }),
+  createTermExample: t.prismaField({
+    type: "TermExample",
+    shield: permissions.isAuthenticated,
+    nullable: true,
+    args: {
+      data: t.arg({ type: CreateTermExampleInput, required: true }),
+    },
+    resolve: async (
+      query,
+      _root,
+      { data: { termId, content } },
+      { session },
+    ) => {
+      try {
+        return prisma.termExample.create({
+          ...query,
+          data: {
+            termId,
+            content,
+            authorId: session?.user?.id,
+          },
+        })
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error)
+        return null
+      }
+    },
+  }),
+  updateTermExample: t.prismaField({
+    type: "TermExample",
+    shield: permissions.isAuthenticated,
+    nullable: true,
+    args: {
+      data: t.arg({ type: UpdateTermExampleInput, required: true }),
+    },
+    resolve: async (query, _root, { data: { exampleId, content } }, _ctx) => {
+      try {
+        return prisma.termExample.update({
+          ...query,
+          where: { id: exampleId },
+          data: {
+            content,
+          },
+        })
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error)
+        return null
+      }
+    },
+  }),
+  deleteTermExample: t.prismaField({
+    type: "TermExample",
+    shield: permissions.isAuthenticated,
+    nullable: true,
+    args: {
+      data: t.arg({ type: DeleteTermExampleInput, required: true }),
+    },
+    resolve: async (query, _root, { data: { exampleId } }, _ctx) => {
+      try {
+        return prisma.termExample.delete({
+          ...query,
+          where: { id: exampleId },
+        })
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error)
+        return null
       }
     },
   }),

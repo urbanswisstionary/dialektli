@@ -1,9 +1,9 @@
 import type { FC } from "react"
 import FormControl, { FormControlProps } from "@mui/joy/FormControl"
 import FormLabel from "@mui/joy/FormLabel"
-import Input from "@mui/joy/Input"
+import DebouncedInput from "@/ui/debouncedInput"
 
-const WordInput: FC<
+const ExpressionInput: FC<
   Omit<FormControlProps, "value" | "onChange"> & {
     value: string
     onChange: (_value: string) => void
@@ -12,13 +12,15 @@ const WordInput: FC<
 > = ({ value, onChange, label, ...formControlProps }) => (
   <FormControl {...formControlProps}>
     {label ? <FormLabel>{label}</FormLabel> : null}
-    <Input
+    <DebouncedInput
       size="lg"
       value={value}
-      onChange={({ currentTarget: { value } }) => onChange(value)}
-      slotProps={{ input: { autoComplete: "off", maxLength: 100 } }}
+      onChange={(value) => onChange(value)}
+      debounce={250}
+      disableClearable
+      slotProps={{ input: { autoComplete: "off", maxLength: 240 } }}
     />
   </FormControl>
 )
 
-export default WordInput
+export default ExpressionInput

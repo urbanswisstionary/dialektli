@@ -1,9 +1,8 @@
 import { FC, useMemo } from "react"
 import Card from "@/ui/Card"
-import ReviewGuidelines from "@/features/termForms/components/reviewGuidelines"
-import WordInput from "./components/wordInput"
-import WordContentInput from "./components/wordContentInput"
-import WordExamplesInput from "./components/wordExamplesInput"
+import ReviewGuidelines from "@/features/expression/reviewGuidelines"
+import ExpressionInput from "./expressionInput"
+import ExpressionDefinitionInput from "./expressionDefinitionInput"
 import { useCreateTermMutation } from "@/hooks/useTerms"
 import { useRouter } from "next/router"
 
@@ -12,41 +11,33 @@ import { setQueryOnPage } from "@/utils/setQueryOnPage"
 import { ParsedUrlQuery } from "querystring"
 import SelectMultipleLocation from "@/ui/Autocomplete/selectMultipleLocations"
 import { Trans, useTranslation } from "next-i18next"
-import SelectSingleLanguage from "@/ui/Autocomplete/selectSingleLanguage"
-import {
-  sanitizeCantons,
-  sanitizeExamples,
-  sanitizeLanguage,
-} from "@/utils/sanitizeQueries"
+// import SelectSingleLanguage from "@/ui/Autocomplete/selectSingleLanguage"
+import { sanitizeCantons, sanitizeLanguage } from "@/utils/sanitizeQueries"
 import { Language } from "@@/generated/graphql"
 
 type Query = ParsedUrlQuery & {
-  title?: string
-  content?: string
-  examples?: string[]
+  expression?: string
+  definition?: string
   cantons?: string[] | string
   language?: string
   synonym?: string
 }
 
-const NewTermForm: FC = () => {
+const CreateExpressionForm: FC = () => {
   const { t } = useTranslation("common")
 
   const router = useRouter()
   const query = router.query as Query
   const synonym = (router.query as Query).synonym
 
-  const { sanitizedCantons, sanitizedExamples, sanitizedLanguage } = useMemo(
+  const { sanitizedCantons, sanitizedLanguage } = useMemo(
     () => ({
       sanitizedCantons: sanitizeCantons(
         typeof query.cantons === "string" ? [query.cantons] : query.cantons,
       ),
-      sanitizedExamples: sanitizeExamples(
-        typeof query.examples === "string" ? [query.examples] : query.examples,
-      ),
       sanitizedLanguage: sanitizeLanguage(query.language) ?? Language.De,
     }),
-    [query.cantons, query.examples, query.language],
+    [query.cantons, query.language],
   )
   const {
     createTerm,
@@ -60,21 +51,21 @@ const NewTermForm: FC = () => {
   ) => {
     setQueryOnPage(router, { [queryKey]: value?.length ? value : null })
   }
-  const preventSubmit = !query.title || !query.content || createTermLoading
+  const preventSubmit =
+    !query.expression || !query.definition || createTermLoading
 
   const onSubmit = async () => {
     try {
       createTerm(
         {
-          title: query.title!,
-          content: query.content,
-          examples: sanitizedExamples,
+          title: query.expression!,
+          content: query.definition,
           cantons: sanitizedCantons,
           language: sanitizedLanguage,
           synonymId: synonym,
         },
-        (termId) => {
-          if (termId) router.replace(`/expression/${termId}/edit`)
+        (id) => {
+          if (id) router.replace(`/expression/${id}/edit`)
         },
       )
     } catch (error) {
@@ -102,17 +93,17 @@ const NewTermForm: FC = () => {
       >
         <ReviewGuidelines />
 
-        <WordInput
-          value={query.title ?? ""}
+        <ExpressionInput
+          value={query.expression ?? ""}
           onChange={(value) => {
-            onChange("title", value)
+            onChange("expression", value)
           }}
           label={t("term.title")}
           required
           sx={{ pt: 1 }}
           disabled={!!createdTerm}
         />
-        <SelectSingleLanguage
+        {/* <SelectSingleLanguage
           label={t("term.language")}
           required
           value={sanitizedLanguage}
@@ -120,7 +111,7 @@ const NewTermForm: FC = () => {
             onChange("language", language)
           }}
           disableClearable
-        />
+        /> */}
         <SelectMultipleLocation
           label={t("term.canton")}
           mode="canton"
@@ -131,10 +122,10 @@ const NewTermForm: FC = () => {
           }}
           groupOptions
         />
-        <WordContentInput
-          value={query.content ?? ""}
+        <ExpressionDefinitionInput
+          value={query.definition ?? ""}
           onChange={(value) => {
-            onChange("content", value)
+            onChange("definition", value)
           }}
           label={t("term.description")}
           helperText={
@@ -147,19 +138,9 @@ const NewTermForm: FC = () => {
           sx={{ pt: 1 }}
           disabled={!!createdTerm}
         />
-
-        <WordExamplesInput
-          label={t("term.examples")}
-          helperText={t("term.examplesFieldHelperText")}
-          values={sanitizedExamples}
-          onChange={(examples) => {
-            onChange("examples", examples)
-          }}
-          disabled={!!createdTerm}
-        />
       </Card>
     </form>
   )
 }
 
-export default NewTermForm
+export default CreateExpressionForm

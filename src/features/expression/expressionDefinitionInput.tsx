@@ -2,9 +2,9 @@ import type { FC, ReactNode } from "react"
 import FormControl, { FormControlProps } from "@mui/joy/FormControl"
 import FormLabel from "@mui/joy/FormLabel"
 import FormHelperText from "@mui/joy/FormHelperText"
-import Textarea from "@mui/joy/Textarea"
+import DebouncedTextarea from "@/ui/debouncedTextarea"
 
-const WordContentInput: FC<
+const ExpressionDefinitionInput: FC<
   Omit<FormControlProps, "value" | "onChange"> & {
     value: string
     onChange: (_value: string) => void
@@ -14,12 +14,11 @@ const WordContentInput: FC<
 > = ({ value, onChange, label, helperText, ...formControlProps }) => (
   <FormControl {...formControlProps}>
     {label ? <FormLabel>{label}</FormLabel> : null}
-    <Textarea
+    <DebouncedTextarea
       size="lg"
-      minRows={4}
-      maxRows={6}
       value={value}
-      onChange={({ currentTarget: { value } }) => onChange(value)}
+      onChange={(value) => onChange(value)}
+      debounce={250}
       slotProps={{ textarea: { maxLength: 500 } }}
     />
     {helperText ? (
@@ -28,4 +27,4 @@ const WordContentInput: FC<
   </FormControl>
 )
 
-export default WordContentInput
+export default ExpressionDefinitionInput
