@@ -72,7 +72,7 @@ const HeadProvider: FC<{
         <meta property="og:locale" content="de_CH" />
 
         <meta property="og:type" content={meta.openGraph?.type} />
-        <meta property="og:site_name" content={meta.title} />
+        <meta property="og:site_name" content={meta.openGraph?.siteName} />
         <meta property="og:title" content={meta.title} />
         <meta property="og:description" content={meta.description} />
         <meta
