@@ -1,0 +1,66 @@
+{
+  "title": "Privacy Policy",
+  "description": {
+    "0": "This privacy policy discloses the following:",
+    "1": [
+      "When and how we collect, use and share your information",
+      "What are your data protection rights and how you can exercise them"
+    ],
+    "2": "Your use is also subject to our <0>Terms of Use</0>."
+  },
+  "tableOfContent": {
+    "title": "Table of Content",
+    "list": [
+      "The information we collect",
+      "How we use your information",
+      "When do we share your data?",
+      "Your privacy rights",
+      "Information requests and deletion requests",
+      "Data storage",
+      "Security",
+      "Children",
+      "Changes",
+      "Questions"
+    ]
+  },
+  "informationWeCollect": {
+    "title": "The information we collect",
+    "paragraph": "We collect (a) the email addresses of those who communicate via email communicate with us, (b) information you send to us (e.g. survey information and/or website registrations) and (c) personal data use of the website."
+  },
+  "howWeUseYourInformation": {
+    "title": "How we use your information",
+    "paragraph": "We collect your information to improve the content of our website, improve the quality of our service, identify and authenticate our users, to contact you when necessary or with your permission."
+  },
+  "whenDoWeShareYourData": {
+    "title": "When do we share your data?",
+    "paragraph": "We do not share your information with any other organization other than to to provide products or services you request, if we have your permission or in the following circumstances: If it is necessary to pass on information to investigations to carry out, prevent or take action in relation to illegal activities, suspected fraud, situations involving potential threats to a person's physical safety, Violations of our Terms of Use or as permitted by law required. If {{companyName}} is from another company is taken over or merged with, we will transfer your data along with the {{companyName}} website. Should this happen, {{companyName}} the transfer and the resulting changes of these Terms in advance on the {{companyName}} website and, if so possible to announce by email. We may give pass on information to trustworthy companies or people, exclusively for the purpose of processing personal data our name. If this happens, it will be subject to agreements that require these parties to provide this information only to us Instructions and in accordance with this Privacy Policy and appropriate confidentiality and security measures process. We may share information with a company that is controlled by {{companyName}} or with {{companyName}} is controlled together, for everyone in it Privacy Policy Permitted Purpose."
+  },
+  "yourPrivacyRights": {
+    "title": "Your privacy rights",
+    "paragraph": "You have the following rights regarding what we collect Information: The right to disclose the categories personal data and specific personal data to request information that we have collected about you. The right to know for what purpose we collect your personal data and from which sources we collect personal data. The right about to be informed about the information we collect about you. This information can be found in this Privacy Policy. The Right to delete any personal information we collect about you. The right to have inaccurate personal information we collect about you have to correct. The Right, Use and Disclosure of Your Restrict sensitive personal information. The right one above to exercise the rights mentioned without retaliatory discrimination. Please Please understand that the above rights may apply in some cases Cases are subject to exceptions and your request may needs to be checked. We will always respond to your privacy request check and verify before taking appropriate action."
+  },
+  "informationRequestsAndDeletionRequests": {
+    "title": "Information requests and deletion requests",
+    "paragraph": "You may request disclosure and/or deletion of any information we have collected about you by sending us an email to <0>{{email}}</0> with the details of your request. We will contact you upon receipt of your request to verify your identity and process your request. Please note that requests are considered on a case-by-case basis and are subject to legal requirements and, in some cases, review."
+  },
+  "dataStorage": {
+    "title": "Data storage",
+    "paragraph": "{{companyName}} uses third party providers and hosting partners to provide the hardware, software, networking, storage and related technology necessary to operate {{companyName}}. {{companyName}} owns the code, databases and all rights to the {{companyName}} application."
+  },
+  "security": {
+    "title": "Security",
+    "paragraph": "We take precautions to ensure the security of your personal information. However, we cannot guarantee that hackers or unauthorized personnel will gain access to your personal information despite our efforts. Please note that when you use the {{companyName}} service, your data will be transferred via third-party infrastructures that are not under our control. We cannot protect, and this Privacy Policy does not apply to, any information you transmit to other users. You should never share personal or identifying information with other users."
+  },
+  "children": {
+    "title": "Children",
+    "paragraph": "The {{companyName}} Service is not intended for children under 18 years of age and we do not knowingly collect data from children under 18 years of age."
+  },
+  "changes": {
+    "title": "Changes",
+    "paragraph": "{{companyName}} may update this policy periodically. We may notify you about material changes in the way we treat personal information by placing a prominent notice on our website."
+  },
+  "questions": {
+    "title": "Questions",
+    "paragraph": "If you have any questions about this Privacy Policy, please contact <0>{{email}}</0>."
+  }
+}

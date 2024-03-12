@@ -7,10 +7,8 @@ import ListItem from "@mui/joy/ListItem"
 import Link from "@mui/joy/Link"
 import NextLink from "next/link"
 import HeadProvider from "@/providers/Head"
-import { companyName } from "@/config/constants"
+import { companyName, email } from "@/config/constants"
 import { useTranslation, Trans } from "next-i18next"
-
-const email = "urbanswisstionary@gmail.com"
 
 const TermsOfServicePage: NextPage = () => {
   const { t } = useTranslation("tos")
