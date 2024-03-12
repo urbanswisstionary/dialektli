@@ -43,7 +43,9 @@ const ResetPasswordForm: FC = () => {
         <Input type="email" name="email" />
       </FormControl>
       <Box sx={{ mt: 2 }}>
-        <Button type="submit">{t("resetPassword")}</Button>
+        <Button variant="soft" color="neutral" fullWidth type="submit">
+          {t("resetPassword")}
+        </Button>
       </Box>
     </form>
   )

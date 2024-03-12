@@ -62,7 +62,9 @@ const SigninForm: FC = () => {
             {t("forgotPassword")}
           </JoiLink>
         </Box>
-        <Button type="submit">{t("title")}</Button>
+        <Button variant="soft" color="neutral" fullWidth type="submit">
+          {t("title")}
+        </Button>
       </Stack>
     </form>
   )

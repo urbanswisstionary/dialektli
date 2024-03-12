@@ -54,6 +54,9 @@ const SignupPage: NextPage = () => {
           </Stack>
           <Divider>{t("or")}</Divider>
           <Button
+            variant="soft"
+            color="neutral"
+            fullWidth
             startDecorator={<GoogleIcon />}
             onClick={() => signIn("google")}
           >

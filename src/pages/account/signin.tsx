@@ -56,6 +56,9 @@ const SigninPage: NextPage = () => {
             {t("title")}
           </Typography>
           <Button
+            variant="soft"
+            color="neutral"
+            fullWidth
             startDecorator={<GoogleIcon />}
             onClick={() => onClick("google")}
           >
@@ -64,6 +67,9 @@ const SigninPage: NextPage = () => {
 
           {/*  facebook login does not yet work, difficulties setting up authentication on facebook's side */}
           {/* <Button
+            variant="soft"
+            color="neutral"
+            fullWidth
             startDecorator={<FacebookIcon />}
             onClick={() => onClick("facebook")}
           >

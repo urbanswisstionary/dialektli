@@ -215,7 +215,13 @@ const BugReportForm: FC = () => {
         }
       />
       <Box sx={{ mt: 2 }}>
-        <Button type="submit" disabled={formState.loading}>
+        <Button
+          variant="soft"
+          color="neutral"
+          fullWidth
+          type="submit"
+          disabled={formState.loading}
+        >
           {t("submit")}
         </Button>
       </Box>

@@ -38,6 +38,7 @@ const ImageUploadInput: FC<{
             tabIndex={-1}
             variant="outlined"
             color="neutral"
+            fullWidth
             endDecorator={imageList.length ? undefined : <UploadFileIcon />}
             onClick={onImageUpload}
             sx={{ minHeight: "3.125rem" }}

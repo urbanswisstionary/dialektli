@@ -49,7 +49,13 @@ const WelcomeForm: FC<{ userId: string }> = ({ userId }) => {
         color={allowSubmit ? "success" : undefined}
       />
       <Box sx={{ mt: 2 }}>
-        <Button disabled={!allowSubmit} type="submit">
+        <Button
+          variant="soft"
+          color="neutral"
+          fullWidth
+          disabled={!allowSubmit}
+          type="submit"
+        >
           {t("actions.submit")}
         </Button>
       </Box>

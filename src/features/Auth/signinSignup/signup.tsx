@@ -63,7 +63,9 @@ const SigninForm: FC = () => {
       </FormHelperText>
 
       <Box sx={{ mt: 2 }}>
-        <Button type="submit">{t("title")}</Button>
+        <Button variant="soft" color="neutral" fullWidth type="submit">
+          {t("title")}
+        </Button>
       </Box>
     </form>
   )
