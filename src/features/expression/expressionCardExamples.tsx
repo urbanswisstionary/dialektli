@@ -18,6 +18,7 @@ import ExpressionExampleListItem from "./expressionExampleListItem"
 import FormHelperText from "@mui/joy/FormHelperText"
 import IconButton from "@mui/joy/IconButton"
 import AddIcon from "@mui/icons-material/Add"
+import { useRouter } from "next/router"
 
 type ExpressionCardExamplesProps = {
   expression: ExpressionFragmentFragment
@@ -33,6 +34,7 @@ const ExpressionCardExamples: FC<ExpressionCardExamplesProps> = ({
   addExampleButtonProps = { type: "link" },
   disabled,
 }) => {
+  const router = useRouter()
   const { me, isAdmin } = useMe()
   const { t } = useTranslation("common", { keyPrefix: "expression" })
   const examples = getFragmentData(
@@ -108,7 +110,13 @@ const ExpressionCardExamples: FC<ExpressionCardExamplesProps> = ({
       {expression.examples.length ? <ListDivider /> : null}
       <ListItem>
         <AddExample
-          onClick={() => setNewExampleDefinition(true)}
+          onClick={() => {
+            if (!me)
+              router.push(
+                `account/signin?redirect=/expression/${expression.id}`,
+              )
+            else setNewExampleDefinition(true)
+          }}
           disabled={disabled || newExampleContent}
           loading={loadingCreateExpressionExample}
           type={addExampleButtonProps?.type}
@@ -136,33 +144,24 @@ const AddExample: FC<AddExampleProps> = ({
   sx,
 }) => {
   const { t } = useTranslation("common", { keyPrefix: "expression" })
-  if (type === "link")
-    return (
-      <Box
-        sx={[
-          { width: "100%", display: "flex" },
-          ...(Array.isArray(sx) ? sx : [sx]),
-        ]}
-      >
+  return (
+    <Box
+      sx={[
+        { width: "100%", display: "flex" },
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
+    >
+      {type === "link" ? (
         <JoyLink
           level="title-sm"
           fontWeight={600}
           onClick={onClick}
           disabled={disabled || loading}
+          title={t("editExpression.addExample")}
         >
           {t("suggestExample")}
         </JoyLink>
-      </Box>
-    )
-
-  if (type === "iconButton")
-    return (
-      <Box
-        sx={[
-          { width: "100%", display: "flex" },
-          ...(Array.isArray(sx) ? sx : [sx]),
-        ]}
-      >
+      ) : (
         <IconButton
           title={t("editExpression.addExample")}
           variant="outlined"
@@ -174,7 +173,7 @@ const AddExample: FC<AddExampleProps> = ({
         >
           <AddIcon />
         </IconButton>
-      </Box>
-    )
-  return null
+      )}
+    </Box>
+  )
 }
