@@ -4,7 +4,7 @@ import ExpressionInput from "./expressionInput"
 import ExpressionDefinitionInput from "./expressionDefinitionInput"
 import {
   useDeleteExpressionMutation,
-  useUpdateExpressionMutations,
+  useUpdateExpressionMutation,
 } from "@/hooks/useExpressions"
 import {
   Language,
@@ -43,7 +43,7 @@ const EditExpressionForm: FC<{
     updateExpression,
     loading: loadingUpdateExpression,
     data: updateExpressionData,
-  } = useUpdateExpressionMutations()
+  } = useUpdateExpressionMutation()
   const [editExpressionState, setEditExpressionState] =
     useState<EditExpressionState>({})
 

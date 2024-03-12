@@ -5,6 +5,7 @@ import {
   CreateExpressionInput,
   ExpressionsQueryInput,
   UpdateExpressionInput,
+  Expression,
 } from "@@/generated/graphql"
 import { useMutation, useQuery } from "@apollo/client"
 
@@ -116,6 +117,7 @@ export const useCreateExpressionMutation = () => {
       mutation CreateExpression($data: CreateExpressionInput!) {
         createExpression(data: $data) {
           id
+          ...AdminExpressionFragment
         }
       }
     `),
@@ -132,17 +134,36 @@ export const useCreateExpressionMutation = () => {
           if (onCompletedCallback)
             onCompletedCallback(data.createExpression?.id)
         },
-        awaitRefetchQueries: true,
-        refetchQueries: () => [
-          { query: ExpressionsQuery, variables: { data: {} } },
-          { query: AdminExpressionsQuery },
-        ],
+        update: (cache, { data }) => {
+          if (data?.createExpression) {
+            cache.modify({
+              fields: {
+                expressionsQuery: (existingExpressions) => ({
+                  ...existingExpressions,
+                  expressions: [
+                    data.createExpression,
+                    ...existingExpressions.expressions,
+                  ],
+                  count: existingExpressions.count + 1,
+                }),
+                adminExpressions: (existingExpressions) => ({
+                  ...existingExpressions,
+                  expressions: [
+                    data.createExpression,
+                    ...existingExpressions.expressions,
+                  ],
+                  count: existingExpressions.count + 1,
+                }),
+              },
+            })
+          }
+        },
       }),
     ...mutationResult,
   }
 }
 
-export const useUpdateExpressionMutations = () => {
+export const useUpdateExpressionMutation = () => {
   const [updateExpression, mutationResult] = useMutation(
     graphql(/* GraphQL */ `
       mutation UpdateExpression($data: UpdateExpressionInput!) {
@@ -162,11 +183,12 @@ export const useUpdateExpressionMutations = () => {
         onCompleted: () => {
           if (onCompletedCallback) onCompletedCallback()
         },
-        awaitRefetchQueries: true,
-        refetchQueries: [
+        refetchQueries: ({ data }) => [
           {
-            query: ExpressionsQuery,
-            variables: { data: { expressionId: data.id } },
+            query: ExpressionQuery,
+            variables: {
+              data: { expressionId: data?.updateExpression?.id },
+            },
           },
         ],
       }),
@@ -183,13 +205,6 @@ export const useDeleteExpressionMutation = () => {
         }
       }
     `),
-    {
-      awaitRefetchQueries: true,
-      refetchQueries: () => [
-        { query: ExpressionsQuery, variables: { data: {} } },
-        { query: AdminExpressionsQuery },
-      ],
-    },
   )
 
   return {
@@ -201,6 +216,30 @@ export const useDeleteExpressionMutation = () => {
         variables: { data: { expressionId } },
         onCompleted: () => {
           if (onCompletedCallback) onCompletedCallback()
+        },
+        update: (cache, { data }) => {
+          if (data?.deleteExpression) {
+            cache.modify({
+              fields: {
+                expressionsQuery: (existingExpressions, { readField }) => ({
+                  ...existingExpressions,
+                  expressions: existingExpressions.expressions.filter(
+                    (e: Expression) =>
+                      readField("id", e) !== data.deleteExpression?.id,
+                  ),
+                  count: existingExpressions.count - 1,
+                }),
+                adminExpressions: (existingExpressions, { readField }) => ({
+                  ...existingExpressions,
+                  expressions: existingExpressions.expressions.filter(
+                    (e: Expression) =>
+                      readField("id", e) !== data.deleteExpression?.id,
+                  ),
+                  count: existingExpressions.count - 1,
+                }),
+              },
+            })
+          }
         },
       }),
     ...mutationResult,
@@ -245,7 +284,6 @@ export const useExpressionAction = (expressionId: string) => {
         awaitRefetchQueries: true,
         refetchQueries: () => [
           { query: ExpressionQuery, variables: { data: { expressionId } } },
-          { query: AdminExpressionsQuery },
         ],
       }),
     ...mutationResult,
@@ -258,6 +296,7 @@ export const useCreateExpressionExampleMutation = () => {
       mutation CreateExpressionExample($data: CreateExpressionExampleInput!) {
         createExpressionExample(data: $data) {
           id
+          expressionId
         }
       }
     `),
@@ -274,10 +313,15 @@ export const useCreateExpressionExampleMutation = () => {
           if (onCompletedCallback) onCompletedCallback()
         },
         awaitRefetchQueries: true,
-        refetchQueries: () => [
+        refetchQueries: ({ data }) => [
           {
             query: ExpressionQuery,
-            variables: { data: { expressionId: data.expressionId } },
+            variables: {
+              data: {
+                expressionId: data?.createExpressionExample?.expressionId,
+              },
+            },
+            skip: !data?.createExpressionExample?.expressionId,
           },
         ],
       }),
@@ -308,15 +352,15 @@ export const useUpdateExpressionExampleMutation = () => {
           if (onCompletedCallback) onCompletedCallback()
         },
         awaitRefetchQueries: true,
-        refetchQueries: (res) => [
+        refetchQueries: ({ data }) => [
           {
             query: ExpressionQuery,
             variables: {
               data: {
-                expressionId: res.data?.updateExpressionExample?.expressionId,
+                expressionId: data?.updateExpressionExample?.expressionId,
               },
             },
-            skip: !res.data?.updateExpressionExample?.expressionId,
+            skip: !data?.updateExpressionExample?.expressionId,
           },
         ],
       }),
@@ -347,15 +391,15 @@ export const useDeleteExpressionExampleMutation = () => {
           if (onCompletedCallback) onCompletedCallback()
         },
         awaitRefetchQueries: true,
-        refetchQueries: (res) => [
+        refetchQueries: ({ data }) => [
           {
             query: ExpressionQuery,
             variables: {
               data: {
-                expressionId: res.data?.deleteExpressionExample?.expressionId,
+                expressionId: data?.deleteExpressionExample?.expressionId,
               },
             },
-            skip: !res.data?.deleteExpressionExample?.expressionId,
+            skip: !data?.deleteExpressionExample?.expressionId,
           },
         ],
       }),

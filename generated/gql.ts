@@ -18,12 +18,12 @@ const documents = {
     "\n  query ExpressionsQuery($data: ExpressionsQueryInput!) {\n    expressionsQuery(data: $data) {\n      expressions {\n        ...ExpressionFragment\n      }\n      count\n    }\n  }\n": types.ExpressionsQueryDocument,
     "\n  fragment AdminExpressionFragment on Expression {\n    id\n    author {\n      id\n      name\n      image\n    }\n    title\n    definition\n    examples {\n      ...ExpressionExampleFragment\n    }\n    published\n    likesCount\n    dislikesCount\n    createdAt\n    updatedAt\n    language\n    cantons\n    flagged {\n      authorId\n      createdAt\n    }\n  }\n": types.AdminExpressionFragmentFragmentDoc,
     "\n  query AdminExpressions {\n    adminExpressions {\n      expressions {\n        ...AdminExpressionFragment\n      }\n      count\n    }\n  }\n": types.AdminExpressionsDocument,
-    "\n      mutation CreateExpression($data: CreateExpressionInput!) {\n        createExpression(data: $data) {\n          id\n        }\n      }\n    ": types.CreateExpressionDocument,
+    "\n      mutation CreateExpression($data: CreateExpressionInput!) {\n        createExpression(data: $data) {\n          id\n          ...AdminExpressionFragment\n        }\n      }\n    ": types.CreateExpressionDocument,
     "\n      mutation UpdateExpression($data: UpdateExpressionInput!) {\n        updateExpression(data: $data) {\n          id\n        }\n      }\n    ": types.UpdateExpressionDocument,
     "\n      mutation DeleteExpression($data: ExpressionIdInput!) {\n        deleteExpression(data: $data) {\n          id\n        }\n      }\n    ": types.DeleteExpressionDocument,
     "\n  query Expression($data: ExpressionIdInput!) {\n    expression(data: $data) {\n      id\n      ...ExpressionFragment\n      synonyms {\n        synonymOf {\n          ...ExpressionFragment\n        }\n      }\n    }\n  }\n": types.ExpressionDocument,
     "\n      mutation ExpressionAction($data: ExpressionActionInput!) {\n        expressionAction(data: $data)\n      }\n    ": types.ExpressionActionDocument,
-    "\n      mutation CreateExpressionExample($data: CreateExpressionExampleInput!) {\n        createExpressionExample(data: $data) {\n          id\n        }\n      }\n    ": types.CreateExpressionExampleDocument,
+    "\n      mutation CreateExpressionExample($data: CreateExpressionExampleInput!) {\n        createExpressionExample(data: $data) {\n          id\n          expressionId\n        }\n      }\n    ": types.CreateExpressionExampleDocument,
     "\n      mutation UpdateExpressionExample($data: UpdateExpressionExampleInput!) {\n        updateExpressionExample(data: $data) {\n          id\n          expressionId\n        }\n      }\n    ": types.UpdateExpressionExampleDocument,
     "\n      mutation DeleteExpressionExample($data: DeleteExpressionExampleInput!) {\n        deleteExpressionExample(data: $data) {\n          id\n          expressionId\n        }\n      }\n    ": types.DeleteExpressionExampleDocument,
     "\n  fragment MeFragment on User {\n    id\n    email\n    name\n    role\n    image\n    bio\n    country\n    canton\n    likesCount\n    dislikesCount\n    expressions {\n      id\n      title\n    }\n    myPublishedExpressionsCount\n    myUnpublishedExpressionsCount\n  }\n": types.MeFragmentFragmentDoc,
@@ -77,7 +77,7 @@ export function graphql(source: "\n  query AdminExpressions {\n    adminExpressi
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n      mutation CreateExpression($data: CreateExpressionInput!) {\n        createExpression(data: $data) {\n          id\n        }\n      }\n    "): (typeof documents)["\n      mutation CreateExpression($data: CreateExpressionInput!) {\n        createExpression(data: $data) {\n          id\n        }\n      }\n    "];
+export function graphql(source: "\n      mutation CreateExpression($data: CreateExpressionInput!) {\n        createExpression(data: $data) {\n          id\n          ...AdminExpressionFragment\n        }\n      }\n    "): (typeof documents)["\n      mutation CreateExpression($data: CreateExpressionInput!) {\n        createExpression(data: $data) {\n          id\n          ...AdminExpressionFragment\n        }\n      }\n    "];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -97,7 +97,7 @@ export function graphql(source: "\n      mutation ExpressionAction($data: Expres
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n      mutation CreateExpressionExample($data: CreateExpressionExampleInput!) {\n        createExpressionExample(data: $data) {\n          id\n        }\n      }\n    "): (typeof documents)["\n      mutation CreateExpressionExample($data: CreateExpressionExampleInput!) {\n        createExpressionExample(data: $data) {\n          id\n        }\n      }\n    "];
+export function graphql(source: "\n      mutation CreateExpressionExample($data: CreateExpressionExampleInput!) {\n        createExpressionExample(data: $data) {\n          id\n          expressionId\n        }\n      }\n    "): (typeof documents)["\n      mutation CreateExpressionExample($data: CreateExpressionExampleInput!) {\n        createExpressionExample(data: $data) {\n          id\n          expressionId\n        }\n      }\n    "];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

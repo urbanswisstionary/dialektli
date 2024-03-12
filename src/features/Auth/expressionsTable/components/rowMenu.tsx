@@ -12,7 +12,7 @@ import type { AdminExpressionFragmentFragment } from "@@/generated/graphql"
 import ListItemDecorator from "@mui/joy/ListItemDecorator"
 import {
   useDeleteExpressionMutation,
-  useUpdateExpressionMutations,
+  useUpdateExpressionMutation,
 } from "@/hooks/useExpressions"
 import CircularProgress from "@mui/joy/CircularProgress"
 import { useTranslation } from "next-i18next"
@@ -26,7 +26,7 @@ const RowMenu: FC<{ expression: AdminExpressionFragmentFragment }> = ({
   const { deleteExpression, loading: deleteExpressionLoading } =
     useDeleteExpressionMutation()
   const { updateExpression, loading: updateExpressionLoading } =
-    useUpdateExpressionMutations()
+    useUpdateExpressionMutation()
   const publishOrUpublishHandler = useCallback(
     () =>
       updateExpression({
