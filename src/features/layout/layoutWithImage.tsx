@@ -5,6 +5,7 @@ import image1_0 from "../../../public/assets/image1_0.jpg"
 import Header from "./header"
 import Typography from "@mui/joy/Typography"
 import SelectLocale from "@/ui/Select/selectLocale"
+import { companyName } from "@/config/constants"
 
 const LayoutWithImage: FC<PropsWithChildren> = ({ children }) => (
   <>
@@ -71,7 +72,7 @@ const LayoutWithImage: FC<PropsWithChildren> = ({ children }) => (
         >
           <SelectLocale />
           <Typography level="body-xs" textAlign="center">
-            © Dialektli {new Date().getFullYear()}
+            © {companyName} {new Date().getFullYear()}
           </Typography>
         </Box>
       </Box>

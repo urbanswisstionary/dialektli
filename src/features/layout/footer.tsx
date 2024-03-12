@@ -6,6 +6,7 @@ import Grid, { GridProps } from "@mui/joy/Grid"
 import NextLink from "next/link"
 import JoyLink, { LinkProps } from "@mui/joy/Link"
 import { useTranslation } from "next-i18next"
+import { companyName } from "@/config/constants"
 
 const Footer: FC = () => {
   const { t } = useTranslation("common", { keyPrefix: "layout.footer" })
@@ -38,7 +39,7 @@ const Footer: FC = () => {
         </Grid>
         <Grid xs={12}>
           <Typography level="body-xs" textAlign="center">
-            © Dialektli {new Date().getFullYear()}
+            © {companyName} {new Date().getFullYear()}
           </Typography>
         </Grid>
       </Grid>

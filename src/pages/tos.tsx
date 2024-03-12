@@ -7,8 +7,7 @@ import ListItem from "@mui/joy/ListItem"
 import Link from "@mui/joy/Link"
 import NextLink from "next/link"
 import HeadProvider from "@/providers/Head"
-
-const companyName = "Dialektli"
+import { companyName } from "@/config/constants"
 
 const TermsOfServicePage: NextPage = () => {
   return (
