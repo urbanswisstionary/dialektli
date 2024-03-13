@@ -1,7 +1,6 @@
 import Box from "@mui/joy/Box"
 import type { FC, PropsWithChildren } from "react"
-import image0_0 from "../../../public/assets/image0_0.jpg"
-import image1_0 from "../../../public/assets/image1_0.jpg"
+import logo from "../../../public/assets/dialektli_logo.svg"
 import Header from "./header"
 import Typography from "@mui/joy/Typography"
 import SelectLocale from "@/ui/Select/selectLocale"
@@ -85,7 +84,7 @@ export default LayoutWithImage
 
 const BackgroundImage: FC = () => (
   <Box
-    sx={(theme) => ({
+    sx={{
       height: "100%",
       position: "fixed",
       right: 0,
@@ -96,13 +95,10 @@ const BackgroundImage: FC = () => (
         "background-image var(--Transition-duration), left var(--Transition-duration) !important",
       transitionDelay: "calc(var(--Transition-duration) + 0.1s)",
       backgroundColor: "background.level1",
-      backgroundSize: "cover",
+      backgroundSize: "contain",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
-      backgroundImage: `url(${image0_0.src})`,
-      [theme.getColorSchemeSelector("dark")]: {
-        backgroundImage: `url(${image1_0.src})`,
-      },
-    })}
+      backgroundImage: `url(${logo.src})`,
+    }}
   />
 )

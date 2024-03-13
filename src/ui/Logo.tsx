@@ -1,20 +1,19 @@
 import type { FC } from "react"
-import Typography from "@mui/joy/Typography"
+import Avatar from "@mui/joy/Avatar"
 import { companyName } from "@/config/constants"
 
 type LogoProps = {
   size?: "sm" | "md" | "lg"
 }
-/**
- *
- * @param {object} props
- * @param {string} [props.size] ("sm" | "md" | "lg") The size of the logo. Defaults to "lg".
- *
- */
+
 const Logo: FC<LogoProps> = ({ size = "lg" }) => (
-  <Typography level={`title-${size}`} color="danger">
-    {companyName}
-  </Typography>
+  <Avatar
+    src="/assets/dialektli_logo.svg"
+    alt={companyName}
+    size={size}
+    sx={{ background: "transparent", pt: 0.5 }}
+    title={companyName}
+  />
 )
 
 export default Logo

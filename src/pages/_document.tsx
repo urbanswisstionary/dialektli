@@ -10,11 +10,6 @@ export default function Document() {
         <link rel="manifest" href="/manifest.json" />
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/apple-touch-icon.png"
-        />
         {GOOGLE_TAG_MANAGER_ID ? (
           // eslint-disable-next-line @next/next/next-script-for-ga
           <script
