@@ -7,9 +7,9 @@ import ListItemContent from "@mui/joy/ListItemContent"
 import ListDivider from "@mui/joy/ListDivider"
 import Grid from "@mui/joy/Grid"
 import JoyLink from "@mui/joy/Link"
-
 import { ExpressionFragmentFragment } from "@@/generated/graphql"
 import Flag from "@/ui/Flag"
+import NextLink from "next/link"
 
 type ExpressionCardSynonymsProps = {
   expression: ExpressionFragmentFragment
@@ -37,7 +37,11 @@ const ExpressionCardSynonyms: FC<ExpressionCardSynonymsProps> = ({
           <ListItemContent>
             <Grid container spacing={2} sx={{ flexGrow: 1 }}>
               <Grid xs={8}>
-                <JoyLink href={`/expression/${s.id}`} level="body-sm">
+                <JoyLink
+                  component={NextLink}
+                  href={`/expression/${s.id}`}
+                  level="body-sm"
+                >
                   {s.title}
                 </JoyLink>
               </Grid>
@@ -64,6 +68,7 @@ const ExpressionCardSynonyms: FC<ExpressionCardSynonymsProps> = ({
           href={`/expression/new?synonym=${expression.id}`}
           level="title-sm"
           fontWeight={600}
+          component={NextLink}
         >
           {t("suggestSynonym")}
         </JoyLink>
