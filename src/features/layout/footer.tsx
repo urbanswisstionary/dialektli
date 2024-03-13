@@ -7,6 +7,7 @@ import NextLink from "next/link"
 import JoyLink, { LinkProps } from "@mui/joy/Link"
 import { useTranslation } from "next-i18next"
 import { companyName } from "@/config/constants"
+import Stack from "@mui/joy/Stack"
 
 const Footer: FC = () => {
   const { t } = useTranslation("common", { keyPrefix: "layout.footer" })
@@ -21,46 +22,29 @@ const Footer: FC = () => {
         pt: 10,
       }}
     >
-      <Grid container spacing={{ xs: 2, md: 3 }} sx={{ flexGrow: 1 }}>
-        <GridItem>
+      <Stack gap={5}>
+        <Stack
+          direction={{ xs: "column", lg: "row" }}
+          flexWrap="wrap"
+          gap={2}
+          alignItems="center"
+          justifyContent={{ xs: "center", md: "space-between" }}
+        >
           <Link href="/tos">{t("termsOfService")}</Link>
-        </GridItem>
-        <GridItem>
           <Link href="/privacy-policy">{t("privacyPolicy")}</Link>
-        </GridItem>
-        <GridItem>
           <Link href="/dmca">{t("dmca")}</Link>
-        </GridItem>
-        <GridItem>
           <Link href="/bug-report">{t("bugReport")}</Link>
-        </GridItem>
-        <Grid xs={12} sm={3} md={3}>
           <SelectLocale />
-        </Grid>
-        <Grid xs={12}>
-          <Typography level="body-xs" textAlign="center">
-            © {companyName} {new Date().getFullYear()}
-          </Typography>
-        </Grid>
-      </Grid>
+        </Stack>
+        <Typography level="body-xs" textAlign="center">
+          © {companyName} {new Date().getFullYear()}
+        </Typography>
+      </Stack>
     </Box>
   )
 }
 
 export default Footer
-
-const GridItem: FC<GridProps> = (props) => (
-  <Grid
-    xs={12}
-    sm={3}
-    md={3}
-    sx={{
-      justifyContent: "center",
-      display: "flex",
-    }}
-    {...props}
-  />
-)
 
 const Link: FC<LinkProps> = ({ sx, ...props }) => (
   <JoyLink
@@ -68,8 +52,8 @@ const Link: FC<LinkProps> = ({ sx, ...props }) => (
     color="neutral"
     sx={[
       {
-        transition: "font-weight 0.1s ease",
-        ":hover": { textDecoration: "none", fontWeight: "bolder" },
+        transition: "transform 0.1s ease",
+        ":hover": { textDecoration: "none", transform: "scale(1.05)" },
       },
       ...(Array.isArray(sx) ? sx : [sx]),
     ]}
