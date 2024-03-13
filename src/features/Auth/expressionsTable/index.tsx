@@ -170,20 +170,20 @@ const ExpressionsTable: FC = () => {
         ),
         footer: (props) => props.column.id,
       },
-      {
-        id: "flagged",
-        header: t("expression.flagged"),
-        accessorFn: ({ flagged }) => (flagged.length ? "True" : "False"),
-        cell: (info) => {
-          const status = info.getValue<string>()
-          return status === "True" ? (
-            <ExpressionStatusChip status={"flagged"} />
-          ) : (
-            <></>
-          )
-        },
-        footer: (props) => props.column.id,
-      },
+      // {
+      //   id: "flagged",
+      //   header: t("expression.flagged"),
+      //   accessorFn: ({ flagged }) => (flagged.length ? "True" : "False"),
+      //   cell: (info) => {
+      //     const status = info.getValue<string>()
+      //     return status === "True" ? (
+      //       <ExpressionStatusChip status={"flagged"} />
+      //     ) : (
+      //       <></>
+      //     )
+      //   },
+      //   footer: (props) => props.column.id,
+      // },
       {
         id: "updatedAt",
         header: t("expression.updatedAt"),
