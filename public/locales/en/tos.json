@@ -1,0 +1,108 @@
+{
+  "title": "Terms of use",
+  "description": {
+    "0": "{{companyName}} (the \"Company\") offers dialektli.ch (the \"Website\") subject to the Terms of Use set out below.",
+    "1": "The Company reserves the right to revise these Terms from time to time. We will post a notice of any material changes on the Website. Your continued use of the Site constitutes your agreement to these Terms, which are available at <0>https://dialektli.ch/tos</0>. Questions about the Terms of Use can be sent to the following email address <1>{{email}}</1>"
+  },
+  "tableOfContent": {
+    "title": "Table of Content",
+    "list": [
+      "NO WARRANTIES",
+      "LIMITATION OF LIABILITY",
+      "Terms of Use",
+      "User Conduct",
+      "Copyright and Ownership",
+      "Disclaimer for Participation",
+      "Unsolicited Ideas Policy",
+      "TERMS AND CONDITIONS FOR SUBMITTING AN IDEA",
+      "Feedback and information",
+      "Updated"
+    ]
+  },
+  "noGuarantee": {
+    "title": "NO WARRANTIES",
+    "paragraph": "The website is provided \"as is\" and \"as available\" without warranty of any kind, either express or implied. We expressly disclaim all implied warranties of merchantability, fitness for a particular purpose, non-infringement, or that use of the website will be uninterrupted or error-free. You assume complete responsibility and risk for your use of the website."
+  },
+  "limitationOfLiabilty": {
+    "title": "LIMITATION OF LIABILITY",
+    "paragraph": "To the maximum extent permitted by applicable law, in no event and under no legal theory shall the Company, its licensors or its suppliers be liable to you or any other person for any indirect, special, incidental or consequential damages of any kind or any amount in the aggregate in excess of (1) CHF 100 or (2) the amounts paid and/or payable by you to us in connection with the Website in the twelve months preceding the applicable claim."
+  },
+  "termsOfUsage": {
+    "title": "Terms of Use",
+    "paragraph": "The website may not be suitable for all audiences as the content is presented in a crude and direct manner that some may find offensive. If you do not consider yourself a suitable user or are offended, you should not visit the website. Please note that the Website is not intended for children under the age of 18. By using the Website, you confirm that you are at least 18 years of age. You may not use the Website for illegal activities. It is prohibited to use the Website to access unauthorised information. The Company reserves the right to modify, suspend or discontinue the Website for any reason with or without notice. The Company shall not be liable for any damages or losses arising from the transmission of information such as personal messages via unencrypted networks such as e-mail through the Website. The failure of the Company to enforce or exercise any right provided for in these Terms shall not constitute a waiver of such right. If any provision of these Terms of Use is held invalid or unenforceable, the remaining provisions shall remain in full force and effect. These Terms of Use are the entire agreement between you and the Company and supersede all prior written or oral agreements, including any prior versions of the Terms of Use."
+  },
+  "userConduct": {
+    "title": "User Conduct",
+    "paragraph1": {
+      "paragraph": "Users may not post words, definitions or other information (collectively, \"Content\") on the Site that are:",
+      "list": [
+        "Illegal, threatening or defamatory content is prohibited.",
+        "The intellectual property rights of any party have been infringed.",
+        "Harmful to the quality or intended spirit of the website."
+      ]
+    },
+    "paragraph2": {
+      "paragraph": "Examples of unacceptable content or behaviour on the Website are those that we determine, in our sole discretion, to be:",
+      "list": [
+        "Abusive, harassing, threatening violence, verbal abuse, intimidation of any person or organisation, or any other threatening behaviour.",
+        "It is prohibited to engage in or contribute to illegal activities or actions that violate the rights of others",
+        "Providing information that is false, misleading or inaccurate",
+        "Hacking or modifying the website to falsely suggest an association with the company.",
+        "Implying or implying an affiliation with a company or organisation with which you are not affiliated, or misrepresenting your level of affiliation or role with an affiliated company or organisation is prohibited.",
+        "Disclosure of personal or proprietary information of another user, person or organisation."
+      ]
+    },
+    "paragraph3": "The Company has the right, but not the obligation, to restrict or revoke the usage rights of individuals if they publish unacceptable content.",
+    "paragraph4": "The Company reserves the right to refuse to publish content or to remove previously published content at its sole discretion. However, there is no obligation to restrict or monitor submissions in any way or to block users who submit inappropriate content.",
+    "paragraph5": {
+      "paragraph": "By posting content, you represent and warrant that such content:",
+      "list": [
+        "Do not infringe any third party rights, including but not limited to intellectual property and proprietary rights.",
+        "The information or items are not fraudulent, counterfeit or stolen.",
+        "Does not violate any laws, statutes or regulations.",
+        "The Company and its parent companies, subsidiaries, affiliates, successors, assigns, employees, agents, directors, officers and shareholders shall not be liable."
+      ]
+    },
+    "paragraph6": "You may not submit content using unauthorised automated methods (\"bots\").",
+    "paragraph7": "The Company has no control over any content posted by third parties on the Website. It also cannot control and does not guarantee the accuracy, integrity or quality of such content. You understand that by using the Website, you may come across content that you may find offensive, indecent, false or objectionable. You agree that under no circumstances will the Company be liable for any Content, including any errors or omissions, and for any loss or damage of any kind incurred as a result of your use of the Content. If you wish to report objectionable material, you may use the \"Report\" feature for any topic or reply. Urgent issues can be reported to the following address <0>{{email}}</0>",
+    "paragraph8": "You are solely responsible for all content that you publish on the website. You are responsible for the consequences of posting such content. You agree to indemnify, defend and hold harmless the Company, its officers, directors, employees and agents from and against all claims, losses, costs, liabilities, damages, judgements, penalties, interest and expenses (including reasonable attorneys' fees). You shall be responsible for any fees resulting from any actual or alleged breach of your representations, warranties or covenants under these Terms of Use or any actual or alleged infringement of intellectual property or proprietary rights by any content or other information posted by you on the Site.",
+    "paragraph9": "Use of the Website is subject to our Privacy Policy, which you can view at <0>https://dialektli.ch/privacy-policy</0>."
+  },
+  "copyrightsAndOwnership": {
+    "title": "Copyright and Ownership",
+    "paragraph1": "The Company owns intellectual property rights in the Website and all elements thereof, including but not limited to the design, graphics, functionality and documentation. You may not copy, modify or reverse any part of the Website owned by the Company To the extent that you post content to the Site, the rights to such content remain solely your property. The Company is granted only an irrevocable, perpetual, worldwide, royalty-free, fully sublicensable and non-exclusive license to copy the content. Works of your content may distributed, sold, publicly displayed, publicly performed and derived on the Website and related services on the Website and elsewhere (including, but not limited to, print, video, audio or computer media), regardless of the form of the media used. Whether such media or services already exist or will be developed in the future is uncertain. By posting Content to the Site, you hereby represent and warrant that you have all rights necessary to post such Content and grant the Company the foregoing license. The Company respects the intellectual property of others. In appropriate circumstances, it may be necessary to deactivate and/or terminate the accounts of users who repeatedly infringe the rights of others.",
+    "paragraph2": {
+      "paragraph": "If you believe that your work has been copied in a way that constitutes copyright infringement, a violation of your intellectual property rights, or is otherwise violated, please provide the following information:",
+      "list": [
+        "An electronic or physical signature of the authorized person is required to act on behalf of the owner of the copyright or other intellectual property right.",
+        "A description of the copyrighted work or other intellectual property that you claim has been infringed.",
+        "A description of where the material that you claim is infringing is located on the Site.",
+        "Your address, telephone number and email address.",
+        "A statement by you that you have a good faith belief that the disputed use is not authorized by the copyright owner, its agent, or the law.",
+        "You must make a statement, made under penalty of perjury, that the information in your notice is accurate and that you are either the copyright or intellectual property owner or authorized to act on the copyright or intellectual property owner's behalf."
+      ]
+    },
+    "paragraph3": "The Company's contact person for notice of claims of copyright infringement or other intellectual property infringement can be reached by email at <0>{{email}}</0>."
+  },
+  "participationDisclaimer": {
+    "title": "Disclaimer for Participation",
+    "paragraph": "The Company does not and cannot review all of the content posted on the Website. It is not responsible in any way for either the content or the activities of users who access the Website. By providing you with the opportunity to create content, we acknowledge this. The Company serves solely as a passive conduit for displaying and distributing user-generated content on the Website. It assumes no obligation or liability with respect to the content or activities of the Website -Users. The Company's parents, subsidiaries, affiliates and successors are also excluded from this liability. Agents, employees, agents, directors, officers and shareholders have no obligation to monitor the Website for inappropriate content. The Company and its parents , subsidiaries, affiliates, successors, assigns, employees, agents, directors and officers assume no responsibility for monitoring the Site for inappropriate content. Shareholders assume no responsibility or liability for the content and any claims arising therefrom, including defamation, invasion of privacy and publicity rights, obscenity, pornography, fraud or misrepresentation."
+  },
+  "unsolicitedIdeaPolicy": {
+    "title": "Unsolicited Ideas Policy",
+    "paragraph": "{{companyName}} and its employees do not accept unsolicited ideas. This includes ideas for new advertising campaigns, promotions, products, technologies, product improvements, processes, materials, marketing plans, or product names. Please send {{companyName}} or any of its employees, any unsolicited ideas, original creative artwork, suggestions or other works (“Submissions”) in any form. This policy is intended solely to avoid potential misunderstandings or disputes if {{companyName}}'s products or marketing strategies may be similar to the ideas submitted to {{companyName}}. If you choose to send us your ideas despite our request, the following terms and conditions will apply to your submissions, regardless of the content of your letter."
+  },
+  "termsOfIdeaSubmission": {
+    "title": "TERMS AND CONDITIONS FOR SUBMITTING AN IDEA",
+    "paragraph": "You agree that: (1) your Submissions and their contents automatically become the property of {{companyName}} without any compensation to you; (2) {{companyName}} the Submissions and may use or redistribute the contents for any purpose and in any manner; (3) {{companyName}} is not obliged to review the submission; and (4) there is no obligation to maintain the confidentiality of the submitted contributions."
+  },
+  "feedbackAndInformation": {
+    "title": "Feedback and information",
+    "paragraph": "Any feedback you provide on this website will be considered non-confidential. {{companyName}} is entitled to use this information without restriction."
+  },
+  "updates": {
+    "title": "Updated",
+    "updated": "Updated: February 2024",
+    "copyrights": "Copyright © 2024 {{companyName}}. All rights reserved."
+  }
+}
