@@ -26,7 +26,7 @@ const defailtHeadData = ({
     siteName,
     images: [
       {
-        url: "https://dialektli.ch/_next/static/media/image1_0.459a6483.jpg",
+        url: "https://www.dialektli.ch/assets/dialektli_logo.svg",
       },
     ],
   },
@@ -77,7 +77,7 @@ const HeadProvider: FC<{
         <meta property="og:description" content={meta.description} />
         <meta
           property="og:image"
-          content="https://dialektli.ch/_next/static/media/image1_0.459a6483.jpg"
+          content="https://www.dialektli.ch/assets/dialektli_logo.svg"
         />
         <link rel="canonical" href={meta.canonical} />
       </Head>
