@@ -153,6 +153,7 @@ const AddExample: FC<AddExampleProps> = ({
     >
       {type === "link" ? (
         <JoyLink
+          component="button"
           level="title-sm"
           fontWeight={600}
           onClick={onClick}
