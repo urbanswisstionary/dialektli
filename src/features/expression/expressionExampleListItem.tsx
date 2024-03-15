@@ -97,7 +97,7 @@ const ExpressionExampleListItem: FC<{
             disabled={
               loadingUpdateExpressionExample || loadingDeleteExpressionExample
             }
-            onCancel={() => setEditExampleContent(false)}
+            onClose={() => setEditExampleContent(false)}
             onSave={(definition) => {
               if (!definition.trim().length) {
                 deleteExpressionExample(example.id, () =>

@@ -8,18 +8,20 @@ import Button from "@mui/joy/Button"
 import { useTranslation } from "next-i18next"
 import Stack from "@mui/joy/Stack"
 
+export const exampleMaxLength = 440
+
 const ExpressionExampleInput: FC<
   Omit<FormControlProps, "value" | "onChange"> & {
     exampleNumber?: number
     exampleContent?: string
-    onCancel?: () => void
+    onClose?: () => void
     onSave?: (_content: string) => void
     onSaveLoading?: boolean
   }
 > = ({
   exampleContent = "",
   exampleNumber,
-  onCancel,
+  onClose,
   onSave,
   onSaveLoading,
   ...formControlProps
@@ -72,7 +74,7 @@ const ExpressionExampleInput: FC<
             sx: {
               paddingInlineEnd: "calc(2.5 * var(--Textarea-paddingInline))",
             },
-            maxLength: 440,
+            maxLength: exampleMaxLength,
           },
           startDecorator: {
             sx: {
@@ -90,7 +92,7 @@ const ExpressionExampleInput: FC<
             <Button
               disabled={content.trim() === exampleContent}
               onClick={() => {
-                if (onSave) onSave(content)
+                if (onSave) onSave(content.trim())
               }}
               loading={onSaveLoading}
               variant="outlined"
@@ -98,17 +100,19 @@ const ExpressionExampleInput: FC<
               {t("actions.save")}
             </Button>
             <Button
-              disabled={onSaveLoading}
+              disabled={
+                onSaveLoading || (!onClose && content.trim() === exampleContent)
+              }
               onClick={() => {
                 setContent(exampleContent)
-                if (onCancel && content.trim() === exampleContent) onCancel()
+                if (onClose && content.trim() === exampleContent) onClose()
                 textareaRef.current?.blur()
               }}
               color="neutral"
               variant="outlined"
             >
               {t(
-                `actions.${content.trim() === exampleContent ? "close" : "cancel"}`,
+                `actions.${onClose && content.trim() === exampleContent ? "close" : "cancel"}`,
               )}
             </Button>
           </Stack>

@@ -1,6 +1,4 @@
 import type { FC } from "react"
-import List from "@mui/joy/List"
-import ListSubHeader from "@mui/joy/ListSubheader"
 import ListItem from "@mui/joy/ListItem"
 import { useTranslation } from "next-i18next"
 import ListItemContent from "@mui/joy/ListItemContent"
@@ -10,6 +8,7 @@ import JoyLink from "@mui/joy/Link"
 import { ExpressionFragmentFragment } from "@@/generated/graphql"
 import Flag from "@/ui/Flag"
 import NextLink from "next/link"
+import ExpressionCardContentList from "./expressionCardList"
 
 type ExpressionCardSynonymsProps = {
   expression: ExpressionFragmentFragment
@@ -21,17 +20,7 @@ const ExpressionCardSynonyms: FC<ExpressionCardSynonymsProps> = ({
   const { t } = useTranslation("common", { keyPrefix: "expression" })
 
   return (
-    <List>
-      <ListSubHeader
-        sx={{
-          borderBottom: "1.5px solid",
-          borderColor: "divider",
-          pb: 1,
-          display: "block",
-        }}
-      >
-        {t("synonyms")}:
-      </ListSubHeader>
+    <ExpressionCardContentList label={`${t("synonyms")}:`}>
       {expression.synonyms.map(({ synonymOf: s }, i) => (
         <ListItem key={i}>
           <ListItemContent>
@@ -73,7 +62,7 @@ const ExpressionCardSynonyms: FC<ExpressionCardSynonymsProps> = ({
           {t("suggestSynonym")}
         </JoyLink>
       </ListItem>
-    </List>
+    </ExpressionCardContentList>
   )
 }
 
