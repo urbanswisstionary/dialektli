@@ -199,6 +199,7 @@ const CreateExpressionInput = builder.inputType("CreateExpressionInput", {
     cantons: t.stringList(),
     language: t.field({ type: Language }),
     synonymId: t.string(),
+    example: t.string(),
   }),
 })
 
@@ -264,7 +265,7 @@ builder.mutationFields((t) => ({
     resolve: async (
       query,
       _root,
-      { data: { title, definition, cantons, language, synonymId } },
+      { data: { title, definition, cantons, language, synonymId, example } },
       { session },
     ) => {
       try {
@@ -279,6 +280,9 @@ builder.mutationFields((t) => ({
             language: language ?? undefined,
             author: { connect: { id: author?.id } },
             published: true,
+            examples: example
+              ? { create: { definition: example, authorId: author.id } }
+              : undefined,
           },
         })
         if (synonymId) {

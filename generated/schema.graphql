@@ -6,6 +6,7 @@ input CreateExpressionExampleInput {
 input CreateExpressionInput {
   cantons: [String!]
   definition: String
+  example: String
   language: Language
   synonymId: String
   title: String!

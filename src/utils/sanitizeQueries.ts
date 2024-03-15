@@ -1,3 +1,4 @@
+import { exampleMaxLength } from "@/features/expression/expressionExampleInput"
 import { getOptions } from "@/ui/Autocomplete/helper"
 import { allLetters } from "@/ui/Select/helper"
 import { Language } from "@@/generated/graphql"
@@ -19,3 +20,6 @@ export const sanitizeLanguage = (language?: string): Language | null =>
   Object.values(Language).includes(language as Language)
     ? (language as Language)
     : null
+
+export const sanitizeExample = (examples?: string): string =>
+  (examples ?? "").substring(0, exampleMaxLength)

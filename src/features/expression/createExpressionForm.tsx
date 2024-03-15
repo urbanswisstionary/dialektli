@@ -5,15 +5,22 @@ import ExpressionInput from "./expressionInput"
 import ExpressionDefinitionInput from "./expressionDefinitionInput"
 import { useCreateExpressionMutation } from "@/hooks/useExpressions"
 import { useRouter } from "next/router"
-
 import { setQueryOnPage } from "@/utils/setQueryOnPage"
-
 import { ParsedUrlQuery } from "querystring"
 import SelectMultipleLocation from "@/ui/Autocomplete/selectMultipleLocations"
 import { Trans, useTranslation } from "next-i18next"
 // import SelectSingleLanguage from "@/ui/Autocomplete/selectSingleLanguage"
-import { sanitizeCantons, sanitizeLanguage } from "@/utils/sanitizeQueries"
+import {
+  sanitizeCantons,
+  sanitizeLanguage,
+  sanitizeExample,
+} from "@/utils/sanitizeQueries"
 import { Language } from "@@/generated/graphql"
+import FormControl from "@mui/joy/FormControl"
+import FormLabel from "@mui/joy/FormLabel"
+import FormHelperText from "@mui/joy/FormHelperText"
+import { exampleMaxLength } from "./expressionExampleInput"
+import DebouncedTextarea from "@/ui/debouncedTextarea"
 
 type Query = ParsedUrlQuery & {
   expression?: string
@@ -21,24 +28,26 @@ type Query = ParsedUrlQuery & {
   cantons?: string[] | string
   language?: string
   synonym?: string
+  example?: string
 }
 
 const CreateExpressionForm: FC = () => {
   const { t } = useTranslation("common")
-
   const router = useRouter()
   const query = router.query as Query
   const synonym = (router.query as Query).synonym
 
-  const { sanitizedCantons, sanitizedLanguage } = useMemo(
+  const { sanitizedCantons, sanitizedLanguage, sanitizedExample } = useMemo(
     () => ({
       sanitizedCantons: sanitizeCantons(
         typeof query.cantons === "string" ? [query.cantons] : query.cantons,
       ),
       sanitizedLanguage: sanitizeLanguage(query.language) ?? Language.De,
+      sanitizedExample: sanitizeExample(query.example),
     }),
-    [query.cantons, query.language],
+    [query.cantons, query.example, query.language],
   )
+
   const {
     createExpression,
     data: createExpressionData,
@@ -63,6 +72,7 @@ const CreateExpressionForm: FC = () => {
           cantons: sanitizedCantons,
           language: sanitizedLanguage,
           synonymId: synonym,
+          example: sanitizedExample,
         },
         (id) => {
           if (id) router.replace(`/expression/${id}/edit`)
@@ -138,6 +148,25 @@ const CreateExpressionForm: FC = () => {
           sx={{ pt: 1 }}
           disabled={!!createdExpression}
         />
+        <FormControl sx={{ pt: 1 }}>
+          <FormLabel sx={{ display: "block" }}>
+            {t("expression.examples")}:
+          </FormLabel>
+          <DebouncedTextarea
+            value={sanitizedExample}
+            onChange={(definition) => {
+              const example = definition.trim()
+              onChange("example", example.length ? example : null)
+            }}
+            debounce={250}
+            minRows={6}
+            maxRows={6}
+            slotProps={{ textarea: { maxLength: exampleMaxLength } }}
+          />
+          <FormHelperText>
+            {t("expression.examplesFieldHelperText")}
+          </FormHelperText>
+        </FormControl>
       </Card>
     </form>
   )

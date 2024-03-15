@@ -28,6 +28,7 @@ export type CreateExpressionExampleInput = {
 export type CreateExpressionInput = {
   cantons?: InputMaybe<Array<Scalars['String']['input']>>;
   definition?: InputMaybe<Scalars['String']['input']>;
+  example?: InputMaybe<Scalars['String']['input']>;
   language?: InputMaybe<Language>;
   synonymId?: InputMaybe<Scalars['String']['input']>;
   title: Scalars['String']['input'];
