@@ -1,4 +1,4 @@
-import { FC, useMemo } from "react"
+import { FC, useMemo, useState } from "react"
 import Card from "@/ui/Card"
 import ReviewGuidelines from "@/features/expression/reviewGuidelines"
 import ExpressionInput from "./expressionInput"
@@ -31,11 +31,19 @@ type Query = ParsedUrlQuery & {
   example?: string
 }
 
+type CreateExpressionState = {
+  expression: string
+  definition: string
+  cantons?: string[]
+  language?: Language
+  example: string
+  synonymId?: string
+}
 const CreateExpressionForm: FC = () => {
   const { t } = useTranslation("common")
   const router = useRouter()
   const query = router.query as Query
-  const synonym = (router.query as Query).synonym
+  const synonymId = (router.query as Query).synonym
 
   const { sanitizedCantons, sanitizedLanguage, sanitizedExample } = useMemo(
     () => ({
@@ -48,6 +56,16 @@ const CreateExpressionForm: FC = () => {
     [query.cantons, query.example, query.language],
   )
 
+  const [createExpressionState, setCreateExpressionState] =
+    useState<CreateExpressionState>(() => ({
+      expression: query.expression ?? "",
+      definition: query.definition ?? "",
+      cantons: sanitizedCantons,
+      language: sanitizedLanguage,
+      example: sanitizedExample,
+      synonymId: synonymId,
+    }))
+
   const {
     createExpression,
     data: createExpressionData,
@@ -59,6 +77,10 @@ const CreateExpressionForm: FC = () => {
     value: Query[K] | null,
   ) => {
     setQueryOnPage(router, { [queryKey]: value?.length ? value : null })
+    setCreateExpressionState((prev) => ({
+      ...prev,
+      [queryKey]: value,
+    }))
   }
   const preventSubmit =
     !query.expression || !query.definition || createExpressionLoading
@@ -71,7 +93,7 @@ const CreateExpressionForm: FC = () => {
           definition: query.definition,
           cantons: sanitizedCantons,
           language: sanitizedLanguage,
-          synonymId: synonym,
+          synonymId,
           example: sanitizedExample,
         },
         (id) => {
@@ -95,7 +117,7 @@ const CreateExpressionForm: FC = () => {
       <Card
         title={t("expression.newExpression.title")}
         description={t(
-          `expression.newExpression.${synonym ? "newSynonym." : ""}description`,
+          `expression.newExpression.${synonymId ? "newSynonym." : ""}description`,
         )}
         actions={{
           save: { type: "submit", loading: createExpressionLoading },
@@ -104,10 +126,8 @@ const CreateExpressionForm: FC = () => {
         <ReviewGuidelines />
 
         <ExpressionInput
-          value={query.expression ?? ""}
-          onChange={(value) => {
-            onChange("expression", value)
-          }}
+          value={createExpressionState.expression}
+          onChange={(expression) => onChange("expression", expression)}
           label={t("expression.title")}
           required
           sx={{ pt: 1 }}
@@ -116,7 +136,7 @@ const CreateExpressionForm: FC = () => {
         {/* <SelectSingleLanguage
           label={t("expression.language")}
           required
-          value={sanitizedLanguage}
+          value={createExpressionState.language}
           onChange={(language) => {
             onChange("language", language)
           }}
@@ -126,17 +146,13 @@ const CreateExpressionForm: FC = () => {
           label={t("expression.canton")}
           mode="canton"
           helperText={t("expression.cantonFieldHelperText")}
-          value={sanitizedCantons}
-          onChange={(cantons) => {
-            onChange("cantons", cantons)
-          }}
+          value={createExpressionState.cantons}
+          onChange={(cantons) => onChange("cantons", cantons)}
           groupOptions
         />
         <ExpressionDefinitionInput
-          value={query.definition ?? ""}
-          onChange={(value) => {
-            onChange("definition", value)
-          }}
+          value={createExpressionState.definition}
+          onChange={(definition) => onChange("definition", definition)}
           label={t("expression.description")}
           helperText={
             <Trans
@@ -153,11 +169,8 @@ const CreateExpressionForm: FC = () => {
             {t("expression.examples")}:
           </FormLabel>
           <DebouncedTextarea
-            value={sanitizedExample}
-            onChange={(definition) => {
-              const example = definition.trim()
-              onChange("example", example.length ? example : null)
-            }}
+            value={createExpressionState.example}
+            onChange={(example) => onChange("example", example ?? "")}
             debounce={250}
             minRows={6}
             maxRows={6}
