@@ -4,13 +4,19 @@ import FormLabel from "@mui/joy/FormLabel"
 import FormHelperText from "@mui/joy/FormHelperText"
 import DebouncedInput from "@/ui/debouncedInput"
 
-const NameInput: FC<
-  Omit<FormControlProps, "value" | "onChange"> & {
-    value: string | null | undefined
-    onChange: (_name: string) => void
-    helperText?: ReactNode
-  }
-> = ({ value, onChange, helperText, size = "sm", ...formControlProps }) => (
+interface NameInputProps extends Omit<FormControlProps, "value" | "onChange"> {
+  value: string | null | undefined
+  onChange: (_name: string) => void
+  helperText?: ReactNode
+}
+
+const NameInput: FC<NameInputProps> = ({
+  value,
+  onChange,
+  helperText,
+  size = "sm",
+  ...formControlProps
+}) => (
   <FormControl {...formControlProps} size={size}>
     {formControlProps.title ? (
       <FormLabel>{formControlProps.title}</FormLabel>

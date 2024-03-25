@@ -3,13 +3,19 @@ import FormControl, { FormControlProps } from "@mui/joy/FormControl"
 import FormLabel from "@mui/joy/FormLabel"
 import DebouncedInput from "@/ui/debouncedInput"
 
-const ExpressionInput: FC<
-  Omit<FormControlProps, "value" | "onChange"> & {
-    value?: string
-    onChange: (_value: string) => void
-    label?: string
-  }
-> = ({ value = "", onChange, label, ...formControlProps }) => (
+interface ExpressionInputProps
+  extends Omit<FormControlProps, "value" | "onChange"> {
+  value?: string
+  onChange: (_value: string) => void
+  label?: string
+}
+
+const ExpressionInput: FC<ExpressionInputProps> = ({
+  value = "",
+  onChange,
+  label,
+  ...formControlProps
+}) => (
   <FormControl {...formControlProps}>
     {label ? <FormLabel>{label}</FormLabel> : null}
     <DebouncedInput

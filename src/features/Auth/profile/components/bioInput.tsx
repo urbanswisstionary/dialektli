@@ -7,13 +7,18 @@ import { useTranslation } from "next-i18next"
 
 const bioInputMaxLength = 220
 
-const BioInput: FC<
-  Omit<FormControlProps, "value" | "onChange"> & {
-    value: string | null | undefined
-    onChange: (_bio: string) => void
-    helperText?: string
-  }
-> = ({ value, onChange, helperText, ...formControlProps }) => {
+interface BioInputProps extends Omit<FormControlProps, "value" | "onChange"> {
+  value: string | null | undefined
+  onChange: (_bio: string) => void
+  helperText?: string
+}
+
+const BioInput: FC<BioInputProps> = ({
+  value,
+  onChange,
+  helperText,
+  ...formControlProps
+}) => {
   const { t } = useTranslation("common", { keyPrefix: "auth.profile" })
   const bio = value ?? ""
   const charsLeft = bioInputMaxLength - bio.length

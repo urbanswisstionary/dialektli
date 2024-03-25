@@ -8,7 +8,7 @@ import { useMe } from "@/hooks/useUsers"
 import CircularProgress from "@mui/joy/CircularProgress"
 import { useTranslation } from "next-i18next"
 
-type ExpressionsCardsListProps = Pick<BoxProps, "sx"> & {
+interface ExpressionsCardsListProps extends Pick<BoxProps, "sx"> {
   paginationProps?: PaginationProps
   expressions?: FragmentType<typeof ExpressionFragment>[]
   loading?: boolean

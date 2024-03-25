@@ -6,12 +6,12 @@ import Option from "@mui/joy/Option"
 import BadgeIcon from "@mui/icons-material/Badge"
 import { Role } from "@@/generated/graphql"
 
-const RoleInput: FC<
-  Omit<FormControlProps, "value" | "onChange"> & {
-    role: Role
-    onChange: (_role: Role) => void
-  }
-> = (role, onChange, ...formControlProps) => {
+interface RoleInputProps extends Omit<FormControlProps, "value" | "onChange"> {
+  role: Role
+  onChange: (_role: Role) => void
+}
+
+const RoleInput: FC<RoleInputProps> = (role, onChange, ...formControlProps) => {
   return (
     <FormControl {...formControlProps}>
       <FormLabel>Role</FormLabel>

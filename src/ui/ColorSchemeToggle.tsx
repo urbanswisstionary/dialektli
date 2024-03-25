@@ -5,6 +5,7 @@ import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded"
 import LightModeIcon from "@mui/icons-material/LightMode"
 import { useIsMounted } from "@/hooks/useIsMouted"
 import { useTranslation } from "next-i18next"
+
 const ColorSchemeToggle: FC<IconButtonProps> = ({
   onClick,
   size = "sm",

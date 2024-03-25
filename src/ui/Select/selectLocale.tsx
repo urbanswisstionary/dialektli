@@ -12,7 +12,8 @@ import Option from "@mui/joy/Option"
 import { Tooltip } from "@mui/joy"
 import Flag from "../Flag"
 
-type SelectLocaleProps = Omit<FormControlProps, "value" | "onChange">
+interface SelectLocaleProps
+  extends Omit<FormControlProps, "value" | "onChange"> {}
 
 const getFlagCode = (locale: Locale) => {
   if (locale === "en") return "gb"

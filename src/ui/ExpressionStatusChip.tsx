@@ -11,7 +11,10 @@ import { useTranslation } from "next-i18next"
 
 export type ExpressionStatus = "published" | "unpublished" | "flagged"
 
-const ExpressionStatusChip: FC<{ status: ExpressionStatus } & BoxProps> = ({
+interface ExpressionStatusChipProps extends BoxProps {
+  status: ExpressionStatus
+}
+const ExpressionStatusChip: FC<ExpressionStatusChipProps> = ({
   status,
   sx,
   ...props

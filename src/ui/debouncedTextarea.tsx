@@ -1,7 +1,8 @@
 import { FC, useEffect, useState } from "react"
 import Textarea, { TextareaProps } from "@mui/joy/Textarea"
 
-type DebouncedTextareaProps = Omit<TextareaProps, "value" | "onChange"> & {
+interface DebouncedTextareaProps
+  extends Omit<TextareaProps, "value" | "onChange"> {
   value: string
   onChange: (_value: string) => void
   debounce?: number

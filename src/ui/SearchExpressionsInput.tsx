@@ -15,7 +15,7 @@ import {
 import { useTranslation } from "next-i18next"
 import { ParsedUrlQuery } from "querystring"
 
-type Query = ParsedUrlQuery & {
+interface Query extends ParsedUrlQuery {
   q?: string
 }
 
@@ -43,10 +43,8 @@ const useSearchExpressionsQuery = (
     { variables: { data }, skip },
   )
 
-type SearchExpressionsInputProps = Omit<
-  FormControlProps,
-  "value" | "onChange"
-> & {
+interface SearchExpressionsInputProps
+  extends Omit<FormControlProps, "value" | "onChange"> {
   label?: string
   helperText?: string
   additionalQueryInput?: Omit<ExpressionsQueryInput, "q" | "offset" | "limit">

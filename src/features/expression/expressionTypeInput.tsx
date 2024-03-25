@@ -10,7 +10,7 @@ import Typography from "@mui/joy/Typography"
 
 export const expressionTypes = Object.values(ExpressionType)
 
-type ExpressionTypeInputProps = Omit<FormControlProps, "onChange"> & {
+interface ExpressionTypeInputProps extends Omit<FormControlProps, "onChange"> {
   value?: ExpressionType | null
   onChange?: (_type?: ExpressionType | null) => void
   label?: string

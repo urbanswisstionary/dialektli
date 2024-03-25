@@ -7,11 +7,11 @@ import Typography from "@mui/joy/Typography"
 
 export type Guideline = { title: string; description?: string }
 
-type GuidelinesListProps = {
+interface GuidelinesListProps extends ListProps {
   mode: "dos" | "dont's"
   guiedlines?: Guideline[]
 }
-const GuidelinesList: FC<ListProps & GuidelinesListProps> = ({
+const GuidelinesList: FC<GuidelinesListProps> = ({
   mode,
   guiedlines,
   sx,

@@ -31,7 +31,7 @@ import DebouncedTextarea from "@/ui/debouncedTextarea"
 import ExpressionGenderInput from "./expressionGenderInput"
 import ExpressionTypeInput from "./expressionTypeInput"
 
-type Query = ParsedUrlQuery & {
+interface Query extends ParsedUrlQuery {
   title?: string
   definition?: string
   cantons?: string[] | string

@@ -6,7 +6,8 @@ import FormLabel from "@mui/joy/FormLabel"
 import FormHelperText from "@mui/joy/FormHelperText"
 import FormControl, { FormControlProps } from "@mui/joy/FormControl"
 
-type SelectLetterProps = Omit<FormControlProps, "value" | "onChange"> & {
+interface SelectLetterProps
+  extends Omit<FormControlProps, "value" | "onChange"> {
   value?: string
   onChange?: (_value: string) => void
   label?: string

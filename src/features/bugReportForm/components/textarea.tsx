@@ -1,16 +1,18 @@
 import type { FC, ReactNode } from "react"
-import FormControl, { FormControlProps } from "@mui/joy/FormControl"
+import FormControl, { type FormControlProps } from "@mui/joy/FormControl"
 import FormLabel from "@mui/joy/FormLabel"
-import JoyTextarea, { TextareaProps } from "@mui/joy/Textarea"
+import JoyTextarea, {
+  type TextareaProps as JoyTextareaProps,
+} from "@mui/joy/Textarea"
 import FormHelperText from "@mui/joy/FormHelperText"
 
-const Textarea: FC<
-  FormControlProps & {
-    textareaProps?: TextareaProps
-    label?: ReactNode
-    helperText?: ReactNode
-  }
-> = ({
+interface TextareaProps extends FormControlProps {
+  textareaProps?: JoyTextareaProps
+  label?: ReactNode
+  helperText?: ReactNode
+}
+
+const Textarea: FC<TextareaProps> = ({
   label,
   helperText,
   textareaProps: { minRows = 3, ...textareaProps } = {

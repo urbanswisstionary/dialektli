@@ -9,10 +9,8 @@ import { useTranslation } from "next-i18next"
 import type { Language } from "@@/generated/graphql"
 import { languages } from "./helper"
 
-type SelectSingleLanguageProps = Omit<
-  FormControlProps,
-  "value" | "onChange"
-> & {
+interface SelectSingleLanguageProps
+  extends Omit<FormControlProps, "value" | "onChange"> {
   value: Language | null | undefined
   onChange: (_locationCode: Language | null) => void
   placeholder?: string

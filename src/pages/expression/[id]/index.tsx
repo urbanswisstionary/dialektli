@@ -14,12 +14,12 @@ import HeadProvider from "@/providers/Head"
 
 const ExpressionCard = dynamic(
   () => import("@/features/expression/expressionCard"),
-  {
-    ssr: false,
-  },
+  { ssr: false },
 )
 
-type Query = ParsedUrlQuery & { id: string }
+interface Query extends ParsedUrlQuery {
+  id: string
+}
 
 const ExpressionIdPage: NextPage = () => {
   const { t } = useTranslation("common")

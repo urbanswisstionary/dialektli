@@ -17,7 +17,9 @@ const EditExpressionForm = dynamic(
   { ssr: false },
 )
 
-type Query = ParsedUrlQuery & { id: string }
+interface Query extends ParsedUrlQuery {
+  id: string
+}
 
 const EditExpressionPage: NextPage = () => {
   const { t } = useTranslation("common")

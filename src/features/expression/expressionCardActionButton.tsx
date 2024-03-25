@@ -9,18 +9,17 @@ import Link from "@mui/joy/Link"
 import { useTranslation, Trans } from "next-i18next"
 import { useMe } from "@/hooks/useUsers"
 
-type ExpressionCardActionButtonProps = PropsWithChildren<{
+interface ExpressionCardActionButtonProps
+  extends Pick<IconButtonProps, "color" | "variant" | "size" | "sx"> {
   badgeContent?: number | string
   disabled?: boolean
   expressionId: string
   action: "like" | "dislike" | "flag"
-  color?: IconButtonProps["color"]
-  variant?: IconButtonProps["variant"]
-  size?: IconButtonProps["size"]
-  sx?: IconButtonProps["sx"]
-}>
+}
 
-const ExpressionCardActionButton: FC<ExpressionCardActionButtonProps> = ({
+const ExpressionCardActionButton: FC<
+  PropsWithChildren<ExpressionCardActionButtonProps>
+> = ({
   children,
   variant = "plain",
   size = "sm",

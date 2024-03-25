@@ -1,16 +1,16 @@
 import type { FC } from "react"
 import { useTranslation } from "next-i18next"
-import Box, { BoxProps } from "@mui/joy/Box"
+import Box, { type BoxProps } from "@mui/joy/Box"
 import JoyLink from "@mui/joy/Link"
 import IconButton from "@mui/joy/IconButton"
 import AddIcon from "@mui/icons-material/Add"
 
-export type ExpressionCardAddExampleButtonProps = {
+export interface ExpressionCardAddExampleButtonProps
+  extends Pick<BoxProps, "sx"> {
   type?: "iconButton" | "link"
   disabled?: boolean
   onClick: () => void
   loading?: boolean
-  sx?: BoxProps["sx"]
 }
 const ExpressionCardAddExampleButton: FC<
   ExpressionCardAddExampleButtonProps

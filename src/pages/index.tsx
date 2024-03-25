@@ -27,7 +27,7 @@ const ExpressionCardsList = dynamic(
   { ssr: false },
 )
 
-type Query = ParsedUrlQuery & {
+interface Query extends ParsedUrlQuery {
   q?: string
   canton?: string
   firstChar?: string

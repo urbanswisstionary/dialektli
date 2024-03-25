@@ -23,12 +23,12 @@ type CardActions = {
   delete?: ActionButtonProps
 }
 
-type CardProps = {
+interface CardProps extends Omit<JoyCardProps, "title"> {
   actions?: CardActions
   description?: string | null
   title?: string | null
 }
-const Card: FC<JoyCardProps & CardProps> = ({
+const Card: FC<CardProps> = ({
   actions,
   children,
   description,

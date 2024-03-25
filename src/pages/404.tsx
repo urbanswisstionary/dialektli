@@ -27,6 +27,8 @@ const Home: NextPage = () => {
           maxImagePreview: "none",
           maxVideoPreview: -1,
         }}
+        title={t("title")}
+        description={t("description")}
       />
       <Layout hideSidebar>
         <Box

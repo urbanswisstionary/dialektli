@@ -6,13 +6,18 @@ import ListItemDecorator from "@mui/joy/ListItemDecorator"
 import type { FC } from "react"
 import Flag from "@/ui/Flag"
 
-const SelectLocationOption: FC<
-  AutocompleteOptionProps & {
-    mode: "canton" | "country"
-    label: string
-    flagCode: string
-  }
-> = ({ mode, label, flagCode, ...props }) => (
+interface SelectLocationOptionProps extends AutocompleteOptionProps {
+  mode: "canton" | "country"
+  label: string
+  flagCode: string
+}
+
+const SelectLocationOption: FC<SelectLocationOptionProps> = ({
+  mode,
+  label,
+  flagCode,
+  ...props
+}) => (
   <AutocompleteOption {...props}>
     <ListItemDecorator>
       <AspectRatio ratio="1" sx={{ minWidth: 20, borderRadius: "50%" }}>

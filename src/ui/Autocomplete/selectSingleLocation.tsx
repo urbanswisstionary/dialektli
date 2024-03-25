@@ -8,10 +8,8 @@ import SelectLocationOption from "./selectLocationOption"
 import { getOptions } from "./helper"
 import { useTranslation } from "next-i18next"
 
-type SelectSingleLocationProps = Omit<
-  FormControlProps,
-  "value" | "onChange"
-> & {
+interface SelectSingleLocationProps
+  extends Omit<FormControlProps, "value" | "onChange"> {
   value: string | null | undefined
   onChange: (_locationCode: string | null) => void
   mode: "canton" | "country"

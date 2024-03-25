@@ -11,7 +11,11 @@ const ContentGuidlines: NextPage = () => {
 
   return (
     <>
-      <HeadProvider title={t("title")} pagePathname="/guidelines" />
+      <HeadProvider
+        title={t("title")}
+        description={t("description")}
+        pagePathname="/guidelines"
+      />
       <Layout hideSidebar={true}>
         <Typography level="h1" textAlign="center">
           {t("title")}

@@ -8,12 +8,16 @@ import { ParsedUrlQuery } from "querystring"
 import CircularProgress from "@mui/joy/CircularProgress"
 import { useRouter } from "next/router"
 import Stack from "@mui/joy/Stack"
+import { useTranslation } from "react-i18next"
 
-type Query = ParsedUrlQuery & {
+interface Query extends ParsedUrlQuery {
   synonym?: string
 }
 
 const NewExpressionPage: NextPage = () => {
+  const { t } = useTranslation("common", {
+    keyPrefix: "expression.newExpression",
+  })
   const { me, loading: loadingMe } = useMe()
   const router = useRouter()
   const query = router.query as Query
@@ -38,6 +42,8 @@ const NewExpressionPage: NextPage = () => {
           maxImagePreview: "none",
           maxVideoPreview: -1,
         }}
+        title={t("title")}
+        description={t("description")}
       />
 
       <Layout hideSidebar={!me}>

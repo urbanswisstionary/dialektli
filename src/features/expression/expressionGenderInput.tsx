@@ -9,7 +9,8 @@ import FormHelperText from "@mui/joy/FormHelperText"
 
 export const expressionGenders = Object.values(ExpressionGender)
 
-type ExpressionGenderInputProps = Omit<FormControlProps, "onChange"> & {
+interface ExpressionGenderInputProps
+  extends Omit<FormControlProps, "onChange"> {
   value?: ExpressionGender | null
   onChange?: (_gender?: ExpressionGender) => void
   label?: string

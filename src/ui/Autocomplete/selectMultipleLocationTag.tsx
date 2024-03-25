@@ -5,10 +5,11 @@ import Flag from "@/ui/Flag"
 import type { AutocompleteRenderGetTagProps } from "@mui/joy/Autocomplete"
 import { LocationOption } from "./helper"
 
-type SelectMultipleLocationTagProps = {
+interface SelectMultipleLocationTagProps
+  extends ReturnType<AutocompleteRenderGetTagProps> {
   mode: "canton" | "country"
   option: LocationOption
-} & ReturnType<AutocompleteRenderGetTagProps>
+}
 
 const SelectMultipleLocationTag: FC<SelectMultipleLocationTagProps> = ({
   mode,

@@ -4,12 +4,16 @@ import FormLabel from "@mui/joy/FormLabel"
 import Input from "@mui/joy/Input"
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded"
 
-const EmailInput: FC<
-  Omit<FormControlProps, "value" | "onChange"> & {
-    value: string | null | undefined
-    onChange: (_email: string) => void
-  }
-> = ({ value, onChange, ...formControlProps }) => (
+interface EmailInputProps extends Omit<FormControlProps, "value" | "onChange"> {
+  value: string | null | undefined
+  onChange: (_email: string) => void
+}
+
+const EmailInput: FC<EmailInputProps> = ({
+  value,
+  onChange,
+  ...formControlProps
+}) => (
   <FormControl {...formControlProps} id="email">
     {formControlProps.title ? (
       <FormLabel>{formControlProps.title}</FormLabel>

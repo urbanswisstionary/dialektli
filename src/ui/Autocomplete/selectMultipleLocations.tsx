@@ -8,10 +8,8 @@ import SelectLocationOption from "./selectLocationOption"
 import SelectMultipleLocationTag from "./selectMultipleLocationTag"
 import { useTranslation } from "next-i18next"
 
-type SelectMultipleLocationProps = Omit<
-  FormControlProps,
-  "value" | "onChange"
-> & {
+interface SelectMultipleLocationProps
+  extends Omit<FormControlProps, "value" | "onChange"> {
   value: string[] | null | undefined
   onChange: (_locationCode: string[] | null) => void
   mode: "canton" | "country"

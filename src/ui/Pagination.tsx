@@ -6,7 +6,7 @@ import Option from "@mui/joy/Option"
 import useMediaQuery from "@mui/material/useMediaQuery"
 import { useTheme } from "@mui/joy"
 
-export type PaginationProps = {
+export interface PaginationProps {
   pageIndex?: number
   pageCount?: number
   onPageChange?: (_page: number) => void

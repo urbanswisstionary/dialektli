@@ -4,14 +4,21 @@ import FormLabel from "@mui/joy/FormLabel"
 import FormHelperText from "@mui/joy/FormHelperText"
 import DebouncedTextarea from "@/ui/debouncedTextarea"
 
-const ExpressionDefinitionInput: FC<
-  Omit<FormControlProps, "value" | "onChange"> & {
-    value?: string | null
-    onChange: (_value: string) => void
-    label?: string
-    helperText?: ReactNode
-  }
-> = ({ value, onChange, label, helperText, ...formControlProps }) => (
+interface ExpressionDefinitionInputProps
+  extends Omit<FormControlProps, "value" | "onChange"> {
+  value?: string | null
+  onChange: (_value: string) => void
+  label?: string
+  helperText?: ReactNode
+}
+
+const ExpressionDefinitionInput: FC<ExpressionDefinitionInputProps> = ({
+  value,
+  onChange,
+  label,
+  helperText,
+  ...formControlProps
+}) => (
   <FormControl {...formControlProps}>
     {label ? <FormLabel>{label}</FormLabel> : null}
     <DebouncedTextarea

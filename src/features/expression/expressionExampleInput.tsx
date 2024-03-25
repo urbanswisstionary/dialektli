@@ -10,15 +10,16 @@ import Stack from "@mui/joy/Stack"
 
 export const exampleMaxLength = 440
 
-const ExpressionExampleInput: FC<
-  Omit<FormControlProps, "value" | "onChange"> & {
-    exampleNumber?: number
-    exampleContent?: string
-    onClose?: () => void
-    onSave?: (_content: string) => void
-    onSaveLoading?: boolean
-  }
-> = ({
+interface ExpressionExampleInputProps
+  extends Omit<FormControlProps, "value" | "onChange"> {
+  exampleNumber?: number
+  exampleContent?: string
+  onClose?: () => void
+  onSave?: (_content: string) => void
+  onSaveLoading?: boolean
+}
+
+const ExpressionExampleInput: FC<ExpressionExampleInputProps> = ({
   exampleContent = "",
   exampleNumber,
   onClose,

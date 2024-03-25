@@ -8,7 +8,7 @@ import {
   useUpdateExpressionExampleMutation,
 } from "@/hooks/useExpressions"
 import Typography from "@mui/joy/Typography"
-import { ExpressionExampleFragmentFragment } from "@@/generated/graphql"
+import type { ExpressionExampleFragmentFragment } from "@@/generated/graphql"
 import ExpressionExampleInput from "./expressionExampleInput"
 import IconButton from "@mui/joy/IconButton"
 import EditIcon from "@mui/icons-material/Edit"

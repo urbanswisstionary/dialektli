@@ -1,19 +1,6 @@
-import dayjs from "dayjs"
 import { sortingFns, FilterFn, SortingFn } from "@tanstack/react-table"
 import { rankItem, compareItems } from "@tanstack/match-sorter-utils"
 import type { AdminExpressionFragmentFragment } from "@@/generated/graphql"
-
-export const formatDate = ({
-  date,
-  format = "MMM D, YYYY",
-}: {
-  date?: string | Date | null
-  format?: string
-}): string | null => {
-  if (!date) return null
-  const d = dayjs(date)
-  return d.isValid() ? d.format(format) : "Invalid Date"
-}
 
 export const fuzzyFilter: FilterFn<AdminExpressionFragmentFragment> = (
   row,

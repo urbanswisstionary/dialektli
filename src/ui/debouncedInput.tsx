@@ -4,7 +4,7 @@ import IconButton from "@mui/joy/IconButton"
 import ClearIcon from "@mui/icons-material/Clear"
 import { useTranslation } from "next-i18next"
 
-type DebouncedInputProps = Omit<InputProps, "value" | "onChange"> & {
+interface DebouncedInputProps extends Omit<InputProps, "value" | "onChange"> {
   value: string
   onChange: (_value: string) => void
   debounce?: number

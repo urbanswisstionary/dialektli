@@ -25,6 +25,7 @@ const SignupPage: NextPage = () => {
           maxImagePreview: "none",
           maxVideoPreview: -1,
         }}
+        title={t("title")}
       />
       <RecaptchaProvider>
         <Layout hideSidebar>

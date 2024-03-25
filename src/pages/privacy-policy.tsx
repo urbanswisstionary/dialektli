@@ -14,7 +14,11 @@ const PrivacyPolicyPage: NextPage = () => {
   const { t } = useTranslation("privacyPolicy")
   return (
     <>
-      <HeadProvider title={t("title")} pagePathname="/privacy-policy" />
+      <HeadProvider
+        title={t("title")}
+        description={t("description.0")}
+        pagePathname="/privacy-policy"
+      />
       <Layout hideSidebar>
         {/* Terms of use */}
         <Typography level="h1" textAlign="center" mb={5}>

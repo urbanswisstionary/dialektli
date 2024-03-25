@@ -5,9 +5,17 @@ import AddIcon from "@mui/icons-material/Add"
 import JoyLink, { LinkProps } from "@mui/joy/Link"
 import { useTranslation } from "next-i18next"
 
-const NewExpressionButton: FC<
-  Pick<IconButtonProps, "size"> & Pick<LinkProps, "sx"> & { disabled?: boolean }
-> = ({ size = "sm", disabled, sx }) => {
+interface NewExpressionButtonProps
+  extends Pick<IconButtonProps, "size">,
+    Pick<LinkProps, "sx"> {
+  disabled?: boolean
+}
+
+const NewExpressionButton: FC<NewExpressionButtonProps> = ({
+  size = "sm",
+  disabled,
+  sx,
+}) => {
   const { t } = useTranslation("common", { keyPrefix: "newExpressionButton" })
 
   return (

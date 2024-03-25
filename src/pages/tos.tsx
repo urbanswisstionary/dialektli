@@ -14,7 +14,11 @@ const TermsOfServicePage: NextPage = () => {
   const { t } = useTranslation("tos")
   return (
     <>
-      <HeadProvider title={t("title")} pagePathname={"/tos"} />
+      <HeadProvider
+        title={t("title")}
+        description={t("description.0")}
+        pagePathname={"/tos"}
+      />
       <Layout hideSidebar>
         {/* Terms of use */}
         <Typography level="h1" textAlign="center" mb={5}>
