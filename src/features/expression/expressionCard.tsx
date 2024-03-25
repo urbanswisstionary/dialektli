@@ -70,7 +70,7 @@ const ExpressionCard: FC<ExpressionCardProps> = ({
               <Typography
                 component="span"
                 level="body-sm"
-                color="primary"
+                color="warning"
                 title={t(`expression.types.${expression.type}.description`)}
               >
                 {t(`expression.types.${expression.type}.label`)}
