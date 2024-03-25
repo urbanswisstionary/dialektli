@@ -155,7 +155,7 @@
     "genders": {
       "M": "Masculine",
       "F": "Feminine",
-      "N": "Neuter"
+      "N": "Neutral"
     },
     "type": "Type",
     "types": {
