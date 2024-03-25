@@ -38,6 +38,7 @@ interface Query extends ParsedUrlQuery {
   language?: string
   synonym?: string
   example?: string
+  exampleCantons?: string[] | string
   gender?: ExpressionGender
   type?: ExpressionType
 }
@@ -48,6 +49,7 @@ type CreateExpressionState = {
   cantons?: string[]
   language?: Language
   example: string
+  exampleCantons?: string[]
   synonymId?: string
   gender?: ExpressionGender
   type?: ExpressionType
@@ -64,17 +66,30 @@ const CreateExpressionForm: FC = () => {
     sanitizedExample,
     sanitizedGender,
     sanitizedType,
+    sanitizedExampleCantons,
   } = useMemo(
     () => ({
       sanitizedCantons: sanitizeCantons(
         typeof query.cantons === "string" ? [query.cantons] : query.cantons,
+      ),
+      sanitizedExampleCantons: sanitizeCantons(
+        typeof query.exampleCantons === "string"
+          ? [query.exampleCantons]
+          : query.exampleCantons,
       ),
       sanitizedLanguage: sanitizeLanguage(query.language) ?? Language.De,
       sanitizedExample: sanitizeExample(query.example),
       sanitizedGender: sanitizeGender(query.gender),
       sanitizedType: sanitizeType(query.type),
     }),
-    [query.cantons, query.example, query.language, query.gender, query.type],
+    [
+      query.cantons,
+      query.example,
+      query.language,
+      query.gender,
+      query.type,
+      query.exampleCantons,
+    ],
   )
 
   const [createExpressionState, setCreateExpressionState] =
@@ -84,6 +99,7 @@ const CreateExpressionForm: FC = () => {
       cantons: sanitizedCantons,
       language: sanitizedLanguage,
       example: sanitizedExample,
+      exampleCantons: sanitizedExampleCantons,
       synonymId: synonymId,
       gender: sanitizedGender,
       type: sanitizedType,
@@ -99,11 +115,11 @@ const CreateExpressionForm: FC = () => {
     queryKey: K,
     value: Query[K] | null,
   ) => {
-    setQueryOnPage(router, { [queryKey]: value?.length ? value : null })
     setCreateExpressionState((prev) => ({
       ...prev,
       [queryKey]: value,
     }))
+    setQueryOnPage(router, { [queryKey]: value?.length ? value : null })
   }
   const preventSubmit =
     !createExpressionState.title ||
@@ -219,10 +235,19 @@ const CreateExpressionForm: FC = () => {
             maxRows={6}
             slotProps={{ textarea: { maxLength: exampleMaxLength } }}
           />
-          <FormHelperText>
-            {t("expression.examplesFieldHelperText")}
-          </FormHelperText>
         </FormControl>
+        <SelectMultipleLocation
+          label={t("expression.canton")}
+          mode="canton"
+          helperText={t("expression.exampleCantonFieldHelperText")}
+          value={createExpressionState.exampleCantons}
+          onChange={(cantons) => onChange("exampleCantons", cantons)}
+          groupOptions
+        />
+
+        <FormHelperText>
+          {t("expression.examplesFieldHelperText")}
+        </FormHelperText>
       </Card>
     </form>
   )

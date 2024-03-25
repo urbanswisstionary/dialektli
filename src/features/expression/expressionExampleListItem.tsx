@@ -19,6 +19,8 @@ import Menu from "@mui/joy/Menu"
 import MenuButton from "@mui/joy/MenuButton"
 import MenuItem from "@mui/joy/MenuItem"
 import DeleteForever from "@mui/icons-material/DeleteForever"
+import Stack from "@mui/joy/Stack"
+import Flag from "@/ui/Flag"
 
 const ExpressionExampleListItem: FC<{
   preventEdit?: boolean
@@ -86,26 +88,46 @@ const ExpressionExampleListItem: FC<{
         </ListItemDecorator>
       )}
       {!editExampleContent ? (
-        <ListItemContent>
-          <Typography level="body-sm">{example.definition}</Typography>
+        <ListItemContent
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+          }}
+        >
+          <Typography level="body-sm" sx={{ flex: 1 }}>
+            {example.definition}
+          </Typography>
+          {example.cantons ? (
+            <Stack direction="row" gap={1} flexWrap="wrap">
+              {example.cantons.map((canton, i) => (
+                <Flag key={i} mode="canton" code={canton} />
+              ))}
+            </Stack>
+          ) : null}
         </ListItemContent>
       ) : (
         <ListItemContent>
           <ExpressionExampleInput
             exampleNumber={exampleNumber}
-            exampleContent={example.definition}
+            exampleDefinition={example.definition}
+            exampleCantons={example.cantons}
             disabled={
               loadingUpdateExpressionExample || loadingDeleteExpressionExample
             }
             onClose={() => setEditExampleContent(false)}
-            onSave={(definition) => {
-              if (!definition.trim().length) {
+            onSave={(value) => {
+              if (!value.definition.trim().length) {
                 deleteExpressionExample(example.id, () =>
                   setEditExampleContent(false),
                 )
               } else {
                 updateExpressionExample(
-                  { definition, exampleId: example.id },
+                  {
+                    definition: value.definition,
+                    exampleId: example.id,
+                    cantons: value.cantons,
+                  },
                   () => setEditExampleContent(false),
                 )
               }

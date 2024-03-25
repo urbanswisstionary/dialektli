@@ -21,6 +21,7 @@ export type Scalars = {
 };
 
 export type CreateExpressionExampleInput = {
+  cantons?: InputMaybe<Array<Scalars['String']['input']>>;
   definition: Scalars['String']['input'];
   expressionId: Scalars['String']['input'];
 };
@@ -29,6 +30,7 @@ export type CreateExpressionInput = {
   cantons?: InputMaybe<Array<Scalars['String']['input']>>;
   definition?: InputMaybe<Scalars['String']['input']>;
   example?: InputMaybe<Scalars['String']['input']>;
+  exampleCantons?: InputMaybe<Array<Scalars['String']['input']>>;
   gender?: InputMaybe<ExpressionGender>;
   language?: InputMaybe<Language>;
   synonymId?: InputMaybe<Scalars['String']['input']>;
@@ -285,6 +287,7 @@ export type Synonym = {
 };
 
 export type UpdateExpressionExampleInput = {
+  cantons?: InputMaybe<Array<Scalars['String']['input']>>;
   definition: Scalars['String']['input'];
   exampleId: Scalars['String']['input'];
 };

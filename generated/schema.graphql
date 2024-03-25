@@ -1,4 +1,5 @@
 input CreateExpressionExampleInput {
+  cantons: [String!]
   definition: String!
   expressionId: String!
 }
@@ -7,6 +8,7 @@ input CreateExpressionInput {
   cantons: [String!]
   definition: String
   example: String
+  exampleCantons: [String!]
   gender: ExpressionGender
   language: Language
   synonymId: String
@@ -191,6 +193,7 @@ type Synonym {
 }
 
 input UpdateExpressionExampleInput {
+  cantons: [String!]
   definition: String!
   exampleId: String!
 }

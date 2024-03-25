@@ -202,6 +202,7 @@
     "cantonFieldHelperText": "Select the cantons this expression is associated with",
     "descriptionFieldHelperText": "<bold>Write for a large audience.</bold> Lots of people will read this, so give some background information.",
     "examplesFieldHelperText": "Provide examples of how this expression is used in context, or how it is used in a sentence. This will help others understand the expression better.",
+    "exampleCantonFieldHelperText": "Select the cantons this example is associated with",
     "genderFieldHelperText": "Select the gender this expression is associated with",
     "newExpression": {
       "title": "New Expression",

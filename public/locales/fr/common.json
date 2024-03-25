@@ -202,6 +202,7 @@
     "cantonFieldHelperText": "Sélectionnez les cantons auxquels cette expression est associée",
     "descriptionFieldHelperText": "<bold>Écrivez pour un large public.</bold> Beaucoup de personnes liront ceci, alors donnez quelques informations de base.",
     "examplesFieldHelperText": "Fournissez des exemples de la manière dont cette expression est utilisée dans son contexte, ou de la manière dont elle est utilisée dans une phrase. Cela aidera les autres à mieux comprendre l'expression.",
+    "exampleCantonFieldHelperText": "Sélectionnez les cantons auxquels cet exemple est lié",
     "genderFieldHelperText": "Sélectionnez le Genre auquel cette expression est associée",
     "newExpression": {
       "title": "Nouvelle expression",

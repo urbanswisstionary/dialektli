@@ -209,6 +209,7 @@
     "cantonFieldHelperText": "Wählen Sie die Kantone aus, mit denen dieser Ausdruck verbunden ist",
     "descriptionFieldHelperText": "<bold>Schreiben Sie für ein großes Publikum.</bold> Viele Menschen werden dies lesen, also geben Sie einige Hintergrundinformationen.",
     "examplesFieldHelperText": "Geben Sie Beispiele dafür, wie dieser Ausdruck im Kontext verwendet wird, oder wie er in einem Satz verwendet wird. Dies wird anderen helfen, den Ausdruck besser zu verstehen.",
+    "exampleCantonFieldHelperText": "Wählen Sie die Kantone aus, mit denen dieser Beispiel verbunden ist",
     "genderFieldHelperText": "Wählen Sie das Geschlecht aus, mit dem dieser Ausdruck verbunden ist",
     "newExpression": {
       "title": "Neuer Ausdruck",

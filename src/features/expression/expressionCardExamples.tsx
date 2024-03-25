@@ -64,12 +64,16 @@ const ExpressionCardExamples: FC<ExpressionCardExamplesProps> = ({
             exampleNumber={examples.length + 1}
             disabled={loadingCreateExpressionExample}
             onClose={() => setNewExampleDefinition(false)}
-            onSave={(definition) => {
-              if (!definition.trim().length) {
+            onSave={(value) => {
+              if (!value.definition.trim().length) {
                 setNewExampleDefinition(false)
               } else {
                 createExpressionExample(
-                  { definition, expressionId: expression.id },
+                  {
+                    definition: value.definition,
+                    expressionId: expression.id,
+                    cantons: value.cantons,
+                  },
                   () => setNewExampleDefinition(false),
                 )
               }

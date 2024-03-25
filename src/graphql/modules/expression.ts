@@ -204,6 +204,7 @@ const CreateExpressionInput = builder.inputType("CreateExpressionInput", {
     language: t.field({ type: Language }),
     synonymId: t.string(),
     example: t.string(),
+    exampleCantons: t.stringList(),
     gender: t.field({ type: ExpressionGender }),
     type: t.field({ type: ExpressionType }),
   }),
@@ -241,6 +242,7 @@ const CreateExpressionExampleInput = builder.inputType(
     fields: (t) => ({
       expressionId: t.string({ required: true }),
       definition: t.string({ required: true }),
+      cantons: t.stringList(),
     }),
   },
 )
@@ -251,6 +253,7 @@ const UpdateExpressionExampleInput = builder.inputType(
     fields: (t) => ({
       exampleId: t.string({ required: true }),
       definition: t.string({ required: true }),
+      cantons: t.stringList(),
     }),
   },
 )
@@ -281,6 +284,7 @@ builder.mutationFields((t) => ({
           language,
           synonymId,
           example,
+          exampleCantons,
           type,
           gender,
         },
@@ -300,7 +304,13 @@ builder.mutationFields((t) => ({
             author: { connect: { id: author?.id } },
             published: true,
             examples: example
-              ? { create: { definition: example, authorId: author.id } }
+              ? {
+                  create: {
+                    definition: example,
+                    authorId: author.id,
+                    cantons: exampleCantons ?? undefined,
+                  },
+                }
               : undefined,
             type,
             gender,
@@ -505,7 +515,7 @@ builder.mutationFields((t) => ({
     resolve: async (
       query,
       _root,
-      { data: { expressionId, definition } },
+      { data: { expressionId, definition, cantons } },
       { session },
     ) => {
       try {
@@ -515,6 +525,7 @@ builder.mutationFields((t) => ({
             expressionId,
             definition,
             authorId: session?.user?.id,
+            cantons: cantons ?? undefined,
           },
         })
       } catch (error) {
@@ -534,7 +545,7 @@ builder.mutationFields((t) => ({
     resolve: async (
       query,
       _root,
-      { data: { exampleId, definition } },
+      { data: { exampleId, definition, cantons } },
       _ctx,
     ) => {
       try {
@@ -543,6 +554,7 @@ builder.mutationFields((t) => ({
           where: { id: exampleId },
           data: {
             definition,
+            cantons: cantons ?? undefined,
           },
         })
       } catch (error) {
