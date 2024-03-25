@@ -2,7 +2,7 @@ import { FC, useMemo, useState } from "react"
 import Box from "@mui/joy/Box"
 import Table from "@mui/joy/Table"
 import Sheet from "@mui/joy/Sheet"
-import Checkbox from "@mui/joy/Checkbox"
+// import Checkbox from "@mui/joy/Checkbox"
 import RowMenu from "./components/rowMenu"
 import type { ExpressionStatus } from "@/ui/ExpressionStatusChip"
 import {
@@ -26,7 +26,7 @@ import Pagination from "@/ui/Pagination"
 import DebouncedInput from "../../../ui/debouncedInput"
 import TableHead from "./components/tableHeader"
 import TableBody from "./components/tableBody"
-import { formatDate, fuzzyFilter, fuzzySort } from "./expressionsTable.utils"
+import { fuzzyFilter, fuzzySort } from "./expressionsTable.utils"
 import ExpressionStatusChip from "@/ui/ExpressionStatusChip"
 import List from "@mui/joy/List"
 import Typography from "@mui/joy/Typography"
@@ -42,9 +42,13 @@ import { getFragmentData } from "@@/generated"
 import CircularProgress from "@mui/joy/CircularProgress"
 import { useTranslation } from "next-i18next"
 import { useMe } from "@/hooks/useUsers"
+import { formatExpressionDate } from "@/features/expression/utils"
+import type { Locale } from "next/router"
+
+export const tableDateFormat = "DD. MMM YYYY H:mm"
 
 const ExpressionsTable: FC = () => {
-  const { t } = useTranslation("common")
+  const { t, i18n } = useTranslation("common")
   const { isAdmin } = useMe()
   const {
     data,
@@ -70,34 +74,48 @@ const ExpressionsTable: FC = () => {
   >(() => {
     const columns: ColumnDef<AdminExpressionFragmentFragment, any>[] = [
       {
-        id: "select",
-        header: ({ table }) => (
-          <Checkbox
-            checked={table.getIsAllPageRowsSelected() ?? false}
-            indeterminate={table.getIsSomePageRowsSelected() ?? false}
-            onChange={table.getToggleAllPageRowsSelectedHandler()}
-            sx={{ pb: 2 }}
-          />
-        ),
-        cell: ({ row }) => (
-          <Checkbox
-            checked={row.getIsSelected() ?? false}
-            disabled={!row.getCanSelect()}
-            indeterminate={row.getIsSomeSelected() ?? false}
-            onChange={row.getToggleSelectedHandler()}
-            sx={{ p: 1 }}
-          />
-        ),
-      },
-      {
-        id: "author",
-        header: t("expression.author"),
-        accessorFn: ({ author }) => author?.name,
-        cell: (info) => <Typography noWrap>{info.getValue()}</Typography>,
+        id: "actions",
+        header: "",
         footer: (props) => props.column.id,
-        filterFn: "fuzzy",
-        sortingFn: fuzzySort,
+        accessorFn: (expression) => expression,
+        cell: (info) => (
+          <RowMenu
+            expression={info.getValue<AdminExpressionFragmentFragment>()}
+          />
+        ),
+        enableColumnFilter: false,
+        enableGlobalFilter: false,
+        enableSorting: false,
       },
+      // {
+      //   id: "select",
+      //   header: ({ table }) => (
+      //     <Checkbox
+      //       checked={table.getIsAllPageRowsSelected() ?? false}
+      //       indeterminate={table.getIsSomePageRowsSelected() ?? false}
+      //       onChange={table.getToggleAllPageRowsSelectedHandler()}
+      //       sx={{ pb: 2 }}
+      //     />
+      //   ),
+      //   cell: ({ row }) => (
+      //     <Checkbox
+      //       checked={row.getIsSelected() ?? false}
+      //       disabled={!row.getCanSelect()}
+      //       indeterminate={row.getIsSomeSelected() ?? false}
+      //       onChange={row.getToggleSelectedHandler()}
+      //       sx={{ p: 1 }}
+      //     />
+      //   ),
+      // },
+      // {
+      //   id: "author",
+      //   header: t("expression.author"),
+      //   accessorFn: ({ author }) => author?.name,
+      //   cell: (info) => <Typography noWrap>{info.getValue()}</Typography>,
+      //   footer: (props) => props.column.id,
+      //   filterFn: "fuzzy",
+      //   sortingFn: fuzzySort,
+      // },
       // {
       //   id: "language",
       //   header: t("expression.language"),
@@ -124,10 +142,10 @@ const ExpressionsTable: FC = () => {
         id: "canton",
         header: t("expression.canton"),
         accessorKey: "canton",
-        accessorFn: ({ cantons }) => (cantons.length ? cantons : "N/A"),
+        accessorFn: ({ cantons }) => cantons,
         cell: (info) => {
-          const cantons = info.getValue<string[] | "N/A">()
-          return cantons === "N/A" ? null : (
+          const cantons = info.getValue<string[]>()
+          return (
             <Stack
               direction="row"
               gap={1}
@@ -143,11 +161,44 @@ const ExpressionsTable: FC = () => {
         footer: (props) => props.column.id,
         filterFn: "fuzzy",
         sortingFn: fuzzySort,
+        enableSorting: false,
       },
       {
         header: t("expression.title"),
         accessorKey: "title",
         cell: (info) => <Typography noWrap>{info.getValue()}</Typography>,
+        footer: (props) => props.column.id,
+        filterFn: "fuzzy",
+        sortingFn: fuzzySort,
+      },
+      {
+        header: t("expression.gender"),
+        accessorFn: ({ gender }) =>
+          gender ? t(`expression.genders.${gender}`) : null,
+        cell: (info) => {
+          const gender = info.getValue<string | null>()
+          return gender ? (
+            <Typography noWrap textAlign="center">
+              {gender}
+            </Typography>
+          ) : null
+        },
+        footer: (props) => props.column.id,
+        filterFn: "fuzzy",
+        sortingFn: fuzzySort,
+      },
+      {
+        header: t("expression.type"),
+        accessorFn: ({ type }) =>
+          type ? t(`expression.types.${type}.label`) : null,
+        cell: (info) => {
+          const type = info.getValue<string | null>()
+          return type ? (
+            <Typography noWrap textAlign="center">
+              {type}
+            </Typography>
+          ) : null
+        },
         footer: (props) => props.column.id,
         filterFn: "fuzzy",
         sortingFn: fuzzySort,
@@ -189,29 +240,19 @@ const ExpressionsTable: FC = () => {
         header: t("expression.updatedAt"),
         accessorKey: "updatedAt",
         accessorFn: ({ updatedAt }) =>
-          formatDate({ date: updatedAt, format: "DD. MMM YYYY H:mm" }),
+          formatExpressionDate({
+            date: updatedAt,
+            locale: i18n.language as Locale,
+            format: tableDateFormat,
+          }),
         footer: (props) => props.column.id,
-      },
-      {
-        id: "actions",
-        header: "",
-        footer: (props) => props.column.id,
-        accessorFn: (expression) => expression,
-        cell: (info) => (
-          <RowMenu
-            expression={info.getValue<AdminExpressionFragmentFragment>()}
-          />
-        ),
-        enableColumnFilter: false,
-        enableGlobalFilter: false,
-        enableSorting: false,
       },
     ]
 
     return isAdmin
       ? columns
       : columns.filter((column) => column.id !== "author")
-  }, [isAdmin, t])
+  }, [i18n.language, isAdmin, t])
 
   const table = useReactTable({
     data: expressions,
@@ -243,7 +284,7 @@ const ExpressionsTable: FC = () => {
 
   return (
     <Sheet variant="outlined" sx={{ minHeight: 0, borderRadius: "sm", py: 2 }}>
-      <Stack direction="row" pb={3} gap={1} px={2}>
+      <Stack direction={{ xs: "column", sm: "row" }} pb={3} gap={2} px={2}>
         <Box sx={{ flex: 1 }}>
           <DebouncedInput
             value={globalFilter ?? ""}
@@ -254,6 +295,7 @@ const ExpressionsTable: FC = () => {
           />
         </Box>
         <NewExpressionButton
+          sx={{ flex: 1 }}
           size="lg"
           disabled={loadingAdminExpressionsQuery}
         />

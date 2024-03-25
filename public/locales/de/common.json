@@ -158,12 +158,58 @@
     "example": "Beispiel",
     "examples": "Beispiele",
     "synonyms": "Synonyme",
+    "gender": "Geschlecht",
+    "genders": {
+      "M": "Maskulinum",
+      "F": "Femininum",
+      "N": "Neutrum"
+    },
+    "type": "Typ",
+    "types": {
+      "NOUN": {
+        "label": "Nomen / Substantiv",
+        "description": "Ein Wort, das für eine Person, einen Ort, eine Sache oder eine Idee steht; z.B. Hund, Stadt, Glück."
+      },
+      "VERB": {
+        "label": "Verb",
+        "description": "Drückt eine Handlung, ein Ereignis oder einen Seinszustand aus; z.B. ausführen, existieren, geschehen."
+      },
+      "ADJECTIVE": {
+        "label": "Adjektiv",
+        "description": "Beschreibt oder modifiziert ein Substantiv oder Pronomen, indem es mehr Informationen über seine Qualitäten oder Eigenschaften liefert; z.B. groß, glücklich, grün."
+      },
+      "ADVERB": {
+        "label": "Adverb",
+        "description": "Modifiziert oder beschreibt ein Verb, Adjektiv oder ein anderes Adverb und gibt typischerweise Art, Zeit, Ort, Grad oder Häufigkeit an; z.B. schnell, sehr, hier, oft."
+      },
+      "PRONOUN": {
+        "label": "Pronomen",
+        "description": "Dient als Ersatz für ein Substantiv oder eine Nominalphrase; z. B. er, sie, es, sie."
+      },
+      "PREPOSITION": {
+        "label": "Präposition",
+        "description": "Bezeichnet die Beziehung zwischen einem Substantiv oder Pronomen und anderen Elementen in einem Satz und gibt häufig Ort, Zeit, Richtung oder Art an; z.B. in, am, bei, vor."
+      },
+      "CONJUNCTION": {
+        "label": "Konjunktionen",
+        "description": "Verbindet Wörter, Phrasen oder Satzteile innerhalb eines Satzes und zeigt eine Beziehung zwischen verschiedenen Teilen des Satzes an; z.B. und, aber, oder, weil."
+      },
+      "INTERJECTION": {
+        "label": "Interjektion",
+        "description": "Drückt Emotionen, Überraschung oder ein anderes Gefühl aus, steht oft für sich allein und ist grammatikalisch nicht mit dem Rest des Satzes verbunden; z.B. „Wow, oh, hey."
+      },
+      "PARTICLE": {
+        "label": "Partikel",
+        "description": "Ein Wort, das nicht genau in traditionelle grammatikalische Kategorien passt und oft eine grammatikalische oder pragmatische Funktion innerhalb eines Satzes erfüllt, wie z.B. Phrasalverben; z.B. an, ein, her (wie in 'anmachen', 'einfangen', 'herholen')."
+      }
+    },
     "pleaseSignInForExpressionAction": "Bitte <0>melden Sie sich an</0>, um '{{action}}' für den Ausdruck.",
     "cantonFieldPlaceholder": "Kanton auswählen",
     "countryFieldPlaceholder": "Land auswählen",
     "cantonFieldHelperText": "Wählen Sie die Kantone aus, mit denen dieser Ausdruck verbunden ist",
     "descriptionFieldHelperText": "<bold>Schreiben Sie für ein großes Publikum.</bold> Viele Menschen werden dies lesen, also geben Sie einige Hintergrundinformationen.",
     "examplesFieldHelperText": "Geben Sie Beispiele dafür, wie dieser Ausdruck im Kontext verwendet wird, oder wie er in einem Satz verwendet wird. Dies wird anderen helfen, den Ausdruck besser zu verstehen.",
+    "genderFieldHelperText": "Wählen Sie das Geschlecht aus, mit dem dieser Ausdruck verbunden ist",
     "newExpression": {
       "title": "Neuer Ausdruck",
       "description": "Alle Definitionen wurden von Menschen wie Ihnen geschrieben. Jetzt haben Sie die Möglichkeit, Ihre eigene hinzuzufügen!",

@@ -6,7 +6,8 @@ import FormHelperText from "@mui/joy/FormHelperText"
 import SelectLocationOption from "./selectLocationOption"
 import SelectMultipleLocationTag from "./selectMultipleLocationTag"
 import { useTranslation } from "next-i18next"
-import { Language } from "@@/generated/graphql"
+import type { Language } from "@@/generated/graphql"
+import { languages } from "./helper"
 
 type SelectMultipleLanguagesProps = Omit<
   FormControlProps,
@@ -32,7 +33,7 @@ const SelectMultipleLanguages: FC<SelectMultipleLanguagesProps> = ({
   const { t } = useTranslation("common")
   const options = useMemo(
     () =>
-      Object.values(Language).map((language) => ({
+      languages.map((language) => ({
         label: t(`selectLanguage.${language}`),
         code: language,
       })),

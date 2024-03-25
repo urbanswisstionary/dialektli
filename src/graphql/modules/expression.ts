@@ -5,6 +5,8 @@ import { allow } from "graphql-shield"
 import * as permissions from "../permissions"
 import { ApolloError } from "@apollo/client"
 import { Language } from "./language"
+import { ExpressionGender } from "./expressionGender"
+import { ExpressionType } from "./expressionType"
 
 builder.prismaObject("Synonym", {
   fields: (t) => ({
@@ -72,6 +74,8 @@ const Expression = builder.prismaObject("Expression", {
     synonyms: t.relation("synonyms", {
       description: "synonyms of the parent expression",
     }),
+    gender: t.expose("gender", { type: ExpressionGender, nullable: true }),
+    type: t.expose("type", { type: ExpressionType, nullable: true }),
   }),
 })
 
@@ -200,6 +204,8 @@ const CreateExpressionInput = builder.inputType("CreateExpressionInput", {
     language: t.field({ type: Language }),
     synonymId: t.string(),
     example: t.string(),
+    gender: t.field({ type: ExpressionGender }),
+    type: t.field({ type: ExpressionType }),
   }),
 })
 
@@ -210,6 +216,8 @@ const UpdateExpressionInput = builder.inputType("UpdateExpressionInput", {
     definition: t.string(),
     published: t.boolean(),
     cantons: t.stringList(),
+    gender: t.field({ type: ExpressionGender }),
+    type: t.field({ type: ExpressionType }),
   }),
 })
 
@@ -265,7 +273,18 @@ builder.mutationFields((t) => ({
     resolve: async (
       query,
       _root,
-      { data: { title, definition, cantons, language, synonymId, example } },
+      {
+        data: {
+          title,
+          definition,
+          cantons,
+          language,
+          synonymId,
+          example,
+          type,
+          gender,
+        },
+      },
       { session },
     ) => {
       try {
@@ -283,6 +302,8 @@ builder.mutationFields((t) => ({
             examples: example
               ? { create: { definition: example, authorId: author.id } }
               : undefined,
+            type,
+            gender,
           },
         })
         if (synonymId) {
@@ -308,7 +329,7 @@ builder.mutationFields((t) => ({
     resolve: async (
       query,
       _root,
-      { data: { id, title, definition, published, cantons } },
+      { data: { id, title, definition, published, cantons, type, gender } },
       { session },
       _info,
     ) => {
@@ -333,6 +354,8 @@ builder.mutationFields((t) => ({
             definition: definition ?? undefined,
             published: published ?? undefined,
             cantons: cantons ? { set: cantons } : undefined,
+            type,
+            gender,
           },
         })
       } catch (error) {

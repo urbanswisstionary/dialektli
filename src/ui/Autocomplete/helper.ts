@@ -1,5 +1,7 @@
 import { Language } from "@@/generated/graphql"
 
+export const languages = Object.values(Language)
+
 export type LocationOption = {
   code: string
   label: string

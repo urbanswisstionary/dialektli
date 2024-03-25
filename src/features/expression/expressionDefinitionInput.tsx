@@ -6,7 +6,7 @@ import DebouncedTextarea from "@/ui/debouncedTextarea"
 
 const ExpressionDefinitionInput: FC<
   Omit<FormControlProps, "value" | "onChange"> & {
-    value: string
+    value?: string | null
     onChange: (_value: string) => void
     label?: string
     helperText?: ReactNode
@@ -16,7 +16,7 @@ const ExpressionDefinitionInput: FC<
     {label ? <FormLabel>{label}</FormLabel> : null}
     <DebouncedTextarea
       size="lg"
-      value={value}
+      value={value ?? ""}
       onChange={(value) => onChange(value)}
       debounce={250}
       slotProps={{ textarea: { maxLength: 500 } }}

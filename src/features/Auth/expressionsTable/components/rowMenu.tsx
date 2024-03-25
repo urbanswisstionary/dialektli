@@ -48,7 +48,7 @@ const RowMenu: FC<{ expression: AdminExpressionFragmentFragment }> = ({
         >
           <MoreHorizRoundedIcon />
         </MenuButton>
-        <Menu size="sm" sx={{ minWidth: 140 }}>
+        <Menu size="sm" sx={{ minWidth: 140 }} placement="right-start">
           <MenuItem component={Link} href={`/expression/${expression.id}/edit`}>
             {t("edit")}
           </MenuItem>
