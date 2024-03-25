@@ -160,9 +160,9 @@
     "synonyms": "Synonyme",
     "gender": "Geschlecht",
     "genders": {
-      "M": "Maskulinum",
-      "F": "Femininum",
-      "N": "Neutrum"
+      "M": "männlich",
+      "F": "weiblich",
+      "N": "sächlich"
     },
     "type": "Typ",
     "types": {
