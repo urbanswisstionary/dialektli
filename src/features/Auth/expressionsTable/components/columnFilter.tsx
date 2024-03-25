@@ -17,7 +17,9 @@ const ColumnFilter: FC<ColumnFilterProps> = ({ column }) => {
 
   const { sortedUniqueValues, uniqueValuesSize } = useMemo(
     () => {
-      const uniqueValues = Array.from(column.getFacetedUniqueValues().keys())
+      const uniqueValues = Array.from(
+        column.getFacetedUniqueValues().keys(),
+      ).filter((v) => v?.length)
       // check if unqiue values are of type array like in the canton column
       if (Array.isArray(uniqueValues[0])) {
         const flattenedUniqueValues = Array.from(

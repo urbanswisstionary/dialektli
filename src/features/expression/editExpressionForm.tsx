@@ -1,4 +1,4 @@
-import { FC, FormEventHandler, useMemo, useState } from "react"
+import { type FC, type FormEventHandler, useMemo, useState } from "react"
 import Card from "@/ui/Card"
 import ExpressionInput from "./expressionInput"
 import ExpressionDefinitionInput from "./expressionDefinitionInput"
@@ -6,10 +6,12 @@ import {
   useDeleteExpressionMutation,
   useUpdateExpressionMutation,
 } from "@/hooks/useExpressions"
-import {
+import type {
   Language,
   ExpressionFragmentFragment,
   UpdateExpressionInput,
+  ExpressionGender,
+  ExpressionType,
 } from "@@/generated/graphql"
 import isEqual from "lodash/isEqual"
 import Box from "@mui/joy/Box"
@@ -22,6 +24,8 @@ import { Trans, useTranslation } from "next-i18next"
 import ExpressionCardExamples from "./expressionCardExamples"
 import FormControl from "@mui/joy/FormControl"
 import Checkbox from "@mui/joy/Checkbox"
+import ExpressionGenderInput from "./expressionGenderInput"
+import ExpressionTypeInput from "./expressionTypeInput"
 
 type EditExpressionState = {
   title?: string
@@ -29,6 +33,8 @@ type EditExpressionState = {
   cantons?: string[]
   language?: Language
   published?: boolean
+  gender?: ExpressionGender
+  type?: ExpressionType
 }
 
 const EditExpressionForm: FC<{
@@ -83,14 +89,9 @@ const EditExpressionForm: FC<{
     if (preventSubmit) return
     const updateExpressionInput: UpdateExpressionInput = {
       id: expression.id,
-      title: editExpressionState.title,
-      definition: editExpressionState.definition,
-      cantons: editExpressionState.cantons,
-      published: editExpressionState.published,
+      ...editExpressionState,
     }
-    updateExpression(updateExpressionInput, () =>
-      router.push("/account/profile?view=expressions"),
-    )
+    updateExpression(updateExpressionInput)
   }
 
   const claimOwnershipLink = (
@@ -102,6 +103,7 @@ const EditExpressionForm: FC<{
       })}
     />
   )
+
   return (
     <form onSubmit={onSubmit}>
       <Box sx={{ mb: 1, alignItems: { xs: "start", sm: "center" } }}>
@@ -144,22 +146,10 @@ const EditExpressionForm: FC<{
           },
         }}
       >
-        <ExpressionInput
-          label={t("expression.expression")}
-          value={
-            editExpressionState.title !== undefined
-              ? editExpressionState.title
-              : expression.title
-          }
-          onChange={(title) => onChange("title", title)}
-          required
-          sx={{ pt: 1 }}
-          disabled={disableFields}
-        />
-        <FormControl id="published">
+        <FormControl id="published" sx={{ pt: 1 }}>
           <Checkbox
             checked={
-              editExpressionState.published !== undefined
+              "published" in editExpressionState
                 ? editExpressionState.published
                 : expression.published
             }
@@ -169,41 +159,84 @@ const EditExpressionForm: FC<{
             label={t("expression.published")}
           />
         </FormControl>
+        <ExpressionInput
+          label={t("expression.expression")}
+          value={
+            "title" in editExpressionState
+              ? editExpressionState.title
+              : expression.title
+          }
+          onChange={(title) => onChange("title", title)}
+          required
+          disabled={disableFields}
+        />
 
-        {/* <SelectSingleLanguage
-            label={t("expression.language")}
-            required
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "baseline",
+            flexDirection: { xs: "column", md: "row" },
+            py: 1,
+            gap: 2,
+          }}
+        >
+          <ExpressionGenderInput
             value={
-              editTermState.language !== undefined
-                ? editTermState.language
-                : expression.language
+              "gender" in editExpressionState
+                ? editExpressionState.gender
+                : expression.gender
             }
-            onChange={(language) => {
-              onChange("language", language)
+            onChange={(gender) => onChange("gender", gender)}
+            sx={{ flex: 1 }}
+            label={t("expression.gender")}
+            helperText={t("expression.genderFieldHelperText")}
+          />
+          <ExpressionTypeInput
+            label={t("expression.type")}
+            sx={{
+              width: { xs: "100%", md: "unset" },
             }}
-          /> */}
+            value={
+              "type" in editExpressionState
+                ? editExpressionState.type
+                : expression.type
+            }
+            onChange={(type) => onChange("type", type)}
+          />
+        </Box>
+        {/* <SelectSingleLanguage
+          label={t("expression.language")}
+          required
+          value={
+            "language" in editTermState
+              ? editTermState.language
+              : expression.language
+          }
+          onChange={(language) => {
+            onChange("language", language)
+          }}
+        /> */}
 
         <SelectMultipleLocation
           id="canton"
           label={t("expression.canton")}
           mode="canton"
           value={
-            (editExpressionState.cantons !== undefined
+            "cantons" in editExpressionState
               ? editExpressionState.cantons
-              : expression.cantons.length
-                ? expression.cantons
-                : null) ?? null
+              : expression.cantons
           }
           onChange={(cantons) => onChange("cantons", cantons)}
           helperText={t("expression.cantonFieldHelperText")}
           disabled={disableFields}
           groupOptions
         />
+
         <ExpressionDefinitionInput
           value={
-            (editExpressionState.definition !== undefined
+            "definition" in editExpressionState
               ? editExpressionState.definition
-              : expression.definition) ?? ""
+              : expression.definition
           }
           onChange={(value) => onChange("definition", value)}
           label={t("expression.description")}

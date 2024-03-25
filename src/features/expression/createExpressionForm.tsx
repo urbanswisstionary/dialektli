@@ -14,30 +14,43 @@ import {
   sanitizeCantons,
   sanitizeLanguage,
   sanitizeExample,
+  sanitizeGender,
+  sanitizeType,
 } from "@/utils/sanitizeQueries"
-import { Language } from "@@/generated/graphql"
+import {
+  type ExpressionGender,
+  type ExpressionType,
+  Language,
+} from "@@/generated/graphql"
 import FormControl from "@mui/joy/FormControl"
 import FormLabel from "@mui/joy/FormLabel"
 import FormHelperText from "@mui/joy/FormHelperText"
+import Box from "@mui/joy/Box"
 import { exampleMaxLength } from "./expressionExampleInput"
 import DebouncedTextarea from "@/ui/debouncedTextarea"
+import ExpressionGenderInput from "./expressionGenderInput"
+import ExpressionTypeInput from "./expressionTypeInput"
 
 type Query = ParsedUrlQuery & {
-  expression?: string
+  title?: string
   definition?: string
   cantons?: string[] | string
   language?: string
   synonym?: string
   example?: string
+  gender?: ExpressionGender
+  type?: ExpressionType
 }
 
 type CreateExpressionState = {
-  expression: string
+  title: string
   definition: string
   cantons?: string[]
   language?: Language
   example: string
   synonymId?: string
+  gender?: ExpressionGender
+  type?: ExpressionType
 }
 const CreateExpressionForm: FC = () => {
   const { t } = useTranslation("common")
@@ -45,25 +58,35 @@ const CreateExpressionForm: FC = () => {
   const query = router.query as Query
   const synonymId = (router.query as Query).synonym
 
-  const { sanitizedCantons, sanitizedLanguage, sanitizedExample } = useMemo(
+  const {
+    sanitizedCantons,
+    sanitizedLanguage,
+    sanitizedExample,
+    sanitizedGender,
+    sanitizedType,
+  } = useMemo(
     () => ({
       sanitizedCantons: sanitizeCantons(
         typeof query.cantons === "string" ? [query.cantons] : query.cantons,
       ),
       sanitizedLanguage: sanitizeLanguage(query.language) ?? Language.De,
       sanitizedExample: sanitizeExample(query.example),
+      sanitizedGender: sanitizeGender(query.gender),
+      sanitizedType: sanitizeType(query.type),
     }),
-    [query.cantons, query.example, query.language],
+    [query.cantons, query.example, query.language, query.gender, query.type],
   )
 
   const [createExpressionState, setCreateExpressionState] =
     useState<CreateExpressionState>(() => ({
-      expression: query.expression ?? "",
+      title: query.title ?? "",
       definition: query.definition ?? "",
       cantons: sanitizedCantons,
       language: sanitizedLanguage,
       example: sanitizedExample,
       synonymId: synonymId,
+      gender: sanitizedGender,
+      type: sanitizedType,
     }))
 
   const {
@@ -83,23 +106,15 @@ const CreateExpressionForm: FC = () => {
     }))
   }
   const preventSubmit =
-    !query.expression || !query.definition || createExpressionLoading
+    !createExpressionState.title ||
+    !createExpressionState.definition ||
+    createExpressionLoading
 
   const onSubmit = async () => {
     try {
-      createExpression(
-        {
-          title: query.expression!,
-          definition: query.definition,
-          cantons: sanitizedCantons,
-          language: sanitizedLanguage,
-          synonymId,
-          example: sanitizedExample,
-        },
-        (id) => {
-          if (id) router.replace(`/expression/${id}/edit`)
-        },
-      )
+      createExpression(createExpressionState, (id) => {
+        if (id) router.replace(`/expression/${id}/edit`)
+      })
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error("error", error)
@@ -126,13 +141,40 @@ const CreateExpressionForm: FC = () => {
         <ReviewGuidelines />
 
         <ExpressionInput
-          value={createExpressionState.expression}
-          onChange={(expression) => onChange("expression", expression)}
+          value={createExpressionState.title}
+          onChange={(title) => onChange("title", title)}
           label={t("expression.title")}
           required
           sx={{ pt: 1 }}
           disabled={!!createdExpression}
         />
+
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "baseline",
+            flexDirection: { xs: "column", md: "row" },
+            py: 1,
+            gap: 2,
+          }}
+        >
+          <ExpressionGenderInput
+            value={createExpressionState.gender}
+            onChange={(gender) => onChange("gender", gender)}
+            sx={{ flex: 1 }}
+            label={t("expression.gender")}
+            helperText={t("expression.genderFieldHelperText")}
+          />
+          <ExpressionTypeInput
+            label={t("expression.type")}
+            sx={{
+              width: { xs: "100%", md: "unset" },
+            }}
+            value={createExpressionState.type}
+            onChange={(type) => onChange("type", type)}
+          />
+        </Box>
+
         {/* <SelectSingleLanguage
           label={t("expression.language")}
           required
@@ -150,6 +192,7 @@ const CreateExpressionForm: FC = () => {
           onChange={(cantons) => onChange("cantons", cantons)}
           groupOptions
         />
+
         <ExpressionDefinitionInput
           value={createExpressionState.definition}
           onChange={(definition) => onChange("definition", definition)}

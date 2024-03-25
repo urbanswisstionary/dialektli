@@ -56,6 +56,24 @@ enum Language {
   IT
 }
 
+enum ExpressionGender {
+  M /// Masculine
+  F /// Feminine
+  N /// Neutral
+}
+
+enum ExpressionType {
+  NOUN /// A word that represents a person, place, thing, or idea; e.g., dog, city, happiness
+  VERB /// Expresses an action, occurrence, or state of being; e.g., run, exist, happen
+  ADJECTIVE /// Describes or modifies a noun or pronoun by providing more information about its qualities or characteristics; e.g., big, happy, green
+  ADVERB /// Modifies or describes a verb, adjective, or other adverb, typically indicating manner, time, place, degree, or frequency; e.g., quickly, very, here, often
+  PRONOUN /// Acts as a substitute for a noun or noun phrase; e.g., he, she, it, they
+  PREPOSITION /// Indicates the relationship between a noun or pronoun and other elements in a sentence, often showing location, time, direction, or manner; e.g., in, on, at, before
+  CONJUNCTION /// Connects words, phrases, or clauses within a sentence, indicating a relationship between different parts of the sentence; e.g., and, but, or, because
+  INTERJECTION /// Expresses emotion, surprise, or some other sentiment, often standing alone and not grammatically connected to the rest of the sentence; e.g., wow, oh, hey
+  PARTICLE /// A word that doesn't fit neatly into traditional grammatical categories and often serves a grammatical or pragmatic function within a sentence, such as phrasal verbs; e.g., up, out, on (as in "turn on", "look up")
+}
+
 model Expression {
   id         String              @id @default(cuid())
   title      String
@@ -73,6 +91,8 @@ model Expression {
   synonymOf  Synonym[]           @relation("synonymOf") /// the expressions that the parent expression is a synonym of
   synonyms   Synonym[]           @relation("synonym") /// synonyms of the parent expression
   examples   ExpressionExample[]
+  gender     ExpressionGender?
+  type       ExpressionType?
 }
 
 model ExpressionExample {

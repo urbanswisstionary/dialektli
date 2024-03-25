@@ -5,11 +5,11 @@ import DebouncedInput from "@/ui/debouncedInput"
 
 const ExpressionInput: FC<
   Omit<FormControlProps, "value" | "onChange"> & {
-    value: string
+    value?: string
     onChange: (_value: string) => void
     label?: string
   }
-> = ({ value, onChange, label, ...formControlProps }) => (
+> = ({ value = "", onChange, label, ...formControlProps }) => (
   <FormControl {...formControlProps}>
     {label ? <FormLabel>{label}</FormLabel> : null}
     <DebouncedInput

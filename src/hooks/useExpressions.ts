@@ -54,6 +54,8 @@ export const ExpressionFragment = graphql(/* GraphQL */ `
         cantons
       }
     }
+    type
+    gender
   }
 `)
 
@@ -95,6 +97,8 @@ export const AdminExpressionFragment = graphql(/* GraphQL */ `
       authorId
       createdAt
     }
+    type
+    gender
   }
 `)
 

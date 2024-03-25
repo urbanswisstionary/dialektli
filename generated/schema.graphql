@@ -7,9 +7,11 @@ input CreateExpressionInput {
   cantons: [String!]
   definition: String
   example: String
+  gender: ExpressionGender
   language: Language
   synonymId: String
   title: String!
+  type: ExpressionType
 }
 
 input CreateUserInput {
@@ -49,6 +51,7 @@ type Expression {
   examples: [ExpressionExample!]!
   flagged: [Flag!]!
   flaggedByMe: Boolean!
+  gender: ExpressionGender
   id: ID!
   language: Language!
   likedByMe: Boolean!
@@ -62,6 +65,7 @@ type Expression {
   """synonyms of the parent expression"""
   synonyms: [Synonym!]!
   title: String!
+  type: ExpressionType
   updatedAt: DateTime
 }
 
@@ -84,8 +88,26 @@ type ExpressionExample {
   updatedAt: DateTime
 }
 
+enum ExpressionGender {
+  F
+  M
+  N
+}
+
 input ExpressionIdInput {
   expressionId: String!
+}
+
+enum ExpressionType {
+  ADJECTIVE
+  ADVERB
+  CONJUNCTION
+  INTERJECTION
+  NOUN
+  PARTICLE
+  PREPOSITION
+  PRONOUN
+  VERB
 }
 
 input ExpressionsQueryInput {
@@ -176,9 +198,11 @@ input UpdateExpressionExampleInput {
 input UpdateExpressionInput {
   cantons: [String!]
   definition: String
+  gender: ExpressionGender
   id: String!
   published: Boolean
   title: String
+  type: ExpressionType
 }
 
 input UpdateUserInput {

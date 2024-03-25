@@ -8,9 +8,9 @@ require("dayjs/locale/fr")
 export const formatExpressionDate = ({
   date,
   locale = i18n.defaultLocale,
-  format = "ddd D MMM/YY",
+  format = "MMMM D, YYYY",
 }: {
-  date: string
+  date?: string | null
   locale?: Locale
   format?: string
-}) => dayjs(date).locale(locale).format(format)
+}) => (date ? dayjs(date).locale(locale).format(format) : date)

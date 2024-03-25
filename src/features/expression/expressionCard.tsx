@@ -52,7 +52,31 @@ const ExpressionCard: FC<ExpressionCardProps> = ({
               ))}
             </Stack>
           ) : null}
-          <Typography level="title-lg">{expression?.title}</Typography>
+          <Typography level="title-lg">
+            {expression?.title}{" "}
+            {expression?.gender ? (
+              <Typography
+                component="span"
+                level="body-sm"
+                title={t(`expression.genders.${expression.gender}`)}
+                sx={{
+                  textTransform: "lowercase",
+                }}
+              >
+                ({expression.gender})
+              </Typography>
+            ) : null}{" "}
+            {expression?.type ? (
+              <Typography
+                component="span"
+                level="body-sm"
+                color="primary"
+                title={t(`expression.types.${expression.type}.description`)}
+              >
+                {t(`expression.types.${expression.type}.label`)}
+              </Typography>
+            ) : null}
+          </Typography>
           <JoyLink
             level="body-xs"
             component={NextLink}
@@ -67,7 +91,7 @@ const ExpressionCard: FC<ExpressionCardProps> = ({
         <ExpressionCardShareButtons expression={expression} />
       </Stack>
 
-      <Typography mb={2} level="body-sm">
+      <Typography mb={2} level="body-md">
         {expression?.definition}
       </Typography>
 

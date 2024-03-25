@@ -151,12 +151,58 @@
     "example": "Exemple",
     "examples": "Exemples",
     "synonyms": "Synonymes",
+    "gender": "Genre",
+    "genders": {
+      "M": "Masculin",
+      "F": "Féminin",
+      "N": "Neutre"
+    },
+    "type": "Type",
+    "types": {
+      "NOUN": {
+        "label": "Nom",
+        "description": "Un mot qui représente une personne, un lieu, une chose ou une idée; par exemple, un chien, une ville, le bonheur."
+      },
+      "VERB": {
+        "label": "Verbe",
+        "description": "Exprime une action, une occurrence ou un état d'être; par exemple, courir, exister, se produire."
+      },
+      "ADJECTIVE": {
+        "label": "Adjectif",
+        "description": "Décrit ou modifie un nom ou un pronom en fournissant plus d'informations sur ses qualités ou caractéristiques; par exemple, grand, heureux, vert."
+      },
+      "ADVERB": {
+        "label": "Adverbe",
+        "description": "Modifie ou décrit un verbe, un adjectif ou un autre adverbe, indiquant généralement la manière, l'heure, le lieu, le degré ou la fréquence; par exemple, rapidement, très, ici, souvent."
+      },
+      "PRONOUN": {
+        "label": "Pronom",
+        "description": "Agit comme un substitut à un nom ou à un groupe nominal; par exemple, il, elle, cela, ils."
+      },
+      "PREPOSITION": {
+        "label": "Préposition",
+        "description": "Indique la relation entre un nom ou un pronom et d'autres éléments dans une phrase, indiquant souvent le lieu, l'heure, la direction ou la manière; par exemple, dans, sur, à, avant."
+      },
+      "CONJUNCTION": {
+        "label": "Conjonction",
+        "description": "Connecte des mots, des expressions ou des clauses dans une phrase, indiquant une relation entre différentes parties de la phrase; par exemple, et, mais, ou, parce que."
+      },
+      "INTERJECTION": {
+        "label": "Interjection",
+        "description": "Exprime une émotion, une surprise ou un autre sentiment, souvent seul et sans lien grammatical avec le reste de la phrase; par exemple, wow, oh, hey."
+      },
+      "PARTICLE": {
+        "label": "Particule",
+        "description": "Un mot qui ne rentre pas parfaitement dans les catégories grammaticales traditionnelles et qui remplit souvent une fonction grammaticale ou pragmatique dans une phrase, comme les verbes à particule ; par exemple, à, de, y (comme dans 'Il est allé à la banque', 'Elle vient de Paris')."
+      }
+    },
     "pleaseSignInForExpressionAction": "Veuillez <0>vous connecter</0> pour '{{action}}' ce expression.",
     "cantonFieldPlaceholder": "Sélectionnez le canton",
     "countryFieldPlaceholder": "Sélectionnez le pays",
     "cantonFieldHelperText": "Sélectionnez les cantons auxquels cette expression est associée",
     "descriptionFieldHelperText": "<bold>Écrivez pour un large public.</bold> Beaucoup de personnes liront ceci, alors donnez quelques informations de base.",
     "examplesFieldHelperText": "Fournissez des exemples de la manière dont cette expression est utilisée dans son contexte, ou de la manière dont elle est utilisée dans une phrase. Cela aidera les autres à mieux comprendre l'expression.",
+    "genderFieldHelperText": "Sélectionnez le Genre auquel cette expression est associée",
     "newExpression": {
       "title": "Nouvelle expression",
       "description": "Toutes les définitions ont été rédigées par des personnes comme vous. C'est maintenant votre chance d'ajouter la vôtre !",
@@ -221,7 +267,7 @@
     "reproductionSteps": {
       "label": "Étapes de reproduction",
       "helperText": "Quelles sont les étapes que nous pouvons suivre pour reproduire le bug",
-      "placeholder": "Étapes pour reproduire le comportement :\n\n1. Allez sur '...'\n\n2. Cliquez sur '....'\n\n3. Faites défiler jusqu'à '....' \n\n4. Voir erreur"
+      "placeholder": "Étapes pour reproduire le comportement:\n\n1. Allez sur '...'\n\n2. Cliquez sur '....'\n\n3. Faites défiler jusqu'à '....' \n\n4. Voir erreur"
     },
     "expectedBehavior": {
       "label": "Comportement attendu",

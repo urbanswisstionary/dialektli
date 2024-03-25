@@ -28,11 +28,11 @@ const TableHead: FC<{ headerGroups: HeaderGroup<any>[] }> = ({
                   component={header.id === "select" ? "div" : "p"}
                   level="title-md"
                   sx={[
+                    { justifyContent: "center" },
                     header.column.getCanSort()
                       ? {
                           cursor: "pointer",
                           userSelect: "none",
-                          justifyContent: "center",
                         }
                       : {},
                   ]}

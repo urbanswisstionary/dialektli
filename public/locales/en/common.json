@@ -151,12 +151,58 @@
     "example": "Example",
     "examples": "Examples",
     "synonyms": "Synonyms",
+    "gender": "Gender",
+    "genders": {
+      "M": "Masculine",
+      "F": "Feminine",
+      "N": "Neuter"
+    },
+    "type": "Type",
+    "types": {
+      "NOUN": {
+        "label": "Noun",
+        "description": "A word that represents a person, place, thing, or idea; e.g., dog, city, happiness."
+      },
+      "VERB": {
+        "label": "Verb",
+        "description": "Expresses an action, occurrence, or state of being; e.g., run, exist, happen."
+      },
+      "ADJECTIVE": {
+        "label": "Adjective",
+        "description": "Describes or modifies a noun or pronoun by providing more information about its qualities or characteristics; e.g., big, happy, green."
+      },
+      "ADVERB": {
+        "label": "Adverb",
+        "description": "Modifies or describes a verb, adjective, or other adverb, typically indicating manner, time, place, degree, or frequency; e.g., quickly, very, here, often."
+      },
+      "PRONOUN": {
+        "label": "Pronoun",
+        "description": "Acts as a substitute for a noun or noun phrase; e.g., he, she, it, they."
+      },
+      "PREPOSITION": {
+        "label": "Preposition",
+        "description": "Indicates the relationship between a noun or pronoun and other elements in a sentence, often showing location, time, direction, or manner; e.g., in, on, at, before."
+      },
+      "CONJUNCTION": {
+        "label": "Conjunction",
+        "description": "Connects words, phrases, or clauses within a sentence, indicating a relationship between different parts of the sentence; e.g., and, but, or, because."
+      },
+      "INTERJECTION": {
+        "label": "Interjection",
+        "description": "Expresses emotion, surprise, or some other sentiment, often standing alone and not grammatically connected to the rest of the sentence; e.g., wow, oh, hey."
+      },
+      "PARTICLE": {
+        "label": "Particle",
+        "description": "A word that doesn't fit neatly into traditional grammatical categories and often serves a grammatical or pragmatic function within a sentence, such as phrasal verbs; e.g., up, out, on (as in 'turn on', 'look up')."
+      }
+    },
     "pleaseSignInForExpressionAction": "Please <0>Sign In</0> to '{{action}}' this expression.",
     "cantonFieldPlaceholder": "Select canton",
     "countryFieldPlaceholder": "Select country",
     "cantonFieldHelperText": "Select the cantons this expression is associated with",
     "descriptionFieldHelperText": "<bold>Write for a large audience.</bold> Lots of people will read this, so give some background information.",
     "examplesFieldHelperText": "Provide examples of how this expression is used in context, or how it is used in a sentence. This will help others understand the expression better.",
+    "genderFieldHelperText": "Select the gender this expression is associated with",
     "newExpression": {
       "title": "New Expression",
       "description": "All the definitions were written by people just like you. Now's your chance to add your own!",
