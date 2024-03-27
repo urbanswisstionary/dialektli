@@ -7,6 +7,7 @@ import { ApolloError } from "@apollo/client"
 import { Language } from "./language"
 import { ExpressionGender } from "./expressionGender"
 import { ExpressionType } from "./expressionType"
+import { randomPick } from "../utils/randomPick"
 
 builder.prismaObject("Synonym", {
   fields: (t) => ({
@@ -151,12 +152,27 @@ builder.queryFields((t) => ({
           ],
         },
       }
+
+      const orderBy = randomPick([
+        "id",
+        "title",
+        "definition",
+        "cantons",
+        "gender",
+        "type",
+        "authorId",
+        "updatedAt",
+        "createdAt",
+      ] as (keyof Prisma.ExpressionOrderByWithRelationInput)[])
+
       const [expressions, count] = await prisma.$transaction([
         prisma.expression.findMany({
           where: expressionsWhere.where,
           skip: offset ?? undefined,
           take: limit ?? undefined,
-          orderBy: q ? { title: "asc" } : { createdAt: "desc" },
+          orderBy: q
+            ? { title: "asc" }
+            : { [orderBy]: randomPick([`asc`, `desc`]) },
         }),
         prisma.expression.count({ where: expressionsWhere.where }),
       ])
