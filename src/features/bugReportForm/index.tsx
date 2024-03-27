@@ -102,6 +102,7 @@ const BugReportForm: FC = () => {
             <p><b>Additional Context:</b> ${data.additionalContext}</p>
             </div>`,
           attachments,
+          replyTo: data.email,
         }
 
         const res = await fetch("/api/send_mail", {
