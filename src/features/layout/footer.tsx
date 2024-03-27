@@ -2,7 +2,6 @@ import type { FC } from "react"
 import Box from "@mui/joy/Box"
 import Typography from "@mui/joy/Typography"
 import SelectLocale from "@/ui/Select/selectLocale"
-import Grid, { GridProps } from "@mui/joy/Grid"
 import NextLink from "next/link"
 import JoyLink, { LinkProps } from "@mui/joy/Link"
 import { useTranslation } from "next-i18next"
@@ -24,12 +23,13 @@ const Footer: FC = () => {
     >
       <Stack gap={5}>
         <Stack
-          direction={{ xs: "column", lg: "row" }}
+          direction={{ xs: "column", md: "row" }}
           flexWrap="wrap"
           gap={2}
           alignItems="center"
           justifyContent={{ xs: "center", md: "space-between" }}
         >
+          <Link href="/about">About</Link>
           <Link href="/tos">{t("termsOfService")}</Link>
           <Link href="/privacy-policy">{t("privacyPolicy")}</Link>
           <Link href="/dmca">{t("dmca")}</Link>
