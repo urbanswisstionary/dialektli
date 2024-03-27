@@ -1,7 +1,7 @@
 import type { GetStaticProps, NextPage } from "next"
 import Layout from "@/features/layout/layout"
 import Typography from "@mui/joy/Typography"
-import { getStaticPropsTranslations } from "@/utils/i18n"
+import { getStaticPropsTranslations, varifyTArray } from "@/utils/i18n"
 import List from "@mui/joy/List"
 import ListItem from "@mui/joy/ListItem"
 import Link from "@mui/joy/Link"
@@ -49,7 +49,7 @@ const TermsOfServicePage: NextPage = () => {
             "--ListItem-minHeight": "25px",
           }}
         >
-          {t("tableOfContent.list", { returnObjects: true }).map(
+          {varifyTArray(t("tableOfContent.list", { returnObjects: true })).map(
             (content, i) => (
               <ListItem key={i}>
                 <Link level="body-sm" href={`#${content}`}>
@@ -95,25 +95,25 @@ const TermsOfServicePage: NextPage = () => {
           {t("userConduct.paragraph1.paragraph")}
         </Typography>
         <List marker={"circle"}>
-          {t("userConduct.paragraph1.list", { returnObjects: true }).map(
-            (content, i) => (
-              <ListItem key={i}>
-                <Typography level="body-sm">{content}</Typography>
-              </ListItem>
-            ),
-          )}
+          {varifyTArray(
+            t("userConduct.paragraph1.list", { returnObjects: true }),
+          ).map((content, i) => (
+            <ListItem key={i}>
+              <Typography level="body-sm">{content}</Typography>
+            </ListItem>
+          ))}
         </List>
         <Typography level="body-sm" mt={1}>
           {t("userConduct.paragraph2.paragraph")}
         </Typography>
         <List marker={"circle"}>
-          {t("userConduct.paragraph2.list", { returnObjects: true }).map(
-            (content, i) => (
-              <ListItem key={i}>
-                <Typography level="body-sm">{content}</Typography>
-              </ListItem>
-            ),
-          )}
+          {varifyTArray(
+            t("userConduct.paragraph2.list", { returnObjects: true }),
+          ).map((content, i) => (
+            <ListItem key={i}>
+              <Typography level="body-sm">{content}</Typography>
+            </ListItem>
+          ))}
         </List>
         <Typography level="body-sm" mt={1}>
           {t("userConduct.paragraph3")}
@@ -125,13 +125,13 @@ const TermsOfServicePage: NextPage = () => {
           {t("userConduct.paragraph5.paragraph")}
         </Typography>
         <List marker={"circle"}>
-          {t("userConduct.paragraph5.list", { returnObjects: true }).map(
-            (content, i) => (
-              <ListItem key={i}>
-                <Typography level="body-sm">{content}</Typography>
-              </ListItem>
-            ),
-          )}
+          {varifyTArray(
+            t("userConduct.paragraph5.list", { returnObjects: true }),
+          ).map((content, i) => (
+            <ListItem key={i}>
+              <Typography level="body-sm">{content}</Typography>
+            </ListItem>
+          ))}
         </List>
         <Typography level="body-sm" mt={1}>
           {t("userConduct.paragraph6")}
@@ -174,9 +174,11 @@ const TermsOfServicePage: NextPage = () => {
           {t("copyrightsAndOwnership.paragraph2.paragraph")}
         </Typography>
         <List marker={"circle"}>
-          {t("copyrightsAndOwnership.paragraph2.list", {
-            returnObjects: true,
-          }).map((content, i) => (
+          {varifyTArray(
+            t("copyrightsAndOwnership.paragraph2.list", {
+              returnObjects: true,
+            }),
+          ).map((content, i) => (
             <ListItem key={i}>
               <Typography level="body-sm">{content}</Typography>
             </ListItem>

@@ -18,6 +18,8 @@
       "rolesAndPermissions": "Roles & Permissions"
     },
     "footer": {
+      "about": "About Us",
+      "contact": "Contact Us",
       "termsOfService": "Terms of Service",
       "privacyPolicy": "Privacy Policy",
       "dmca": "DMCA",
@@ -291,5 +293,13 @@
     },
     "submit": "Submit",
     "thankYou": "Thank you for submitting a bug report!"
+  },
+  "contactUs": {
+    "title": "Contact Us",
+    "name": "Name",
+    "email": "E-Mail",
+    "subject": "Subject",
+    "message": "Message",
+    "thankYou": "Thank you for reaching out! We will get back to you as soon as possible."
   }
 }

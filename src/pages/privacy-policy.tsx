@@ -7,7 +7,7 @@ import Link from "@mui/joy/Link"
 import NextLink from "next/link"
 import HeadProvider from "@/providers/Head"
 import { companyName, email } from "@/config/constants"
-import { getStaticPropsTranslations } from "@/utils/i18n"
+import { getStaticPropsTranslations, varifyTArray } from "@/utils/i18n"
 import { useTranslation, Trans } from "next-i18next"
 
 const PrivacyPolicyPage: NextPage = () => {
@@ -34,9 +34,11 @@ const PrivacyPolicyPage: NextPage = () => {
             "--ListItem-minHeight": "25px",
           }}
         >
-          {t("description.1", { returnObjects: true }).map((content, i) => (
-            <ListItem key={i}>{content}</ListItem>
-          ))}
+          {varifyTArray(t("description.1", { returnObjects: true })).map(
+            (content, i) => (
+              <ListItem key={i}>{content}</ListItem>
+            ),
+          )}
         </List>
 
         <Typography level="body-sm" mt={4} mb={2}>
@@ -64,7 +66,7 @@ const PrivacyPolicyPage: NextPage = () => {
             "--ListItem-minHeight": "25px",
           }}
         >
-          {t("tableOfContent.list", { returnObjects: true }).map(
+          {varifyTArray(t("tableOfContent.list", { returnObjects: true })).map(
             (content, i) => (
               <ListItem key={i}>
                 <Link level="body-sm" href={`#${content}`}>

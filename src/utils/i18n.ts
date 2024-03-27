@@ -13,3 +13,5 @@ export const getStaticPropsTranslations = async (
     namespacesRequired ?? "",
   ])),
 })
+
+export const varifyTArray = (t: unknown) => (Array.isArray(t) ? t : [])
