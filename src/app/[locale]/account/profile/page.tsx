@@ -19,11 +19,10 @@ import Box from "@mui/material/Box"
 import Tabs from "@mui/material/Tabs"
 import Tab from "@mui/material/Tab"
 import IconButton from "@mui/material/IconButton"
-import PhotoCamera from "@mui/icons-material/PhotoCamera"
 import EditIcon from "@mui/icons-material/Edit"
 import CheckIcon from "@mui/icons-material/Check"
 import CloseIcon from "@mui/icons-material/Close"
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState } from "react"
 import { useExpressionsQuery } from "@/hooks/useExpressions"
 import ExpressionCard from "@/components/expression/ExpressionCard"
 import Table from "@mui/material/Table"
@@ -37,7 +36,6 @@ import Chip from "@mui/material/Chip"
 import TextField from "@mui/material/TextField"
 import { getFragmentData } from "@/generated"
 import type { ExpressionFragmentFragment } from "@/generated/graphql"
-import { compressImageToBase64 } from "@/utils/imageCompression"
 
 type ViewType = "profile" | "expressions" | "users"
 
@@ -47,8 +45,6 @@ export default function ProfilePage() {
   const searchParams = useSearchParams()
   const { me, loading: loadingMe, isAdmin } = useMe()
   const { updateUser, loading: updatingUser } = useUpdateUserMutation()
-  const fileInputRef = useRef<HTMLInputElement>(null)
-  const [uploadingImage, setUploadingImage] = useState(false)
   const [editingName, setEditingName] = useState(false)
   const [editingBio, setEditingBio] = useState(false)
   const [nameValue, setNameValue] = useState("")
@@ -86,23 +82,6 @@ export default function ProfilePage() {
   ) => {
     setActiveView(newValue)
     router.push(`/account/profile?view=${newValue}`)
-  }
-
-  const handleImageUpload = async (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    const file = event.target.files?.[0]
-    if (!file || !me?.id) return
-
-    try {
-      setUploadingImage(true)
-      const base64Image = await compressImageToBase64(file)
-      await updateUser({ id: me.id, image: base64Image })
-    } catch (error) {
-      console.error("Failed to upload image:", error)
-    } finally {
-      setUploadingImage(false)
-    }
   }
 
   const handleEditName = () => {
@@ -165,42 +144,11 @@ export default function ProfilePage() {
       <Card>
         <CardContent>
           <Stack direction="row" spacing={3} alignItems="center">
-            <Box position="relative">
-              <Avatar
-                src={me.image ?? undefined}
-                alt={me.name ?? me.email ?? "User"}
-                sx={{ width: 80, height: 80 }}
-              />
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                style={{ display: "none" }}
-              />
-              <IconButton
-                sx={{
-                  position: "absolute",
-                  bottom: 0,
-                  right: 0,
-                  backgroundColor: "primary.main",
-                  color: "white",
-                  width: 32,
-                  height: 32,
-                  "&:hover": {
-                    backgroundColor: "primary.dark",
-                  },
-                }}
-                onClick={() => fileInputRef.current?.click()}
-                disabled={uploadingImage}
-              >
-                {uploadingImage ? (
-                  <CircularProgress size={16} color="inherit" />
-                ) : (
-                  <PhotoCamera sx={{ fontSize: 16 }} />
-                )}
-              </IconButton>
-            </Box>
+            <Avatar
+              src={me.image ?? undefined}
+              alt={me.name ?? me.email ?? "User"}
+              sx={{ width: 80, height: 80 }}
+            />
             <Stack spacing={1} flex={1}>
               <Stack direction="row" alignItems="center" spacing={1}>
                 {editingName ? (
