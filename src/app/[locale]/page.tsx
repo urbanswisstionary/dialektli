@@ -88,7 +88,7 @@ export default function HomePage() {
   onDataCountChange(expressionsQuery?.count)
 
   return (
-    <Stack sx={{ mt: 10, mb: 3, gap: 3 }}>
+    <Stack sx={{ mt: 2, mb: 3, gap: 3 }}>
       <Box
         sx={{
           display: "flex",
