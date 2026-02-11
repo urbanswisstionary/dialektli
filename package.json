@@ -6,7 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "SKIP_DB_CONNECTION=true prisma generate && SKIP_DB_CONNECTION=true npx graphql-codegen --require tsconfig-paths/register --config codegen.ts && next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "check:types": "tsc --pretty --noEmit",
     "check:format": "prettier --check .",
     "format": "prettier --write .",
