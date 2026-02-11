@@ -1,4 +1,4 @@
-import { Role } from "@prisma/client"
+import { Role, Language as PrismaLanguage } from "@prisma/client"
 import { GraphQLError } from "graphql"
 import { builder } from "../builder"
 import prisma from "@/lib/prisma"
@@ -124,7 +124,7 @@ builder.queryFields((t) => ({
 
       const cantonMap = new Map<
         string,
-        { id: string; title: string; language: string | null }[]
+        { id: string; title: string; language: PrismaLanguage | null }[]
       >()
 
       for (const expr of semanticGroup.expressions) {
