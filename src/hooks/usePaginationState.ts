@@ -1,3 +1,5 @@
+"use client"
+
 import { useState } from "react"
 
 type PaginationState = {
@@ -5,11 +7,13 @@ type PaginationState = {
   pageSize: number
   pageCount: number
 }
+
 const defaultState: PaginationState = {
   pageIndex: 1,
-  pageSize: 10,
+  pageSize: 5,
   pageCount: 1,
 }
+
 export const usePaginationState = (
   initialState: Partial<PaginationState> = {},
 ) => {
@@ -26,7 +30,6 @@ export const usePaginationState = (
     onPageSizeChange: (pageSize: number) =>
       setPagination((prev) => ({ ...prev, pageSize })),
     pageCount,
-
     onDataCountChange: (dataCount?: number) => {
       const newPageCount = Math.max(1, Math.ceil((dataCount ?? 0) / pageSize))
       if (newPageCount !== pageCount)

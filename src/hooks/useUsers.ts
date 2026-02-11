@@ -1,9 +1,11 @@
-import { useMutation, useQuery } from "@apollo/client"
-import { MeQuery, Role, UpdateUserInput } from "@@/generated/graphql"
-import { getFragmentData, graphql } from "@@/generated"
+"use client"
+
+import { useMutation, useQuery } from "@apollo/client/react"
+import { MeQuery, Role, UpdateUserInput } from "@/generated/graphql"
+import { getFragmentData, graphql } from "@/generated"
 import { useSession } from "next-auth/react"
-import { AdminExpressionsQuery } from "./useExpressions"
-import { useRouter } from "next/router"
+
+import { useRouter } from "@/i18n/navigation"
 import { useEffect } from "react"
 
 export const MeFragment = graphql(/* GraphQL */ `
@@ -49,11 +51,12 @@ const useHandleNewUser = (meQuery?: MeQuery) => {
   const { me } = getMe(meQuery)
 
   useEffect(() => {
-    // if a new user signs in and has no name, redirect to welcome page so they can set their name
-    if (!!me && !me?.name.length && router.pathname !== welcomePath)
-      router?.push(welcomePath)
+    if (!!me && !me?.name?.length) {
+      router.push(welcomePath)
+    }
   }, [me, router])
 }
+
 export const useMe = () => {
   const { status: sessionStatus } = useSession()
   const { data, refetch, loading, ...rest } = useQuery(ME_QUERY, {
@@ -70,6 +73,7 @@ export const useMe = () => {
     ...rest,
   }
 }
+
 export const useVerifyUserNameIsUniqueQuery = (
   variables: { name: string },
   skip?: boolean,
@@ -151,7 +155,7 @@ export const useDeleteUserMutation = () => {
         onCompleted: () => {
           if (onCompletedCallback) onCompletedCallback()
         },
-        refetchQueries: [{ query: ME_QUERY }, { query: AdminExpressionsQuery }],
+        refetchQueries: [{ query: ME_QUERY }],
       }),
     ...mutationData,
   }
@@ -183,7 +187,7 @@ export const AdminUserFragment = graphql(/* GraphQL */ `
   }
 `)
 
-export const useAdminUserQuery = () =>
+export const useAdminUserQuery = (userId: string) =>
   useQuery(
     graphql(/* GraphQL */ `
       query AdminUserQuery($data: UserIdInput!) {
@@ -192,6 +196,10 @@ export const useAdminUserQuery = () =>
         }
       }
     `),
+    {
+      variables: { data: { userId } },
+      skip: !userId,
+    },
   )
 
 export const AdminUsersFragment = graphql(/* GraphQL */ `

@@ -1,4 +1,6 @@
-import { graphql } from "@@/generated"
+"use client"
+
+import { graphql } from "@/generated"
 import {
   CreateExpressionExampleInput,
   UpdateExpressionExampleInput,
@@ -6,8 +8,8 @@ import {
   ExpressionsQueryInput,
   UpdateExpressionInput,
   Expression,
-} from "@@/generated/graphql"
-import { useMutation, useQuery } from "@apollo/client"
+} from "@/generated/graphql"
+import { useMutation, useQuery } from "@apollo/client/react"
 
 export const ExpressionExampleFragment = graphql(/* GraphQL */ `
   fragment ExpressionExampleFragment on ExpressionExample {
@@ -135,8 +137,8 @@ export const useCreateExpressionMutation = () => {
       createExpression({
         variables: { data },
         onCompleted: (data) => {
-          if (onCompletedCallback)
-            onCompletedCallback(data.createExpression?.id)
+          if (onCompletedCallback && data.createExpression?.id)
+            onCompletedCallback(data.createExpression.id)
         },
         update: (cache, { data }) => {
           if (data?.createExpression) {
