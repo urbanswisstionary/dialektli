@@ -1,44 +1,35 @@
 import SchemaBuilder from "@pothos/core"
-import { Prisma, PrismaClient, Role } from "@prisma/client"
 import PrismaPlugin from "@pothos/plugin-prisma"
-
-import type PrismaTypes from "../../generated/pothos-types"
-import { DateTimeResolver, JSONResolver } from "graphql-scalars"
-import { Session } from "next-auth"
-import ShieldPlugin from "./shield-plugin"
 import SimpleObjectsPlugin from "@pothos/plugin-simple-objects"
-import { Language } from "@@/generated/graphql"
-import { Locale } from "next/router"
+import type PrismaTypes from "../../generated/pothos-types"
+import { getDatamodel } from "../../generated/pothos-types"
+import prisma from "@/lib/prisma"
+import type { Session } from "next-auth"
+import { DateTimeResolver } from "graphql-scalars"
 
-const prisma = new PrismaClient({
-  log: ["info", "warn"],
-})
+export type Context = {
+  session: Session | null
+  locale: string
+}
 
 export const builder = new SchemaBuilder<{
   PrismaTypes: PrismaTypes
   Scalars: {
     DateTime: { Input: Date; Output: Date }
-    Json: { Input: unknown; Output: unknown }
-    Role: { Input: Role; Output: Role }
-    Language: { Input: Language; Output: Language }
   }
-  Context: {
-    session: Session | null
-    lang: Locale
-  }
+  Context: Context
 }>({
-  plugins: [PrismaPlugin, ShieldPlugin, SimpleObjectsPlugin],
+  plugins: [PrismaPlugin, SimpleObjectsPlugin],
   prisma: {
     client: prisma,
-    dmmf: Prisma.dmmf, // Because the prisma client is loaded dynamically, we need to explicitly provide the some information about the prisma schema
+    dmmf: getDatamodel(),
     exposeDescriptions: true,
-    filterConnectionTotalCount: true, // use where clause from prismaRelatedConnection for totalCount (will true by default in next major version)
-    onUnusedQuery: process.env.NODE_ENV === "production" ? null : "warn", // warn when not using a query parameter correctly
+    filterConnectionTotalCount: true,
+    onUnusedQuery: process.env.NODE_ENV === "production" ? null : "warn",
   },
 })
 
 builder.addScalarType("DateTime", DateTimeResolver)
-builder.addScalarType("Json", JSONResolver)
 
-builder.queryType()
-builder.mutationType()
+builder.queryType({})
+builder.mutationType({})

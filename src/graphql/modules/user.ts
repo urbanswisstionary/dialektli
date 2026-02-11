@@ -1,15 +1,13 @@
 import { Prisma, Role } from "@prisma/client"
 import { builder } from "../builder"
-import prisma from "../../lib/prisma"
-import { ApolloError } from "@apollo/client"
-import { allow } from "graphql-shield"
-import * as permissions from "../permissions"
+import prisma from "@/lib/prisma"
+import { GraphQLError } from "graphql"
 
-builder.enumType(Role, {
+const RoleEnum = builder.enumType(Role, {
   name: "Role",
 })
+
 const UserType = builder.prismaObject("User", {
-  // Optional name for the object, defaults to the name of the prisma model
   name: "User",
   fields: (t) => ({
     id: t.exposeID("id"),
@@ -21,7 +19,7 @@ const UserType = builder.prismaObject("User", {
     name: t.exposeString("name"),
     bio: t.exposeString("bio", { nullable: true }),
     image: t.exposeString("image", { nullable: true }),
-    role: t.expose("role", { type: "Role" }),
+    role: t.expose("role", { type: RoleEnum }),
     expressions: t.relation("expressions"),
     likes: t.relation("likes"),
     likesCount: t.int({
@@ -48,6 +46,7 @@ const UserType = builder.prismaObject("User", {
     flags: t.relation("flags"),
   }),
 })
+
 const UsersWithCountType = builder.simpleObject("UsersWithCount", {
   fields: (t) => ({
     users: t.field({ type: [UserType], nullable: false }),
@@ -55,35 +54,60 @@ const UsersWithCountType = builder.simpleObject("UsersWithCount", {
   }),
 })
 
+const UserIdInput = builder.inputType("UserIdInput", {
+  fields: (t) => ({
+    userId: t.string({ required: true }),
+  }),
+})
+
 builder.queryFields((t) => ({
   me: t.prismaField({
     type: "User",
-    shield: permissions.isAuthenticated,
-    resolve: (query, _root, _args, { session }) =>
-      prisma.user.findUniqueOrThrow({
+    resolve: (query, _root, _args, { session }) => {
+      if (!session?.user) {
+        throw new GraphQLError("Not authenticated")
+      }
+      return prisma.user.findUniqueOrThrow({
         ...query,
-        where: { id: session?.user?.id },
-      }),
+        where: { id: session.user.id },
+      })
+    },
   }),
   adminUser: t.prismaField({
     type: "User",
-    shield: permissions.isAdmin,
     args: { data: t.arg({ type: UserIdInput, required: true }) },
-    resolve: (query, _root, { data }) =>
-      prisma.user.findUniqueOrThrow({ ...query, where: { id: data.userId } }),
+    resolve: async (query, _root, args, { session }) => {
+      if (!session?.user) {
+        throw new GraphQLError("Not authenticated")
+      }
+      const user = await prisma.user.findUnique({
+        where: { id: session.user.id },
+        select: { role: true },
+      })
+      if (user?.role !== Role.ADMIN) {
+        throw new GraphQLError("Not authorized")
+      }
+      return prisma.user.findUniqueOrThrow({
+        ...query,
+        where: { id: args.data.userId },
+      })
+    },
   }),
   adminUsers: t.field({
     type: UsersWithCountType,
-    shield: permissions.isAdmin,
     nullable: true,
     resolve: async (_root, _args, { session }) => {
+      if (!session?.user) {
+        throw new GraphQLError("Not authenticated")
+      }
       try {
         const sessionUser = await prisma.user.findUniqueOrThrow({
-          where: { id: session?.user?.id },
+          where: { id: session.user.id },
           select: { role: true },
         })
-        if (sessionUser.role !== Role.ADMIN)
-          throw new ApolloError({ errorMessage: "Not Allowed" })
+        if (sessionUser.role !== Role.ADMIN) {
+          throw new GraphQLError("Not authorized")
+        }
 
         const usersWhere: Prisma.UserFindManyArgs = {
           where: {},
@@ -94,20 +118,21 @@ builder.queryFields((t) => ({
         ])
         return { users, count }
       } catch (error) {
-        // eslint-disable-next-line no-console
         console.error(error)
       }
     },
   }),
   verifyUserNameIsUnique: t.field({
     type: "Boolean",
-    shield: permissions.isAuthenticated,
     args: {
       name: t.arg.string({ required: true }),
     },
-    resolve: async (_root, { name }) => {
+    resolve: async (_root, args, { session }) => {
+      if (!session?.user) {
+        throw new GraphQLError("Not authenticated")
+      }
       const user = await prisma.user.findFirst({
-        where: { name: { equals: name, mode: "insensitive" } },
+        where: { name: { equals: args.name, mode: "insensitive" } },
       })
       return !user
     },
@@ -135,33 +160,24 @@ const UpdateUserInput = builder.inputType("UpdateUserInput", {
     canton: t.string(),
   }),
 })
-const UserIdInput = builder.inputType("UserIdInput", {
-  fields: (t) => ({
-    userId: t.string({ required: true }),
-  }),
-})
 
 builder.mutationFields((t) => ({
   createUser: t.prismaField({
     type: "User",
-    shield: allow,
     nullable: true,
     args: { data: t.arg({ type: CreateUserInput, required: true }) },
-    resolve: (query, _root, { data }) => prisma.user.create({ ...query, data }),
+    resolve: (query, _root, args) =>
+      prisma.user.create({ ...query, data: args.data }),
   }),
   updateUser: t.prismaField({
     type: "User",
-    shield: permissions.isAdminOrMe,
     nullable: true,
     args: { data: t.arg({ type: UpdateUserInput, required: true }) },
-    resolve: async (
-      query,
-      _root,
-      { data: { id: userId, name, country, canton, ...data } },
-      { session },
-      _info,
-    ) => {
-      if (!session?.user) throw new ApolloError({ errorMessage: "Not allowed" })
+    resolve: async (query, _root, args, { session }) => {
+      if (!session?.user) {
+        throw new GraphQLError("Not authenticated")
+      }
+      const { id: userId, name, country, canton, ...rest } = args.data
       const user = await prisma.user.findUnique({
         where: { id: userId },
         select: { email: true },
@@ -169,14 +185,15 @@ builder.mutationFields((t) => ({
       if (
         user?.email !== session.user.email &&
         session.user.role !== Role.ADMIN
-      )
-        throw new ApolloError({ errorMessage: "Not allowed" })
+      ) {
+        throw new GraphQLError("Not authorized")
+      }
 
       return prisma.user.update({
         ...query,
         where: { id: userId },
         data: {
-          ...data,
+          ...rest,
           name: name ?? undefined,
           country,
           canton: country === "CH" ? canton : null,
@@ -186,37 +203,41 @@ builder.mutationFields((t) => ({
   }),
   changeUserRole: t.prismaField({
     type: "User",
-    shield: permissions.isAdmin,
     nullable: true,
     args: {
       userId: t.arg.string({ required: true }),
-      role: t.arg({ type: "Role", required: true }),
+      role: t.arg({ type: RoleEnum, required: true }),
     },
-    resolve: async (query, _root, { userId, role }, { session }, _info) => {
-      if (!session?.user) throw new ApolloError({ errorMessage: "Not allowed" })
-      if (session.user.role !== Role.ADMIN)
-        throw new ApolloError({
-          errorMessage: "Only admins are allowed to change roles",
-        })
+    resolve: async (query, _root, args, { session }) => {
+      if (!session?.user) {
+        throw new GraphQLError("Not authenticated")
+      }
+      if (session.user.role !== Role.ADMIN) {
+        throw new GraphQLError("Only admins are allowed to change roles")
+      }
       return prisma.user.update({
         ...query,
-        where: { id: userId },
-        data: { role },
+        where: { id: args.userId },
+        data: { role: args.role as Role },
       })
     },
   }),
   deleteUser: t.prismaField({
     type: "User",
-    shield: permissions.isAdminOrMe,
     nullable: true,
     args: { data: t.arg({ type: UserIdInput, required: true }) },
-    resolve: async (query, _root, { data: { userId } }, { session }) => {
-      if (!session?.user) throw new ApolloError({ errorMessage: "Not allowed" })
-      const user = await prisma.user.findUnique({ where: { id: userId } })
-      if (user?.id !== session.user.id && session.user.role !== Role.ADMIN)
-        throw new ApolloError({ errorMessage: "Not allowed" })
+    resolve: async (query, _root, args, { session }) => {
+      if (!session?.user) {
+        throw new GraphQLError("Not authenticated")
+      }
+      const user = await prisma.user.findUnique({
+        where: { id: args.data.userId },
+      })
+      if (user?.id !== session.user.id && session.user.role !== Role.ADMIN) {
+        throw new GraphQLError("Not authorized")
+      }
 
-      return prisma.user.delete({ ...query, where: { id: userId } })
+      return prisma.user.delete({ ...query, where: { id: args.data.userId } })
     },
   }),
 }))

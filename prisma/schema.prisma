@@ -3,9 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("POSTGRES_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  provider = "postgresql"
 }
 
 generator pothos {
@@ -75,24 +73,40 @@ enum ExpressionType {
 }
 
 model Expression {
-  id         String              @id @default(cuid())
-  title      String
-  definition String?
-  published  Boolean             @default(false)
-  author     User?               @relation(fields: [authorId], references: [id])
-  authorId   String?
-  likes      Like[]
-  dislikes   Dislike[]
-  createdAt  DateTime            @default(now())
-  updatedAt  DateTime?           @updatedAt
-  flagged    Flag[]
-  cantons    String[]
-  language   Language            @default(DE)
-  synonymOf  Synonym[]           @relation("synonymOf") /// the expressions that the parent expression is a synonym of
-  synonyms   Synonym[]           @relation("synonym") /// synonyms of the parent expression
-  examples   ExpressionExample[]
-  gender     ExpressionGender?
-  type       ExpressionType?
+  id             String              @id @default(cuid())
+  title          String
+  definition     String?
+  published      Boolean             @default(false)
+  author         User?               @relation(fields: [authorId], references: [id])
+  authorId       String?
+  likes          Like[]
+  dislikes       Dislike[]
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime?           @updatedAt
+  flagged        Flag[]
+  cantons        String[]
+  language       Language            @default(DE)
+  synonymOf      Synonym[]           @relation("synonymOf") /// the expressions that the parent expression is a synonym of
+  synonyms       Synonym[]           @relation("synonym") /// synonyms of the parent expression
+  examples       ExpressionExample[]
+  gender         ExpressionGender?
+  type           ExpressionType?
+  semanticGroups SemanticGroup[]
+}
+
+/// Semantic grouping for the Dialect Explorer / Sprachatlas.
+/// Groups expressions that share the same concept (e.g. "greeting", "nothing", "to eat")
+/// so users can compare regional variants on a map.
+model SemanticGroup {
+  id          String       @id @default(cuid())
+  name        String       @unique /// canonical name (English key)
+  nameDE      String? /// German display name
+  nameFR      String? /// French display name
+  nameIT      String? /// Italian display name
+  description String? /// optional description of the concept
+  expressions Expression[] /// many-to-many: expressions belonging to this group
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime?    @updatedAt
 }
 
 model ExpressionExample {
