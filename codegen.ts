@@ -8,13 +8,13 @@ const config: CodegenConfig = {
   documents: ["src/**/*.tsx", "src/**/*.ts", "*.graphql"],
   ignoreNoDocuments: true, // for better experience with the watcher
   generates: {
-    "generated/": {
+    "src/generated/": {
       preset: "client",
       presetConfig: {
         fragmentMasking: { unmaskFunctionName: "getFragmentData" },
       },
     },
-    "generated/schema.graphql": {
+    "src/generated/schema.graphql": {
       plugins: ["schema-ast"],
     },
   },

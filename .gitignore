@@ -26,6 +26,8 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
+.env
+.env.local
 .env*.local
 
 # vercel
@@ -34,3 +36,19 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# screenshots & research artifacts (session working files)
+*.png
+*.txt
+*.md
+!README.md
+!CHANGELOG.md
+
+# analysis & docs artifacts from dev sessions
+analysis/
+docs/
+_old_backup/
+
+# kleiner sprachatlas research snapshots
+kleiner_atlas_*
+kleiner_snapshot_*
