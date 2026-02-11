@@ -19,14 +19,16 @@ type Locale = (typeof routing.locales)[number]
 interface SelectLocaleProps extends Omit<
   FormControlProps,
   "value" | "onChange"
-> {}
+> {
+  compact?: boolean
+}
 
 const getFlagCode = (locale: string) => {
   if (locale === "en") return "gb"
   return locale
 }
 
-const SelectLocale: FC<SelectLocaleProps> = (props) => {
+const SelectLocale: FC<SelectLocaleProps> = ({ compact, ...props }) => {
   const router = useRouter()
   const pathname = usePathname()
   const currentLocale = useLocale()
@@ -44,19 +46,32 @@ const SelectLocale: FC<SelectLocaleProps> = (props) => {
           size="small"
           value={currentLocale}
           onChange={onChange}
-          startAdornment={<LanguageIcon sx={{ mr: 1 }} />}
-          IconComponent={ArrowDropDownIcon}
+          startAdornment={compact ? undefined : <LanguageIcon sx={{ mr: 1 }} />}
+          IconComponent={compact ? () => null : ArrowDropDownIcon}
           inputProps={{
             id: "select-locale",
             "aria-labelledby": "select-locale",
           }}
           name="select-locale"
+          sx={
+            compact
+              ? {
+                  "& .MuiSelect-select": {
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 0.5,
+                    pr: "8px !important",
+                    py: 0.5,
+                  },
+                }
+              : undefined
+          }
         >
           {routing.locales.map((locale) => (
             <MenuItem key={locale} value={locale}>
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                 <Flag mode="country" code={getFlagCode(locale)} />
-                {t(`selectLanguage.${locale}`)}
+                {compact ? locale.toUpperCase() : t(`selectLanguage.${locale}`)}
               </Box>
             </MenuItem>
           ))}

@@ -15,6 +15,8 @@ import ListItemButton from "@mui/material/ListItemButton"
 import ListItemIcon from "@mui/material/ListItemIcon"
 import ListItemText from "@mui/material/ListItemText"
 import Divider from "@mui/material/Divider"
+import Typography from "@mui/material/Typography"
+import Stack from "@mui/material/Stack"
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded"
 import AccountCircleIcon from "@mui/icons-material/AccountCircle"
 import CottageRoundedIcon from "@mui/icons-material/CottageRounded"
@@ -32,6 +34,7 @@ import { Link, usePathname } from "@/i18n/navigation"
 import { useMe } from "@/hooks/useUsers"
 import { useTranslations } from "next-intl"
 import { signOut } from "next-auth/react"
+import { companyName } from "@/config/constants"
 
 const DRAWER_WIDTH = 280
 
@@ -85,14 +88,45 @@ const Navbar: FC = () => {
           bgcolor: "background.paper",
         }}
       >
-        <Toolbar sx={{ gap: 1 }}>
-          <Link href="/">
-            <Logo size="medium" />
-          </Link>
+        <Toolbar
+          sx={{
+            gap: { xs: 1, md: 2 },
+            px: { xs: 2, md: 3 },
+            minHeight: { xs: 56, md: 64 },
+          }}
+        >
+          {/* Logo + Brand */}
+          <Stack
+            component={Link}
+            href="/"
+            direction="row"
+            alignItems="center"
+            spacing={1}
+            sx={{
+              textDecoration: "none",
+              color: "inherit",
+              flexShrink: 0,
+            }}
+          >
+            <Logo size="small" />
+            <Typography
+              variant="h6"
+              sx={{
+                fontWeight: 700,
+                display: { xs: "none", sm: "block" },
+                letterSpacing: "-0.02em",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {companyName}
+            </Typography>
+          </Stack>
 
+          {/* Desktop Nav Links */}
           <Box
             sx={{
               display: { xs: "none", md: "flex" },
+              alignItems: "center",
               gap: 0.5,
               ml: 1,
             }}
@@ -102,12 +136,24 @@ const Navbar: FC = () => {
                 key={link.href}
                 component={Link}
                 href={link.href}
-                startIcon={link.icon}
-                color={link.active ? "primary" : "inherit"}
-                size="small"
+                color="inherit"
                 sx={{
                   textTransform: "none",
-                  fontWeight: link.active ? 600 : 400,
+                  fontWeight: link.active ? 600 : 500,
+                  color: link.active ? "primary.main" : "text.secondary",
+                  borderRadius: 0,
+                  px: 1.5,
+                  py: 1,
+                  minHeight: { md: 64 },
+                  borderBottom: 3,
+                  borderColor: link.active ? "primary.main" : "transparent",
+                  transition: "all 0.15s ease-in-out",
+                  "&:hover": {
+                    bgcolor: "action.hover",
+                    borderColor: link.active
+                      ? "primary.main"
+                      : "action.disabled",
+                  },
                 }}
               >
                 {link.label}
@@ -115,18 +161,26 @@ const Navbar: FC = () => {
             ))}
           </Box>
 
+          {/* Search — center, dominant */}
           <SearchExpressionsInput
-            sx={{ mx: { xs: 1, md: 2 }, flex: 1, maxWidth: { md: 400 } }}
+            sx={{
+              mx: { xs: 0.5, md: 2 },
+              flex: 1,
+              maxWidth: { md: 480 },
+            }}
           />
 
-          <Box
+          {/* Desktop Utilities */}
+          <Stack
+            direction="row"
+            alignItems="center"
+            spacing={1}
             sx={{
               display: { xs: "none", md: "flex" },
-              alignItems: "center",
-              gap: 0.5,
+              flexShrink: 0,
             }}
           >
-            <SelectLocale sx={{ minWidth: 100 }} />
+            <SelectLocale compact />
             <ColorSchemeToggle />
 
             {!meLoading &&
@@ -137,8 +191,13 @@ const Navbar: FC = () => {
                     size="small"
                     aria-label={t("layout.sidebar.profile")}
                     aria-haspopup="true"
+                    sx={{
+                      border: 1,
+                      borderColor: "divider",
+                      p: 0.75,
+                    }}
                   >
-                    <AccountCircleIcon />
+                    <AccountCircleIcon fontSize="small" />
                   </IconButton>
                   <Menu
                     anchorEl={userMenuAnchorEl}
@@ -151,6 +210,15 @@ const Navbar: FC = () => {
                     transformOrigin={{
                       vertical: "top",
                       horizontal: "right",
+                    }}
+                    slotProps={{
+                      paper: {
+                        sx: {
+                          mt: 0.5,
+                          minWidth: 200,
+                          borderRadius: 2,
+                        },
+                      },
                     }}
                   >
                     <MenuItem
@@ -205,37 +273,46 @@ const Navbar: FC = () => {
                 <Button
                   component={Link}
                   href="/auth/signin"
-                  startIcon={<LoginRoundedIcon />}
-                  color="inherit"
+                  variant="outlined"
                   size="small"
-                  sx={{ textTransform: "none" }}
+                  sx={{
+                    textTransform: "none",
+                    fontWeight: 500,
+                    borderRadius: 2,
+                    px: 2,
+                  }}
                 >
                   {t("layout.sidebar.signIn")}
                 </Button>
               ))}
-          </Box>
+          </Stack>
 
+          {/* Mobile hamburger */}
           <IconButton
             onClick={() => setDrawerOpen(true)}
             aria-label="Open menu"
-            sx={{ display: { xs: "flex", md: "none" } }}
+            sx={{ display: { xs: "flex", md: "none" }, flexShrink: 0 }}
           >
             <MenuRoundedIcon />
           </IconButton>
         </Toolbar>
       </AppBar>
 
+      {/* Mobile Drawer */}
       <Drawer
         anchor="right"
         open={drawerOpen}
         onClose={handleDrawerClose}
         PaperProps={{ sx: { width: DRAWER_WIDTH } }}
       >
-        <Box sx={{ p: 2 }}>
+        <Stack direction="row" alignItems="center" spacing={1} sx={{ p: 2 }}>
           <Link href="/" onClick={handleDrawerClose}>
-            <Logo size="medium" />
+            <Logo size="small" />
           </Link>
-        </Box>
+          <Typography variant="h6" sx={{ fontWeight: 700 }}>
+            {companyName}
+          </Typography>
+        </Stack>
         <Divider />
 
         <List>
