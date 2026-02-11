@@ -1,3 +1,19 @@
+type CantonExpression {
+  id: String!
+  language: Language
+  title: String!
+}
+
+type CantonExpressionCount {
+  canton: String!
+  count: Int!
+}
+
+type CantonExpressionDetail {
+  canton: String!
+  expressions: [CantonExpression!]!
+}
+
 input CreateExpressionExampleInput {
   cantons: [String!]
   definition: String!
@@ -14,6 +30,15 @@ input CreateExpressionInput {
   synonymId: String
   title: String!
   type: ExpressionType
+}
+
+input CreateSemanticGroupInput {
+  description: String
+  expressionIds: [String!]
+  name: String!
+  nameDE: String
+  nameFR: String
+  nameIT: String
 }
 
 input CreateUserInput {
@@ -60,6 +85,7 @@ type Expression {
   likes: [Like!]
   likesCount: Int
   published: Boolean
+  semanticGroups: [SemanticGroup!]
 
   """the expressions that the parent expression is a synonym of"""
   synonymOf: [Synonym!]
@@ -155,13 +181,16 @@ type Mutation {
   changeUserRole(role: Role!, userId: String!): User
   createExpression(data: CreateExpressionInput!): Expression
   createExpressionExample(data: CreateExpressionExampleInput!): ExpressionExample
+  createSemanticGroup(data: CreateSemanticGroupInput!): SemanticGroup
   createUser(data: CreateUserInput!): User
   deleteExpression(data: ExpressionIdInput!): Expression
   deleteExpressionExample(data: DeleteExpressionExampleInput!): ExpressionExample
+  deleteSemanticGroup(id: String!): Boolean
   deleteUser(data: UserIdInput!): User
   expressionAction(data: ExpressionActionInput!): Boolean
   updateExpression(data: UpdateExpressionInput!): Expression
   updateExpressionExample(data: UpdateExpressionExampleInput!): ExpressionExample
+  updateSemanticGroup(data: UpdateSemanticGroupInput!): SemanticGroup
   updateUser(data: UpdateUserInput!): User
 }
 
@@ -169,15 +198,44 @@ type Query {
   adminExpressions: ExpressionsWithCount
   adminUser(data: UserIdInput!): User
   adminUsers: UsersWithCount
+  cantonOverview(language: Language): [CantonExpressionCount!]!
   expression(data: ExpressionIdInput!): Expression
+  expressionsByCanton(canton: String!, language: Language, limit: Int, offset: Int): [CantonExpression!]!
   expressionsQuery(data: ExpressionsQueryInput!): ExpressionsWithCount
   me: User
+  semanticGroupDistribution(semanticGroupId: String!): SemanticGroupWithDistribution
+  semanticGroups(data: SemanticGroupQueryInput): [SemanticGroup!]!
   verifyUserNameIsUnique(name: String!): Boolean
 }
 
 enum Role {
   ADMIN
   USER
+}
+
+type SemanticGroup {
+  createdAt: DateTime
+  description: String
+  expressionCount: Int
+  expressions: [Expression!]
+  id: ID
+  name: String
+  nameDE: String
+  nameFR: String
+  nameIT: String
+  updatedAt: DateTime
+}
+
+input SemanticGroupQueryInput {
+  limit: Int
+  offset: Int
+  q: String
+}
+
+type SemanticGroupWithDistribution {
+  cantonDistribution: [CantonExpressionCount!]!
+  cantonExpressions: [CantonExpressionDetail!]!
+  semanticGroup: SemanticGroup!
 }
 
 type Synonym {
@@ -202,6 +260,16 @@ input UpdateExpressionInput {
   published: Boolean
   title: String
   type: ExpressionType
+}
+
+input UpdateSemanticGroupInput {
+  description: String
+  expressionIds: [String!]
+  id: String!
+  name: String
+  nameDE: String
+  nameFR: String
+  nameIT: String
 }
 
 input UpdateUserInput {

@@ -18,6 +18,25 @@ export type Scalars = {
   DateTime: { input: string; output: string; }
 };
 
+export type CantonExpression = {
+  __typename?: 'CantonExpression';
+  id: Scalars['String']['output'];
+  language?: Maybe<Language>;
+  title: Scalars['String']['output'];
+};
+
+export type CantonExpressionCount = {
+  __typename?: 'CantonExpressionCount';
+  canton: Scalars['String']['output'];
+  count: Scalars['Int']['output'];
+};
+
+export type CantonExpressionDetail = {
+  __typename?: 'CantonExpressionDetail';
+  canton: Scalars['String']['output'];
+  expressions: Array<CantonExpression>;
+};
+
 export type CreateExpressionExampleInput = {
   cantons?: InputMaybe<Array<Scalars['String']['input']>>;
   definition: Scalars['String']['input'];
@@ -34,6 +53,15 @@ export type CreateExpressionInput = {
   synonymId?: InputMaybe<Scalars['String']['input']>;
   title: Scalars['String']['input'];
   type?: InputMaybe<ExpressionType>;
+};
+
+export type CreateSemanticGroupInput = {
+  description?: InputMaybe<Scalars['String']['input']>;
+  expressionIds?: InputMaybe<Array<Scalars['String']['input']>>;
+  name: Scalars['String']['input'];
+  nameDE?: InputMaybe<Scalars['String']['input']>;
+  nameFR?: InputMaybe<Scalars['String']['input']>;
+  nameIT?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CreateUserInput = {
@@ -77,6 +105,7 @@ export type Expression = {
   likes?: Maybe<Array<Like>>;
   likesCount?: Maybe<Scalars['Int']['output']>;
   published?: Maybe<Scalars['Boolean']['output']>;
+  semanticGroups?: Maybe<Array<SemanticGroup>>;
   /** the expressions that the parent expression is a synonym of */
   synonymOf?: Maybe<Array<Synonym>>;
   /** synonyms of the parent expression */
@@ -175,13 +204,16 @@ export type Mutation = {
   changeUserRole?: Maybe<User>;
   createExpression?: Maybe<Expression>;
   createExpressionExample?: Maybe<ExpressionExample>;
+  createSemanticGroup?: Maybe<SemanticGroup>;
   createUser?: Maybe<User>;
   deleteExpression?: Maybe<Expression>;
   deleteExpressionExample?: Maybe<ExpressionExample>;
+  deleteSemanticGroup?: Maybe<Scalars['Boolean']['output']>;
   deleteUser?: Maybe<User>;
   expressionAction?: Maybe<Scalars['Boolean']['output']>;
   updateExpression?: Maybe<Expression>;
   updateExpressionExample?: Maybe<ExpressionExample>;
+  updateSemanticGroup?: Maybe<SemanticGroup>;
   updateUser?: Maybe<User>;
 };
 
@@ -202,6 +234,11 @@ export type MutationCreateExpressionExampleArgs = {
 };
 
 
+export type MutationCreateSemanticGroupArgs = {
+  data: CreateSemanticGroupInput;
+};
+
+
 export type MutationCreateUserArgs = {
   data: CreateUserInput;
 };
@@ -214,6 +251,11 @@ export type MutationDeleteExpressionArgs = {
 
 export type MutationDeleteExpressionExampleArgs = {
   data: DeleteExpressionExampleInput;
+};
+
+
+export type MutationDeleteSemanticGroupArgs = {
+  id: Scalars['String']['input'];
 };
 
 
@@ -237,6 +279,11 @@ export type MutationUpdateExpressionExampleArgs = {
 };
 
 
+export type MutationUpdateSemanticGroupArgs = {
+  data: UpdateSemanticGroupInput;
+};
+
+
 export type MutationUpdateUserArgs = {
   data: UpdateUserInput;
 };
@@ -246,9 +293,13 @@ export type Query = {
   adminExpressions?: Maybe<ExpressionsWithCount>;
   adminUser?: Maybe<User>;
   adminUsers?: Maybe<UsersWithCount>;
+  cantonOverview: Array<CantonExpressionCount>;
   expression?: Maybe<Expression>;
+  expressionsByCanton: Array<CantonExpression>;
   expressionsQuery?: Maybe<ExpressionsWithCount>;
   me?: Maybe<User>;
+  semanticGroupDistribution?: Maybe<SemanticGroupWithDistribution>;
+  semanticGroups: Array<SemanticGroup>;
   verifyUserNameIsUnique?: Maybe<Scalars['Boolean']['output']>;
 };
 
@@ -258,13 +309,36 @@ export type QueryAdminUserArgs = {
 };
 
 
+export type QueryCantonOverviewArgs = {
+  language?: InputMaybe<Language>;
+};
+
+
 export type QueryExpressionArgs = {
   data: ExpressionIdInput;
 };
 
 
+export type QueryExpressionsByCantonArgs = {
+  canton: Scalars['String']['input'];
+  language?: InputMaybe<Language>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
 export type QueryExpressionsQueryArgs = {
   data: ExpressionsQueryInput;
+};
+
+
+export type QuerySemanticGroupDistributionArgs = {
+  semanticGroupId: Scalars['String']['input'];
+};
+
+
+export type QuerySemanticGroupsArgs = {
+  data?: InputMaybe<SemanticGroupQueryInput>;
 };
 
 
@@ -276,6 +350,33 @@ export enum Role {
   Admin = 'ADMIN',
   User = 'USER'
 }
+
+export type SemanticGroup = {
+  __typename?: 'SemanticGroup';
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  expressionCount?: Maybe<Scalars['Int']['output']>;
+  expressions?: Maybe<Array<Expression>>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  nameDE?: Maybe<Scalars['String']['output']>;
+  nameFR?: Maybe<Scalars['String']['output']>;
+  nameIT?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type SemanticGroupQueryInput = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  q?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type SemanticGroupWithDistribution = {
+  __typename?: 'SemanticGroupWithDistribution';
+  cantonDistribution: Array<CantonExpressionCount>;
+  cantonExpressions: Array<CantonExpressionDetail>;
+  semanticGroup: SemanticGroup;
+};
 
 export type Synonym = {
   __typename?: 'Synonym';
@@ -299,6 +400,16 @@ export type UpdateExpressionInput = {
   published?: InputMaybe<Scalars['Boolean']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
   type?: InputMaybe<ExpressionType>;
+};
+
+export type UpdateSemanticGroupInput = {
+  description?: InputMaybe<Scalars['String']['input']>;
+  expressionIds?: InputMaybe<Array<Scalars['String']['input']>>;
+  id: Scalars['String']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+  nameDE?: InputMaybe<Scalars['String']['input']>;
+  nameFR?: InputMaybe<Scalars['String']['input']>;
+  nameIT?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateUserInput = {
@@ -340,6 +451,22 @@ export type UsersWithCount = {
   count: Scalars['Int']['output'];
   users: Array<User>;
 };
+
+export type CantonOverviewQueryVariables = Exact<{
+  language?: InputMaybe<Language>;
+}>;
+
+
+export type CantonOverviewQuery = { __typename?: 'Query', cantonOverview: Array<{ __typename?: 'CantonExpressionCount', canton: string, count: number }> };
+
+export type ExpressionsByCantonQueryVariables = Exact<{
+  canton: Scalars['String']['input'];
+  language?: InputMaybe<Language>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type ExpressionsByCantonQuery = { __typename?: 'Query', expressionsByCanton: Array<{ __typename?: 'CantonExpression', id: string, title: string, language?: Language | null }> };
 
 export type ExpressionOptionFragmentFragment = { __typename?: 'Expression', id?: string | null, title?: string | null } & { ' $fragmentName'?: 'ExpressionOptionFragmentFragment' };
 
@@ -525,6 +652,8 @@ export const MeFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"
 export const AdminExpressionFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AdminExpressionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Expression"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"author"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"definition"}},{"kind":"Field","name":{"kind":"Name","value":"examples"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ExpressionExampleFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"published"}},{"kind":"Field","name":{"kind":"Name","value":"likesCount"}},{"kind":"Field","name":{"kind":"Name","value":"dislikesCount"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"language"}},{"kind":"Field","name":{"kind":"Name","value":"cantons"}},{"kind":"Field","name":{"kind":"Name","value":"flagged"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"authorId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"gender"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ExpressionExampleFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ExpressionExample"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"definition"}},{"kind":"Field","name":{"kind":"Name","value":"cantons"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"expression"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}},{"kind":"Field","name":{"kind":"Name","value":"authorId"}}]}}]} as unknown as DocumentNode<AdminExpressionFragmentFragment, unknown>;
 export const AdminUserFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AdminUserFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"emailVerified"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"expressions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"AdminExpressionFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"canton"}},{"kind":"Field","name":{"kind":"Name","value":"likesCount"}},{"kind":"Field","name":{"kind":"Name","value":"dislikesCount"}},{"kind":"Field","alias":{"kind":"Name","value":"publishedExpressionsCount"},"name":{"kind":"Name","value":"myPublishedExpressionsCount"}},{"kind":"Field","alias":{"kind":"Name","value":"unpublishedExpressionsCount"},"name":{"kind":"Name","value":"myUnpublishedExpressionsCount"}},{"kind":"Field","name":{"kind":"Name","value":"flags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"expressionId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ExpressionExampleFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ExpressionExample"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"definition"}},{"kind":"Field","name":{"kind":"Name","value":"cantons"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"expression"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}},{"kind":"Field","name":{"kind":"Name","value":"authorId"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AdminExpressionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Expression"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"author"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"definition"}},{"kind":"Field","name":{"kind":"Name","value":"examples"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ExpressionExampleFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"published"}},{"kind":"Field","name":{"kind":"Name","value":"likesCount"}},{"kind":"Field","name":{"kind":"Name","value":"dislikesCount"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"language"}},{"kind":"Field","name":{"kind":"Name","value":"cantons"}},{"kind":"Field","name":{"kind":"Name","value":"flagged"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"authorId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"gender"}}]}}]} as unknown as DocumentNode<AdminUserFragmentFragment, unknown>;
 export const AdminUsersFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AdminUsersFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"canton"}},{"kind":"Field","name":{"kind":"Name","value":"likesCount"}},{"kind":"Field","name":{"kind":"Name","value":"dislikesCount"}},{"kind":"Field","alias":{"kind":"Name","value":"publishedExpressionsCount"},"name":{"kind":"Name","value":"myPublishedExpressionsCount"}},{"kind":"Field","alias":{"kind":"Name","value":"unpublishedExpressionsCount"},"name":{"kind":"Name","value":"myUnpublishedExpressionsCount"}}]}}]} as unknown as DocumentNode<AdminUsersFragmentFragment, unknown>;
+export const CantonOverviewDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CantonOverview"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"language"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Language"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"cantonOverview"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"language"},"value":{"kind":"Variable","name":{"kind":"Name","value":"language"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"canton"}},{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}}]} as unknown as DocumentNode<CantonOverviewQuery, CantonOverviewQueryVariables>;
+export const ExpressionsByCantonDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ExpressionsByCanton"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"canton"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"language"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Language"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"expressionsByCanton"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"canton"},"value":{"kind":"Variable","name":{"kind":"Name","value":"canton"}}},{"kind":"Argument","name":{"kind":"Name","value":"language"},"value":{"kind":"Variable","name":{"kind":"Name","value":"language"}}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"language"}}]}}]}}]} as unknown as DocumentNode<ExpressionsByCantonQuery, ExpressionsByCantonQueryVariables>;
 export const SearchExpressionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SearchExpression"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ExpressionsQueryInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"expressionsQuery"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"expressions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ExpressionOptionFragment"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ExpressionOptionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Expression"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]} as unknown as DocumentNode<SearchExpressionQuery, SearchExpressionQueryVariables>;
 export const ExpressionsQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ExpressionsQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ExpressionsQueryInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"expressionsQuery"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"expressions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ExpressionFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ExpressionExampleFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ExpressionExample"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"definition"}},{"kind":"Field","name":{"kind":"Name","value":"cantons"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"expression"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}},{"kind":"Field","name":{"kind":"Name","value":"authorId"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ExpressionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Expression"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"author"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"definition"}},{"kind":"Field","name":{"kind":"Name","value":"examples"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ExpressionExampleFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"published"}},{"kind":"Field","name":{"kind":"Name","value":"likesCount"}},{"kind":"Field","name":{"kind":"Name","value":"likedByMe"}},{"kind":"Field","name":{"kind":"Name","value":"dislikesCount"}},{"kind":"Field","name":{"kind":"Name","value":"dislikedByMe"}},{"kind":"Field","name":{"kind":"Name","value":"flaggedByMe"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"language"}},{"kind":"Field","name":{"kind":"Name","value":"cantons"}},{"kind":"Field","name":{"kind":"Name","value":"synonyms"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"synonymOf"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"cantons"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"gender"}}]}}]} as unknown as DocumentNode<ExpressionsQueryQuery, ExpressionsQueryQueryVariables>;
 export const AdminExpressionsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AdminExpressions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"adminExpressions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"expressions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"AdminExpressionFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ExpressionExampleFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ExpressionExample"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"definition"}},{"kind":"Field","name":{"kind":"Name","value":"cantons"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"expression"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}},{"kind":"Field","name":{"kind":"Name","value":"authorId"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AdminExpressionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Expression"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"author"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"definition"}},{"kind":"Field","name":{"kind":"Name","value":"examples"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ExpressionExampleFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"published"}},{"kind":"Field","name":{"kind":"Name","value":"likesCount"}},{"kind":"Field","name":{"kind":"Name","value":"dislikesCount"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"language"}},{"kind":"Field","name":{"kind":"Name","value":"cantons"}},{"kind":"Field","name":{"kind":"Name","value":"flagged"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"authorId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"gender"}}]}}]} as unknown as DocumentNode<AdminExpressionsQuery, AdminExpressionsQueryVariables>;

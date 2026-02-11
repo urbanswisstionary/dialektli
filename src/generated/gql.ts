@@ -14,6 +14,8 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 type Documents = {
+    "\n  query CantonOverview($language: Language) {\n    cantonOverview(language: $language) {\n      canton\n      count\n    }\n  }\n": typeof types.CantonOverviewDocument,
+    "\n  query ExpressionsByCanton(\n    $canton: String!\n    $language: Language\n    $limit: Int\n  ) {\n    expressionsByCanton(canton: $canton, language: $language, limit: $limit) {\n      id\n      title\n      language\n    }\n  }\n": typeof types.ExpressionsByCantonDocument,
     "\n  fragment ExpressionOptionFragment on Expression {\n    id\n    title\n  }\n": typeof types.ExpressionOptionFragmentFragmentDoc,
     "\n      query SearchExpression($data: ExpressionsQueryInput!) {\n        expressionsQuery(data: $data) {\n          expressions {\n            ...ExpressionOptionFragment\n          }\n        }\n      }\n    ": typeof types.SearchExpressionDocument,
     "\n  fragment ExpressionExampleFragment on ExpressionExample {\n    id\n    definition\n    cantons\n    createdAt\n    expression {\n      id\n      title\n    }\n    authorId\n  }\n": typeof types.ExpressionExampleFragmentFragmentDoc,
@@ -41,6 +43,8 @@ type Documents = {
     "\n      query AdminUsersQuery {\n        adminUsers {\n          users {\n            ...AdminUsersFragment\n          }\n          count\n        }\n      }\n    ": typeof types.AdminUsersQueryDocument,
 };
 const documents: Documents = {
+    "\n  query CantonOverview($language: Language) {\n    cantonOverview(language: $language) {\n      canton\n      count\n    }\n  }\n": types.CantonOverviewDocument,
+    "\n  query ExpressionsByCanton(\n    $canton: String!\n    $language: Language\n    $limit: Int\n  ) {\n    expressionsByCanton(canton: $canton, language: $language, limit: $limit) {\n      id\n      title\n      language\n    }\n  }\n": types.ExpressionsByCantonDocument,
     "\n  fragment ExpressionOptionFragment on Expression {\n    id\n    title\n  }\n": types.ExpressionOptionFragmentFragmentDoc,
     "\n      query SearchExpression($data: ExpressionsQueryInput!) {\n        expressionsQuery(data: $data) {\n          expressions {\n            ...ExpressionOptionFragment\n          }\n        }\n      }\n    ": types.SearchExpressionDocument,
     "\n  fragment ExpressionExampleFragment on ExpressionExample {\n    id\n    definition\n    cantons\n    createdAt\n    expression {\n      id\n      title\n    }\n    authorId\n  }\n": types.ExpressionExampleFragmentFragmentDoc,
@@ -82,6 +86,14 @@ const documents: Documents = {
  */
 export function graphql(source: string): unknown;
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query CantonOverview($language: Language) {\n    cantonOverview(language: $language) {\n      canton\n      count\n    }\n  }\n"): (typeof documents)["\n  query CantonOverview($language: Language) {\n    cantonOverview(language: $language) {\n      canton\n      count\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query ExpressionsByCanton(\n    $canton: String!\n    $language: Language\n    $limit: Int\n  ) {\n    expressionsByCanton(canton: $canton, language: $language, limit: $limit) {\n      id\n      title\n      language\n    }\n  }\n"): (typeof documents)["\n  query ExpressionsByCanton(\n    $canton: String!\n    $language: Language\n    $limit: Int\n  ) {\n    expressionsByCanton(canton: $canton, language: $language, limit: $limit) {\n      id\n      title\n      language\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
