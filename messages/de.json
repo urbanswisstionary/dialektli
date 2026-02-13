@@ -608,5 +608,17 @@
       "paragraph": "Barrierefreiheit ist eine kontinuierliche Anstrengung, und wir sind bestrebt, unsere Plattform kontinuierlich zu bewerten und zu verbessern. Wir überprüfen unsere Website regelmäßig mit automatisierten Tools und manuellen Tests mit unterstützenden Technologien. Wir begrüßen auch Benutzerfeedback, um Bereiche zu identifizieren, in denen wir die Barrierefreiheit verbessern können. Vielen Dank, dass Sie uns helfen, Dialektli für alle zugänglich zu machen."
     },
     "updated": "Letzte Aktualisierung: Februar 2026"
+  },
+  "sprachatlas": {
+    "subtitle": "Entdecke schweizerdeutsche Ausdrücke nach Kanton. Klicke auf einen Kanton, um seine Ausdrücke zu sehen.",
+    "allLanguages": "Alle Sprachen",
+    "expressionSingular": "Ausdruck",
+    "expressionPlural": "Ausdrücke",
+    "cantonsWithExpressions": "{count} Kantone mit Ausdrücken",
+    "noExpressionsFound": "Keine Ausdrücke für diesen Kanton gefunden.",
+    "clear": "Zurücksetzen",
+    "mapLoadError": "Kartendaten konnten nicht geladen werden",
+    "mapAriaLabel": "Interaktive Karte der Schweizer Kantone mit Dialektausdrücken",
+    "inspiredBy": "Inspiriert von"
   }
 }

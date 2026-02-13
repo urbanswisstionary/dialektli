@@ -1,14 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { graphql } from "@/generated"
 import { Language } from "@/generated/graphql"
 import { useQuery } from "@apollo/client/react"
-import { SwitzerlandMap } from "@/components/maps/SwitzerlandMap"
+import { CantonMap } from "@/components/map/CantonMap"
 import { getCantonName } from "@/config/cantons"
 import { Link } from "@/i18n/navigation"
-import { useTranslations } from "next-intl"
-import { useLocale } from "next-intl"
+import { useTranslations, useLocale } from "next-intl"
 import { Loader2, X } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import {
@@ -44,6 +43,7 @@ const ExpressionsByCantonQuery = graphql(/* GraphQL */ `
 
 export default function SprachatlasPage() {
   const t = useTranslations()
+  const ts = useTranslations("sprachatlas")
   const locale = useLocale()
 
   const [selectedCanton, setSelectedCanton] = useState<string | null>(null)
@@ -74,9 +74,23 @@ export default function SprachatlasPage() {
   const highlightedCantons = cantonOverview.map((c) => c.canton)
   const expressions = expressionsData?.expressionsByCanton ?? []
 
+  const counts = useMemo(() => {
+    const map: Record<string, number> = {}
+    for (const c of cantonOverview) {
+      map[c.canton] = c.count
+    }
+    return map
+  }, [cantonOverview])
+
   const selectedCantonData = selectedCanton
     ? cantonOverview.find((c) => c.canton === selectedCanton)
     : null
+
+  const sortedCantons = useMemo(() => {
+    return [...cantonOverview]
+      .filter((c) => c.count > 0)
+      .sort((a, b) => b.count - a.count)
+  }, [cantonOverview])
 
   const handleCantonClick = (cantonId: string) => {
     setSelectedCanton((prev) => (prev === cantonId ? null : cantonId))
@@ -88,10 +102,15 @@ export default function SprachatlasPage() {
     : "de"
 
   return (
-    <div className="mt-4 mb-6 flex flex-col gap-6">
-      <h1 className="text-2xl font-bold">{t("layout.sidebar.sprachatlas")}</h1>
+    <div className="mx-auto max-w-6xl px-4 py-6">
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold text-foreground text-balance">
+          {t("layout.sidebar.sprachatlas")}
+        </h1>
+        <p className="mt-1 text-muted-foreground">{ts("subtitle")}</p>
+      </div>
 
-      <div className="max-w-[200px]">
+      <div className="mb-4 max-w-[200px]">
         <Select
           value={language}
           onValueChange={(value) => {
@@ -103,7 +122,7 @@ export default function SprachatlasPage() {
             <SelectValue placeholder={t("filterBy.language")} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All</SelectItem>
+            <SelectItem value="all">{ts("allLanguages")}</SelectItem>
             <SelectItem value="DE">{t("selectLanguage.DE")}</SelectItem>
             <SelectItem value="FR">{t("selectLanguage.FR")}</SelectItem>
             <SelectItem value="IT">{t("selectLanguage.IT")}</SelectItem>
@@ -116,38 +135,48 @@ export default function SprachatlasPage() {
           <Loader2 className="h-15 w-15 animate-spin text-muted-foreground" />
         </div>
       ) : (
-        <div className="rounded-md border border-border p-4">
-          <SwitzerlandMap
+        <div className="overflow-hidden rounded-lg border border-border bg-card p-3 sm:p-5">
+          <CantonMap
             highlightedCantons={highlightedCantons}
+            selectedCanton={selectedCanton}
             onCantonClick={handleCantonClick}
-            showLabels
-            showAttribution
-            height={500}
-            width="100%"
-            locale={mapLocale}
+            counts={counts}
           />
+          <p className="mt-2 text-right text-[0.7rem] text-muted-foreground/60">
+            {ts("inspiredBy")}{" "}
+            <a
+              href="https://www.kleinersprachatlas.ch/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-muted-foreground"
+            >
+              Kleiner Sprachatlas
+            </a>
+          </p>
         </div>
       )}
 
       {selectedCanton && (
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-row items-center gap-4">
-            <h2 className="text-xl font-semibold">
+        <div className="mt-6">
+          <div className="flex flex-row flex-wrap items-center gap-3">
+            <h2 className="text-xl font-semibold text-foreground">
               {getCantonName(selectedCanton, mapLocale)}
             </h2>
             {selectedCantonData && (
-              <Badge variant="outline">
-                {`${selectedCantonData.count} expression${selectedCantonData.count !== 1 ? "s" : ""}`}
+              <Badge variant="outline" className="text-xs">
+                {selectedCantonData.count}{" "}
+                {selectedCantonData.count === 1
+                  ? ts("expressionSingular")
+                  : ts("expressionPlural")}
               </Badge>
             )}
-            <Badge
-              variant="secondary"
-              className="cursor-pointer gap-1"
+            <button
               onClick={() => setSelectedCanton(null)}
+              className="inline-flex items-center gap-1 rounded-md bg-muted px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-muted/80 hover:text-foreground"
             >
-              Clear
+              {ts("clear")}
               <X className="h-3 w-3" />
-            </Badge>
+            </button>
           </div>
 
           {loadingExpressions ? (
@@ -155,43 +184,47 @@ export default function SprachatlasPage() {
               <Loader2 className="h-10 w-10 animate-spin text-muted-foreground" />
             </div>
           ) : expressions.length > 0 ? (
-            <ul className="divide-y divide-border">
+            <ul className="mt-3 divide-y divide-border overflow-hidden rounded-lg border border-border">
               {expressions.map((expr) => (
                 <li key={expr.id}>
                   <Link
                     href={`/expressions/${expr.id}` as "/expressions/[id]"}
-                    className="flex flex-col gap-0.5 px-3 py-2.5 transition-colors hover:bg-muted/50"
+                    className="flex items-center justify-between px-4 py-3 transition-colors hover:bg-muted/50"
                   >
-                    <span className="text-sm font-medium">{expr.title}</span>
-                    <span className="text-xs text-muted-foreground">
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-sm font-medium text-foreground">
+                        {expr.title}
+                      </span>
+                    </div>
+                    <Badge variant="secondary" className="text-[10px]">
                       {expr.language}
-                    </span>
+                    </Badge>
                   </Link>
                 </li>
               ))}
             </ul>
           ) : (
-            <p className="text-sm text-muted-foreground">
-              No expressions found for this canton.
+            <p className="mt-3 text-sm text-muted-foreground">
+              {ts("noExpressionsFound")}
             </p>
           )}
         </div>
       )}
 
-      {!selectedCanton && cantonOverview.length > 0 && (
-        <div className="flex flex-col gap-2">
+      {!selectedCanton && sortedCantons.length > 0 && (
+        <div className="mt-8">
           <p className="text-sm font-medium text-muted-foreground">
-            {cantonOverview.length} cantons with expressions
+            {ts("cantonsWithExpressions", { count: sortedCantons.length })}
           </p>
-          <div className="flex flex-row flex-wrap gap-2">
-            {cantonOverview.map((c) => (
+          <div className="mt-3 flex flex-row flex-wrap gap-2">
+            {sortedCantons.map((c) => (
               <Badge
                 key={c.canton}
                 variant="outline"
-                className="cursor-pointer transition-colors hover:bg-muted"
+                className="cursor-pointer transition-colors hover:bg-muted hover:text-foreground"
                 onClick={() => handleCantonClick(c.canton)}
               >
-                {`${getCantonName(c.canton, mapLocale)} (${c.count})`}
+                {getCantonName(c.canton, mapLocale)} ({c.count})
               </Badge>
             ))}
           </div>

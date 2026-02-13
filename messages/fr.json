@@ -606,5 +606,17 @@
       "paragraph": "L'accessibilité est un effort continu, et nous nous engageons à évaluer et améliorer continuellement notre plateforme. Nous examinons régulièrement notre site Web à l'aide d'outils automatisés et de tests manuels avec des technologies d'assistance. Nous accueillons également les commentaires des utilisateurs pour identifier les domaines où nous pouvons améliorer l'accessibilité. Merci de nous aider à rendre Dialektli accessible à tous."
     },
     "updated": "Dernière mise à jour : Février 2026"
+  },
+  "sprachatlas": {
+    "subtitle": "Explorez les expressions suisses-allemandes par canton. Cliquez sur un canton pour voir ses expressions.",
+    "allLanguages": "Toutes les langues",
+    "expressionSingular": "expression",
+    "expressionPlural": "expressions",
+    "cantonsWithExpressions": "{count} cantons avec des expressions",
+    "noExpressionsFound": "Aucune expression trouvée pour ce canton.",
+    "clear": "Effacer",
+    "mapLoadError": "Échec du chargement des données cartographiques",
+    "mapAriaLabel": "Carte interactive des cantons suisses montrant les expressions dialectales",
+    "inspiredBy": "Inspiré par"
   }
 }

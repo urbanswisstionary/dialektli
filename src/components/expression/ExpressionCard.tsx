@@ -21,7 +21,7 @@ import ExpressionCardSynonyms from "./ExpressionCardSynonyms"
 import { formatExpressionDate } from "@/utils/formatExpressionDate"
 import { useLocale } from "next-intl"
 import { useMe } from "@/hooks/useUsers"
-import { SwitzerlandMap } from "@/components/maps/SwitzerlandMap"
+
 import LikeDislikeButtons from "./LikeDislikeButtons"
 import BookmarkButton from "./BookmarkButton"
 import { getFragmentData } from "@/generated"
@@ -135,22 +135,6 @@ const ExpressionCard: FC<ExpressionCardProps> = ({
             />
           </div>
         </div>
-
-        {/* Map */}
-        {cantons.length > 0 && (
-          <div className="max-w-full h-[300px] mb-4">
-            <SwitzerlandMap
-              highlightedCantons={cantons}
-              strokeColor="#FFFFFF"
-              strokeWidth={1.5}
-              locale={locale as "de" | "fr" | "it" | "en"}
-              showLabels={false}
-              showAttribution={false}
-              height={300}
-              width="100%"
-            />
-          </div>
-        )}
 
         {/* Definition */}
         <p className="text-sm leading-relaxed text-foreground/90 mb-4 line-clamp-2">
