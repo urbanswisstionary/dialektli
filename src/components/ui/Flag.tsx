@@ -1,7 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
-import Tooltip from "@mui/material/Tooltip"
 import { memo, FC } from "react"
 import { getOptions } from "./Autocomplete/helper"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 export type FlagMode = "canton" | "country"
 type FlagProps = {
@@ -21,17 +26,24 @@ const Flag: FC<FlagProps> = ({ code, mode }) => {
 
   const srcSet = `${src} 1x, ${src} 2x`
   return (
-    <Tooltip title={flagLabel}>
-      <img
-        loading="lazy"
-        src={src}
-        srcSet={srcSet}
-        alt={flagLabel}
-        width={20}
-        height={20}
-        style={{ objectFit: "contain" }}
-      />
-    </Tooltip>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <img
+            loading="lazy"
+            src={src}
+            srcSet={srcSet}
+            alt={flagLabel}
+            width={20}
+            height={20}
+            className="object-contain"
+          />
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>{flagLabel}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   )
 }
 export default memo(Flag)

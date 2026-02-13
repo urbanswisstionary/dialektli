@@ -7,13 +7,11 @@ import {
 } from "@/hooks/useUsers"
 import { useRouter } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
-import Stack from "@mui/material/Stack"
-import Card from "@mui/material/Card"
-import CardContent from "@mui/material/CardContent"
-import Typography from "@mui/material/Typography"
-import TextField from "@mui/material/TextField"
-import Button from "@mui/material/Button"
-import CircularProgress from "@mui/material/CircularProgress"
+import { Card, CardContent } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button"
+import { Loader2 } from "lucide-react"
 import { useEffect, useState } from "react"
 
 export default function WelcomePage() {
@@ -66,9 +64,9 @@ export default function WelcomePage() {
 
   if (loadingMe) {
     return (
-      <Stack alignItems="center" sx={{ my: 5 }}>
-        <CircularProgress size={60} />
-      </Stack>
+      <div className="flex items-center justify-center my-10">
+        <Loader2 className="h-15 w-15 animate-spin text-muted-foreground" />
+      </div>
     )
   }
 
@@ -77,50 +75,54 @@ export default function WelcomePage() {
   }
 
   return (
-    <Stack alignItems="center" sx={{ py: 5 }}>
-      <Card sx={{ maxWidth: 500, width: "100%" }}>
-        <CardContent>
-          <Stack spacing={3}>
-            <Typography variant="h4" align="center">
+    <div className="flex items-center justify-center py-10">
+      <Card className="max-w-[500px] w-full">
+        <CardContent className="p-6">
+          <div className="flex flex-col gap-6">
+            <h1 className="text-2xl font-bold text-center">
               {t("auth.profile.welcome.title")}
-            </Typography>
-            <Typography variant="body1" color="text.secondary" align="center">
+            </h1>
+            <p className="text-base text-muted-foreground text-center">
               {t("auth.profile.welcome.description")}
-            </Typography>
+            </p>
 
             <form onSubmit={handleSubmit}>
-              <Stack spacing={2}>
-                <TextField
-                  fullWidth
-                  label={t("auth.profile.name")}
-                  value={name}
-                  onChange={(e) => {
-                    setName(e.target.value)
-                    setError("")
-                  }}
-                  error={!!error}
-                  helperText={error || t("auth.profile.welcome.helperText")}
-                  autoFocus
-                  required
-                />
+              <div className="flex flex-col gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="name">{t("auth.profile.name")}</Label>
+                  <Input
+                    id="name"
+                    value={name}
+                    onChange={(e) => {
+                      setName(e.target.value)
+                      setError("")
+                    }}
+                    autoFocus
+                    required
+                  />
+                  <p
+                    className={`text-xs ${error ? "text-destructive" : "text-muted-foreground"}`}
+                  >
+                    {error || t("auth.profile.welcome.helperText")}
+                  </p>
+                </div>
                 <Button
                   type="submit"
-                  variant="contained"
-                  size="large"
-                  fullWidth
+                  size="lg"
+                  className="w-full"
                   disabled={updating || name.length < 3}
                 >
                   {updating ? (
-                    <CircularProgress size={24} />
+                    <Loader2 className="h-5 w-5 animate-spin" />
                   ) : (
                     t("actions.submit")
                   )}
                 </Button>
-              </Stack>
+              </div>
             </form>
-          </Stack>
+          </div>
         </CardContent>
       </Card>
-    </Stack>
+    </div>
   )
 }

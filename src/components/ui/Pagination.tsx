@@ -1,12 +1,20 @@
 "use client"
 
 import { FC } from "react"
-import MuiPagination from "@mui/material/Pagination"
-import Box from "@mui/material/Box"
-import Select from "@mui/material/Select"
-import MenuItem from "@mui/material/MenuItem"
-import useMediaQuery from "@mui/material/useMediaQuery"
-import { useTheme } from "@mui/material/styles"
+import { Button } from "@/components/ui/button"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+} from "lucide-react"
 
 export interface PaginationProps {
   pageIndex?: number
@@ -27,48 +35,70 @@ const Pagination: FC<PaginationProps> = ({
   onPageSizeChange,
   disabled,
 }) => {
-  const theme = useTheme()
-  const moreThanSm = useMediaQuery(theme.breakpoints.up("sm"))
+  const isDisabled = disabled ?? pageCount <= 1
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "space-between",
-        overflow: "hidden",
-      }}
-    >
-      <MuiPagination
-        count={pageCount}
-        shape="rounded"
-        variant="outlined"
-        boundaryCount={moreThanSm ? 1 : 0}
-        page={pageIndex}
-        onChange={(_event, value) => {
-          if (onPageChange) onPageChange(value)
-        }}
-        showFirstButton
-        showLastButton
-        siblingCount={moreThanSm ? 1 : 0}
-        disabled={disabled ?? pageCount <= 1}
-      />
+    <div className="flex items-center justify-between overflow-hidden">
+      <div className="flex items-center gap-1">
+        <Button
+          variant="outline"
+          size="icon"
+          className="hidden h-8 w-8 sm:inline-flex"
+          onClick={() => onPageChange?.(1)}
+          disabled={isDisabled || pageIndex <= 1}
+        >
+          <ChevronsLeft className="h-4 w-4" />
+        </Button>
+        <Button
+          variant="outline"
+          size="icon"
+          className="h-8 w-8"
+          onClick={() => onPageChange?.(pageIndex - 1)}
+          disabled={isDisabled || pageIndex <= 1}
+        >
+          <ChevronLeft className="h-4 w-4" />
+        </Button>
+        <span className="px-2 text-sm text-muted-foreground">
+          {pageIndex} / {pageCount}
+        </span>
+        <Button
+          variant="outline"
+          size="icon"
+          className="h-8 w-8"
+          onClick={() => onPageChange?.(pageIndex + 1)}
+          disabled={isDisabled || pageIndex >= pageCount}
+        >
+          <ChevronRight className="h-4 w-4" />
+        </Button>
+        <Button
+          variant="outline"
+          size="icon"
+          className="hidden h-8 w-8 sm:inline-flex"
+          onClick={() => onPageChange?.(pageCount)}
+          disabled={isDisabled || pageIndex >= pageCount}
+        >
+          <ChevronsRight className="h-4 w-4" />
+        </Button>
+      </div>
       {pageSize ? (
         <Select
-          size="small"
-          value={pageSize}
-          onChange={(event) => {
-            if (onPageSizeChange) onPageSizeChange(Number(event.target.value))
-          }}
+          value={String(pageSize)}
+          onValueChange={(value) => onPageSizeChange?.(Number(value))}
           disabled={disabled}
         >
-          {pageSizeOptions.map((pageSizeOption) => (
-            <MenuItem key={pageSizeOption} value={pageSizeOption}>
-              {pageSizeOption}
-            </MenuItem>
-          ))}
+          <SelectTrigger className="h-8 w-[70px]">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {pageSizeOptions.map((pageSizeOption) => (
+              <SelectItem key={pageSizeOption} value={String(pageSizeOption)}>
+                {pageSizeOption}
+              </SelectItem>
+            ))}
+          </SelectContent>
         </Select>
       ) : null}
-    </Box>
+    </div>
   )
 }
 

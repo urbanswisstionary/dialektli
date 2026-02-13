@@ -65,11 +65,7 @@ const Navbar: FC = () => {
 
         {/* Desktop Search */}
         <div className="hidden flex-1 md:block md:max-w-[480px]">
-          <SearchExpressionsInput
-            sx={{
-              width: "100%",
-            }}
-          />
+          <SearchExpressionsInput className="w-full" />
         </div>
 
         {/* Spacer */}

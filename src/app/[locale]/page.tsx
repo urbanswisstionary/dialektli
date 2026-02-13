@@ -1,12 +1,13 @@
 "use client"
 
 import SearchExpressionsInput from "@/components/ui/SearchExpressionsInput"
-import Box from "@mui/material/Box"
-import Stack from "@mui/material/Stack"
-import Select from "@mui/material/Select"
-import MenuItem from "@mui/material/MenuItem"
-import FormControl from "@mui/material/FormControl"
-import InputLabel from "@mui/material/InputLabel"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { useExpressionsQuery } from "@/hooks/useExpressions"
 import SelectSingleLocation from "@/components/ui/Autocomplete/SelectSingleLocation"
 import { useRouter, usePathname } from "@/i18n/navigation"
@@ -85,9 +86,9 @@ export default function HomePage() {
   onDataCountChange(expressionsQuery?.count)
 
   return (
-    <Stack sx={{ mt: 2, mb: 3, gap: 3 }}>
+    <div className="mt-4 mb-6 flex flex-col gap-6">
       <SearchExpressionsInput
-        sx={{ flex: 1 }}
+        className="flex-1"
         disabled={loadingExpressionsQuery}
       />
       <SelectSingleLocation
@@ -100,49 +101,48 @@ export default function HomePage() {
         disabled={loadingExpressionsQuery}
         groupOptions
       />
-      <Box
-        sx={{
-          display: "flex",
-          gap: 2,
-          flexDirection: { xs: "column", sm: "row" },
-        }}
-      >
-        <FormControl fullWidth>
-          <InputLabel>{t("filterBy.language")}</InputLabel>
+      <div className="flex flex-col gap-4 sm:flex-row">
+        <div className="w-full">
           <Select
-            value={language ?? ""}
-            onChange={(e) =>
+            value={language ?? "all"}
+            onValueChange={(val) =>
               setQueryOnPage(router, pathname, searchParams, {
-                language: e.target.value || null,
+                language: val === "all" ? null : val,
               })
             }
-            label={t("filterBy.language")}
             disabled={loadingExpressionsQuery}
           >
-            <MenuItem value="">All</MenuItem>
-            <MenuItem value="DE">{t("selectLanguage.DE")}</MenuItem>
-            <MenuItem value="FR">{t("selectLanguage.FR")}</MenuItem>
-            <MenuItem value="IT">{t("selectLanguage.IT")}</MenuItem>
+            <SelectTrigger>
+              <SelectValue placeholder={t("filterBy.language")} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All</SelectItem>
+              <SelectItem value="DE">{t("selectLanguage.DE")}</SelectItem>
+              <SelectItem value="FR">{t("selectLanguage.FR")}</SelectItem>
+              <SelectItem value="IT">{t("selectLanguage.IT")}</SelectItem>
+            </SelectContent>
           </Select>
-        </FormControl>
-        <FormControl fullWidth>
-          <InputLabel>Sort</InputLabel>
+        </div>
+        <div className="w-full">
           <Select
             value={sortByPopularity ? "popularity" : "random"}
-            onChange={(e) =>
+            onValueChange={(val) =>
               setQueryOnPage(router, pathname, searchParams, {
-                sortByPopularity:
-                  e.target.value === "popularity" ? "true" : null,
+                sortByPopularity: val === "popularity" ? "true" : null,
               })
             }
-            label="Sort"
             disabled={loadingExpressionsQuery}
           >
-            <MenuItem value="random">Random</MenuItem>
-            <MenuItem value="popularity">Most Popular</MenuItem>
+            <SelectTrigger>
+              <SelectValue placeholder="Sort" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="random">Random</SelectItem>
+              <SelectItem value="popularity">Most Popular</SelectItem>
+            </SelectContent>
           </Select>
-        </FormControl>
-      </Box>
+        </div>
+      </div>
       {!sanitizedQ ? (
         <Accordion
           content={[
@@ -171,6 +171,6 @@ export default function HomePage() {
         paginationProps={paginationProps}
         loading={loadingExpressionsQuery}
       />
-    </Stack>
+    </div>
   )
 }

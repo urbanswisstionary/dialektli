@@ -17,15 +17,10 @@ import {
   ExpressionFragmentFragment,
 } from "@/generated/graphql"
 import { getFragmentData } from "@/generated"
-import Stack from "@mui/material/Stack"
-import CircularProgress from "@mui/material/CircularProgress"
-import Button from "@mui/material/Button"
-import Box from "@mui/material/Box"
-import Typography from "@mui/material/Typography"
-import Checkbox from "@mui/material/Checkbox"
-import FormControlLabel from "@mui/material/FormControlLabel"
-import FormHelperText from "@mui/material/FormHelperText"
+import { Loader2 } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Label } from "@/components/ui/label"
 import ExpressionInput from "@/components/expression/ExpressionInput"
 import ExpressionDefinitionInput from "@/components/expression/ExpressionDefinitionInput"
 import SelectMultipleLocation from "@/components/ui/Autocomplete/SelectMultipleLocation"
@@ -134,9 +129,9 @@ export default function EditExpressionPage() {
 
   if (loadingMe || loadingExpression) {
     return (
-      <Stack alignItems="center" sx={{ my: 5 }}>
-        <CircularProgress size={60} />
-      </Stack>
+      <div className="my-10 flex items-center justify-center">
+        <Loader2 className="h-15 w-15 animate-spin text-muted-foreground" />
+      </div>
     )
   }
 
@@ -146,29 +141,29 @@ export default function EditExpressionPage() {
 
   if (!expression) {
     return (
-      <Box sx={{ mt: 2, textAlign: "center" }}>
-        <Typography variant="h6">{t("noData")}</Typography>
-      </Box>
+      <div className="mt-4 text-center">
+        <h2 className="text-lg font-semibold">{t("noData")}</h2>
+      </div>
     )
   }
 
   return (
-    <Box sx={{ mt: 2 }}>
-      <Box sx={{ mb: 1, px: 2 }}>
-        <Typography variant="h4" component="h1">
+    <div className="mt-4">
+      <div className="mb-2 px-4">
+        <h1 className="text-2xl font-bold">
           {t("expression.editExpression.title")}
-        </Typography>
+        </h1>
         {!authorized && (
           <>
-            <Typography color="warning.main" sx={{ mt: 1 }}>
+            <p className="mt-2 text-amber-600 dark:text-amber-400">
               {t("expression.editExpression.notAuthorizedWarning")}
-            </Typography>
-            <Typography color="warning.main" sx={{ mt: 1 }}>
+            </p>
+            <p className="mt-2 text-amber-600 dark:text-amber-400">
               {t("expression.editExpression.claimOwnership")}
-            </Typography>
+            </p>
           </>
         )}
-      </Box>
+      </div>
 
       <form onSubmit={handleSubmit}>
         <Card
@@ -192,21 +187,21 @@ export default function EditExpressionPage() {
             },
           }}
         >
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={
-                  ("published" in editExpressionState
-                    ? editExpressionState.published
-                    : expression.published) ?? false
-                }
-                onChange={(e) => onChange("published", e.target.checked)}
-                disabled={disableFields}
-              />
-            }
-            label={t("expression.published")}
-            sx={{ mb: 2 }}
-          />
+          <div className="mb-4 flex items-center gap-2">
+            <Checkbox
+              id="published"
+              checked={
+                ("published" in editExpressionState
+                  ? editExpressionState.published
+                  : expression.published) ?? false
+              }
+              onCheckedChange={(checked) =>
+                onChange("published", checked === true)
+              }
+              disabled={disableFields}
+            />
+            <Label htmlFor="published">{t("expression.published")}</Label>
+          </div>
 
           <ExpressionInput
             label={t("expression.form.title")}
@@ -232,9 +227,9 @@ export default function EditExpressionPage() {
             disabled={disableFields}
           />
 
-          <FormHelperText>
+          <p className="text-xs text-muted-foreground">
             {t("expression.descriptionFieldHelperText")}
-          </FormHelperText>
+          </p>
 
           <SelectMultipleLocation
             mode="canton"
@@ -274,6 +269,6 @@ export default function EditExpressionPage() {
           />
         </Card>
       </form>
-    </Box>
+    </div>
   )
 }

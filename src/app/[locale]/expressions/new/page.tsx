@@ -5,12 +5,7 @@ import { useRouter } from "@/i18n/navigation"
 import { useMe } from "@/hooks/useUsers"
 import { useCreateExpressionMutation } from "@/hooks/useExpressions"
 import { Language, ExpressionGender, ExpressionType } from "@/generated/graphql"
-import Stack from "@mui/material/Stack"
-import CircularProgress from "@mui/material/CircularProgress"
-import Button from "@mui/material/Button"
-import Box from "@mui/material/Box"
-import FormHelperText from "@mui/material/FormHelperText"
-import Alert from "@mui/material/Alert"
+import { Loader2 } from "lucide-react"
 import { useTranslations } from "next-intl"
 import ExpressionInput from "@/components/expression/ExpressionInput"
 import ExpressionDefinitionInput from "@/components/expression/ExpressionDefinitionInput"
@@ -54,9 +49,9 @@ export default function NewExpressionPage() {
 
   if (loadingMe) {
     return (
-      <Stack alignItems="center" sx={{ my: 5 }}>
-        <CircularProgress size={60} />
-      </Stack>
+      <div className="my-10 flex items-center justify-center">
+        <Loader2 className="h-15 w-15 animate-spin text-muted-foreground" />
+      </div>
     )
   }
 
@@ -97,16 +92,19 @@ export default function NewExpressionPage() {
   }
 
   return (
-    <Box sx={{ mt: 3 }}>
+    <div className="mt-6">
       <form onSubmit={handleSubmit}>
         {submitError && (
-          <Alert
-            severity="error"
-            sx={{ mb: 3 }}
-            onClose={() => setSubmitError("")}
-          >
-            {submitError}
-          </Alert>
+          <div className="mb-6 flex items-center justify-between rounded-md border border-destructive/20 bg-destructive/10 p-3 text-sm text-destructive">
+            <span>{submitError}</span>
+            <button
+              type="button"
+              onClick={() => setSubmitError("")}
+              className="ml-2 text-destructive hover:text-destructive/80"
+            >
+              &times;
+            </button>
+          </div>
         )}
         <Card
           title={t("expression.newExpression.title")}
@@ -132,7 +130,9 @@ export default function NewExpressionPage() {
             required
             error={!!titleError}
           />
-          {titleError && <FormHelperText error>{titleError}</FormHelperText>}
+          {titleError && (
+            <p className="text-xs text-destructive">{titleError}</p>
+          )}
           <ExpressionDefinitionInput
             label={t("expression.form.definition")}
             value={definition}
@@ -141,7 +141,7 @@ export default function NewExpressionPage() {
             error={!!definitionError}
           />
           {definitionError && (
-            <FormHelperText error>{definitionError}</FormHelperText>
+            <p className="text-xs text-destructive">{definitionError}</p>
           )}
           <SelectMultipleLocation
             mode="canton"
@@ -186,6 +186,6 @@ export default function NewExpressionPage() {
           )}
         </Card>
       </form>
-    </Box>
+    </div>
   )
 }

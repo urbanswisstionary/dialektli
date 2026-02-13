@@ -1,16 +1,18 @@
 "use client"
 
 import type { FC, ReactNode } from "react"
-import Box from "@mui/material/Box"
-import Button from "@mui/material/Button"
-import Divider from "@mui/material/Divider"
-import Stack from "@mui/material/Stack"
-import Typography from "@mui/material/Typography"
-import MuiCard, { CardProps as MuiCardProps } from "@mui/material/Card"
-import CardContent from "@mui/material/CardContent"
-import CardActions from "@mui/material/CardActions"
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
+import { Trash2 } from "lucide-react"
 import { useTranslations } from "next-intl"
-import DeleteForever from "@mui/icons-material/DeleteForever"
 
 type ActionButtonProps = {
   disabled?: boolean
@@ -25,94 +27,74 @@ type CardActionsType = {
   delete?: ActionButtonProps
 }
 
-interface CardProps extends Omit<MuiCardProps, "title"> {
+interface CardWrapperProps {
   actions?: CardActionsType
   description?: string | null
   title?: string | null
   children?: ReactNode
 }
 
-const Card: FC<CardProps> = ({
+const CardWrapper: FC<CardWrapperProps> = ({
   actions,
   children,
   description,
   title,
-  sx,
-  ...cardProps
 }) => {
   const t = useTranslations()
 
   return (
-    <MuiCard
-      sx={[{ padding: 0 }, ...(Array.isArray(sx) ? sx : [sx])]}
-      {...cardProps}
-    >
+    <Card className="p-0">
       {title || description ? (
         <>
-          <Box sx={{ mb: 1, p: 2 }}>
-            {title ? <Typography variant="h6">{title}</Typography> : null}
+          <CardHeader className="p-4">
+            {title ? <CardTitle>{title}</CardTitle> : null}
             {description ? (
-              <Typography variant="body2" color="text.secondary">
-                {description}
-              </Typography>
+              <CardDescription>{description}</CardDescription>
             ) : null}
-          </Box>
-          <Divider />
+          </CardHeader>
+          <Separator />
         </>
       ) : null}
-      <CardContent>
-        <Stack direction="column" spacing={2}>
-          {children}
-        </Stack>
+      <CardContent className="p-4">
+        <div className="flex flex-col gap-4">{children}</div>
       </CardContent>
 
       {actions ? (
         <>
-          <Divider />
-          <CardActions
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              p: 2,
-              gap: 1,
-            }}
-          >
-            <Box>
+          <Separator />
+          <CardFooter className="flex items-center justify-between gap-2 p-4">
+            <div>
               {actions.delete ? (
                 <Button
-                  size="small"
-                  variant="outlined"
-                  color="error"
+                  size="sm"
+                  variant="outline"
+                  className="border-destructive text-destructive hover:bg-destructive/10"
                   disabled={actions.delete.disabled || actions.delete.loading}
                   onClick={() => {
                     if (actions.delete?.onClick) actions.delete.onClick()
                   }}
-                  endIcon={<DeleteForever />}
-                  sx={{ textTransform: "capitalize" }}
                 >
                   {actions.delete.title ?? t("actions.delete")}
+                  <Trash2 className="ml-1.5 h-4 w-4" />
                 </Button>
               ) : null}
-            </Box>
-            <Box sx={{ display: "flex", gap: 1 }}>
+            </div>
+            <div className="flex gap-2">
               {actions.cancel ? (
                 <Button
-                  size="small"
-                  variant="outlined"
+                  size="sm"
+                  variant="outline"
                   disabled={actions.cancel.disabled || actions.cancel.loading}
                   onClick={() => {
                     if (actions.cancel?.onClick) actions.cancel.onClick()
                   }}
-                  sx={{ textTransform: "capitalize" }}
                 >
                   {actions.cancel.title ?? t("actions.cancel")}
                 </Button>
               ) : null}
               {actions.save ? (
                 <Button
-                  size="small"
-                  variant="contained"
+                  size="sm"
                   disabled={actions.save.disabled || actions.save.loading}
                   type={actions.save.type}
                   onClick={() => {
@@ -122,17 +104,16 @@ const Card: FC<CardProps> = ({
                     )
                       actions.save.onClick()
                   }}
-                  sx={{ textTransform: "capitalize" }}
                 >
                   {actions.save.title ?? t("actions.submit")}
                 </Button>
               ) : null}
-            </Box>
-          </CardActions>
+            </div>
+          </CardFooter>
         </>
       ) : null}
-    </MuiCard>
+    </Card>
   )
 }
 
-export default Card
+export default CardWrapper

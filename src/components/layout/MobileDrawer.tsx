@@ -173,7 +173,7 @@ const MobileDrawer: FC = () => {
           <Separator className="my-2" />
 
           <div className="flex items-center gap-2 px-3 py-2">
-            <SelectLocale compact sx={{ flex: 1 }} />
+            <SelectLocale compact className="flex-1" />
             <ColorSchemeToggle />
           </div>
         </nav>

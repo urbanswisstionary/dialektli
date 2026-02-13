@@ -3,8 +3,7 @@
 import { useParams } from "next/navigation"
 import { useExpression } from "@/hooks/useExpressions"
 import { useMe } from "@/hooks/useUsers"
-import Stack from "@mui/material/Stack"
-import CircularProgress from "@mui/material/CircularProgress"
+import { Loader2 } from "lucide-react"
 import { useTranslations } from "next-intl"
 import ExpressionCard from "@/components/expression/ExpressionCard"
 
@@ -24,9 +23,9 @@ export default function ExpressionDetailPage() {
 
   if (loading) {
     return (
-      <Stack alignItems="center" sx={{ my: 5 }}>
-        <CircularProgress size={60} />
-      </Stack>
+      <div className="flex items-center justify-center my-10">
+        <Loader2 className="h-15 w-15 animate-spin text-muted-foreground" />
+      </div>
     )
   }
 

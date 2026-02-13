@@ -9,31 +9,25 @@ import {
 import { useSearchParams } from "next/navigation"
 import { useRouter } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
-import Stack from "@mui/material/Stack"
-import CircularProgress from "@mui/material/CircularProgress"
-import Typography from "@mui/material/Typography"
-import Card from "@mui/material/Card"
-import CardContent from "@mui/material/CardContent"
-import Avatar from "@mui/material/Avatar"
-import Box from "@mui/material/Box"
-import Tabs from "@mui/material/Tabs"
-import Tab from "@mui/material/Tab"
-import IconButton from "@mui/material/IconButton"
-import EditIcon from "@mui/icons-material/Edit"
-import CheckIcon from "@mui/icons-material/Check"
-import CloseIcon from "@mui/icons-material/Close"
+import { Card, CardContent } from "@/components/ui/card"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Badge } from "@/components/ui/badge"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import { Pencil, Check, X, Loader2 } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useExpressionsQuery } from "@/hooks/useExpressions"
 import ExpressionCard from "@/components/expression/ExpressionCard"
-import Table from "@mui/material/Table"
-import TableBody from "@mui/material/TableBody"
-import TableCell from "@mui/material/TableCell"
-import TableContainer from "@mui/material/TableContainer"
-import TableHead from "@mui/material/TableHead"
-import TableRow from "@mui/material/TableRow"
-import Paper from "@mui/material/Paper"
-import Chip from "@mui/material/Chip"
-import TextField from "@mui/material/TextField"
 import { getFragmentData } from "@/generated"
 import type { ExpressionFragmentFragment } from "@/generated/graphql"
 
@@ -76,11 +70,8 @@ export default function ProfilePage() {
     }
   }, [loadingMe, me, router])
 
-  const handleViewChange = (
-    _event: React.SyntheticEvent,
-    newValue: ViewType,
-  ) => {
-    setActiveView(newValue)
+  const handleViewChange = (newValue: string) => {
+    setActiveView(newValue as ViewType)
     router.push(`/account/profile?view=${newValue}`)
   }
 
@@ -126,9 +117,9 @@ export default function ProfilePage() {
 
   if (loadingMe) {
     return (
-      <Stack alignItems="center" sx={{ my: 5 }}>
-        <CircularProgress size={60} />
-      </Stack>
+      <div className="flex items-center justify-center my-10">
+        <Loader2 className="h-15 w-15 animate-spin text-muted-foreground" />
+      </div>
     )
   }
 
@@ -139,237 +130,280 @@ export default function ProfilePage() {
   const expressions = expressionsData?.expressionsQuery?.expressions ?? []
   const users = usersData?.adminUsers?.users ?? []
 
+  const initials = (me.name ?? me.email ?? "U")
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2)
+
   return (
-    <Stack spacing={3} sx={{ py: 3 }}>
+    <div className="flex flex-col gap-6 py-6">
       <Card>
-        <CardContent>
-          <Stack direction="row" spacing={3} alignItems="center">
-            <Avatar
-              src={me.image ?? undefined}
-              alt={me.name ?? me.email ?? "User"}
-              sx={{ width: 80, height: 80 }}
-            />
-            <Stack spacing={1} flex={1}>
-              <Stack direction="row" alignItems="center" spacing={1}>
+        <CardContent className="p-6">
+          <div className="flex flex-row gap-6 items-center">
+            <Avatar className="h-20 w-20">
+              <AvatarImage
+                src={me.image ?? undefined}
+                alt={me.name ?? me.email ?? "User"}
+              />
+              <AvatarFallback className="text-lg">{initials}</AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col gap-2 flex-1">
+              <div className="flex items-center gap-2">
                 {editingName ? (
                   <>
-                    <TextField
-                      size="small"
+                    <Input
                       value={nameValue}
                       onChange={(e) => setNameValue(e.target.value)}
                       autoFocus
-                      sx={{ flex: 1 }}
+                      className="flex-1 h-8"
                     />
-                    <IconButton
-                      size="small"
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8"
                       onClick={handleSaveName}
                       disabled={updatingUser || !nameValue.trim()}
                     >
-                      <CheckIcon />
-                    </IconButton>
-                    <IconButton
-                      size="small"
+                      <Check className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8"
                       onClick={handleCancelName}
                       disabled={updatingUser}
                     >
-                      <CloseIcon />
-                    </IconButton>
+                      <X className="h-4 w-4" />
+                    </Button>
                   </>
                 ) : (
                   <>
-                    <Typography variant="h5">{me.name ?? me.email}</Typography>
-                    <IconButton size="small" onClick={handleEditName}>
-                      <EditIcon fontSize="small" />
-                    </IconButton>
+                    <h2 className="text-xl font-semibold">
+                      {me.name ?? me.email}
+                    </h2>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8"
+                      onClick={handleEditName}
+                    >
+                      <Pencil className="h-3.5 w-3.5" />
+                    </Button>
                   </>
                 )}
-              </Stack>
+              </div>
               {editingBio ? (
-                <Stack direction="row" alignItems="flex-start" spacing={1}>
-                  <TextField
-                    size="small"
-                    multiline
-                    rows={2}
+                <div className="flex items-start gap-2">
+                  <Textarea
                     value={bioValue}
                     onChange={(e) => setBioValue(e.target.value)}
                     autoFocus
-                    sx={{ flex: 1 }}
+                    className="flex-1"
+                    rows={2}
                     placeholder={t("auth.profile.bioPlaceholder")}
                   />
-                  <IconButton
-                    size="small"
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8"
                     onClick={handleSaveBio}
                     disabled={updatingUser}
                   >
-                    <CheckIcon />
-                  </IconButton>
-                  <IconButton
-                    size="small"
+                    <Check className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8"
                     onClick={handleCancelBio}
                     disabled={updatingUser}
                   >
-                    <CloseIcon />
-                  </IconButton>
-                </Stack>
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
               ) : (
-                <Stack direction="row" alignItems="center" spacing={1}>
-                  <Typography variant="body2" color="text.secondary">
+                <div className="flex items-center gap-2">
+                  <p className="text-sm text-muted-foreground">
                     {me.bio || t("auth.profile.noBio")}
-                  </Typography>
-                  <IconButton size="small" onClick={handleEditBio}>
-                    <EditIcon fontSize="small" />
-                  </IconButton>
-                </Stack>
+                  </p>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8"
+                    onClick={handleEditBio}
+                  >
+                    <Pencil className="h-3.5 w-3.5" />
+                  </Button>
+                </div>
               )}
-              <Stack direction="row" spacing={2}>
+              <div className="flex gap-4">
                 {me.canton && (
-                  <Typography variant="caption" color="text.secondary">
+                  <span className="text-xs text-muted-foreground">
                     {t("auth.profile.canton")}: {me.canton}
-                  </Typography>
+                  </span>
                 )}
                 {me.country && (
-                  <Typography variant="caption" color="text.secondary">
+                  <span className="text-xs text-muted-foreground">
                     {t("auth.profile.country")}: {me.country}
-                  </Typography>
+                  </span>
                 )}
-              </Stack>
-              <Stack direction="row" spacing={2}>
-                <Typography variant="caption">
+              </div>
+              <div className="flex gap-4">
+                <span className="text-xs">
                   {t("actions.like")}: {me.likesCount ?? 0}
-                </Typography>
-                <Typography variant="caption">
+                </span>
+                <span className="text-xs">
                   {t("actions.dislike")}: {me.dislikesCount ?? 0}
-                </Typography>
-              </Stack>
-            </Stack>
-          </Stack>
+                </span>
+              </div>
+            </div>
+          </div>
         </CardContent>
       </Card>
 
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs value={activeView} onChange={handleViewChange}>
-          <Tab label={t("layout.sidebar.profile")} value="profile" />
-          <Tab label={t("layout.sidebar.expressions")} value="expressions" />
-          {isAdmin && <Tab label={t("layout.sidebar.users")} value="users" />}
-        </Tabs>
-      </Box>
-
-      {activeView === "profile" && (
-        <Card>
-          <CardContent>
-            <Stack spacing={2}>
-              <Typography variant="h6">
-                {t("auth.profile.statistics")}
-              </Typography>
-              <Stack direction="row" spacing={4}>
-                <Box>
-                  <Typography variant="h4" color="primary">
-                    {me.myPublishedExpressionsCount ?? 0}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {t("auth.profile.publishedExpressions")}
-                  </Typography>
-                </Box>
-                <Box>
-                  <Typography variant="h4" color="warning.main">
-                    {me.myUnpublishedExpressionsCount ?? 0}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {t("auth.profile.unpublishedExpressions")}
-                  </Typography>
-                </Box>
-              </Stack>
-            </Stack>
-          </CardContent>
-        </Card>
-      )}
-
-      {activeView === "expressions" && (
-        <Stack spacing={2}>
-          {loadingExpressions ? (
-            <Stack alignItems="center" sx={{ my: 5 }}>
-              <CircularProgress size={60} />
-            </Stack>
-          ) : expressions.length > 0 ? (
-            expressions.map((expression: ExpressionFragmentFragment) => (
-              <ExpressionCard
-                key={expression.id}
-                expression={expression}
-                disableActions={false}
-              />
-            ))
-          ) : (
-            <Typography variant="body1" color="text.secondary" align="center">
-              {t("auth.profile.noExpressionsFound")}
-            </Typography>
+      <Tabs value={activeView} onValueChange={handleViewChange}>
+        <TabsList>
+          <TabsTrigger value="profile">
+            {t("layout.sidebar.profile")}
+          </TabsTrigger>
+          <TabsTrigger value="expressions">
+            {t("layout.sidebar.expressions")}
+          </TabsTrigger>
+          {isAdmin && (
+            <TabsTrigger value="users">{t("layout.sidebar.users")}</TabsTrigger>
           )}
-        </Stack>
-      )}
+        </TabsList>
 
-      {activeView === "users" && isAdmin && (
-        <Stack spacing={2}>
-          {loadingUsers ? (
-            <Stack alignItems="center" sx={{ my: 5 }}>
-              <CircularProgress size={60} />
-            </Stack>
-          ) : users.length > 0 ? (
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>{t("auth.profile.tableHeaders.name")}</TableCell>
-                    <TableCell>
-                      {t("auth.profile.tableHeaders.email")}
-                    </TableCell>
-                    <TableCell>{t("auth.profile.tableHeaders.role")}</TableCell>
-                    <TableCell>
-                      {t("auth.profile.tableHeaders.canton")}
-                    </TableCell>
-                    <TableCell align="right">
-                      {t("auth.profile.tableHeaders.expressions")}
-                    </TableCell>
-                    <TableCell align="right">
-                      {t("auth.profile.tableHeaders.likes")}
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {users.map((user) => {
-                    const userData = getFragmentData(AdminUsersFragment, user)
-                    return (
-                      <TableRow key={userData.id}>
-                        <TableCell>{userData.name ?? "-"}</TableCell>
-                        <TableCell>{userData.email}</TableCell>
-                        <TableCell>
-                          <Chip
-                            label={userData.role}
-                            size="small"
-                            color={
-                              userData.role === "ADMIN" ? "error" : "default"
-                            }
-                          />
-                        </TableCell>
-                        <TableCell>{userData.canton ?? "-"}</TableCell>
-                        <TableCell align="right">
-                          {(userData.publishedExpressionsCount ?? 0) +
-                            (userData.unpublishedExpressionsCount ?? 0)}
-                        </TableCell>
-                        <TableCell align="right">
-                          {userData.likesCount ?? 0}
-                        </TableCell>
+        <TabsContent value="profile">
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex flex-col gap-4">
+                <h3 className="text-lg font-semibold">
+                  {t("auth.profile.statistics")}
+                </h3>
+                <div className="flex gap-8">
+                  <div>
+                    <p className="text-3xl font-bold text-primary">
+                      {me.myPublishedExpressionsCount ?? 0}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {t("auth.profile.publishedExpressions")}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-3xl font-bold text-amber-500">
+                      {me.myUnpublishedExpressionsCount ?? 0}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {t("auth.profile.unpublishedExpressions")}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="expressions">
+          <div className="flex flex-col gap-4">
+            {loadingExpressions ? (
+              <div className="flex items-center justify-center my-10">
+                <Loader2 className="h-15 w-15 animate-spin text-muted-foreground" />
+              </div>
+            ) : expressions.length > 0 ? (
+              expressions.map((expression: ExpressionFragmentFragment) => (
+                <ExpressionCard
+                  key={expression.id}
+                  expression={expression}
+                  disableActions={false}
+                />
+              ))
+            ) : (
+              <p className="text-base text-muted-foreground text-center">
+                {t("auth.profile.noExpressionsFound")}
+              </p>
+            )}
+          </div>
+        </TabsContent>
+
+        {isAdmin && (
+          <TabsContent value="users">
+            <div className="flex flex-col gap-4">
+              {loadingUsers ? (
+                <div className="flex items-center justify-center my-10">
+                  <Loader2 className="h-15 w-15 animate-spin text-muted-foreground" />
+                </div>
+              ) : users.length > 0 ? (
+                <Card>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>
+                          {t("auth.profile.tableHeaders.name")}
+                        </TableHead>
+                        <TableHead>
+                          {t("auth.profile.tableHeaders.email")}
+                        </TableHead>
+                        <TableHead>
+                          {t("auth.profile.tableHeaders.role")}
+                        </TableHead>
+                        <TableHead>
+                          {t("auth.profile.tableHeaders.canton")}
+                        </TableHead>
+                        <TableHead className="text-right">
+                          {t("auth.profile.tableHeaders.expressions")}
+                        </TableHead>
+                        <TableHead className="text-right">
+                          {t("auth.profile.tableHeaders.likes")}
+                        </TableHead>
                       </TableRow>
-                    )
-                  })}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          ) : (
-            <Typography variant="body1" color="text.secondary" align="center">
-              {t("auth.profile.noUsersFound")}
-            </Typography>
-          )}
-        </Stack>
-      )}
-    </Stack>
+                    </TableHeader>
+                    <TableBody>
+                      {users.map((user) => {
+                        const userData = getFragmentData(
+                          AdminUsersFragment,
+                          user,
+                        )
+                        return (
+                          <TableRow key={userData.id}>
+                            <TableCell>{userData.name ?? "-"}</TableCell>
+                            <TableCell>{userData.email}</TableCell>
+                            <TableCell>
+                              <Badge
+                                variant={
+                                  userData.role === "ADMIN"
+                                    ? "destructive"
+                                    : "secondary"
+                                }
+                              >
+                                {userData.role}
+                              </Badge>
+                            </TableCell>
+                            <TableCell>{userData.canton ?? "-"}</TableCell>
+                            <TableCell className="text-right">
+                              {(userData.publishedExpressionsCount ?? 0) +
+                                (userData.unpublishedExpressionsCount ?? 0)}
+                            </TableCell>
+                            <TableCell className="text-right">
+                              {userData.likesCount ?? 0}
+                            </TableCell>
+                          </TableRow>
+                        )
+                      })}
+                    </TableBody>
+                  </Table>
+                </Card>
+              ) : (
+                <p className="text-base text-muted-foreground text-center">
+                  {t("auth.profile.noUsersFound")}
+                </p>
+              )}
+            </div>
+          </TabsContent>
+        )}
+      </Tabs>
+    </div>
   )
 }

@@ -9,19 +9,15 @@ import { getCantonName } from "@/config/cantons"
 import { Link } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
 import { useLocale } from "next-intl"
-import Stack from "@mui/material/Stack"
-import Box from "@mui/material/Box"
-import Typography from "@mui/material/Typography"
-import Select from "@mui/material/Select"
-import MenuItem from "@mui/material/MenuItem"
-import FormControl from "@mui/material/FormControl"
-import InputLabel from "@mui/material/InputLabel"
-import CircularProgress from "@mui/material/CircularProgress"
-import Chip from "@mui/material/Chip"
-import List from "@mui/material/List"
-import ListItem from "@mui/material/ListItem"
-import ListItemButton from "@mui/material/ListItemButton"
-import ListItemText from "@mui/material/ListItemText"
+import { Loader2, X } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 const CantonOverviewQuery = graphql(/* GraphQL */ `
   query CantonOverview($language: Language) {
@@ -51,13 +47,13 @@ export default function SprachatlasPage() {
   const locale = useLocale()
 
   const [selectedCanton, setSelectedCanton] = useState<string | null>(null)
-  const [language, setLanguage] = useState<Language | "">("")
+  const [language, setLanguage] = useState<Language | "all">("all")
 
   const { data: overviewData, loading: loadingOverview } = useQuery(
     CantonOverviewQuery,
     {
       variables: {
-        language: language || null,
+        language: language === "all" ? null : language,
       },
     },
   )
@@ -67,7 +63,7 @@ export default function SprachatlasPage() {
     {
       variables: {
         canton: selectedCanton ?? "",
-        language: language || null,
+        language: language === "all" ? null : language,
         limit: 20,
       },
       skip: !selectedCanton,
@@ -92,34 +88,35 @@ export default function SprachatlasPage() {
     : "de"
 
   return (
-    <Stack sx={{ mt: 2, mb: 3, gap: 3 }}>
-      <Typography variant="h4" component="h1">
-        {t("layout.sidebar.sprachatlas")}
-      </Typography>
+    <div className="mt-4 mb-6 flex flex-col gap-6">
+      <h1 className="text-2xl font-bold">{t("layout.sidebar.sprachatlas")}</h1>
 
-      <FormControl sx={{ maxWidth: 200 }}>
-        <InputLabel>{t("filterBy.language")}</InputLabel>
+      <div className="max-w-[200px]">
         <Select
           value={language}
-          onChange={(e) => {
-            setLanguage(e.target.value as Language | "")
+          onValueChange={(value) => {
+            setLanguage(value as Language | "all")
             setSelectedCanton(null)
           }}
-          label={t("filterBy.language")}
         >
-          <MenuItem value="">All</MenuItem>
-          <MenuItem value="DE">{t("selectLanguage.DE")}</MenuItem>
-          <MenuItem value="FR">{t("selectLanguage.FR")}</MenuItem>
-          <MenuItem value="IT">{t("selectLanguage.IT")}</MenuItem>
+          <SelectTrigger>
+            <SelectValue placeholder={t("filterBy.language")} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All</SelectItem>
+            <SelectItem value="DE">{t("selectLanguage.DE")}</SelectItem>
+            <SelectItem value="FR">{t("selectLanguage.FR")}</SelectItem>
+            <SelectItem value="IT">{t("selectLanguage.IT")}</SelectItem>
+          </SelectContent>
         </Select>
-      </FormControl>
+      </div>
 
       {loadingOverview ? (
-        <Stack alignItems="center" sx={{ my: 5 }}>
-          <CircularProgress size={60} />
-        </Stack>
+        <div className="my-10 flex items-center justify-center">
+          <Loader2 className="h-15 w-15 animate-spin text-muted-foreground" />
+        </div>
       ) : (
-        <Box sx={{ border: 1, borderColor: "divider", borderRadius: 1, p: 2 }}>
+        <div className="rounded-md border border-border p-4">
           <SwitzerlandMap
             highlightedCantons={highlightedCantons}
             onCantonClick={handleCantonClick}
@@ -129,75 +126,77 @@ export default function SprachatlasPage() {
             width="100%"
             locale={mapLocale}
           />
-        </Box>
+        </div>
       )}
 
       {selectedCanton && (
-        <Stack spacing={2}>
-          <Stack direction="row" alignItems="center" spacing={2}>
-            <Typography variant="h5">
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-row items-center gap-4">
+            <h2 className="text-xl font-semibold">
               {getCantonName(selectedCanton, mapLocale)}
-            </Typography>
+            </h2>
             {selectedCantonData && (
-              <Chip
-                label={`${selectedCantonData.count} expression${selectedCantonData.count !== 1 ? "s" : ""}`}
-                color="primary"
-                variant="outlined"
-              />
+              <Badge variant="outline">
+                {`${selectedCantonData.count} expression${selectedCantonData.count !== 1 ? "s" : ""}`}
+              </Badge>
             )}
-            <Chip
-              label="Clear"
-              onDelete={() => setSelectedCanton(null)}
-              size="small"
-            />
-          </Stack>
+            <Badge
+              variant="secondary"
+              className="cursor-pointer gap-1"
+              onClick={() => setSelectedCanton(null)}
+            >
+              Clear
+              <X className="h-3 w-3" />
+            </Badge>
+          </div>
 
           {loadingExpressions ? (
-            <Stack alignItems="center" sx={{ my: 3 }}>
-              <CircularProgress size={40} />
-            </Stack>
+            <div className="my-6 flex items-center justify-center">
+              <Loader2 className="h-10 w-10 animate-spin text-muted-foreground" />
+            </div>
           ) : expressions.length > 0 ? (
-            <List disablePadding>
+            <ul className="divide-y divide-border">
               {expressions.map((expr) => (
-                <ListItem key={expr.id} disablePadding>
-                  <ListItemButton
-                    component={Link}
+                <li key={expr.id}>
+                  <Link
                     href={`/expressions/${expr.id}` as "/expressions/[id]"}
+                    className="flex flex-col gap-0.5 px-3 py-2.5 transition-colors hover:bg-muted/50"
                   >
-                    <ListItemText
-                      primary={expr.title}
-                      secondary={expr.language}
-                    />
-                  </ListItemButton>
-                </ListItem>
+                    <span className="text-sm font-medium">{expr.title}</span>
+                    <span className="text-xs text-muted-foreground">
+                      {expr.language}
+                    </span>
+                  </Link>
+                </li>
               ))}
-            </List>
+            </ul>
           ) : (
-            <Typography variant="body2" color="text.secondary">
+            <p className="text-sm text-muted-foreground">
               No expressions found for this canton.
-            </Typography>
+            </p>
           )}
-        </Stack>
+        </div>
       )}
 
       {!selectedCanton && cantonOverview.length > 0 && (
-        <Stack spacing={1}>
-          <Typography variant="subtitle2" color="text.secondary">
+        <div className="flex flex-col gap-2">
+          <p className="text-sm font-medium text-muted-foreground">
             {cantonOverview.length} cantons with expressions
-          </Typography>
-          <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+          </p>
+          <div className="flex flex-row flex-wrap gap-2">
             {cantonOverview.map((c) => (
-              <Chip
+              <Badge
                 key={c.canton}
-                label={`${getCantonName(c.canton, mapLocale)} (${c.count})`}
+                variant="outline"
+                className="cursor-pointer transition-colors hover:bg-muted"
                 onClick={() => handleCantonClick(c.canton)}
-                variant="outlined"
-                size="small"
-              />
+              >
+                {`${getCantonName(c.canton, mapLocale)} (${c.count})`}
+              </Badge>
             ))}
-          </Stack>
-        </Stack>
+          </div>
+        </div>
       )}
-    </Stack>
+    </div>
   )
 }

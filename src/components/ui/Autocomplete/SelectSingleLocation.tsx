@@ -1,21 +1,19 @@
 "use client"
 
-import Autocomplete from "@mui/material/Autocomplete"
-import TextField from "@mui/material/TextField"
-import FormControl, { type FormControlProps } from "@mui/material/FormControl"
-import FormLabel from "@mui/material/FormLabel"
-import { type FC, useMemo } from "react"
-import FormHelperText from "@mui/material/FormHelperText"
+import { type FC, useMemo, useState, useRef, useEffect } from "react"
 import Flag from "@/components/ui/Flag"
 import SelectLocationOption from "./SelectLocationOption"
 import { getOptions } from "./helper"
 import { useTranslations } from "next-intl"
-import { InputAdornment } from "@mui/material"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { Input } from "@/components/ui/input"
+import { cn } from "@/lib/utils"
 
-interface SelectSingleLocationProps extends Omit<
-  FormControlProps,
-  "value" | "onChange"
-> {
+interface SelectSingleLocationProps {
   value: string | null | undefined
   onChange: (_locationCode: string | null) => void
   mode: "canton" | "country"
@@ -23,6 +21,8 @@ interface SelectSingleLocationProps extends Omit<
   helperText?: string
   label?: string
   groupOptions?: boolean
+  disabled?: boolean
+  className?: string
 }
 
 const SelectSingleLocation: FC<SelectSingleLocationProps> = ({
@@ -33,9 +33,14 @@ const SelectSingleLocation: FC<SelectSingleLocationProps> = ({
   helperText,
   placeholder,
   groupOptions,
-  ...props
+  disabled,
+  className,
 }) => {
   const t = useTranslations()
+  const [open, setOpen] = useState(false)
+  const [search, setSearch] = useState("")
+  const inputRef = useRef<HTMLInputElement>(null)
+
   const options = useMemo(() => {
     const options = getOptions(mode)
     return groupOptions
@@ -54,58 +59,109 @@ const SelectSingleLocation: FC<SelectSingleLocationProps> = ({
     [value, options],
   )
 
+  const filtered = useMemo(
+    () =>
+      search
+        ? options.filter((o) =>
+            o.label.toLowerCase().includes(search.toLowerCase()),
+          )
+        : options,
+    [options, search],
+  )
+
+  useEffect(() => {
+    if (open) {
+      setTimeout(() => inputRef.current?.focus(), 0)
+    } else {
+      setSearch("")
+    }
+  }, [open])
+
   if (!mode) return null
 
   return (
-    <FormControl {...props}>
-      {label ? <FormLabel>{label}</FormLabel> : null}
-      <Autocomplete
-        size="small"
-        autoHighlight
-        isOptionEqualToValue={(option, value) => option.code === value?.code}
-        value={selectedOption}
-        onChange={(_e, location) => onChange(location?.code ?? null)}
-        options={options}
-        getOptionLabel={(option) => option.label}
-        renderOption={(props, option) => (
-          <SelectLocationOption
-            {...props}
-            key={option.code}
-            mode={mode}
-            label={option.label}
-            flagCode={option.code}
-          />
-        )}
-        groupBy={
-          groupOptions
-            ? (option) =>
-                option.language
-                  ? t(`selectLanguage.${option.language}`)
-                  : option.label[0]
-            : undefined
-        }
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            placeholder={placeholder ?? t(`expression.${mode}FieldPlaceholder`)}
-            InputProps={{
-              ...params.InputProps,
-              startAdornment: value ? (
-                <>
-                  <InputAdornment position="start">
-                    <Flag mode={mode} code={value} />
-                  </InputAdornment>
-                  {params.InputProps.startAdornment}
-                </>
-              ) : (
-                params.InputProps.startAdornment
-              ),
-            }}
-          />
-        )}
-      />
-      {helperText ? <FormHelperText>{helperText}</FormHelperText> : null}
-    </FormControl>
+    <div className={className}>
+      {label ? (
+        <label className="mb-1 block text-sm font-medium">{label}</label>
+      ) : null}
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <button
+            type="button"
+            disabled={disabled}
+            className={cn(
+              "flex h-9 w-full items-center gap-2 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors",
+              "hover:bg-accent focus:outline-none focus:ring-1 focus:ring-ring",
+              disabled && "cursor-not-allowed opacity-50",
+              !selectedOption && "text-muted-foreground",
+            )}
+          >
+            {selectedOption ? (
+              <>
+                <Flag mode={mode} code={selectedOption.code} />
+                <span className="truncate text-foreground">
+                  {selectedOption.label}
+                </span>
+              </>
+            ) : (
+              <span>
+                {placeholder ?? t(`expression.${mode}FieldPlaceholder`)}
+              </span>
+            )}
+          </button>
+        </PopoverTrigger>
+        <PopoverContent
+          className="w-[var(--radix-popover-trigger-width)] p-0"
+          align="start"
+        >
+          <div className="p-2">
+            <Input
+              ref={inputRef}
+              placeholder={t("actions.search")}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="h-8"
+            />
+          </div>
+          <div className="max-h-60 overflow-y-auto px-1 pb-1" role="listbox">
+            {value && (
+              <div
+                role="option"
+                aria-selected={false}
+                onClick={() => {
+                  onChange(null)
+                  setOpen(false)
+                }}
+                className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-muted-foreground hover:bg-accent"
+              >
+                {t("actions.clear")}
+              </div>
+            )}
+            {filtered.map((option) => (
+              <SelectLocationOption
+                key={option.code}
+                mode={mode}
+                label={option.label}
+                flagCode={option.code}
+                selected={option.code === value}
+                onClick={() => {
+                  onChange(option.code)
+                  setOpen(false)
+                }}
+              />
+            ))}
+            {filtered.length === 0 && (
+              <p className="px-2 py-4 text-center text-sm text-muted-foreground">
+                {t("noData")}
+              </p>
+            )}
+          </div>
+        </PopoverContent>
+      </Popover>
+      {helperText ? (
+        <p className="mt-1 text-xs text-muted-foreground">{helperText}</p>
+      ) : null}
+    </div>
   )
 }
 
