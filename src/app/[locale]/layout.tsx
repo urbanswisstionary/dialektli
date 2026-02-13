@@ -9,6 +9,7 @@ import ApolloProvider from "@/components/providers/ApolloProvider"
 import Layout from "@/components/layout/Layout"
 import SessionProvider from "@/components/providers/SessionProvider"
 import { Roboto } from "next/font/google"
+import "@/app/globals.css"
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
