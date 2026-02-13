@@ -1,24 +1,20 @@
 "use client"
 
-import { useMemo, useState, useEffect, createContext, useContext } from "react"
-import {
-  ThemeProvider as MuiThemeProvider,
-  createTheme,
-} from "@mui/material/styles"
-import CssBaseline from "@mui/material/CssBaseline"
+import { createContext, useContext, useEffect, useState } from "react"
 import type { ReactNode } from "react"
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v16-appRouter"
 
 type ColorMode = "light" | "dark" | "system"
 
 interface ColorSchemeContextType {
   mode: ColorMode
   setMode: (mode: ColorMode) => void
+  resolvedMode: "light" | "dark"
 }
 
 const ColorSchemeContext = createContext<ColorSchemeContextType>({
   mode: "light",
   setMode: () => {},
+  resolvedMode: "light",
 })
 
 export const useColorScheme = () => useContext(ColorSchemeContext)
@@ -29,10 +25,8 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     setMounted(true)
-    const savedMode = localStorage.getItem("colorMode") as ColorMode | null
-    if (savedMode) {
-      setModeState(savedMode)
-    }
+    const saved = localStorage.getItem("colorMode") as ColorMode | null
+    if (saved) setModeState(saved)
   }, [])
 
   const setMode = (newMode: ColorMode) => {
@@ -40,55 +34,24 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
     localStorage.setItem("colorMode", newMode)
   }
 
-  const resolvedMode = useMemo(() => {
-    if (!mounted) return "light"
+  const resolvedMode = (() => {
+    if (!mounted) return "light" as const
     if (mode === "system") {
       return window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light"
+        ? ("dark" as const)
+        : ("light" as const)
     }
     return mode
-  }, [mode, mounted])
+  })()
 
-  const theme = useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode: resolvedMode,
-          primary: {
-            main: resolvedMode === "dark" ? "#90caf9" : "#1976d2",
-          },
-          secondary: {
-            main: resolvedMode === "dark" ? "#f48fb1" : "#dc004e",
-          },
-          background: {
-            default: resolvedMode === "dark" ? "#121212" : "#fafafa",
-            paper: resolvedMode === "dark" ? "#1e1e1e" : "#ffffff",
-          },
-        },
-        typography: {
-          fontFamily: [
-            "-apple-system",
-            "BlinkMacSystemFont",
-            '"Segoe UI"',
-            "Roboto",
-            '"Helvetica Neue"',
-            "Arial",
-            "sans-serif",
-          ].join(","),
-        },
-      }),
-    [resolvedMode],
-  )
+  useEffect(() => {
+    if (!mounted) return
+    document.documentElement.classList.toggle("dark", resolvedMode === "dark")
+  }, [resolvedMode, mounted])
 
   return (
-    <ColorSchemeContext.Provider value={{ mode, setMode }}>
-      <AppRouterCacheProvider options={{ key: "css" }}>
-        <MuiThemeProvider theme={theme}>
-          <CssBaseline />
-          {children}
-        </MuiThemeProvider>
-      </AppRouterCacheProvider>
+    <ColorSchemeContext.Provider value={{ mode, setMode, resolvedMode }}>
+      {children}
     </ColorSchemeContext.Provider>
   )
 }

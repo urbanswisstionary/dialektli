@@ -89,10 +89,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   const messages = await getMessages()
 
   return (
-    <html lang={locale} className={roboto.variable}>
-      <head>
-        <meta name="emotion-insertion-point" content="" />
-      </head>
+    <html lang={locale} className={roboto.variable} suppressHydrationWarning>
       <body>
         <SessionProvider>
           <ThemeProvider>
