@@ -1,14 +1,10 @@
 "use client"
 
 import type { FC } from "react"
-import Box from "@mui/material/Box"
-import Typography from "@mui/material/Typography"
-import MuiLink from "@mui/material/Link"
+import { Separator } from "@/components/ui/separator"
 import { Link, usePathname } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
-import Stack from "@mui/material/Stack"
-
-const companyName = "Dialektli"
+import { companyName } from "@/config/constants"
 
 const footerSections = {
   about: [{ href: "/about", label: "about" }],
@@ -29,158 +25,83 @@ const Footer: FC = () => {
   const pathname = usePathname()
 
   return (
-    <Box
-      component="footer"
-      sx={{
-        width: "100%",
-        maxWidth: "1200px",
-        margin: "0 auto",
-        py: 8,
-        px: 3,
-        borderTop: 1,
-        borderColor: "divider",
-        bgcolor: "background.default",
-      }}
-    >
-      <Stack gap={6}>
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          gap={{ xs: 4, sm: 6 }}
-          justifyContent="space-between"
-        >
-          <Box flex={1}>
-            <Typography
-              variant="h6"
-              gutterBottom
-              sx={{
-                fontWeight: 600,
-                mb: 2,
-                color: "primary.main",
-              }}
-            >
+    <footer className="border-t border-border bg-background">
+      <div className="mx-auto w-full max-w-6xl px-4 py-8">
+        <div className="grid gap-6 sm:grid-cols-3 sm:gap-8">
+          <div className="flex-1">
+            <h3 className="mb-2 text-base font-semibold text-primary">
               {t("layout.footer.sections.about")}
-            </Typography>
-            <Stack spacing={1.5}>
-              {footerSections.about.map(({ href, label }, i) => {
+            </h3>
+            <div className="flex flex-col gap-1.5">
+              {footerSections.about.map(({ href, label }) => {
                 const active = pathname === href
                 return (
-                  <MuiLink
-                    key={i}
-                    component={Link}
+                  <Link
+                    key={href}
                     href={href}
-                    color={active ? "primary" : "text.secondary"}
-                    underline="hover"
-                    sx={{
-                      transition: "all 0.2s ease",
-                      fontSize: "0.95rem",
-                      ":hover": {
-                        color: "primary.main",
-                        transform: "translateX(4px)",
-                      },
-                    }}
+                    className={`text-sm transition-all duration-200 hover:translate-x-1 hover:text-primary ${
+                      active ? "text-primary" : "text-muted-foreground"
+                    }`}
                   >
                     {t(`layout.footer.${label}`)}
-                  </MuiLink>
+                  </Link>
                 )
               })}
-            </Stack>
-          </Box>
+            </div>
+          </div>
 
-          <Box flex={1}>
-            <Typography
-              variant="h6"
-              gutterBottom
-              sx={{
-                fontWeight: 600,
-                mb: 2,
-                color: "primary.main",
-              }}
-            >
+          <div className="flex-1">
+            <h3 className="mb-2 text-base font-semibold text-primary">
               {t("layout.footer.sections.legal")}
-            </Typography>
-            <Stack spacing={1.5}>
-              {footerSections.legal.map(({ href, label }, i) => {
+            </h3>
+            <div className="flex flex-col gap-1.5">
+              {footerSections.legal.map(({ href, label }) => {
                 const active = pathname === href
                 return (
-                  <MuiLink
-                    key={i}
-                    component={Link}
+                  <Link
+                    key={href}
                     href={href}
-                    color={active ? "primary" : "text.secondary"}
-                    underline="hover"
-                    sx={{
-                      transition: "all 0.2s ease",
-                      fontSize: "0.95rem",
-                      ":hover": {
-                        color: "primary.main",
-                        transform: "translateX(4px)",
-                      },
-                    }}
+                    className={`text-sm transition-all duration-200 hover:translate-x-1 hover:text-primary ${
+                      active ? "text-primary" : "text-muted-foreground"
+                    }`}
                   >
                     {t(`layout.footer.${label}`)}
-                  </MuiLink>
+                  </Link>
                 )
               })}
-            </Stack>
-          </Box>
+            </div>
+          </div>
 
-          <Box flex={1}>
-            <Typography
-              variant="h6"
-              gutterBottom
-              sx={{
-                fontWeight: 600,
-                mb: 2,
-                color: "primary.main",
-              }}
-            >
+          <div className="flex-1">
+            <h3 className="mb-2 text-base font-semibold text-primary">
               {t("layout.footer.sections.connect")}
-            </Typography>
-            <Stack spacing={1.5}>
-              {footerSections.connect.map(({ href, label }, i) => {
+            </h3>
+            <div className="flex flex-col gap-1.5">
+              {footerSections.connect.map(({ href, label }) => {
                 const active = pathname === href
                 return (
-                  <MuiLink
-                    key={i}
-                    component={Link}
+                  <Link
+                    key={href}
                     href={href}
-                    color={active ? "primary" : "text.secondary"}
-                    underline="hover"
-                    sx={{
-                      transition: "all 0.2s ease",
-                      fontSize: "0.95rem",
-                      ":hover": {
-                        color: "primary.main",
-                        transform: "translateX(4px)",
-                      },
-                    }}
+                    className={`text-sm transition-all duration-200 hover:translate-x-1 hover:text-primary ${
+                      active ? "text-primary" : "text-muted-foreground"
+                    }`}
                   >
                     {t(`layout.footer.${label}`)}
-                  </MuiLink>
+                  </Link>
                 )
               })}
-            </Stack>
-          </Box>
-        </Stack>
+            </div>
+          </div>
+        </div>
 
-        <Box
-          sx={{
-            borderTop: 1,
-            borderColor: "divider",
-            pt: 4,
-          }}
-        >
-          <Typography
-            variant="body2"
-            textAlign="center"
-            color="text.secondary"
-            sx={{ fontSize: "0.875rem" }}
-          >
-            © {companyName} {new Date().getFullYear()}. All rights reserved.
-          </Typography>
-        </Box>
-      </Stack>
-    </Box>
+        <Separator className="my-4" />
+
+        <p className="text-center text-sm text-muted-foreground">
+          © {companyName} {new Date().getFullYear()}. All rights reserved.
+        </p>
+      </div>
+    </footer>
   )
 }
 

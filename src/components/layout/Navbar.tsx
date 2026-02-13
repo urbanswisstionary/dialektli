@@ -1,426 +1,206 @@
 "use client"
 
 import { useState, type FC } from "react"
-import AppBar from "@mui/material/AppBar"
-import Toolbar from "@mui/material/Toolbar"
-import Box from "@mui/material/Box"
-import Button from "@mui/material/Button"
-import IconButton from "@mui/material/IconButton"
-import Menu from "@mui/material/Menu"
-import MenuItem from "@mui/material/MenuItem"
-import Drawer from "@mui/material/Drawer"
-import List from "@mui/material/List"
-import ListItem from "@mui/material/ListItem"
-import ListItemButton from "@mui/material/ListItemButton"
-import ListItemIcon from "@mui/material/ListItemIcon"
-import ListItemText from "@mui/material/ListItemText"
-import Divider from "@mui/material/Divider"
-import Typography from "@mui/material/Typography"
-import Stack from "@mui/material/Stack"
-import MenuRoundedIcon from "@mui/icons-material/MenuRounded"
-import AccountCircleIcon from "@mui/icons-material/AccountCircle"
-import CottageRoundedIcon from "@mui/icons-material/CottageRounded"
-import MapRoundedIcon from "@mui/icons-material/MapRounded"
-import LoginRoundedIcon from "@mui/icons-material/LoginRounded"
-import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded"
-import AssignmentIndIcon from "@mui/icons-material/AssignmentInd"
-import AllInboxIcon from "@mui/icons-material/AllInbox"
-import GroupRoundedIcon from "@mui/icons-material/GroupRounded"
+import {
+  Plus,
+  Search,
+  User,
+  LogOut,
+  LogIn,
+  Map,
+  Home,
+  Users,
+  BookOpen,
+} from "lucide-react"
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import Logo from "@/components/ui/Logo"
 import ColorSchemeToggle from "@/components/ui/ColorSchemeToggle"
 import SelectLocale from "@/components/ui/SelectLocale"
 import SearchExpressionsInput from "@/components/ui/SearchExpressionsInput"
+import MobileDrawer from "./MobileDrawer"
 import { Link, usePathname } from "@/i18n/navigation"
 import { useMe } from "@/hooks/useUsers"
 import { useTranslations } from "next-intl"
 import { signOut } from "next-auth/react"
 import { companyName } from "@/config/constants"
+import { cn } from "@/lib/utils"
 
-const DRAWER_WIDTH = 280
+function getInitials(name: string): string {
+  return name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2)
+}
 
 const Navbar: FC = () => {
   const t = useTranslations()
   const pathname = usePathname()
   const { me, isAdmin, loading: meLoading } = useMe()
 
-  const [drawerOpen, setDrawerOpen] = useState(false)
-  const [userMenuAnchorEl, setUserMenuAnchorEl] = useState<null | HTMLElement>(
-    null,
-  )
-  const userMenuOpen = Boolean(userMenuAnchorEl)
-
-  const handleUserMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setUserMenuAnchorEl(event.currentTarget)
-  }
-
-  const handleUserMenuClose = () => {
-    setUserMenuAnchorEl(null)
-  }
-
-  const handleDrawerClose = () => {
-    setDrawerOpen(false)
-  }
-
-  const navLinks = [
-    {
-      label: t("layout.sidebar.home"),
-      href: "/" as const,
-      icon: <CottageRoundedIcon />,
-      active: pathname === "/",
-    },
-    {
-      label: t("layout.sidebar.sprachatlas"),
-      href: "/sprachatlas" as const,
-      icon: <MapRoundedIcon />,
-      active: pathname === "/sprachatlas",
-    },
-  ]
+  const [userMenuOpen, setUserMenuOpen] = useState(false)
 
   return (
-    <>
-      <AppBar
-        position="sticky"
-        color="default"
-        elevation={0}
-        sx={{
-          borderBottom: 1,
-          borderColor: "divider",
-          bgcolor: "background.paper",
-        }}
-      >
-        <Toolbar
-          sx={{
-            gap: { xs: 1, md: 2 },
-            px: { xs: 2, md: 3 },
-            minHeight: { xs: 56, md: 64 },
-          }}
+    <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="mx-auto flex h-14 max-w-6xl items-center gap-2 px-4 md:gap-4">
+        {/* Logo + Brand */}
+        <Link
+          href="/"
+          className="flex shrink-0 items-center gap-2 text-foreground no-underline"
         >
-          {/* Logo + Brand */}
-          <Stack
-            component={Link}
-            href="/"
-            direction="row"
-            alignItems="center"
-            spacing={1}
-            sx={{
-              textDecoration: "none",
-              color: "inherit",
-              flexShrink: 0,
-            }}
-          >
-            <Logo size="small" />
-            <Typography
-              variant="h6"
-              sx={{
-                fontWeight: 700,
-                display: { xs: "none", sm: "block" },
-                letterSpacing: "-0.02em",
-                whiteSpace: "nowrap",
-              }}
-            >
-              {companyName}
-            </Typography>
-          </Stack>
+          <Logo size="small" />
+          <span className="hidden text-lg font-bold tracking-tight sm:inline">
+            {companyName}
+          </span>
+        </Link>
 
-          {/* Desktop Nav Links */}
-          <Box
-            sx={{
-              display: { xs: "none", md: "flex" },
-              alignItems: "center",
-              gap: 0.5,
-              ml: 1,
-            }}
-          >
-            {navLinks.map((link) => (
-              <Button
-                key={link.href}
-                component={Link}
-                href={link.href}
-                color="inherit"
-                sx={{
-                  textTransform: "none",
-                  fontWeight: link.active ? 600 : 500,
-                  color: link.active ? "primary.main" : "text.secondary",
-                  borderRadius: 0,
-                  px: 1.5,
-                  py: 1,
-                  minHeight: { md: 64 },
-                  borderBottom: 3,
-                  borderColor: link.active ? "primary.main" : "transparent",
-                  transition: "all 0.15s ease-in-out",
-                  "&:hover": {
-                    bgcolor: "action.hover",
-                    borderColor: link.active
-                      ? "primary.main"
-                      : "action.disabled",
-                  },
-                }}
-              >
-                {link.label}
-              </Button>
-            ))}
-          </Box>
-
-          {/* Search — center, dominant */}
+        {/* Desktop Search */}
+        <div className="hidden flex-1 md:block md:max-w-[480px]">
           <SearchExpressionsInput
             sx={{
-              mx: { xs: 0.5, md: 2 },
-              flex: 1,
-              maxWidth: { md: 480 },
+              width: "100%",
             }}
           />
+        </div>
 
-          {/* Desktop Utilities */}
-          <Stack
-            direction="row"
-            alignItems="center"
-            spacing={1}
-            sx={{
-              display: { xs: "none", md: "flex" },
-              flexShrink: 0,
-            }}
+        {/* Spacer */}
+        <div className="flex-1 md:hidden" />
+
+        {/* Desktop Nav */}
+        <nav className="hidden items-center gap-1 md:flex">
+          <Button
+            variant="ghost"
+            size="sm"
+            asChild
+            className={cn(
+              pathname === "/" &&
+                "bg-accent text-accent-foreground font-semibold",
+            )}
           >
-            <SelectLocale compact />
-            <ColorSchemeToggle />
+            <Link href="/">
+              <Home className="mr-1.5 h-4 w-4" />
+              {t("layout.sidebar.home")}
+            </Link>
+          </Button>
 
-            {!meLoading &&
-              (me ? (
-                <>
-                  <IconButton
-                    onClick={handleUserMenuOpen}
-                    size="small"
-                    aria-label={t("layout.sidebar.profile")}
-                    aria-haspopup="true"
-                    sx={{
-                      border: 1,
-                      borderColor: "divider",
-                      p: 0.75,
-                    }}
-                  >
-                    <AccountCircleIcon fontSize="small" />
-                  </IconButton>
-                  <Menu
-                    anchorEl={userMenuAnchorEl}
-                    open={userMenuOpen}
-                    onClose={handleUserMenuClose}
-                    anchorOrigin={{
-                      vertical: "bottom",
-                      horizontal: "right",
-                    }}
-                    transformOrigin={{
-                      vertical: "top",
-                      horizontal: "right",
-                    }}
-                    slotProps={{
-                      paper: {
-                        sx: {
-                          mt: 0.5,
-                          minWidth: 200,
-                          borderRadius: 2,
-                        },
-                      },
-                    }}
-                  >
-                    <MenuItem
-                      component={Link}
-                      href="/account/profile"
-                      onClick={handleUserMenuClose}
-                    >
-                      <ListItemIcon>
-                        <AssignmentIndIcon fontSize="small" />
-                      </ListItemIcon>
-                      <ListItemText>{t("layout.sidebar.profile")}</ListItemText>
-                    </MenuItem>
-                    <MenuItem
-                      component={Link}
-                      href="/account/profile?view=expressions"
-                      onClick={handleUserMenuClose}
-                    >
-                      <ListItemIcon>
-                        <AllInboxIcon fontSize="small" />
-                      </ListItemIcon>
-                      <ListItemText>
-                        {t("layout.sidebar.expressions")}
-                      </ListItemText>
-                    </MenuItem>
-                    {isAdmin && (
-                      <MenuItem
-                        component={Link}
-                        href="/account/profile?view=users"
-                        onClick={handleUserMenuClose}
-                      >
-                        <ListItemIcon>
-                          <GroupRoundedIcon fontSize="small" />
-                        </ListItemIcon>
-                        <ListItemText>{t("layout.sidebar.users")}</ListItemText>
-                      </MenuItem>
-                    )}
-                    <Divider />
-                    <MenuItem
-                      onClick={() => {
-                        handleUserMenuClose()
-                        signOut({ callbackUrl: "/" })
-                      }}
-                    >
-                      <ListItemIcon>
-                        <LogoutRoundedIcon fontSize="small" />
-                      </ListItemIcon>
-                      <ListItemText>{t("layout.sidebar.signOut")}</ListItemText>
-                    </MenuItem>
-                  </Menu>
-                </>
-              ) : (
-                <Button
-                  component={Link}
-                  href="/auth/signin"
-                  variant="outlined"
-                  size="small"
-                  sx={{
-                    textTransform: "none",
-                    fontWeight: 500,
-                    borderRadius: 2,
-                    px: 2,
-                  }}
-                >
-                  {t("layout.sidebar.signIn")}
-                </Button>
-              ))}
-          </Stack>
-
-          {/* Mobile hamburger */}
-          <IconButton
-            onClick={() => setDrawerOpen(true)}
-            aria-label="Open menu"
-            sx={{ display: { xs: "flex", md: "none" }, flexShrink: 0 }}
+          <Button
+            variant="ghost"
+            size="sm"
+            asChild
+            className={cn(
+              pathname === "/sprachatlas" &&
+                "bg-accent text-accent-foreground font-semibold",
+            )}
           >
-            <MenuRoundedIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
+            <Link href="/sprachatlas">
+              <Map className="mr-1.5 h-4 w-4" />
+              {t("layout.sidebar.sprachatlas")}
+            </Link>
+          </Button>
 
-      {/* Mobile Drawer */}
-      <Drawer
-        anchor="right"
-        open={drawerOpen}
-        onClose={handleDrawerClose}
-        PaperProps={{ sx: { width: DRAWER_WIDTH } }}
-      >
-        <Stack direction="row" alignItems="center" spacing={1} sx={{ p: 2 }}>
-          <Link href="/" onClick={handleDrawerClose}>
-            <Logo size="small" />
-          </Link>
-          <Typography variant="h6" sx={{ fontWeight: 700 }}>
-            {companyName}
-          </Typography>
-        </Stack>
-        <Divider />
+          {!meLoading && me && (
+            <Button variant="default" size="sm" asChild>
+              <Link href="/expressions/new">
+                <Plus className="mr-1.5 h-4 w-4" />
+                {t("expression.newExpression.title")}
+              </Link>
+            </Button>
+          )}
 
-        <List>
-          {navLinks.map((link) => (
-            <ListItem key={link.href} disablePadding>
-              <ListItemButton
-                component={Link}
-                href={link.href}
-                selected={link.active}
-                onClick={handleDrawerClose}
-              >
-                <ListItemIcon>{link.icon}</ListItemIcon>
-                <ListItemText primary={link.label} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+          <SelectLocale compact />
+          <ColorSchemeToggle />
 
-        <Divider />
-
-        <List>
-          <ListItem>
-            <SelectLocale sx={{ width: "100%" }} />
-          </ListItem>
-          <ListItem>
-            <ListItemIcon>
-              <ColorSchemeToggle />
-            </ListItemIcon>
-            <ListItemText primary={t("actions.toggleColorScheme")} />
-          </ListItem>
-        </List>
-
-        <Divider />
-
-        <List>
           {!meLoading &&
             (me ? (
-              <>
-                <ListItem disablePadding>
-                  <ListItemButton
-                    component={Link}
-                    href="/account/profile"
-                    onClick={handleDrawerClose}
+              <DropdownMenu open={userMenuOpen} onOpenChange={setUserMenuOpen}>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="relative h-9 w-9 rounded-full"
+                    aria-label={t("layout.sidebar.profile")}
                   >
-                    <ListItemIcon>
-                      <AssignmentIndIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={t("layout.sidebar.profile")} />
-                  </ListItemButton>
-                </ListItem>
-                <ListItem disablePadding>
-                  <ListItemButton
-                    component={Link}
-                    href="/account/profile?view=expressions"
-                    onClick={handleDrawerClose}
-                  >
-                    <ListItemIcon>
-                      <AllInboxIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={t("layout.sidebar.expressions")} />
-                  </ListItemButton>
-                </ListItem>
-                {isAdmin && (
-                  <ListItem disablePadding>
-                    <ListItemButton
-                      component={Link}
-                      href="/account/profile?view=users"
-                      onClick={handleDrawerClose}
-                    >
-                      <ListItemIcon>
-                        <GroupRoundedIcon />
-                      </ListItemIcon>
-                      <ListItemText primary={t("layout.sidebar.users")} />
-                    </ListItemButton>
-                  </ListItem>
-                )}
-                <Divider sx={{ my: 1 }} />
-                <ListItem disablePadding>
-                  <ListItemButton
+                    <Avatar className="h-8 w-8">
+                      <AvatarFallback className="bg-primary text-primary-foreground text-xs font-medium">
+                        {getInitials(me.name ?? me.email ?? "U")}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <div className="px-2 py-1.5">
+                    <p className="text-sm font-medium text-foreground">
+                      {me.name ?? me.email}
+                    </p>
+                    {me.name && (
+                      <p className="text-xs text-muted-foreground">
+                        {me.email}
+                      </p>
+                    )}
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link href="/account/profile">
+                      <User className="mr-2 h-4 w-4" />
+                      {t("layout.sidebar.profile")}
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/account/profile?view=expressions">
+                      <BookOpen className="mr-2 h-4 w-4" />
+                      {t("layout.sidebar.expressions")}
+                    </Link>
+                  </DropdownMenuItem>
+                  {isAdmin && (
+                    <DropdownMenuItem asChild>
+                      <Link href="/account/profile?view=users">
+                        <Users className="mr-2 h-4 w-4" />
+                        {t("layout.sidebar.users")}
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
                     onClick={() => {
-                      handleDrawerClose()
+                      setUserMenuOpen(false)
                       signOut({ callbackUrl: "/" })
                     }}
                   >
-                    <ListItemIcon>
-                      <LogoutRoundedIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={t("layout.sidebar.signOut")} />
-                  </ListItemButton>
-                </ListItem>
-              </>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    {t("layout.sidebar.signOut")}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
-              <ListItem disablePadding>
-                <ListItemButton
-                  component={Link}
-                  href="/auth/signin"
-                  onClick={handleDrawerClose}
-                >
-                  <ListItemIcon>
-                    <LoginRoundedIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={t("layout.sidebar.signIn")} />
-                </ListItemButton>
-              </ListItem>
+              <Button variant="outline" size="sm" asChild>
+                <Link href="/auth/signin">
+                  <LogIn className="mr-1.5 h-4 w-4" />
+                  {t("layout.sidebar.signIn")}
+                </Link>
+              </Button>
             ))}
-        </List>
-      </Drawer>
-    </>
+        </nav>
+
+        {/* Mobile: search icon + dark mode + drawer */}
+        <div className="flex items-center gap-1 md:hidden">
+          <Button variant="ghost" size="icon" className="h-9 w-9" asChild>
+            <Link href="/" aria-label={t("actions.search")}>
+              <Search className="h-4 w-4" />
+            </Link>
+          </Button>
+          <ColorSchemeToggle />
+          <MobileDrawer />
+        </div>
+      </div>
+    </header>
   )
 }
 

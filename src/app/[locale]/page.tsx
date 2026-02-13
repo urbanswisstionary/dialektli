@@ -1,6 +1,5 @@
 "use client"
 
-import { useMe } from "@/hooks/useUsers"
 import SearchExpressionsInput from "@/components/ui/SearchExpressionsInput"
 import Box from "@mui/material/Box"
 import Stack from "@mui/material/Stack"
@@ -14,7 +13,6 @@ import { useRouter, usePathname } from "@/i18n/navigation"
 import { useSearchParams } from "next/navigation"
 import { setQueryOnPage } from "@/utils/setQueryOnPage"
 import { usePaginationState } from "@/hooks/usePaginationState"
-import NewExpressionButton from "@/components/ui/NewExpressionButton"
 import { useTranslations } from "next-intl"
 import { useMemo } from "react"
 import { sanitizeCanton, sanitizeFirstChar } from "@/utils/sanitizeQueries"
@@ -45,7 +43,6 @@ export default function HomePage() {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  const me = useMe().me
 
   const q = searchParams.get("q")
   const canton = searchParams.get("canton")
@@ -89,22 +86,10 @@ export default function HomePage() {
 
   return (
     <Stack sx={{ mt: 2, mb: 3, gap: 3 }}>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: { xs: "column-reverse", sm: "row" },
-          gap: 2,
-        }}
-      >
-        <SearchExpressionsInput
-          sx={{ flex: 1 }}
-          disabled={loadingExpressionsQuery}
-        />
-        <NewExpressionButton
-          sx={{ flex: 1 }}
-          disabled={loadingExpressionsQuery}
-        />
-      </Box>
+      <SearchExpressionsInput
+        sx={{ flex: 1 }}
+        disabled={loadingExpressionsQuery}
+      />
       <SelectSingleLocation
         mode="canton"
         value={sanitizedCanton}
