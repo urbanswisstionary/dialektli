@@ -1,15 +1,18 @@
 "use client"
 
 import { FC, useEffect, useState } from "react"
-import TextField, { TextFieldProps } from "@mui/material/TextField"
+import { Textarea } from "@/components/ui/textarea"
+import { cn } from "@/lib/utils"
 
-interface DebouncedTextareaProps extends Omit<
-  TextFieldProps,
-  "value" | "onChange"
-> {
+interface DebouncedTextareaProps {
   value: string
   onChange: (_value: string) => void
   debounce?: number
+  minRows?: number
+  maxRows?: number
+  className?: string
+  disabled?: boolean
+  [key: string]: any
 }
 
 const DebouncedTextarea: FC<DebouncedTextareaProps> = ({
@@ -18,6 +21,8 @@ const DebouncedTextarea: FC<DebouncedTextareaProps> = ({
   debounce = 500,
   minRows = 4,
   maxRows = 6,
+  className,
+  disabled,
   ...props
 }) => {
   const [textareaState, setTextareaState] = useState(value)
@@ -32,12 +37,12 @@ const DebouncedTextarea: FC<DebouncedTextareaProps> = ({
   }, [textareaState, onChange, debounce])
 
   return (
-    <TextField
+    <Textarea
       value={textareaState}
       onChange={(e) => setTextareaState(e.target.value)}
-      multiline
-      minRows={minRows}
-      maxRows={maxRows}
+      rows={minRows}
+      className={cn("resize-y", className)}
+      disabled={disabled}
       {...props}
     />
   )

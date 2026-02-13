@@ -1,25 +1,21 @@
 "use client"
 
 import type { FC } from "react"
-import Box from "@mui/material/Box"
-import Button from "@mui/material/Button"
-import ButtonGroup from "@mui/material/ButtonGroup"
-import FormControl, { FormControlProps } from "@mui/material/FormControl"
-import FormLabel from "@mui/material/FormLabel"
-import FormHelperText from "@mui/material/FormHelperText"
+import { Button } from "@/components/ui/button"
+import { Label } from "@/components/ui/label"
 import { ExpressionGender } from "@/generated/graphql"
 import { useTranslations } from "next-intl"
+import { cn } from "@/lib/utils"
 
 export const expressionGenders = Object.values(ExpressionGender)
 
-interface ExpressionGenderInputProps extends Omit<
-  FormControlProps,
-  "onChange"
-> {
+interface ExpressionGenderInputProps {
   value?: ExpressionGender | null
   onChange?: (_gender?: ExpressionGender) => void
   label?: string
   helperText?: string
+  disabled?: boolean
+  className?: string
 }
 
 const ExpressionGenderInput: FC<ExpressionGenderInputProps> = ({
@@ -28,36 +24,32 @@ const ExpressionGenderInput: FC<ExpressionGenderInputProps> = ({
   label,
   helperText,
   disabled,
-  error,
-  ...props
+  className,
 }) => {
   const t = useTranslations()
 
   return (
-    <FormControl disabled={disabled} error={error} {...props}>
-      {label ? <FormLabel>{label}</FormLabel> : null}
-      <Box sx={{ display: "inline-flex" }}>
-        <ButtonGroup
-          size="small"
-          aria-label={t("expression.genderFieldHelperText")}
-          disabled={disabled}
-        >
-          {expressionGenders.map((gender) => (
-            <Button
-              key={gender}
-              variant={gender === value ? "contained" : "outlined"}
-              onClick={() => {
-                if (onChange) onChange(gender !== value ? gender : undefined)
-              }}
-              disabled={disabled}
-            >
-              {t(`expression.genders.${gender}`)}
-            </Button>
-          ))}
-        </ButtonGroup>
-      </Box>
-      {helperText ? <FormHelperText>{helperText}</FormHelperText> : null}
-    </FormControl>
+    <div className={cn("space-y-2", className)}>
+      {label && <Label>{label}</Label>}
+      <div className="inline-flex gap-1">
+        {expressionGenders.map((gender) => (
+          <Button
+            key={gender}
+            size="sm"
+            variant={gender === value ? "default" : "outline"}
+            disabled={disabled}
+            onClick={() => {
+              if (onChange) onChange(gender !== value ? gender : undefined)
+            }}
+          >
+            {t(`expression.genders.${gender}`)}
+          </Button>
+        ))}
+      </div>
+      {helperText && (
+        <p className="text-sm text-muted-foreground">{helperText}</p>
+      )}
+    </div>
   )
 }
 

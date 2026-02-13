@@ -1,25 +1,29 @@
 "use client"
 
 import type { FC } from "react"
-import FormControl, { FormControlProps } from "@mui/material/FormControl"
-import FormLabel from "@mui/material/FormLabel"
-import TextField from "@mui/material/TextField"
 import { useState, useEffect } from "react"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { cn } from "@/lib/utils"
 
-interface ExpressionInputProps extends Omit<
-  FormControlProps,
-  "value" | "onChange"
-> {
+interface ExpressionInputProps {
   value?: string
   onChange: (_value: string) => void
   label?: string
+  disabled?: boolean
+  className?: string
+  required?: boolean
+  error?: boolean
 }
 
 const ExpressionInput: FC<ExpressionInputProps> = ({
   value = "",
   onChange,
   label,
-  ...formControlProps
+  disabled,
+  className,
+  required,
+  error,
 }) => {
   const [inputValue, setInputValue] = useState(value)
 
@@ -33,16 +37,22 @@ const ExpressionInput: FC<ExpressionInputProps> = ({
   }, [inputValue, onChange])
 
   return (
-    <FormControl {...formControlProps}>
-      {label ? <FormLabel>{label}</FormLabel> : null}
-      <TextField
-        size="medium"
+    <div className={cn("space-y-2", className)}>
+      {label ? (
+        <Label className={cn(error && "text-destructive")}>
+          {label}
+          {required && <span className="text-destructive ml-1">*</span>}
+        </Label>
+      ) : null}
+      <Input
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
-        inputProps={{ autoComplete: "off", maxLength: 240 }}
-        fullWidth
+        autoComplete="off"
+        maxLength={240}
+        disabled={disabled}
+        required={required}
       />
-    </FormControl>
+    </div>
   )
 }
 

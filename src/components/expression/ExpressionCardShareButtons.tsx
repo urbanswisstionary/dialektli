@@ -3,19 +3,16 @@
 import { useState } from "react"
 import type { FC } from "react"
 import { ExpressionFragmentFragment } from "@/generated/graphql"
-import ContentCopyIcon from "@mui/icons-material/ContentCopy"
-import IconButton from "@mui/material/IconButton"
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import dynamic from "next/dynamic"
-import ShareIcon from "@mui/icons-material/Share"
-import Menu from "@mui/material/Menu"
-import MenuItem from "@mui/material/MenuItem"
+import { Share2, Copy } from "lucide-react"
 import { useTranslations } from "next-intl"
-import Link from "@mui/material/Link"
-import EmailIcon from "@mui/icons-material/Email"
-import FacebookIcon from "@mui/icons-material/Facebook"
-import XIcon from "@mui/icons-material/X"
-import LinkedInIcon from "@mui/icons-material/LinkedIn"
-import WhatsAppIcon from "@mui/icons-material/WhatsApp"
 
 const EmailShareButton = dynamic(
   () => import("react-share").then((module) => module.EmailShareButton),
@@ -42,152 +39,148 @@ const ExpressionCardShareButtons: FC<{
   expression: ExpressionFragmentFragment
 }> = ({ expression }) => {
   const t = useTranslations()
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const [open, setOpen] = useState(false)
   const url = `${typeof window !== "undefined" ? window?.location.origin : ""}/expressions/${expression.id}`
 
-  const handleClose = () => setAnchorEl(null)
+  const handleClose = () => setOpen(false)
 
   return (
-    <>
-      <IconButton
-        size="small"
-        title={t("seo.share.shareButton")}
-        aria-label="Share this expression"
-        aria-haspopup="menu"
-        aria-expanded={Boolean(anchorEl)}
-        onClick={(e) => setAnchorEl(e.currentTarget)}
-        sx={{ border: "1px solid", borderColor: "divider" }}
-      >
-        <ShareIcon fontSize="small" />
-      </IconButton>
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-        aria-label="Share options"
-        slotProps={{
-          paper: {
-            sx: {
-              padding: 0,
-              "& .MuiMenuItem-root": { pb: 0, pt: 0.75 },
-              "& .MuiMenuItem-root:first-of-type": { pt: 1 },
-              "& .MuiMenuItem-root:last-of-type": { pb: 1 },
-            },
-          },
-        }}
-      >
-        <MenuItem title={t("seo.share.facebook")} onClick={handleClose}>
+    <DropdownMenu open={open} onOpenChange={setOpen}>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="outline"
+          size="icon"
+          className="relative z-10"
+          aria-label={t("seo.share.shareButton")}
+        >
+          <Share2 className="h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-48">
+        <DropdownMenuItem
+          onClick={handleClose}
+          className="cursor-pointer"
+          asChild
+        >
           <FacebookShareButton
             url={url}
             hashtag={`#${expression.title}`}
-            aria-label="Share on Facebook"
+            aria-label={t("seo.share.facebook")}
             style={{
               display: "flex",
               alignItems: "center",
+              width: "100%",
               border: "none",
               background: "none",
               padding: 0,
+              textAlign: "left",
             }}
           >
-            <FacebookIcon sx={{ mr: 1 }} aria-hidden="true" />
-            Facebook
+            <span className="text-sm">Facebook</span>
           </FacebookShareButton>
-        </MenuItem>
-        <MenuItem title={t("seo.share.twitter")} onClick={handleClose}>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={handleClose}
+          className="cursor-pointer"
+          asChild
+        >
           <XShareButton
             url={url}
             title={expression.title ?? ""}
             hashtags={[expression.title ?? ""]}
-            aria-label="Share on X (Twitter)"
+            aria-label={t("seo.share.twitter")}
             style={{
               display: "flex",
               alignItems: "center",
+              width: "100%",
               border: "none",
               background: "none",
               padding: 0,
+              textAlign: "left",
             }}
           >
-            <XIcon sx={{ mr: 1 }} aria-hidden="true" />X (Twitter)
+            <span className="text-sm">X (Twitter)</span>
           </XShareButton>
-        </MenuItem>
-        <MenuItem title={t("seo.share.linkedin")} onClick={handleClose}>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={handleClose}
+          className="cursor-pointer"
+          asChild
+        >
           <LinkedinShareButton
             url={url}
-            aria-label="Share on LinkedIn"
+            aria-label={t("seo.share.linkedin")}
             style={{
               display: "flex",
               alignItems: "center",
+              width: "100%",
               border: "none",
               background: "none",
               padding: 0,
+              textAlign: "left",
             }}
           >
-            <LinkedInIcon sx={{ mr: 1 }} aria-hidden="true" />
-            LinkedIn
+            <span className="text-sm">LinkedIn</span>
           </LinkedinShareButton>
-        </MenuItem>
-        <MenuItem title={t("seo.share.whatsapp")} onClick={handleClose}>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={handleClose}
+          className="cursor-pointer"
+          asChild
+        >
           <WhatsappShareButton
             url={url}
             title={expression.title ?? ""}
             separator=" :: "
-            aria-label="Share on WhatsApp"
+            aria-label={t("seo.share.whatsapp")}
             style={{
               display: "flex",
               alignItems: "center",
+              width: "100%",
               border: "none",
               background: "none",
               padding: 0,
+              textAlign: "left",
             }}
           >
-            <WhatsAppIcon sx={{ mr: 1 }} aria-hidden="true" />
-            WhatsApp
+            <span className="text-sm">WhatsApp</span>
           </WhatsappShareButton>
-        </MenuItem>
-        <MenuItem title={t("seo.share.email")} onClick={handleClose}>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={handleClose}
+          className="cursor-pointer"
+          asChild
+        >
           <EmailShareButton
             url={url}
             subject={expression.title ?? ""}
             body={expression.definition ?? ""}
-            aria-label="Share via Email"
+            aria-label={t("seo.share.email")}
             style={{
               display: "flex",
               alignItems: "center",
+              width: "100%",
               border: "none",
               background: "none",
               padding: 0,
+              textAlign: "left",
             }}
           >
-            <EmailIcon sx={{ mr: 1 }} aria-hidden="true" />
-            Email
+            <span className="text-sm">Email</span>
           </EmailShareButton>
-        </MenuItem>
-        <MenuItem
-          title={t("seo.share.copyLink")}
-          aria-label="Copy link to clipboard"
+        </DropdownMenuItem>
+        <DropdownMenuItem
           onClick={() => {
             navigator?.clipboard.writeText(url)
             handleClose()
           }}
-          sx={{ justifyContent: "center" }}
+          className="cursor-pointer"
         >
-          <Link
-            href={url}
-            onClick={(e) => e.preventDefault()}
-            aria-label="Copy link"
-            sx={{
-              py: 0.7,
-              px: 0.7,
-              borderRadius: 1,
-              border: "1px solid",
-              borderColor: "divider",
-            }}
-          >
-            <ContentCopyIcon fontSize={"small"} aria-hidden="true" />
-          </Link>
-        </MenuItem>
-      </Menu>
-    </>
+          <Copy className="h-4 w-4 mr-2" />
+          <span className="text-sm">{t("seo.share.copyLink")}</span>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
 

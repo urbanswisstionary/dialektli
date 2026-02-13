@@ -1,31 +1,25 @@
 "use client"
 
 import { useRef, type FC, useState } from "react"
-import Box from "@mui/material/Box"
-import FormControl, { FormControlProps } from "@mui/material/FormControl"
-import Typography from "@mui/material/Typography"
-import Button from "@mui/material/Button"
-import Stack from "@mui/material/Stack"
-import IconButton from "@mui/material/IconButton"
-import DeleteIcon from "@mui/icons-material/Delete"
-import TextField from "@mui/material/TextField"
-import InputAdornment from "@mui/material/InputAdornment"
+import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
 import { useTranslations } from "next-intl"
 import SelectMultipleLocation from "@/components/ui/Autocomplete/SelectMultipleLocation"
 import isEqual from "lodash/isEqual"
+import { Trash2 } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 export const exampleMaxLength = 440
 
-interface ExpressionExampleInputProps extends Omit<
-  FormControlProps,
-  "value" | "onChange"
-> {
+interface ExpressionExampleInputProps {
   exampleNumber?: number
   exampleDefinition?: string
   exampleCantons?: string[]
   onClose?: () => void
   onSave?: (_example: { definition: string; cantons: string[] }) => void
   onSaveLoading?: boolean
+  disabled?: boolean
+  className?: string
 }
 
 const ExpressionExampleInput: FC<ExpressionExampleInputProps> = ({
@@ -35,7 +29,8 @@ const ExpressionExampleInput: FC<ExpressionExampleInputProps> = ({
   onClose,
   onSave,
   onSaveLoading,
-  ...formControlProps
+  disabled,
+  className,
 }) => {
   const t = useTranslations()
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
@@ -46,70 +41,57 @@ const ExpressionExampleInput: FC<ExpressionExampleInputProps> = ({
     definition.trim() !== exampleDefinition || !isEqual(cantons, exampleCantons)
 
   return (
-    <>
+    <div className={cn("space-y-4", className)}>
       <SelectMultipleLocation
         mode="canton"
         value={cantons}
         onChange={(cantons) => setCantons(cantons ?? [])}
         groupOptions
       />
-      <FormControl {...formControlProps} fullWidth>
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          sx={{ mb: 1 }}
+
+      <div className="space-y-2">
+        <div
+          className="flex justify-between items-center"
           onClick={() => textareaRef.current?.focus()}
         >
-          <Typography
-            variant="caption"
-            sx={{
-              color: formControlProps.disabled
-                ? "action.disabled"
-                : "text.secondary",
-              userSelect: "none",
-            }}
+          <span
+            className={cn(
+              "text-sm",
+              disabled ? "text-muted-foreground" : "text-foreground",
+            )}
           >
             {exampleNumber}
-          </Typography>
-          <IconButton
-            size="small"
-            disabled={formControlProps.disabled}
+          </span>
+          <Button
+            size="icon"
+            variant="ghost"
+            disabled={disabled}
             onClick={() => setDefinition("")}
             title={t("expression.editExpression.deleteExample")}
             onFocus={() => textareaRef.current?.focus()}
           >
-            <DeleteIcon fontSize="small" />
-          </IconButton>
-        </Box>
-        <TextField
-          inputRef={textareaRef}
-          multiline
-          minRows={3}
-          maxRows={8}
-          value={definition}
-          onChange={({ currentTarget }) => setDefinition(currentTarget.value)}
-          inputProps={{
-            maxLength: exampleMaxLength,
-          }}
-          slotProps={{
-            input: {
-              startAdornment: (
-                <InputAdornment position="start" sx={{ mr: 1 }}>
-                  <Typography
-                    variant="caption"
-                    sx={{ color: "text.secondary" }}
-                  >
-                    {`${definition.length}/${exampleMaxLength}`}
-                  </Typography>
-                </InputAdornment>
-              ),
-            },
-          }}
-        />
-        <Stack direction="row" gap={1} sx={{ mt: 2 }}>
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </div>
+
+        <div className="relative">
+          <Textarea
+            ref={textareaRef}
+            rows={3}
+            value={definition}
+            onChange={(e) => setDefinition(e.target.value)}
+            maxLength={exampleMaxLength}
+            disabled={disabled}
+            className="resize-y"
+          />
+          <span className="absolute top-2 left-2 text-xs text-muted-foreground pointer-events-none">
+            {definition.length}/{exampleMaxLength}
+          </span>
+        </div>
+
+        <div className="flex gap-2">
           <Button
-            variant="outlined"
+            variant="outline"
             disabled={onSaveLoading || !changesFound}
             onClick={() => {
               if (onSave)
@@ -119,8 +101,7 @@ const ExpressionExampleInput: FC<ExpressionExampleInputProps> = ({
             {t("actions.save")}
           </Button>
           <Button
-            variant="outlined"
-            color="inherit"
+            variant="outline"
             disabled={onSaveLoading || (!onClose && !changesFound)}
             onClick={() => {
               setDefinition(exampleDefinition)
@@ -131,9 +112,9 @@ const ExpressionExampleInput: FC<ExpressionExampleInputProps> = ({
           >
             {t(`actions.${onClose && !changesFound ? "close" : "cancel"}`)}
           </Button>
-        </Stack>
-      </FormControl>
-    </>
+        </div>
+      </div>
+    </div>
   )
 }
 

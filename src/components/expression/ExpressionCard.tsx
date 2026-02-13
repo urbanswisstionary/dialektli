@@ -1,33 +1,31 @@
 "use client"
 
 import type { FC } from "react"
-import Card from "@mui/material/Card"
-import Typography from "@mui/material/Typography"
-import Stack from "@mui/material/Stack"
-import Box from "@mui/material/Box"
-import CardActions from "@mui/material/CardActions"
-import ThumbUpRoundedIcon from "@mui/icons-material/ThumbUpRounded"
-import ThumbUpTwoToneIcon from "@mui/icons-material/ThumbUpTwoTone"
-import ThumbDownRoundedIcon from "@mui/icons-material/ThumbDownRounded"
-import ThumbDownTwoToneIcon from "@mui/icons-material/ThumbDownTwoTone"
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import { ExpressionFragmentFragment } from "@/generated/graphql"
-import ExpressionCardActionButton from "./ExpressionCardActionButton"
 import ExpressionCardExamples from "./ExpressionCardExamples"
 import Flag from "@/components/ui/Flag"
 import { useTranslations } from "next-intl"
-import { useRouter, usePathname } from "@/i18n/navigation"
+import { useRouter, usePathname, Link } from "@/i18n/navigation"
 import { useSearchParams } from "next/navigation"
-import Link from "@mui/material/Link"
 import { setQueryOnPage } from "@/utils/setQueryOnPage"
 import ExpressionCardShareButtons from "./ExpressionCardShareButtons"
 import ExpressionCardSynonyms from "./ExpressionCardSynonyms"
 import { formatExpressionDate } from "@/utils/formatExpressionDate"
-import { Link as I18nLink } from "@/i18n/navigation"
 import { useLocale } from "next-intl"
 import { useMe } from "@/hooks/useUsers"
-import Tooltip from "@mui/material/Tooltip"
 import { SwitzerlandMap } from "@/components/maps/SwitzerlandMap"
-import Button from "@mui/material/Button"
+import LikeDislikeButtons from "./LikeDislikeButtons"
+import BookmarkButton from "./BookmarkButton"
+import { getFragmentData } from "@/generated"
+import { ExpressionExampleFragment } from "@/hooks/useExpressions"
 
 type ExpressionCardProps = {
   expression: ExpressionFragmentFragment
@@ -47,248 +45,184 @@ const ExpressionCard: FC<ExpressionCardProps> = ({
 
   const isOwnExpression = expression.author?.id === me?.id
 
+  const maxCantonsToShow = 4
+  const cantons = expression.cantons ?? []
+  const visibleCantons = cantons.slice(0, maxCantonsToShow)
+  const remainingCount = cantons.length - maxCantonsToShow
+
   return (
     <Card
-      component="article"
+      className="group relative p-6 transition-colors hover:border-primary/30"
+      role="article"
       aria-label={`Expression: ${expression?.title}`}
-      sx={{
-        wordBreak: "break-word",
-        p: 3,
-        transition: "box-shadow 0.2s ease-in-out",
-        "&:hover": {
-          boxShadow: 4,
-        },
-      }}
     >
-      <Stack
-        direction="row"
-        justifyContent="space-between"
-        alignItems="flex-start"
-      >
-        <Stack direction="column" gap={2}>
-          {expression.cantons && expression.cantons.length > 0 ? (
-            <Box>
-              <Stack direction="row" gap={1} flexWrap="wrap" mb={2}>
-                {expression.cantons.map((canton, i) => (
-                  <Tooltip key={i} title={t("filterBy.canton")}>
-                    <Box
-                      onClick={() =>
-                        setQueryOnPage(router, pathname, searchParams, {
-                          canton: canton,
-                        })
-                      }
-                      aria-label={`Filter by canton ${canton}`}
-                      sx={{
-                        cursor: "pointer",
-                        display: "inline-flex",
-                        padding: "4px 8px",
-                        borderRadius: "6px",
-                        transition: "all 0.2s ease-in-out",
-                        "&:hover": {
-                          backgroundColor: "rgba(63, 81, 181, 0.08)",
-                          transform: "scale(1.1)",
-                        },
-                        "&:focus": {
-                          outline: "2px solid #3F51B5",
-                          outlineOffset: "2px",
-                        },
-                      }}
-                      tabIndex={0}
-                      role="button"
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                          e.preventDefault()
-                          setQueryOnPage(router, pathname, searchParams, {
-                            canton: canton,
-                          })
-                        }
-                      }}
-                    >
-                      <Flag mode="canton" code={canton} />
-                    </Box>
-                  </Tooltip>
-                ))}
-              </Stack>
-              <Box sx={{ maxWidth: "100%", height: 300, mb: 2 }}>
-                <SwitzerlandMap
-                  highlightedCantons={expression.cantons}
-                  strokeColor="#FFFFFF"
-                  strokeWidth={1.5}
-                  locale={locale as "de" | "fr" | "it" | "en"}
-                  showLabels={false}
-                  showAttribution={false}
-                  height={300}
-                  width="100%"
-                />
-              </Box>
-            </Box>
-          ) : null}
-          <Typography variant="h6">
-            {expression?.title}{" "}
-            {expression?.gender ? (
-              <Typography
-                component="span"
-                variant="body2"
-                title={t(`expression.genders.${expression.gender}`)}
-                sx={{
-                  textTransform: "lowercase",
-                }}
-              >
-                ({expression.gender})
-              </Typography>
-            ) : null}{" "}
-            {expression?.type ? (
-              <Typography
-                component="span"
-                variant="body2"
-                color="warning.main"
-                title={t(`expression.types.${expression.type}.description`)}
-              >
-                {t(`expression.types.${expression.type}.label`)}
-              </Typography>
-            ) : null}
-          </Typography>
-          <Link
-            variant="caption"
-            component={I18nLink}
-            href={`/expressions/${expression.id}`}
-            aria-label={`View full expression posted on ${formatExpressionDate({
-              date: expression?.createdAt,
-              locale: locale,
-            })}`}
-          >
-            {formatExpressionDate({
-              date: expression?.createdAt,
-              locale: locale,
-            })}
-          </Link>
-        </Stack>
-        <ExpressionCardShareButtons expression={expression} />
-      </Stack>
+      <Link
+        href={`/expressions/${expression.id}`}
+        className="absolute inset-0 z-0"
+        aria-label={`View expression: ${expression?.title}`}
+      />
 
-      <Typography mb={2} variant="body1" mt={2}>
-        {expression?.definition}
-      </Typography>
+      <CardContent className="p-0 relative">
+        {/* Header: Title, Cantons, Bookmark */}
+        <div className="flex justify-between items-start mb-4">
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-2 flex-wrap">
+              <h3 className="text-lg font-bold">{expression?.title}</h3>
+              {expression?.gender && (
+                <span
+                  className="text-xs text-muted-foreground lowercase"
+                  title={t(`expression.genders.${expression.gender}`)}
+                >
+                  ({expression.gender})
+                </span>
+              )}
+              {expression?.type && (
+                <Badge
+                  variant="outline"
+                  className="text-xs"
+                  title={t(`expression.types.${expression.type}.description`)}
+                >
+                  {t(`expression.types.${expression.type}.label`)}
+                </Badge>
+              )}
+              {expression?.language && (
+                <Badge variant="secondary" className="text-xs">
+                  {t(`selectLanguage.${expression.language}`)}
+                </Badge>
+              )}
+            </div>
 
-      <Box sx={{ gap: 0 }}>
-        <ExpressionCardExamples expression={expression} />
-      </Box>
+            {/* Canton badges */}
+            {cantons.length > 0 && (
+              <div className="flex gap-1 flex-wrap mb-2">
+                <TooltipProvider>
+                  {visibleCantons.map((canton, i) => (
+                    <Tooltip key={i}>
+                      <TooltipTrigger asChild>
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault()
+                            setQueryOnPage(router, pathname, searchParams, {
+                              canton: canton,
+                            })
+                          }}
+                          className="inline-flex p-1 rounded transition-all hover:bg-primary/10 hover:scale-110 focus:outline-primary focus:outline-2 focus:outline-offset-2"
+                          aria-label={`Filter by canton ${canton}`}
+                        >
+                          <Flag mode="canton" code={canton} />
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>{t("filterBy.canton")}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  ))}
+                  {remainingCount > 0 && (
+                    <Badge variant="secondary" className="text-xs">
+                      +{remainingCount}
+                    </Badge>
+                  )}
+                </TooltipProvider>
+              </div>
+            )}
+          </div>
 
-      <Box sx={{ gap: 0 }}>
-        <ExpressionCardSynonyms expression={expression} />
-      </Box>
-      <Box
-        sx={{ borderTop: "1px solid", borderColor: "divider", px: 2, mt: 2 }}
-      >
-        <CardActions sx={{ justifyContent: "space-between" }}>
-          <Stack direction="row" gap={1} alignItems="center">
-            <Typography variant="subtitle2" sx={{ wordBreak: "normal" }}>
-              {t("expression.author")}:
-            </Typography>
-            {isOwnExpression ? (
-              <Typography variant="body2">{expression.author?.name}</Typography>
-            ) : (
-              <>
-                <Link
-                  variant="body2"
-                  onClick={() =>
+          <div className="flex items-start gap-2">
+            <ExpressionCardShareButtons expression={expression} />
+            <BookmarkButton />
+          </div>
+        </div>
+
+        {/* Map */}
+        {cantons.length > 0 && (
+          <div className="max-w-full h-[300px] mb-4">
+            <SwitzerlandMap
+              highlightedCantons={cantons}
+              strokeColor="#FFFFFF"
+              strokeWidth={1.5}
+              locale={locale as "de" | "fr" | "it" | "en"}
+              showLabels={false}
+              showAttribution={false}
+              height={300}
+              width="100%"
+            />
+          </div>
+        )}
+
+        {/* Definition */}
+        <p className="text-sm leading-relaxed text-foreground/90 mb-4 line-clamp-2">
+          {expression?.definition}
+        </p>
+
+        {/* First example preview */}
+        {expression.examples && expression.examples.length > 0 && (
+          <p className="text-sm italic text-muted-foreground line-clamp-1 mb-2">
+            {
+              getFragmentData(ExpressionExampleFragment, expression.examples[0])
+                ?.definition
+            }
+          </p>
+        )}
+
+        {/* Examples section */}
+        {expression.examples && expression.examples.length > 0 && (
+          <div className="mb-2">
+            <ExpressionCardExamples expression={expression} />
+          </div>
+        )}
+
+        {/* Synonyms section */}
+        {expression.synonyms && expression.synonyms.length > 0 && (
+          <div className="mb-2">
+            <ExpressionCardSynonyms expression={expression} />
+          </div>
+        )}
+
+        {/* Footer: Author, Date, Actions */}
+        <div className="border-t border-border pt-4 mt-4">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <span className="font-medium">{t("expression.author")}:</span>
+              {isOwnExpression ? (
+                <span>{expression.author?.name}</span>
+              ) : (
+                <button
+                  onClick={(e) => {
+                    e.preventDefault()
                     setQueryOnPage(router, pathname, searchParams, {
                       author: expression.author?.name ?? "",
                     })
-                  }
-                  aria-label={`Filter expressions by author ${expression.author?.name}`}
-                  sx={{
-                    cursor: "pointer",
-                    transition: "color 0.2s ease-in-out",
-                    "&:hover": {
-                      color: "primary.dark",
-                      textDecoration: "underline",
-                    },
                   }}
+                  className="text-primary hover:underline relative z-10"
+                  aria-label={`Filter expressions by author ${expression.author?.name}`}
                 >
                   {expression.author?.name}
-                </Link>
-                <Button
-                  size="small"
-                  variant="outlined"
-                  onClick={() =>
-                    setQueryOnPage(router, pathname, searchParams, {
-                      author: expression.author?.name ?? "",
-                    })
-                  }
-                  aria-label={`Show more expressions from ${expression.author?.name}`}
-                  sx={{
-                    textTransform: "none",
-                    fontSize: "0.75rem",
-                    ml: 1,
-                  }}
-                >
-                  More from author
-                </Button>
-              </>
-            )}
-          </Stack>
+                </button>
+              )}
+              <span>•</span>
+              <time
+                dateTime={expression?.createdAt ?? undefined}
+                className="text-muted-foreground"
+              >
+                {formatExpressionDate({
+                  date: expression?.createdAt,
+                  locale: locale,
+                })}
+              </time>
+            </div>
 
-          <Box sx={{ display: "flex", gap: 1.5, paddingInline: 2 }}>
-            <Box
-              component="span"
-              sx={{
-                position: "absolute",
-                left: "-10000px",
-                width: "1px",
-                height: "1px",
-                overflow: "hidden",
-              }}
-              aria-live="polite"
-            >
-              {expression.likesCount ?? 0} likes,{" "}
-              {expression.dislikesCount ?? 0} dislikes
-            </Box>
-            <Tooltip
-              title={
-                isOwnExpression ? t("expression.cannotVoteOwnExpression") : ""
-              }
-              disableHoverListener={!isOwnExpression}
-            >
-              <span>
-                <ExpressionCardActionButton
-                  action="dislike"
-                  expressionId={expression.id ?? ""}
-                  badgeContent={expression?.dislikesCount ?? undefined}
-                  disabled={disableActions || isOwnExpression}
-                >
-                  {expression.dislikedByMe ? (
-                    <ThumbDownRoundedIcon />
-                  ) : (
-                    <ThumbDownTwoToneIcon />
-                  )}
-                </ExpressionCardActionButton>
-              </span>
-            </Tooltip>
-            <Tooltip
-              title={
-                isOwnExpression ? t("expression.cannotVoteOwnExpression") : ""
-              }
-              disableHoverListener={!isOwnExpression}
-            >
-              <span>
-                <ExpressionCardActionButton
-                  action="like"
-                  expressionId={expression.id ?? ""}
-                  badgeContent={expression.likesCount ?? undefined}
-                  disabled={disableActions || isOwnExpression}
-                >
-                  {expression.likedByMe ? (
-                    <ThumbUpRoundedIcon color="inherit" />
-                  ) : (
-                    <ThumbUpTwoToneIcon />
-                  )}
-                </ExpressionCardActionButton>
-              </span>
-            </Tooltip>
-          </Box>
-        </CardActions>
-      </Box>
+            <LikeDislikeButtons
+              expressionId={expression.id ?? ""}
+              likesCount={expression?.likesCount ?? 0}
+              dislikesCount={expression?.dislikesCount ?? 0}
+              likedByMe={expression.likedByMe ?? false}
+              dislikedByMe={expression.dislikedByMe ?? false}
+              disabled={disableActions}
+              isOwnExpression={isOwnExpression}
+            />
+          </div>
+        </div>
+      </CardContent>
     </Card>
   )
 }

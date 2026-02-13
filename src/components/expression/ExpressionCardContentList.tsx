@@ -1,8 +1,7 @@
 "use client"
 
 import type { FC, PropsWithChildren, ReactNode } from "react"
-import List from "@mui/material/List"
-import ListSubheader from "@mui/material/ListSubheader"
+import { cn } from "@/lib/utils"
 
 type ExpressionCardContentListProps = {
   label?: ReactNode
@@ -12,26 +11,17 @@ type ExpressionCardContentListProps = {
 const ExpressionCardContentList: FC<
   PropsWithChildren<ExpressionCardContentListProps>
 > = ({ label, disabled, children }) => (
-  <List
-    sx={{
-      borderTop: "1px solid",
-      borderColor: "divider",
-    }}
-  >
-    <ListSubheader
-      sx={{
-        borderBottom: "1.5px solid",
-        borderColor: "divider",
-        pb: 1,
-        mb: 1,
-        display: "block",
-        color: disabled ? "text.disabled" : undefined,
-      }}
+  <div className="border-t border-border">
+    <div
+      className={cn(
+        "border-b-2 border-border pb-1 mb-1 block font-medium text-sm",
+        disabled && "text-muted-foreground",
+      )}
     >
       {label}
-    </ListSubheader>
+    </div>
     {children}
-  </List>
+  </div>
 )
 
 export default ExpressionCardContentList

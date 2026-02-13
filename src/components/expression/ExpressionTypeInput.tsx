@@ -3,21 +3,25 @@
 import { type FC, useMemo } from "react"
 import { ExpressionType } from "@/generated/graphql"
 import { useTranslations } from "next-intl"
-import FormControl, { type FormControlProps } from "@mui/material/FormControl"
-import FormLabel from "@mui/material/FormLabel"
-import FormHelperText from "@mui/material/FormHelperText"
-import Autocomplete from "@mui/material/Autocomplete"
-import TextField from "@mui/material/TextField"
-import Typography from "@mui/material/Typography"
-import { Box } from "@mui/material"
+import { Label } from "@/components/ui/label"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { cn } from "@/lib/utils"
 
 export const expressionTypes = Object.values(ExpressionType)
 
-interface ExpressionTypeInputProps extends Omit<FormControlProps, "onChange"> {
+interface ExpressionTypeInputProps {
   value?: ExpressionType | null
   onChange?: (_type?: ExpressionType | null) => void
   label?: string
   helperText?: string
+  disabled?: boolean
+  className?: string
 }
 
 const ExpressionTypeInput: FC<ExpressionTypeInputProps> = ({
@@ -25,7 +29,8 @@ const ExpressionTypeInput: FC<ExpressionTypeInputProps> = ({
   onChange,
   label,
   helperText,
-  ...props
+  disabled,
+  className,
 }) => {
   const t = useTranslations()
   const options = useMemo(
@@ -37,47 +42,37 @@ const ExpressionTypeInput: FC<ExpressionTypeInputProps> = ({
       })),
     [t],
   )
-  const selectedOption = useMemo(
-    () => options.find(({ type }) => type === value) ?? null,
-    [value, options],
-  )
+
   return (
-    <FormControl {...props}>
-      {label ? <FormLabel>{label}</FormLabel> : null}
-      <Autocomplete
-        size="small"
-        autoHighlight
-        isOptionEqualToValue={(option, value) => option.type === value?.type}
-        value={selectedOption}
-        onChange={(_, option) => {
-          if (onChange) onChange(option?.type ?? null)
+    <div className={cn("space-y-2", className)}>
+      {label && <Label>{label}</Label>}
+      <Select
+        disabled={disabled}
+        value={value ?? undefined}
+        onValueChange={(val) => {
+          if (onChange) onChange(val as ExpressionType)
         }}
-        options={options}
-        getOptionLabel={(option) => option.label}
-        renderOption={(props, option) => (
-          <Box
-            {...props}
-            component="li"
-            sx={{
-              alignItems: "flex-start",
-              flexDirection: "column",
-              gap: 0,
-              display: "flex",
-              borderBottom: "1px solid",
-              borderColor: "divider",
-              paddingBlock: 1,
-            }}
-          >
-            <Typography variant="subtitle2">{option.label}</Typography>
-            <Typography variant="caption">{option.description}</Typography>
-          </Box>
-        )}
-        renderInput={(params) => (
-          <TextField {...params} placeholder="Select a type" />
-        )}
-      />
-      {helperText ? <FormHelperText>{helperText}</FormHelperText> : null}
-    </FormControl>
+      >
+        <SelectTrigger>
+          <SelectValue placeholder="Select a type" />
+        </SelectTrigger>
+        <SelectContent>
+          {options.map((option) => (
+            <SelectItem key={option.type} value={option.type}>
+              <div className="flex flex-col gap-0.5">
+                <span className="text-sm font-medium">{option.label}</span>
+                <span className="text-xs text-muted-foreground">
+                  {option.description}
+                </span>
+              </div>
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      {helperText && (
+        <p className="text-sm text-muted-foreground">{helperText}</p>
+      )}
+    </div>
   )
 }
 

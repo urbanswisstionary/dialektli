@@ -1,23 +1,24 @@
 "use client"
 
 import type { FC } from "react"
-import Box, { BoxProps } from "@mui/material/Box"
 import ExpressionCard from "@/components/expression/ExpressionCard"
 import Pagination, { PaginationProps } from "@/components/ui/Pagination"
 import { FragmentType, getFragmentData } from "@/generated"
 import { ExpressionFragment } from "@/hooks/useExpressions"
 import { useMe } from "@/hooks/useUsers"
-import CircularProgress from "@mui/material/CircularProgress"
+import { Loader2 } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { cn } from "@/lib/utils"
 
-interface ExpressionsCardsListProps extends Pick<BoxProps, "sx"> {
+interface ExpressionsCardsListProps {
   paginationProps?: PaginationProps
   expressions?: FragmentType<typeof ExpressionFragment>[]
   loading?: boolean
+  className?: string
 }
 
 const ExpressionsCardsList: FC<ExpressionsCardsListProps> = ({
-  sx,
+  className,
   loading,
   ...props
 }) => {
@@ -31,15 +32,12 @@ const ExpressionsCardsList: FC<ExpressionsCardsListProps> = ({
   )
 
   return (
-    <Box
-      sx={[
-        { display: "flex", flexDirection: "column", gap: 5 },
-        ...(Array.isArray(sx) ? sx : [sx]),
-      ]}
-    >
+    <div className={cn("flex flex-col gap-5", className)}>
       {pagination}
       {loading ? (
-        <CircularProgress sx={{ alignSelf: "center", my: 5 }} size="large" />
+        <div className="flex justify-center my-10">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
       ) : expressions.length ? (
         expressions.map((expression) => (
           <ExpressionCard
@@ -49,10 +47,10 @@ const ExpressionsCardsList: FC<ExpressionsCardsListProps> = ({
           />
         ))
       ) : (
-        <>{t("noData")}</>
+        <div className="text-center text-muted-foreground">{t("noData")}</div>
       )}
       {pagination}
-    </Box>
+    </div>
   )
 }
 
