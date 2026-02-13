@@ -1,12 +1,11 @@
 "use client"
 
 import { useTranslations } from "next-intl"
-import Stack from "@mui/material/Stack"
-import Typography from "@mui/material/Typography"
-import Card from "@mui/material/Card"
-import CardContent from "@mui/material/CardContent"
-import TextField from "@mui/material/TextField"
-import Button from "@mui/material/Button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Button } from "@/components/ui/button"
+import { Label } from "@/components/ui/label"
 
 export default function ContactUsPage() {
   const t = useTranslations()
@@ -18,39 +17,38 @@ export default function ContactUsPage() {
   }
 
   return (
-    <Stack spacing={3} sx={{ py: 4 }}>
-      <Card elevation={2}>
-        <CardContent sx={{ p: 4 }}>
-          <Typography variant="h4" gutterBottom sx={{ mb: 2 }}>
+    <div className="flex flex-col gap-6 py-8">
+      <Card>
+        <CardContent className="p-8">
+          <h1 className="mb-4 text-2xl font-bold">
             {t("layout.footer.contact")}
-          </Typography>
-          <Typography variant="body1" paragraph sx={{ mb: 3 }}>
-            {t("contactUs.subtitle")}
-          </Typography>
+          </h1>
+          <p className="mb-6">{t("contactUs.subtitle")}</p>
           <form onSubmit={handleSubmit}>
-            <Stack spacing={3}>
-              <TextField fullWidth label={t("contactUs.name")} required />
-              <TextField
-                fullWidth
-                type="email"
-                label={t("contactUs.email")}
-                required
-              />
-              <TextField fullWidth label={t("contactUs.subject")} required />
-              <TextField
-                fullWidth
-                multiline
-                rows={6}
-                label={t("contactUs.message")}
-                required
-              />
-              <Button type="submit" variant="contained" size="large">
+            <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="name">{t("contactUs.name")}</Label>
+                <Input id="name" required />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="email">{t("contactUs.email")}</Label>
+                <Input id="email" type="email" required />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="subject">{t("contactUs.subject")}</Label>
+                <Input id="subject" required />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="message">{t("contactUs.message")}</Label>
+                <Textarea id="message" rows={6} required />
+              </div>
+              <Button type="submit" size="lg">
                 {t("actions.submit")}
               </Button>
-            </Stack>
+            </div>
           </form>
         </CardContent>
       </Card>
-    </Stack>
+    </div>
   )
 }

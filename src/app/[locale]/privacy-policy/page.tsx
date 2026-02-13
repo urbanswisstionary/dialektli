@@ -1,190 +1,133 @@
 "use client"
 
 import { useTranslations } from "next-intl"
-import Stack from "@mui/material/Stack"
-import Typography from "@mui/material/Typography"
-import Card from "@mui/material/Card"
-import CardContent from "@mui/material/CardContent"
-import Box from "@mui/material/Box"
+import { Card, CardContent } from "@/components/ui/card"
 
 export default function PrivacyPolicyPage() {
   const t = useTranslations()
 
   return (
-    <Stack spacing={3} sx={{ py: 4, maxWidth: "900px", mx: "auto", px: 3 }}>
-      <Card elevation={3}>
-        <CardContent sx={{ p: { xs: 3, md: 5 } }}>
-          <Typography
-            variant="h3"
-            gutterBottom
-            sx={{ mb: 4, fontWeight: 600, color: "primary.main" }}
-          >
+    <div className="mx-auto flex max-w-[900px] flex-col gap-6 px-6 py-8">
+      <Card>
+        <CardContent className="p-6 md:p-10">
+          <h1 className="mb-8 text-3xl font-semibold text-primary">
             {t("legal.privacyPolicy.title")}
-          </Typography>
+          </h1>
 
-          <Typography variant="body1" paragraph sx={{ lineHeight: 1.8, mb: 2 }}>
+          <p className="mb-4 leading-[1.8]">
             {t("legal.privacyPolicy.description.0")}
-          </Typography>
-          <Box component="ul" sx={{ pl: 3, mb: 2 }}>
+          </p>
+          <ul className="mb-4 pl-6">
             {[0, 1].map((index) => (
-              <Box component="li" key={index} sx={{ mb: 0.5 }}>
-                <Typography variant="body1" sx={{ lineHeight: 1.8 }}>
+              <li key={index} className="mb-1">
+                <p className="leading-[1.8]">
                   {t(`legal.privacyPolicy.description.1.${index}` as any)}
-                </Typography>
-              </Box>
+                </p>
+              </li>
             ))}
-          </Box>
-          <Typography variant="body1" paragraph sx={{ lineHeight: 1.8, mb: 3 }}>
+          </ul>
+          <p className="mb-6 leading-[1.8]">
             {t("legal.privacyPolicy.description.2")}
-          </Typography>
+          </p>
 
-          <Box
-            sx={{ my: 4, p: 3, bgcolor: "background.default", borderRadius: 2 }}
-          >
-            <Typography
-              variant="h5"
-              gutterBottom
-              sx={{ fontWeight: 600, color: "primary.main" }}
-            >
+          <div className="my-8 rounded-lg bg-muted/50 p-6">
+            <h2 className="mb-4 text-xl font-semibold text-primary">
               {t("legal.privacyPolicy.tableOfContent.title")}
-            </Typography>
-            <Box component="ol" sx={{ pl: 3, mt: 2 }}>
+            </h2>
+            <ol className="mt-4 pl-6">
               {[...Array(10)].map((_, index) => (
-                <Box component="li" key={index} sx={{ mb: 1 }}>
-                  <Typography variant="body1">
+                <li key={index} className="mb-2">
+                  <p>
                     {t(
                       `legal.privacyPolicy.tableOfContent.list.${index}` as any,
                     )}
-                  </Typography>
-                </Box>
+                  </p>
+                </li>
               ))}
-            </Box>
-          </Box>
+            </ol>
+          </div>
 
-          <Typography
-            variant="h5"
-            gutterBottom
-            sx={{ mt: 5, mb: 2, fontWeight: 600 }}
-          >
+          <h2 className="mt-10 mb-4 text-xl font-semibold">
             {t("legal.privacyPolicy.informationWeCollect.title")}
-          </Typography>
-          <Typography variant="body1" paragraph sx={{ lineHeight: 1.8, mb: 3 }}>
+          </h2>
+          <p className="mb-6 leading-[1.8]">
             {t("legal.privacyPolicy.informationWeCollect.paragraph")}
-          </Typography>
+          </p>
 
-          <Typography
-            variant="h5"
-            gutterBottom
-            sx={{ mt: 5, mb: 2, fontWeight: 600 }}
-          >
+          <h2 className="mt-10 mb-4 text-xl font-semibold">
             {t("legal.privacyPolicy.howWeUseYourInformation.title")}
-          </Typography>
-          <Typography variant="body1" paragraph sx={{ lineHeight: 1.8, mb: 3 }}>
+          </h2>
+          <p className="mb-6 leading-[1.8]">
             {t("legal.privacyPolicy.howWeUseYourInformation.paragraph")}
-          </Typography>
+          </p>
 
-          <Typography
-            variant="h5"
-            gutterBottom
-            sx={{ mt: 5, mb: 2, fontWeight: 600 }}
-          >
+          <h2 className="mt-10 mb-4 text-xl font-semibold">
             {t("legal.privacyPolicy.whenDoWeShareYourData.title")}
-          </Typography>
-          <Typography variant="body1" paragraph sx={{ lineHeight: 1.8, mb: 3 }}>
+          </h2>
+          <p className="mb-6 leading-[1.8]">
             {t("legal.privacyPolicy.whenDoWeShareYourData.paragraph")}
-          </Typography>
+          </p>
 
-          <Typography
-            variant="h5"
-            gutterBottom
-            sx={{ mt: 5, mb: 2, fontWeight: 600 }}
-          >
+          <h2 className="mt-10 mb-4 text-xl font-semibold">
             {t("legal.privacyPolicy.yourPrivacyRights.title")}
-          </Typography>
-          <Typography variant="body1" paragraph sx={{ lineHeight: 1.8, mb: 3 }}>
+          </h2>
+          <p className="mb-6 leading-[1.8]">
             {t("legal.privacyPolicy.yourPrivacyRights.paragraph")}
-          </Typography>
+          </p>
 
-          <Typography
-            variant="h5"
-            gutterBottom
-            sx={{ mt: 5, mb: 2, fontWeight: 600 }}
-          >
+          <h2 className="mt-10 mb-4 text-xl font-semibold">
             {t(
               "legal.privacyPolicy.informationRequestsAndDeletionRequests.title",
             )}
-          </Typography>
-          <Typography variant="body1" paragraph sx={{ lineHeight: 1.8, mb: 3 }}>
+          </h2>
+          <p className="mb-6 leading-[1.8]">
             {t(
               "legal.privacyPolicy.informationRequestsAndDeletionRequests.paragraph",
             )}
-          </Typography>
+          </p>
 
-          <Typography
-            variant="h5"
-            gutterBottom
-            sx={{ mt: 5, mb: 2, fontWeight: 600 }}
-          >
+          <h2 className="mt-10 mb-4 text-xl font-semibold">
             {t("legal.privacyPolicy.dataStorage.title")}
-          </Typography>
-          <Typography variant="body1" paragraph sx={{ lineHeight: 1.8, mb: 3 }}>
+          </h2>
+          <p className="mb-6 leading-[1.8]">
             {t("legal.privacyPolicy.dataStorage.paragraph")}
-          </Typography>
+          </p>
 
-          <Typography
-            variant="h5"
-            gutterBottom
-            sx={{ mt: 5, mb: 2, fontWeight: 600 }}
-          >
+          <h2 className="mt-10 mb-4 text-xl font-semibold">
             {t("legal.privacyPolicy.security.title")}
-          </Typography>
-          <Typography variant="body1" paragraph sx={{ lineHeight: 1.8, mb: 3 }}>
+          </h2>
+          <p className="mb-6 leading-[1.8]">
             {t("legal.privacyPolicy.security.paragraph")}
-          </Typography>
+          </p>
 
-          <Typography
-            variant="h5"
-            gutterBottom
-            sx={{ mt: 5, mb: 2, fontWeight: 600 }}
-          >
+          <h2 className="mt-10 mb-4 text-xl font-semibold">
             {t("legal.privacyPolicy.children.title")}
-          </Typography>
-          <Typography variant="body1" paragraph sx={{ lineHeight: 1.8, mb: 3 }}>
+          </h2>
+          <p className="mb-6 leading-[1.8]">
             {t("legal.privacyPolicy.children.paragraph")}
-          </Typography>
+          </p>
 
-          <Typography
-            variant="h5"
-            gutterBottom
-            sx={{ mt: 5, mb: 2, fontWeight: 600 }}
-          >
+          <h2 className="mt-10 mb-4 text-xl font-semibold">
             {t("legal.privacyPolicy.changes.title")}
-          </Typography>
-          <Typography variant="body1" paragraph sx={{ lineHeight: 1.8, mb: 3 }}>
+          </h2>
+          <p className="mb-6 leading-[1.8]">
             {t("legal.privacyPolicy.changes.paragraph")}
-          </Typography>
+          </p>
 
-          <Typography
-            variant="h5"
-            gutterBottom
-            sx={{ mt: 5, mb: 2, fontWeight: 600 }}
-          >
+          <h2 className="mt-10 mb-4 text-xl font-semibold">
             {t("legal.privacyPolicy.questions.title")}
-          </Typography>
-          <Typography variant="body1" paragraph sx={{ lineHeight: 1.8, mb: 3 }}>
+          </h2>
+          <p className="mb-6 leading-[1.8]">
             {t("legal.privacyPolicy.questions.paragraph")}
-          </Typography>
+          </p>
 
-          <Box sx={{ mt: 6, pt: 3, borderTop: 1, borderColor: "divider" }}>
-            <Typography
-              variant="body2"
-              sx={{ fontStyle: "italic", color: "text.secondary" }}
-            >
+          <div className="mt-12 border-t border-border pt-6">
+            <p className="text-sm italic text-muted-foreground">
               {t("legal.lastUpdated")}: February 2024
-            </Typography>
-          </Box>
+            </p>
+          </div>
         </CardContent>
       </Card>
-    </Stack>
+    </div>
   )
 }

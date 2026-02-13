@@ -1,58 +1,50 @@
 "use client"
 
 import { useTranslations } from "next-intl"
-import Stack from "@mui/material/Stack"
-import Typography from "@mui/material/Typography"
-import Card from "@mui/material/Card"
-import CardContent from "@mui/material/CardContent"
+import { Card, CardContent } from "@/components/ui/card"
 
 export default function DMCAPage() {
   const t = useTranslations()
 
   return (
-    <Stack spacing={3} sx={{ py: 4 }}>
-      <Card elevation={2}>
-        <CardContent sx={{ p: 4 }}>
-          <Typography variant="h4" gutterBottom sx={{ mb: 3 }}>
-            {t("layout.footer.dmca")}
-          </Typography>
+    <div className="flex flex-col gap-6 py-8">
+      <Card>
+        <CardContent className="p-8">
+          <h1 className="mb-6 text-2xl font-bold">{t("layout.footer.dmca")}</h1>
 
-          <Typography variant="h6" gutterBottom sx={{ mt: 4 }}>
+          <h2 className="mt-8 mb-2 text-lg font-semibold">
             {t("legal.dmca.section1.title")}
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 3, lineHeight: 1.7 }}>
+          </h2>
+          <p className="mb-6 leading-[1.7]">
             {t("legal.dmca.section1.content")}
-          </Typography>
+          </p>
 
-          <Typography variant="h6" gutterBottom sx={{ mt: 4 }}>
+          <h2 className="mt-8 mb-2 text-lg font-semibold">
             {t("legal.dmca.section2.title")}
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 3, lineHeight: 1.7 }}>
+          </h2>
+          <p className="mb-6 leading-[1.7]">
             {t("legal.dmca.section2.content")}
-          </Typography>
+          </p>
 
-          <Typography variant="h6" gutterBottom sx={{ mt: 4 }}>
+          <h2 className="mt-8 mb-2 text-lg font-semibold">
             {t("legal.dmca.section3.title")}
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 3, lineHeight: 1.7 }}>
+          </h2>
+          <p className="mb-6 leading-[1.7]">
             {t("legal.dmca.section3.content")}
-          </Typography>
+          </p>
 
-          <Typography variant="h6" gutterBottom sx={{ mt: 4 }}>
+          <h2 className="mt-8 mb-2 text-lg font-semibold">
             {t("legal.dmca.section4.title")}
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 3, lineHeight: 1.7 }}>
+          </h2>
+          <p className="mb-6 leading-[1.7]">
             {t("legal.dmca.section4.content")}
-          </Typography>
+          </p>
 
-          <Typography
-            variant="body2"
-            sx={{ mt: 5, fontStyle: "italic", color: "text.secondary" }}
-          >
+          <p className="mt-10 text-sm italic text-muted-foreground">
             {t("legal.lastUpdated")}: {new Date().toLocaleDateString()}
-          </Typography>
+          </p>
         </CardContent>
       </Card>
-    </Stack>
+    </div>
   )
 }

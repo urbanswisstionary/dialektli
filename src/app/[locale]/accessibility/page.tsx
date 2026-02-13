@@ -1,77 +1,54 @@
 "use client"
 
 import { useTranslations } from "next-intl"
-import Stack from "@mui/material/Stack"
-import Typography from "@mui/material/Typography"
-import Card from "@mui/material/Card"
-import CardContent from "@mui/material/CardContent"
-import Box from "@mui/material/Box"
-import Link from "@mui/material/Link"
+import { Card, CardContent } from "@/components/ui/card"
 
 export default function AccessibilityPage() {
   const t = useTranslations()
 
   const renderListItems = (items: string[]) => {
     return (
-      <Box component="ul" sx={{ pl: 3, mt: 1, mb: 2 }}>
+      <ul className="mt-2 mb-4 pl-6">
         {items.map((item, index) => (
-          <Box component="li" key={index} sx={{ mb: 0.5 }}>
-            <Typography variant="body1" sx={{ lineHeight: 1.8 }}>
-              {item}
-            </Typography>
-          </Box>
+          <li key={index} className="mb-1">
+            <p className="leading-[1.8]">{item}</p>
+          </li>
         ))}
-      </Box>
+      </ul>
     )
   }
 
   return (
-    <Stack spacing={3} sx={{ py: 4, maxWidth: "900px", mx: "auto", px: 3 }}>
-      <Card elevation={3}>
-        <CardContent sx={{ p: { xs: 3, md: 5 } }}>
-          <Typography
-            variant="h3"
-            gutterBottom
-            sx={{ mb: 4, fontWeight: 600, color: "primary.main" }}
-          >
+    <div className="mx-auto flex max-w-[900px] flex-col gap-6 px-6 py-8">
+      <Card>
+        <CardContent className="p-6 md:p-10">
+          <h1 className="mb-8 text-3xl font-semibold text-primary">
             {t("accessibility.title")}
-          </Typography>
+          </h1>
 
           {/* Commitment */}
-          <Typography
-            variant="h5"
-            gutterBottom
-            sx={{ mt: 4, mb: 2, fontWeight: 600 }}
-          >
+          <h2 className="mt-8 mb-4 text-xl font-semibold">
             {t("accessibility.commitment.title")}
-          </Typography>
-          <Typography variant="body1" paragraph sx={{ lineHeight: 1.8, mb: 3 }}>
+          </h2>
+          <p className="mb-6 leading-[1.8]">
             {t("accessibility.commitment.paragraph")}
-          </Typography>
+          </p>
 
           {/* WCAG Compliance */}
-          <Typography
-            variant="h5"
-            gutterBottom
-            sx={{ mt: 5, mb: 2, fontWeight: 600 }}
-          >
+          <h2 className="mt-10 mb-4 text-xl font-semibold">
             {t("accessibility.wcagCompliance.title")}
-          </Typography>
-          <Typography variant="body1" paragraph sx={{ lineHeight: 1.8, mb: 3 }}>
+          </h2>
+          <p className="mb-6 leading-[1.8]">
             {t("accessibility.wcagCompliance.paragraph")}
-          </Typography>
+          </p>
 
           {/* Accessibility Features */}
-          <Typography
-            variant="h5"
-            gutterBottom
-            sx={{ mt: 5, mb: 2, fontWeight: 600 }}
-          >
+          <h2 className="mt-10 mb-4 text-xl font-semibold">
             {t("accessibility.features.title")}
-          </Typography>
-          <Typography variant="body1" paragraph sx={{ lineHeight: 1.8, mb: 1 }}>
+          </h2>
+          <p className="mb-2 leading-[1.8]">
             {t("accessibility.features.intro")}
-          </Typography>
+          </p>
           {renderListItems([
             t("accessibility.features.list.0" as any),
             t("accessibility.features.list.1" as any),
@@ -82,74 +59,45 @@ export default function AccessibilityPage() {
           ])}
 
           {/* Report Issues */}
-          <Typography
-            variant="h5"
-            gutterBottom
-            sx={{ mt: 5, mb: 2, fontWeight: 600 }}
-          >
+          <h2 className="mt-10 mb-4 text-xl font-semibold">
             {t("accessibility.reportIssues.title")}
-          </Typography>
-          <Typography variant="body1" paragraph sx={{ lineHeight: 1.8, mb: 2 }}>
+          </h2>
+          <p className="mb-4 leading-[1.8]">
             {t("accessibility.reportIssues.paragraph")}
-          </Typography>
+          </p>
 
           {/* Contact Information */}
-          <Box
-            sx={{
-              mt: 4,
-              p: 3,
-              bgcolor: "background.default",
-              borderRadius: 2,
-            }}
-          >
-            <Typography
-              variant="h6"
-              gutterBottom
-              sx={{ fontWeight: 600, color: "primary.main" }}
-            >
+          <div className="mt-8 rounded-lg bg-muted/50 p-6">
+            <h3 className="mb-2 text-lg font-semibold text-primary">
               {t("accessibility.contact.title")}
-            </Typography>
-            <Typography variant="body1" sx={{ lineHeight: 1.8, mb: 1 }}>
+            </h3>
+            <p className="mb-2 leading-[1.8]">
               {t("accessibility.contact.paragraph")}
-            </Typography>
-            <Link
+            </p>
+            <a
               href="mailto:urbanswisstionary@gmail.com"
-              sx={{
-                color: "primary.main",
-                textDecoration: "none",
-                fontWeight: 500,
-                "&:hover": {
-                  textDecoration: "underline",
-                },
-              }}
+              className="font-medium text-primary underline-offset-4 hover:underline"
             >
               urbanswisstionary@gmail.com
-            </Link>
-          </Box>
+            </a>
+          </div>
 
           {/* Ongoing Efforts */}
-          <Typography
-            variant="h5"
-            gutterBottom
-            sx={{ mt: 5, mb: 2, fontWeight: 600 }}
-          >
+          <h2 className="mt-10 mb-4 text-xl font-semibold">
             {t("accessibility.ongoingEfforts.title")}
-          </Typography>
-          <Typography variant="body1" paragraph sx={{ lineHeight: 1.8, mb: 3 }}>
+          </h2>
+          <p className="mb-6 leading-[1.8]">
             {t("accessibility.ongoingEfforts.paragraph")}
-          </Typography>
+          </p>
 
           {/* Last Updated */}
-          <Box sx={{ mt: 6, pt: 3, borderTop: 1, borderColor: "divider" }}>
-            <Typography
-              variant="body2"
-              sx={{ fontStyle: "italic", color: "text.secondary" }}
-            >
+          <div className="mt-12 border-t border-border pt-6">
+            <p className="text-sm italic text-muted-foreground">
               {t("accessibility.updated")}
-            </Typography>
-          </Box>
+            </p>
+          </div>
         </CardContent>
       </Card>
-    </Stack>
+    </div>
   )
 }

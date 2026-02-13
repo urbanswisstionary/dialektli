@@ -1,11 +1,7 @@
 "use client"
 
 import { useTranslations } from "next-intl"
-import Stack from "@mui/material/Stack"
-import Typography from "@mui/material/Typography"
-import Card from "@mui/material/Card"
-import CardContent from "@mui/material/CardContent"
-import Link from "@mui/material/Link"
+import { Card, CardContent } from "@/components/ui/card"
 
 export default function AboutPage() {
   const t = useTranslations()
@@ -25,138 +21,103 @@ export default function AboutPage() {
   ]
 
   return (
-    <Stack spacing={3} sx={{ py: 4, maxWidth: "900px", mx: "auto" }}>
-      <Card elevation={2}>
-        <CardContent sx={{ p: { xs: 3, md: 5 } }}>
-          <Typography
-            variant="h3"
-            gutterBottom
-            sx={{
-              mb: 4,
-              fontWeight: 700,
-              color: "primary.main",
-            }}
-          >
+    <div className="mx-auto flex max-w-[900px] flex-col gap-6 py-8">
+      <Card>
+        <CardContent className="p-6 md:p-10">
+          <h1 className="mb-8 text-3xl font-bold text-primary">
             {t("about.title")}
-          </Typography>
+          </h1>
 
           {paragraphs.map((key) => {
             const text = t(`about.${key}` as any)
 
             if (key === "paragraph3") {
               return (
-                <Typography
-                  key={key}
-                  variant="body1"
-                  paragraph
-                  sx={{ lineHeight: 1.8, mb: 3, fontSize: "1.05rem" }}
-                >
+                <p key={key} className="mb-6 text-[1.05rem] leading-[1.8]">
                   Inspired by the spirit of community-driven platforms like{" "}
-                  <Link
+                  <a
                     href={t("about.externalLinks.urbanDictionary")}
                     target="_blank"
                     rel="noopener noreferrer"
-                    sx={{ fontWeight: 500 }}
+                    className="font-medium text-primary underline-offset-4 hover:underline"
                   >
                     Urban Dictionary
-                  </Link>
+                  </a>
                   , Dialektli embraces the grassroots nature of language
                   evolution. Users contribute their own unique expressions,
                   anecdotes, and linguistic insights.
-                </Typography>
+                </p>
               )
             }
 
             if (key === "paragraph4") {
               return (
-                <Typography
-                  key={key}
-                  variant="body1"
-                  paragraph
-                  sx={{ lineHeight: 1.8, mb: 3, fontSize: "1.05rem" }}
-                >
+                <p key={key} className="mb-6 text-[1.05rem] leading-[1.8]">
                   We recognize that a language that remains solely oral risks
                   fading into obscurity over time, and draw motivation from the
                   meticulous documentation efforts like{" "}
-                  <Link
+                  <a
                     href={t("about.externalLinks.idiotikon")}
                     target="_blank"
                     rel="noopener noreferrer"
-                    sx={{ fontWeight: 500 }}
+                    className="font-medium text-primary underline-offset-4 hover:underline"
                   >
                     Idiotikon
-                  </Link>
+                  </a>
                   ,{" "}
-                  <Link
+                  <a
                     href={t("about.externalLinks.swissDialectsAtlas")}
                     target="_blank"
                     rel="noopener noreferrer"
-                    sx={{ fontWeight: 500 }}
+                    className="font-medium text-primary underline-offset-4 hover:underline"
                   >
                     Swiss Dialects Atlas Project
-                  </Link>
+                  </a>
                   , and{" "}
-                  <Link
+                  <a
                     href={t("about.externalLinks.kleinerSprachatlas")}
                     target="_blank"
                     rel="noopener noreferrer"
-                    sx={{ fontWeight: 500 }}
+                    className="font-medium text-primary underline-offset-4 hover:underline"
                   >
                     Kleiner Sprachatlas der deutschen Schweiz
-                  </Link>
+                  </a>
                   , which have long been dedicated to cataloguing and preserving
                   Swiss dialects and linguistic and cultural heritage.
-                </Typography>
+                </p>
               )
             }
 
             if (key === "paragraph1") {
               return (
-                <Typography
+                <h2
                   key={key}
-                  variant="h5"
-                  sx={{
-                    mb: 3,
-                    fontWeight: 600,
-                    color: "text.primary",
-                    fontStyle: "italic",
-                  }}
+                  className="mb-6 text-xl font-semibold italic text-foreground"
                 >
                   {text}
-                </Typography>
+                </h2>
               )
             }
 
             if (key === "paragraph11") {
               return (
-                <Typography
+                <h3
                   key={key}
-                  variant="h6"
-                  sx={{
-                    mt: 4,
-                    fontWeight: 600,
-                    color: "primary.main",
-                    fontStyle: "italic",
-                  }}
+                  className="mt-8 text-lg font-semibold italic text-primary"
                 >
                   {text}
-                </Typography>
+                </h3>
               )
             }
 
             return (
-              <Typography
-                key={key}
-                variant="body1"
-                paragraph
-                sx={{ lineHeight: 1.8, mb: 3, fontSize: "1.05rem" }}
-              >
+              <p key={key} className="mb-6 text-[1.05rem] leading-[1.8]">
                 {text}
-              </Typography>
+              </p>
             )
           })}
         </CardContent>
       </Card>
-    </Stack>
+    </div>
   )
 }
