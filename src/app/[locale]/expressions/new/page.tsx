@@ -18,7 +18,7 @@ import SelectMultipleLocation from "@/components/ui/Autocomplete/SelectMultipleL
 import ExpressionGenderInput from "@/components/expression/ExpressionGenderInput"
 import ExpressionTypeInput from "@/components/expression/ExpressionTypeInput"
 import DebouncedTextarea from "@/components/ui/DebouncedTextarea"
-import Card from "@/components/ui/Card"
+import Card from "@/components/ui/MuiCard"
 
 export default function NewExpressionPage() {
   const t = useTranslations()
