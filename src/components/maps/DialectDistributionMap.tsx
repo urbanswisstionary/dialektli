@@ -1,8 +1,6 @@
 "use client"
 
 import { memo, useState, useCallback, useMemo } from "react"
-import Box from "@mui/material/Box"
-import Typography from "@mui/material/Typography"
 import { SwitzerlandMap } from "./SwitzerlandMap"
 import { getCantonName } from "@/config/cantons"
 
@@ -118,8 +116,9 @@ const DialectDistributionMap = memo(function DialectDistributionMap({
     showLegend && !compact && cantonCounts && thresholds.length > 0
 
   return (
-    <Box
-      sx={{ width, position: "relative" }}
+    <div
+      className="relative"
+      style={{ width }}
       onMouseMove={cantonCounts ? handleMouseMove : undefined}
     >
       <SwitzerlandMap
@@ -137,36 +136,20 @@ const DialectDistributionMap = memo(function DialectDistributionMap({
       />
 
       {cantonCounts && hoveredCanton && (
-        <Box
-          sx={{
-            position: "fixed",
+        <div
+          className="pointer-events-none fixed z-[1200] max-w-[200px] rounded bg-black/85 px-1.5 py-0.75 text-[0.8rem] leading-snug text-white"
+          style={{
             left: mousePos.x + 12,
             top: mousePos.y + 12,
-            bgcolor: "rgba(0, 0, 0, 0.85)",
-            color: "white",
-            px: 1.5,
-            py: 0.75,
-            borderRadius: 1,
-            fontSize: "0.8rem",
-            pointerEvents: "none",
-            zIndex: 1200,
-            lineHeight: 1.4,
-            maxWidth: 200,
           }}
         >
-          <Typography
-            variant="subtitle2"
-            sx={{ fontSize: "0.8rem", fontWeight: 600, color: "inherit" }}
-          >
+          <span className="block text-[0.8rem] font-semibold">
             {getCantonName(hoveredCanton, locale)}
-          </Typography>
-          <Typography
-            variant="body2"
-            sx={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.85)" }}
-          >
+          </span>
+          <span className="block text-[0.75rem] text-white/85">
             {(cantonCounts[hoveredCanton] ?? 0) === 0
               ? locale === "de"
-                ? "Keine Ausdr\u00fccke"
+                ? "Keine Ausdrücke"
                 : locale === "fr"
                   ? "Aucune expression"
                   : "No expressions"
@@ -178,67 +161,41 @@ const DialectDistributionMap = memo(function DialectDistributionMap({
                         ? "expression"
                         : "expression"
                     : locale === "de"
-                      ? "Ausdr\u00fccke"
+                      ? "Ausdrücke"
                       : locale === "fr"
                         ? "expressions"
                         : "expressions"
                 }`}
-          </Typography>
-        </Box>
+          </span>
+        </div>
       )}
 
       {legendVisible && (
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 0.5,
-            mt: 1,
-            flexWrap: "wrap",
-          }}
-        >
-          <Typography
-            variant="caption"
-            color="text.secondary"
-            sx={{ mr: 0.5, fontSize: "0.7rem" }}
-          >
+        <div className="mt-1 flex flex-wrap items-center justify-center gap-0.5">
+          <span className="mr-0.5 text-[0.7rem] text-muted-foreground">
             {locale === "de"
               ? "Dichte"
               : locale === "fr"
-                ? "Densit\u00e9"
+                ? "Densité"
                 : "Density"}
             :
-          </Typography>
+          </span>
           {INTENSITY_COLORS.map((color, i) => (
-            <Box
-              key={color}
-              sx={{ display: "flex", alignItems: "center", gap: 0.25 }}
-            >
-              <Box
-                sx={{
-                  width: 16,
-                  height: 12,
-                  bgcolor: color,
-                  borderRadius: 0.5,
-                  border: "1px solid",
-                  borderColor: "divider",
-                }}
+            <div key={color} className="flex items-center gap-0.5">
+              <div
+                className="h-3 w-4 rounded-sm border border-border"
+                style={{ backgroundColor: color }}
               />
-              <Typography
-                variant="caption"
-                color="text.secondary"
-                sx={{ fontSize: "0.65rem" }}
-              >
+              <span className="text-[0.65rem] text-muted-foreground">
                 {i < thresholds.length - 1
                   ? thresholds[i]
                   : `${thresholds[i]}+`}
-              </Typography>
-            </Box>
+              </span>
+            </div>
           ))}
-        </Box>
+        </div>
       )}
-    </Box>
+    </div>
   )
 })
 

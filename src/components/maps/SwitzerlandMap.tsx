@@ -1,6 +1,5 @@
 "use client"
 
-import { Box, Typography } from "@mui/material"
 import { useState, memo, useRef, useEffect } from "react"
 import useSWR from "swr"
 import {
@@ -226,38 +225,28 @@ export const SwitzerlandMap = memo(function SwitzerlandMap({
 
   if (isLoading) {
     return (
-      <Box
-        sx={{
-          width,
-          height,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
+      <div
+        className="flex items-center justify-center"
+        style={{ width, height }}
       >
-        <Typography color="text.secondary">Loading map...</Typography>
-      </Box>
+        <p className="text-muted-foreground">Loading map...</p>
+      </div>
     )
   }
 
   if (error) {
     return (
-      <Box
-        sx={{
-          width,
-          height,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
+      <div
+        className="flex items-center justify-center"
+        style={{ width, height }}
       >
-        <Typography color="error">Error loading map: {error}</Typography>
-      </Box>
+        <p className="text-destructive">Error loading map: {String(error)}</p>
+      </div>
     )
   }
 
   return (
-    <Box sx={{ width, height, position: "relative" }}>
+    <div className="relative" style={{ width, height }}>
       <style>{`
         svg g[role="button"]:focus path {
           stroke: #1976D2;
@@ -265,20 +254,14 @@ export const SwitzerlandMap = memo(function SwitzerlandMap({
           filter: drop-shadow(0 0 4px rgba(25, 118, 210, 0.6));
         }
       `}</style>
-      <Box
+      <div
         role="status"
         aria-live="polite"
         aria-atomic="true"
-        sx={{
-          position: "absolute",
-          left: "-10000px",
-          width: "1px",
-          height: "1px",
-          overflow: "hidden",
-        }}
+        className="sr-only"
       >
         {focusedCantonId && getCantonName(focusedCantonId, locale)}
-      </Box>
+      </div>
       <svg
         viewBox="0 0 1000 800"
         style={{ width: "100%", height: "100%" }}
@@ -354,48 +337,31 @@ export const SwitzerlandMap = memo(function SwitzerlandMap({
       </svg>
 
       {showAttribution && (
-        <Typography
-          variant="caption"
-          color="text.secondary"
-          sx={{
-            position: "absolute",
-            bottom: 8,
-            right: 8,
-            fontSize: "0.7rem",
-            opacity: 0.7,
-          }}
-        >
+        <span className="absolute bottom-2 right-2 text-[0.7rem] text-muted-foreground opacity-70">
           Inspired by{" "}
           <a
             href="https://www.kleinersprachatlas.ch/"
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: "inherit", textDecoration: "underline" }}
+            className="underline"
           >
             Kleiner Sprachatlas
           </a>
-        </Typography>
+        </span>
       )}
 
       {hoveredCantonId && (
-        <Box
-          sx={{
-            position: "fixed",
+        <div
+          className="pointer-events-none fixed z-[1000] rounded bg-black/80 px-2 py-1 text-sm text-white"
+          style={{
             left: mousePosition.x + 10,
             top: mousePosition.y + 10,
-            backgroundColor: "rgba(0, 0, 0, 0.8)",
-            color: "white",
-            padding: "4px 8px",
-            borderRadius: 1,
-            fontSize: "0.875rem",
-            pointerEvents: "none",
-            zIndex: 1000,
           }}
         >
           {getCantonName(hoveredCantonId, locale)}
-        </Box>
+        </div>
       )}
-    </Box>
+    </div>
   )
 })
 

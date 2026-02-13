@@ -13,7 +13,7 @@ import SelectMultipleLocation from "@/components/ui/Autocomplete/SelectMultipleL
 import ExpressionGenderInput from "@/components/expression/ExpressionGenderInput"
 import ExpressionTypeInput from "@/components/expression/ExpressionTypeInput"
 import DebouncedTextarea from "@/components/ui/DebouncedTextarea"
-import Card from "@/components/ui/MuiCard"
+import Card from "@/components/ui/CardWrapper"
 
 export default function NewExpressionPage() {
   const t = useTranslations()

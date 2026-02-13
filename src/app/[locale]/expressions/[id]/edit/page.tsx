@@ -26,7 +26,7 @@ import ExpressionDefinitionInput from "@/components/expression/ExpressionDefinit
 import SelectMultipleLocation from "@/components/ui/Autocomplete/SelectMultipleLocation"
 import ExpressionGenderInput from "@/components/expression/ExpressionGenderInput"
 import ExpressionTypeInput from "@/components/expression/ExpressionTypeInput"
-import Card from "@/components/ui/MuiCard"
+import Card from "@/components/ui/CardWrapper"
 import isEqual from "lodash/isEqual"
 
 type EditExpressionState = {
