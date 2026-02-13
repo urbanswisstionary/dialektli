@@ -65,6 +65,20 @@ const Expression = builder.prismaObject("Expression", {
           : false
       },
     }),
+    bookmarks: t.relation("bookmarks"),
+    bookmarkCount: t.int({
+      resolve: ({ id }) =>
+        prisma.bookmark.count({ where: { expressionId: id } }),
+    }),
+    bookmarkedByMe: t.boolean({
+      resolve: async ({ id }, _args, { session }) => {
+        return (await prisma.bookmark.findFirst({
+          where: { expressionId: id, authorId: session?.user?.id },
+        }))
+          ? true
+          : false
+      },
+    }),
     cantons: t.exposeStringList("cantons"),
     language: t.expose("language", { type: Language }),
     synonymOf: t.relation("synonymOf", {
@@ -223,6 +237,29 @@ builder.queryFields((t) => ({
       }
     },
   }),
+  myBookmarks: t.field({
+    type: ExpressionsWithCountType,
+    nullable: true,
+    resolve: async (_root, _args, { session }) => {
+      if (!session?.user) {
+        throw new GraphQLError("Not authenticated")
+      }
+
+      try {
+        const bookmarks = await prisma.bookmark.findMany({
+          where: { authorId: session.user.id },
+          orderBy: { createdAt: "desc" },
+          include: { expression: true },
+        })
+
+        const expressions = bookmarks.map((b) => b.expression)
+        return { expressions, count: expressions.length }
+      } catch (error) {
+        console.error(error)
+        return null
+      }
+    },
+  }),
 }))
 
 const CreateExpressionInput = builder.inputType("CreateExpressionInput", {
@@ -257,6 +294,7 @@ const ExpressionActionInput = builder.inputType("ExpressionActionInput", {
     like: t.boolean(),
     dislike: t.boolean(),
     flag: t.boolean(),
+    bookmark: t.boolean(),
   }),
 })
 
@@ -460,6 +498,7 @@ builder.mutationFields((t) => ({
             likes: { where: { authorId } },
             dislikes: { where: { authorId } },
             flagged: { where: { authorId } },
+            bookmarks: { where: { authorId } },
           },
         })
 
@@ -474,7 +513,9 @@ builder.mutationFields((t) => ({
               ? "dislike"
               : "flag" in data
                 ? "flag"
-                : null
+                : "bookmark" in data
+                  ? "bookmark"
+                  : null
 
         if (
           (action === "like" || action === "dislike") &&
@@ -531,6 +572,22 @@ builder.mutationFields((t) => ({
                 ? { flagged: { delete: { expressionId_authorId } } }
                 : {
                     flagged: {
+                      connectOrCreate: {
+                        create: { authorId },
+                        where: { expressionId_authorId },
+                      },
+                    },
+                  },
+            })
+            return !!updatedExpression
+          }
+          case "bookmark": {
+            const updatedExpression = await prisma.expression.update({
+              where: { id: expressionId },
+              data: expression.bookmarks.length
+                ? { bookmarks: { delete: { expressionId_authorId } } }
+                : {
+                    bookmarks: {
                       connectOrCreate: {
                         create: { authorId },
                         where: { expressionId_authorId },

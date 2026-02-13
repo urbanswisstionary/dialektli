@@ -22,6 +22,7 @@
       "support": "Support",
       "profile": "Mon profil",
       "expressions": "Mes expressions",
+      "favorites": "Mes favoris",
       "users": "Utilisateurs",
       "createNewUser": "Créer un nouvel utilisateur",
       "rolesAndPermissions": "Rôles et permissions"
@@ -72,7 +73,10 @@
     "toggleColorScheme": "Basculer le schéma de couleurs",
     "option": "Option",
     "options": "Options",
-    "selectImage": "Sélectionnez une image"
+    "selectImage": "Sélectionnez une image",
+    "bookmark": "Marque-page",
+    "addBookmark": "Ajouter un marque-page",
+    "removeBookmark": "Supprimer le marque-page"
   },
   "errors": {
     "imageSizeExceeded": "La taille du fichier ne doit pas dépasser 1.5 Mo"
@@ -118,6 +122,7 @@
       "publishedExpressions": "Expressions publiées",
       "unpublishedExpressions": "Expressions non publiées",
       "noExpressionsFound": "Aucune expression trouvée",
+      "noFavoritesFound": "Aucune expression en favoris pour le moment",
       "noUsersFound": "Aucun utilisateur trouvé",
       "tableHeaders": {
         "name": "Nom",

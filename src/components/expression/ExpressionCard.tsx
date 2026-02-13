@@ -129,7 +129,10 @@ const ExpressionCard: FC<ExpressionCardProps> = ({
 
           <div className="flex items-start gap-2">
             <ExpressionCardShareButtons expression={expression} />
-            <BookmarkButton />
+            <BookmarkButton
+              expressionId={expression.id ?? ""}
+              bookmarkedByMe={expression.bookmarkedByMe ?? false}
+            />
           </div>
         </div>
 

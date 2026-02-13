@@ -22,6 +22,7 @@
       "support": "Support",
       "profile": "My Profile",
       "expressions": "My Expressions",
+      "favorites": "My Favorites",
       "users": "Users",
       "createNewUser": "Create New User",
       "rolesAndPermissions": "Roles & Permissions"
@@ -72,7 +73,10 @@
     "toggleColorScheme": "Toggle Color Scheme",
     "option": "Option",
     "options": "Options",
-    "selectImage": "Select Image"
+    "selectImage": "Select Image",
+    "bookmark": "Bookmark",
+    "addBookmark": "Add Bookmark",
+    "removeBookmark": "Remove Bookmark"
   },
   "errors": {
     "imageSizeExceeded": "The file size must not exceed 1.5 MB"
@@ -118,6 +122,7 @@
       "publishedExpressions": "Published Expressions",
       "unpublishedExpressions": "Unpublished Expressions",
       "noExpressionsFound": "No expressions found",
+      "noFavoritesFound": "No bookmarked expressions yet",
       "noUsersFound": "No users found",
       "tableHeaders": {
         "name": "Name",

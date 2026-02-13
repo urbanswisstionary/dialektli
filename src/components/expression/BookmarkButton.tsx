@@ -1,40 +1,85 @@
 "use client"
 
-import { useState, type FC } from "react"
+import type { FC } from "react"
 import { Button } from "@/components/ui/button"
-import { Bookmark } from "lucide-react"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+import { Bookmark, Loader2 } from "lucide-react"
+import { useExpressionAction } from "@/hooks/useExpressions"
+import { useMe } from "@/hooks/useUsers"
+import { Link } from "@/i18n/navigation"
+import { useTranslations } from "next-intl"
 import { cn } from "@/lib/utils"
 
 interface BookmarkButtonProps {
-  bookmarked?: boolean
+  expressionId: string
+  bookmarkedByMe: boolean
   size?: "sm" | "default"
 }
 
 const BookmarkButton: FC<BookmarkButtonProps> = ({
-  bookmarked: initialBookmarked = false,
+  expressionId,
+  bookmarkedByMe,
   size = "default",
 }) => {
-  const [bookmarked, setBookmarked] = useState(initialBookmarked)
+  const t = useTranslations()
+  const { me } = useMe()
+  const { expressionAction, loading } = useExpressionAction(expressionId)
 
-  return (
+  const handleBookmark = () => {
+    if (me) {
+      expressionAction("bookmark")
+    }
+  }
+
+  const iconSize = size === "sm" ? "h-4 w-4" : "h-5 w-5"
+
+  const button = (
     <Button
       variant="ghost"
       size="icon"
-      onClick={() => setBookmarked(!bookmarked)}
+      disabled={loading}
+      onClick={handleBookmark}
       className={cn(
         "relative z-10 rounded-full transition-colors",
-        bookmarked && "text-primary hover:text-primary",
+        bookmarkedByMe && "text-primary hover:text-primary",
       )}
-      aria-label={bookmarked ? "Remove bookmark" : "Add bookmark"}
+      aria-label={
+        bookmarkedByMe ? t("actions.removeBookmark") : t("actions.addBookmark")
+      }
     >
-      <Bookmark
-        className={cn(
-          size === "sm" ? "h-4 w-4" : "h-5 w-5",
-          bookmarked && "fill-current",
-        )}
-      />
+      {loading ? (
+        <Loader2 className={cn(iconSize, "animate-spin")} />
+      ) : (
+        <Bookmark className={cn(iconSize, bookmarkedByMe && "fill-current")} />
+      )}
     </Button>
   )
+
+  if (!me) {
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Link href="/auth/signin">{button}</Link>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>
+              {t("expression.pleaseSignInForExpressionAction", {
+                action: t("actions.bookmark"),
+              })}
+            </p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    )
+  }
+
+  return button
 }
 
 export default BookmarkButton

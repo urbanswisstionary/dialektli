@@ -43,6 +43,7 @@ export const ExpressionFragment = graphql(/* GraphQL */ `
     dislikesCount
     dislikedByMe
     flaggedByMe
+    bookmarkedByMe
 
     createdAt
     updatedAt
@@ -116,6 +117,19 @@ export const AdminExpressionsQuery = graphql(/* GraphQL */ `
 `)
 
 export const useAdminExpressionsQuery = () => useQuery(AdminExpressionsQuery)
+
+const MyBookmarksQuery = graphql(/* GraphQL */ `
+  query MyBookmarks {
+    myBookmarks {
+      expressions {
+        ...ExpressionFragment
+      }
+      count
+    }
+  }
+`)
+
+export const useMyBookmarksQuery = () => useQuery(MyBookmarksQuery)
 
 export const useCreateExpressionMutation = () => {
   const [createExpression, mutationResult] = useMutation(
@@ -279,7 +293,7 @@ export const useExpressionAction = (expressionId: string) => {
   )
   return {
     expressionAction: (
-      action: "like" | "dislike" | "flag",
+      action: "like" | "dislike" | "flag" | "bookmark",
       onCompletedCallback?: () => void,
     ) =>
       expressionAction({

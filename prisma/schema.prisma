@@ -48,6 +48,18 @@ model Flag {
   @@unique([expressionId, authorId])
 }
 
+model Bookmark {
+  expression   Expression @relation(fields: [expressionId], references: [id], onDelete: Cascade)
+  expressionId String
+  author       User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId     String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime?  @updatedAt
+
+  @@id([expressionId, authorId])
+  @@unique([expressionId, authorId])
+}
+
 enum Language {
   DE
   FR
@@ -84,6 +96,7 @@ model Expression {
   createdAt      DateTime            @default(now())
   updatedAt      DateTime?           @updatedAt
   flagged        Flag[]
+  bookmarks      Bookmark[]
   cantons        String[]
   language       Language            @default(DE)
   synonymOf      Synonym[]           @relation("synonymOf") /// the expressions that the parent expression is a synonym of
@@ -182,6 +195,7 @@ model User {
   country       String?             @default("CH")
   canton        String?
   flags         Flag[]
+  bookmarks     Bookmark[]
   examples      ExpressionExample[]
 }
 

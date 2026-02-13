@@ -1,3 +1,11 @@
+type Bookmark {
+  author: User
+  authorId: ID
+  createdAt: DateTime
+  expression: Expression
+  expressionId: ID
+}
+
 type CantonExpression {
   id: String!
   language: Language
@@ -69,6 +77,9 @@ type Dislike {
 
 type Expression {
   author: User
+  bookmarkCount: Int
+  bookmarkedByMe: Boolean
+  bookmarks: [Bookmark!]
   cantons: [String!]
   createdAt: DateTime
   definition: String
@@ -98,6 +109,7 @@ type Expression {
 }
 
 input ExpressionActionInput {
+  bookmark: Boolean
   dislike: Boolean
   expressionId: String!
   flag: Boolean
@@ -203,6 +215,7 @@ type Query {
   expressionsByCanton(canton: String!, language: Language, limit: Int, offset: Int): [CantonExpression!]!
   expressionsQuery(data: ExpressionsQueryInput!): ExpressionsWithCount
   me: User
+  myBookmarks: ExpressionsWithCount
   semanticGroupDistribution(semanticGroupId: String!): SemanticGroupWithDistribution
   semanticGroups(data: SemanticGroupQueryInput): [SemanticGroup!]!
   verifyUserNameIsUnique(name: String!): Boolean

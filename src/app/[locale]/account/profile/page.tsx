@@ -24,14 +24,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Pencil, Check, X, Loader2 } from "lucide-react"
+import { Pencil, Check, X, Loader2, Bookmark } from "lucide-react"
 import { useEffect, useState } from "react"
-import { useExpressionsQuery } from "@/hooks/useExpressions"
+import {
+  useExpressionsQuery,
+  useMyBookmarksQuery,
+} from "@/hooks/useExpressions"
 import ExpressionCard from "@/components/expression/ExpressionCard"
 import { getFragmentData } from "@/generated"
 import type { ExpressionFragmentFragment } from "@/generated/graphql"
 
-type ViewType = "profile" | "expressions" | "users"
+type ViewType = "profile" | "expressions" | "favorites" | "users"
 
 export default function ProfilePage() {
   const t = useTranslations()
@@ -48,7 +51,11 @@ export default function ProfilePage() {
   const [activeView, setActiveView] = useState<ViewType>("profile")
 
   useEffect(() => {
-    if (viewParam === "expressions" || viewParam === "users") {
+    if (
+      viewParam === "expressions" ||
+      viewParam === "users" ||
+      viewParam === "favorites"
+    ) {
       setActiveView(viewParam)
     } else {
       setActiveView("profile")
@@ -63,6 +70,9 @@ export default function ProfilePage() {
     })
 
   const { data: usersData, loading: loadingUsers } = useAdminUsersQuery()
+
+  const { data: bookmarksData, loading: loadingBookmarks } =
+    useMyBookmarksQuery()
 
   useEffect(() => {
     if (!loadingMe && !me) {
@@ -129,6 +139,7 @@ export default function ProfilePage() {
 
   const expressions = expressionsData?.expressionsQuery?.expressions ?? []
   const users = usersData?.adminUsers?.users ?? []
+  const bookmarks = bookmarksData?.myBookmarks?.expressions ?? []
 
   const initials = (me.name ?? me.email ?? "U")
     .split(" ")
@@ -271,6 +282,10 @@ export default function ProfilePage() {
           <TabsTrigger value="expressions">
             {t("layout.sidebar.expressions")}
           </TabsTrigger>
+          <TabsTrigger value="favorites">
+            <Bookmark className="h-4 w-4 mr-1" />
+            {t("layout.sidebar.favorites")}
+          </TabsTrigger>
           {isAdmin && (
             <TabsTrigger value="users">{t("layout.sidebar.users")}</TabsTrigger>
           )}
@@ -323,6 +338,28 @@ export default function ProfilePage() {
             ) : (
               <p className="text-base text-muted-foreground text-center">
                 {t("auth.profile.noExpressionsFound")}
+              </p>
+            )}
+          </div>
+        </TabsContent>
+
+        <TabsContent value="favorites">
+          <div className="flex flex-col gap-4">
+            {loadingBookmarks ? (
+              <div className="flex items-center justify-center my-10">
+                <Loader2 className="h-15 w-15 animate-spin text-muted-foreground" />
+              </div>
+            ) : bookmarks.length > 0 ? (
+              bookmarks.map((expression: ExpressionFragmentFragment) => (
+                <ExpressionCard
+                  key={expression.id}
+                  expression={expression}
+                  disableActions={false}
+                />
+              ))
+            ) : (
+              <p className="text-base text-muted-foreground text-center">
+                {t("auth.profile.noFavoritesFound")}
               </p>
             )}
           </div>
