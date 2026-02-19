@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/tooltip"
 import { ExpressionFragmentFragment } from "@/generated/graphql"
 import ExpressionCardExamples from "./ExpressionCardExamples"
-import Flag from "@/components/ui/Flag"
+import CantonBadge from "@/components/ui/CantonBadge"
 import { useTranslations } from "next-intl"
 import { useRouter, usePathname, Link } from "@/i18n/navigation"
 import { useSearchParams } from "next/navigation"
@@ -106,10 +106,13 @@ const ExpressionCard: FC<ExpressionCardProps> = ({
                               canton: canton,
                             })
                           }}
-                          className="inline-flex p-1 rounded transition-all hover:bg-primary/10 hover:scale-110 focus:outline-primary focus:outline-2 focus:outline-offset-2"
+                          className="inline-flex rounded transition-all hover:scale-105 focus:outline-primary focus:outline-2 focus:outline-offset-2"
                           aria-label={`Filter by canton ${canton}`}
                         >
-                          <Flag mode="canton" code={canton} />
+                          <CantonBadge
+                            code={canton}
+                            className="hover:bg-primary/10 hover:text-foreground"
+                          />
                         </button>
                       </TooltipTrigger>
                       <TooltipContent>

@@ -10,6 +10,7 @@ import { Link } from "@/i18n/navigation"
 import { useTranslations, useLocale } from "next-intl"
 import { Loader2, X } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
+import CantonBadge from "@/components/ui/CantonBadge"
 import {
   Select,
   SelectContent,
@@ -218,14 +219,13 @@ export default function SprachatlasPage() {
           </p>
           <div className="mt-3 flex flex-row flex-wrap gap-2">
             {sortedCantons.map((c) => (
-              <Badge
+              <CantonBadge
                 key={c.canton}
-                variant="outline"
-                className="cursor-pointer transition-colors hover:bg-muted hover:text-foreground"
+                code={c.canton}
+                name={`${getCantonName(c.canton, mapLocale)} (${c.count})`}
+                className="cursor-pointer"
                 onClick={() => handleCantonClick(c.canton)}
-              >
-                {getCantonName(c.canton, mapLocale)} ({c.count})
-              </Badge>
+              />
             ))}
           </div>
         </div>

@@ -1,7 +1,7 @@
 "use client"
 
-import { Badge } from "@/components/ui/badge"
 import { useTranslations } from "next-intl"
+import CantonBadge from "@/components/ui/CantonBadge"
 
 interface CantonTooltipProps {
   name: string
@@ -30,12 +30,10 @@ export function CantonTooltip({
       }}
     >
       <div className="flex items-center gap-2">
-        <Badge
-          variant="outline"
+        <CantonBadge
+          code={abbreviation}
           className="border-primary/30 bg-primary/10 text-xs font-bold text-primary"
-        >
-          {abbreviation}
-        </Badge>
+        />
         <span className="text-sm font-medium text-popover-foreground">
           {name}
         </span>
