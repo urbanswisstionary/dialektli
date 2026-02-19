@@ -1,112 +1,112 @@
 {
-  "true": "True",
-  "false": "False",
-  "noData": "No Data",
-  "redirecting": "Redirecting...",
+  "true": "Wahr",
+  "false": "Falsch",
+  "noData": "Keine Daten",
+  "redirecting": "Weiterleiten...",
   "selectLanguage": {
-    "title": "Select Language",
+    "title": "Sprache auswählen",
     "en": "English",
-    "de": "German",
-    "fr": "French",
-    "EN": "English",
-    "DE": "German",
-    "FR": "French",
-    "IT": "Italian"
+    "de": "Deutsch",
+    "DE": "Deutsch",
+    "fr": "Français",
+    "FR": "Français",
+    "it": "Italiano",
+    "IT": "Italiano"
   },
   "layout": {
     "sidebar": {
-      "signIn": "Sign In",
-      "signOut": "Sign Out",
-      "home": "Home",
+      "signIn": "Anmelden",
+      "signOut": "Abmelden",
+      "home": "Startseite",
       "sprachatlas": "Sprachatlas",
       "support": "Support",
-      "profile": "My Profile",
-      "expressions": "My Expressions",
+      "profile": "Mein Profil",
+      "expressions": "Meine Ausdrücke",
       "favorites": "Meine Favoriten",
-      "users": "Users",
-      "createNewUser": "Create New User",
-      "rolesAndPermissions": "Roles & Permissions"
+      "users": "Benutzer",
+      "createNewUser": "Neuen Benutzer erstellen",
+      "rolesAndPermissions": "Rollen und Berechtigungen"
     },
     "footer": {
       "sections": {
-        "about": "About",
-        "legal": "Legal",
-        "connect": "Connect"
+        "about": "Über uns",
+        "legal": "Rechtliches",
+        "connect": "Kontakt"
       },
-      "about": "About Us",
-      "contact": "Contact Us",
-      "termsOfService": "Terms of Service",
-      "privacyPolicy": "Privacy Policy",
+      "about": "Über uns",
+      "contact": "Kontaktiere uns",
+      "termsOfService": "Nutzungsbedingungen",
+      "privacyPolicy": "Datenschutzbestimmungen",
       "dmca": "DMCA",
-      "accessibility": "Accessibility",
-      "bugReport": "Report a bug"
+      "accessibility": "Barrierefreiheit",
+      "bugReport": "Fehler melden"
     }
   },
   "filterBy": {
-    "canton": "Filter by Canton",
-    "firstChar": "Filter by First Character",
-    "language": "Filter by Language"
+    "canton": "Filtern nach Kanton",
+    "firstChar": "Filtern nach erstem Zeichen",
+    "language": "Filtern nach Sprache"
   },
   "newExpressionButton": {
-    "newExpression": "New Expression"
+    "newExpression": "Neuer Ausdruck"
   },
   "actions": {
-    "search": "Search",
-    "open": "Open",
-    "close": "Close",
-    "clear": "Clear",
-    "submit": "Submit",
-    "cancel": "Cancel",
-    "edit": "Edit",
-    "delete": "Delete",
-    "expand": "Expand",
-    "collapse": "Collapse",
-    "save": "Save",
-    "flag": "Flag",
-    "like": "Like",
-    "dislike": "Dislike",
-    "publish": "Publish",
-    "unpublish": "Unpublish",
-    "select": "Select",
-    "confirmation": "Confirmation",
-    "confirmDelete": "Are you sure you want to delete",
-    "toggleColorScheme": "Toggle Color Scheme",
+    "search": "Suche",
+    "open": "Öffnen",
+    "close": "Schliessen",
+    "clear": "Leeren",
+    "submit": "Einreichen",
+    "cancel": "Abbrechen",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "expand": "Erweitern",
+    "collapse": "Zusammenklappen",
+    "save": "Speichern",
+    "flag": "Kennzeichnen",
+    "like": "Gefällt mir",
+    "dislike": "Gefällt mir nicht",
+    "publish": "Veröffentlichen",
+    "unpublish": "Nicht veröffentlichen",
+    "select": "Auswählen",
+    "confirmation": "Bestätigung",
+    "confirmDelete": "Sind Sie sicher, dass Sie löschen möchten",
+    "toggleColorScheme": "Farbschema umschalten",
     "option": "Option",
-    "options": "Options",
-    "selectImage": "Select Image",
+    "options": "Optionen",
+    "selectImage": "Bild auswählen",
     "bookmark": "Lesezeichen",
     "addBookmark": "Lesezeichen hinzufügen",
     "removeBookmark": "Lesezeichen entfernen"
   },
   "errors": {
-    "imageSizeExceeded": "The file size must not exceed 1.5 MB"
+    "imageSizeExceeded": "Die Dateigrösse darf 1.5 MB nicht überschreiten"
   },
   "auth": {
     "signinPage": {
-      "title": "Sign In",
-      "subtitle": "Sign in to contribute to Dialektli",
-      "withGoogle": "Sign in with Google",
-      "withTestAccount": "Sign in with Test Account",
-      "developmentOnly": "Development Only",
-      "email": "Email",
-      "password": "Password",
-      "testCredentialsHint": "Use test@example.com / password",
-      "forgotPassword": "Forgot your password?"
+      "title": "Anmelden",
+      "subtitle": "Bei Dialektli mitmachen",
+      "withGoogle": "Weiter mit Google",
+      "withTestAccount": "Mit Testkonto anmelden",
+      "developmentOnly": "Nur für Entwicklung",
+      "email": "E-Mail",
+      "password": "Passwort",
+      "testCredentialsHint": "test@example.com / password verwenden",
+      "forgotPassword": "Passwort vergessen?"
     },
     "signupPage": {
-      "title": "Sign Up",
-      "alreadyHaveAccount": "Already have an account?",
-      "signIn": "Sign In!",
-      "or": "or",
-      "withGoogle": "Continue with Google",
+      "title": "Registrieren",
+      "alreadyHaveAccount": "Bereits ein Konto?",
+      "signIn": "Anmelden!",
+      "or": "oder",
+      "withGoogle": "Weiter mit Google",
       "name": "Name",
-      "email": "Email",
-      "weWillNeverShareYourInfo": "We will never share your information."
+      "email": "E-Mail",
+      "weWillNeverShareYourInfo": "Wir werden Ihre Informationen niemals teilen."
     },
     "resetPasswordPage": {
-      "title": "Reset Password",
-      "email": "Email",
-      "resetPassword": "Reset password"
+      "title": "Passwort zurücksetzen",
+      "email": "E-Mail",
+      "resetPassword": "Passwort zurücksetzen"
     },
     "passwordFieldLabel": "Password",
     "profile": {
@@ -116,245 +116,247 @@
         "helperText": "Please choose a unique name. it needs to be at least 3 characters long.",
         "error": "Sorry, this name is already taken."
       },
-      "title": "Personal Information",
-      "description": "Customize how your profile information will apper to the networks.",
-      "statistics": "Statistics",
-      "publishedExpressions": "Published Expressions",
-      "unpublishedExpressions": "Unpublished Expressions",
-      "noExpressionsFound": "No expressions found",
+      "title": "Persönliche Informationen",
+      "description": "Passen Sie an, wie Ihre Profilinformationen in den Netzwerken angezeigt werden.",
+      "statistics": "Statistiken",
+      "publishedExpressions": "Veröffentlichte Ausdrücke",
+      "unpublishedExpressions": "Nicht veröffentlichte Ausdrücke",
+      "noExpressionsFound": "Keine Ausdrücke gefunden",
       "noFavoritesFound": "Noch keine Ausdrücke als Lesezeichen gespeichert",
-      "noUsersFound": "No users found",
+      "noUsersFound": "Keine Benutzer gefunden",
       "tableHeaders": {
         "name": "Name",
-        "email": "Email",
-        "role": "Role",
-        "canton": "Canton",
-        "expressions": "Expressions",
+        "email": "E-Mail",
+        "role": "Rolle",
+        "canton": "Kanton",
+        "expressions": "Ausdrücke",
         "likes": "Likes"
       },
       "name": "Name",
-      "email": "Email",
-      "country": "Country",
-      "canton": "Canton",
-      "bio": "Bio",
-      "bioPlaceholder": "Add a short bio",
-      "noBio": "No bio yet",
-      "bioHelperText": "Write a short introduction to be displayed on your profile",
-      "bioCharLeft": "character left",
-      "bioCharsLeft": "characters left",
-      "deleteAccount": "Delete Account",
-      "deleteAccountConfirmation": "Are you sure you want to delete your account? All your data will be deleted and cannot be restored!",
-      "noUserFound": "No user found, please try to sign in again"
+      "email": "E-Mail",
+      "country": "Land",
+      "canton": "Kanton",
+      "bio": "Biografie",
+      "bioPlaceholder": "Kurze Biografie hinzufügen",
+      "noBio": "Noch keine Biografie",
+      "bioHelperText": "Verfassen Sie eine kurze Einleitung, die auf Ihrem Profil angezeigt wird",
+      "bioCharLeft": "Zeichen übrig",
+      "bioCharsLeft": "Zeichen übrig",
+      "deleteAccount": "Konto löschen",
+      "deleteAccountConfirmation": "Sind Sie sicher, dass Sie Ihr Konto löschen möchten? Alle Ihre Daten werden gelöscht und können nicht wiederhergestellt werden!",
+      "noUserFound": "Kein Benutzer gefunden, bitte versuchen Sie erneut, sich anzumelden"
     }
   },
   "guidelinesPage": {
-    "title": "Content Guidelines",
-    "description": "Dialektli is a community for everyone, including you. Anybody can post a definition, but in order to keep things fun for everyone, we ask that you follow the following ground rules:",
+    "title": "Richtlinien für Inhalte",
+    "description": "Dialektli ist eine Community für alle, auch für Sie. Jeder kann eine Definition veröffentlichen, aber um es für alle unterhaltsam zu halten, bitten wir Sie, die folgenden Grundregeln zu befolgen:",
     "dos": [
       {
-        "title": "Write for a large audience.",
-        "description": "When defining a word, make sure to provide enough context for other people to understand what it means and how it's typically used. Need a little help? Look to our Word of the Day for some examples."
+        "title": "Für ein grosses Publikum schreiben.",
+        "description": "Wenn Sie ein Wort definieren, stellen Sie sicher, genügend Kontext zu liefern, damit andere verstehen, was es bedeutet und wie es normalerweise verwendet wird. Brauchen Sie etwas Hilfe? Schauen Sie sich unser Wort des Tages für einige Beispiele an."
       },
       {
-        "title": "Be creative.",
-        "description": "Some of the best definitions on Dialektli find humorous ways to poke fun at authority, or put a clever twist on current events. Some of them are just straight up weird. We're okay with that."
+        "title": "Sei kreativ.",
+        "description": "Einige der besten Definitionen auf Dialektli finden humorvolle Wege, Autorität auf die Schippe zu nehmen, oder setzen einen cleveren Twist auf aktuelle Ereignisse. Manche sind einfach nur seltsam. Damit haben wir kein Problem."
       },
       {
-        "title": "Have fun.",
-        "description": "We are not a traditional dictionary. This is a place where language has a little more space to be explored and constructed freely, in the moment."
+        "title": "Hab Spass.",
+        "description": "Wir sind kein traditionelles Wörterbuch. Dies ist ein Ort, an dem Sprache etwas mehr Raum hat, um frei erkundet und konstruiert zu werden, im Moment."
       }
     ],
     "donts": [
       {
-        "title": "Don't post personal information.",
-        "description": "That includes obvious things like last names and addresses, but we will also remove definitions containing first names or user handles if they can be used to identify and target specific individuals for harassment."
+        "title": "Keine persönlichen Informationen veröffentlichen.",
+        "description": "Das schliesst offensichtliche Dinge wie Nachnamen und Adressen ein, aber wir werden auch Definitionen entfernen, die Vornamen oder Benutzernamen enthalten, wenn sie dazu verwendet werden können, bestimmte Personen für Belästigung zu identifizieren."
       },
       {
-        "title": "Don't be an asshole.",
-        "description": "We are okay with people defining offensive words. After all, people use offensive words in the real world and a resource for understanding what those words mean can be valuable. However, we are not—and never will be—okay with people using a definition to harass, discriminate, and/or directly incite violence against others."
+        "title": "Kein Arschloch sein.",
+        "description": "Wir haben kein Problem damit, dass Menschen beleidigende Wörter definieren. Schliesslich verwenden Menschen beleidigende Wörter auch im wirklichen Leben, und eine Ressource zur Verständigung, was diese Wörter bedeuten, kann wertvoll sein. Wir sind jedoch nicht und werden niemals damit einverstanden sein, dass Menschen eine Definition verwenden, um andere zu belästigen, zu diskriminieren und/oder direkt zu Gewalttaten aufzurufen."
       }
     ]
   },
   "expression": {
-    "expression": "Expression",
-    "description": "Definition",
-    "author": "Author",
-    "language": "Language",
-    "canton": "Canton",
-    "title": "Expression",
+    "expression": "Ausdruck",
+    "description": "Beschreibung",
+    "author": "Autor",
+    "language": "Sprache",
+    "canton": "Kanton",
+    "title": "Ausdruck",
     "status": "Status",
-    "flagged": "Flagged",
-    "published": "Published",
-    "unpublished": "Unpublished",
-    "updatedAt": "Updated At",
-    "example": "Example",
-    "examples": "Examples",
-    "synonyms": "Synonyms",
-    "gender": "Gender",
+    "flagged": "Gekennzeichnet",
+    "published": "Veröffentlicht",
+    "unpublished": "Nicht veröffentlicht",
+    "updatedAt": "Aktualisiert am",
+    "example": "Beispiel",
+    "examples": "Beispiele",
+    "synonyms": "Synonyme",
+    "gender": "Geschlecht",
     "genders": {
-      "M": "Masculine",
-      "F": "Feminine",
-      "N": "Neutral"
+      "M": "Männlich",
+      "F": "Weiblich",
+      "N": "Sächlich"
     },
-    "type": "Type",
+    "type": "Typ",
     "types": {
       "NOUN": {
-        "label": "Noun",
-        "description": "A word that represents a person, place, thing, or idea; e.g., dog, city, happiness."
+        "label": "Nomen / Substantiv",
+        "description": "Ein Wort, das für eine Person, einen Ort, eine Sache oder eine Idee steht; z.B. Hund, Stadt, Glück."
       },
       "VERB": {
         "label": "Verb",
-        "description": "Expresses an action, occurrence, or state of being; e.g., run, exist, happen."
+        "description": "Drückt eine Handlung, ein Ereignis oder einen Seinszustand aus; z.B. ausführen, existieren, geschehen."
       },
       "ADJECTIVE": {
-        "label": "Adjective",
-        "description": "Describes or modifies a noun or pronoun by providing more information about its qualities or characteristics; e.g., big, happy, green."
+        "label": "Adjektiv",
+        "description": "Beschreibt oder modifiziert ein Substantiv oder Pronomen, indem es mehr Informationen über seine Qualitäten oder Eigenschaften liefert; z.B. gross, glücklich, grün."
       },
       "ADVERB": {
         "label": "Adverb",
-        "description": "Modifies or describes a verb, adjective, or other adverb, typically indicating manner, time, place, degree, or frequency; e.g., quickly, very, here, often."
+        "description": "Modifiziert oder beschreibt ein Verb, Adjektiv oder ein anderes Adverb und gibt typischerweise Art, Zeit, Ort, Grad oder Häufigkeit an; z.B. schnell, sehr, hier, oft."
       },
       "PRONOUN": {
-        "label": "Pronoun",
-        "description": "Acts as a substitute for a noun or noun phrase; e.g., he, she, it, they."
+        "label": "Pronomen",
+        "description": "Dient als Ersatz für ein Substantiv oder eine Nominalphrase; z.B. er, sie, es, sie."
       },
       "PREPOSITION": {
-        "label": "Preposition",
-        "description": "Indicates the relationship between a noun or pronoun and other elements in a sentence, often showing location, time, direction, or manner; e.g., in, on, at, before."
+        "label": "Präposition",
+        "description": "Bezeichnet die Beziehung zwischen einem Substantiv oder Pronomen und anderen Elementen in einem Satz und gibt häufig Ort, Zeit, Richtung oder Art an; z.B. in, am, bei, vor."
       },
       "CONJUNCTION": {
-        "label": "Conjunction",
-        "description": "Connects words, phrases, or clauses within a sentence, indicating a relationship between different parts of the sentence; e.g., and, but, or, because."
+        "label": "Konjunktion",
+        "description": "Verbindet Wörter, Phrasen oder Satzteile innerhalb eines Satzes und zeigt eine Beziehung zwischen verschiedenen Teilen des Satzes an; z.B. und, aber, oder, weil."
       },
       "INTERJECTION": {
-        "label": "Interjection",
-        "description": "Expresses emotion, surprise, or some other sentiment, often standing alone and not grammatically connected to the rest of the sentence; e.g., wow, oh, hey."
+        "label": "Interjektion",
+        "description": "Drückt Emotionen, Überraschung oder ein anderes Gefühl aus, steht oft für sich allein und ist grammatikalisch nicht mit dem Rest des Satzes verbunden; z.B. wow, oh, hey."
       },
       "PARTICLE": {
-        "label": "Particle",
-        "description": "A word that doesn't fit neatly into traditional grammatical categories and often serves a grammatical or pragmatic function within a sentence, such as phrasal verbs; e.g., up, out, on (as in 'turn on', 'look up')."
+        "label": "Partikel",
+        "description": "Ein Wort, das nicht genau in traditionelle grammatikalische Kategorien passt und oft eine grammatikalische oder pragmatische Funktion innerhalb eines Satzes erfüllt, wie z.B. Phrasalverben; z.B. an, ein, her (wie in 'anmachen', 'einfangen', 'herholen')."
       }
     },
-    "pleaseSignInForExpressionAction": "Please sign in to {action} this expression.",
-    "cannotVoteOwnExpression": "You cannot vote on your own expression",
-    "cantonFieldPlaceholder": "Select canton",
-    "countryFieldPlaceholder": "Select country",
-    "cantonFieldHelperText": "Select the cantons this expression is associated with",
-    "descriptionFieldHelperText": "Write for a large audience. Lots of people will read this, so give some background information.",
-    "examplesFieldHelperText": "Provide examples of how this expression is used in context, or how it is used in a sentence. This will help others understand the expression better.",
-    "exampleCantonFieldHelperText": "Select the cantons this example is associated with",
-    "genderFieldHelperText": "Select the gender this expression is associated with",
+    "pleaseSignInForExpressionAction": "Bitte melden Sie sich an, um {action} für diesen Ausdruck.",
+    "cannotVoteOwnExpression": "Du kannst nicht für deinen eigenen Ausdruck abstimmen",
+    "cantonFieldPlaceholder": "Kanton auswählen",
+    "countryFieldPlaceholder": "Land auswählen",
+    "cantonFieldHelperText": "Wählen Sie die Kantone aus, mit denen dieser Ausdruck verbunden ist",
+    "descriptionFieldHelperText": "Schreiben Sie für ein grosses Publikum. Viele Menschen werden dies lesen, also geben Sie einige Hintergrundinformationen.",
+    "examplesFieldHelperText": "Geben Sie Beispiele dafür, wie dieser Ausdruck im Kontext verwendet wird, oder wie er in einem Satz verwendet wird. Dies hilft anderen, den Ausdruck besser zu verstehen.",
+    "exampleCantonFieldHelperText": "Wählen Sie die Kantone aus, mit denen dieses Beispiel verbunden ist",
+    "genderFieldHelperText": "Wählen Sie das Geschlecht aus, mit dem dieser Ausdruck verbunden ist",
     "newExpression": {
-      "title": "New Expression",
-      "description": "All the definitions were written by people just like you. Now's your chance to add your own!",
+      "title": "Neuer Ausdruck",
+      "description": "Alle Definitionen wurden von Menschen wie Ihnen geschrieben. Jetzt haben Sie die Möglichkeit, Ihre eigene hinzuzufügen!",
       "newSynonym": {
-        "description": "Expand the lexicon. Add definitions."
+        "description": "Erweitere das Lexikon. Ergänze Definitionen."
       }
     },
     "editExpression": {
-      "title": "Edit Expression",
-      "notAuthorizedWarning": "You are not authorized to edit this expression",
-      "claimOwnership": "If you contributed this expression and would like to claim ownership over this expression, please contact us.",
-      "claimOwnershipLinkHref": "mailto:urbanswisstionary@gmail.com?subject=Claim ownership over '{{expressionTitle}}', id '{{expressionId}}'&body=Hi, I would like to claim ownership over '{{expressionTitle}}', id '{{expressionId}}' and here I provide proofs of my claim.",
-      "addExample": "Add another example",
-      "deleteExample": "Delete example"
+      "title": "Ausdruck bearbeiten",
+      "notAuthorizedWarning": "Sie sind nicht berechtigt, diesen Ausdruck zu bearbeiten",
+      "claimOwnership": "Wenn Sie diesen Ausdruck beigesteuert haben und Eigentum daran beanspruchen möchten, kontaktieren Sie uns bitte.",
+      "claimOwnershipLinkHref": "mailto:urbanswisstionary@gmail.com?subject=Eigentumsanspruch auf '{{expressionTitle}}', ID '{{expressionId}}'&body=Hallo, ich möchte Eigentumsanspruch auf '{{expressionTitle}}', ID '{{expressionId}}' erheben und füge hier entsprechende Nachweise bei.",
+      "addExample": "Ein weiteres Beispiel hinzufügen",
+      "deleteExample": "Beispiel löschen"
     },
     "reviewGuidelines": {
-      "pleaseReviewContentGuidelines": "Please review our Content Guidelines before submitting your expression.",
+      "pleaseReviewContentGuidelines": "Bitte überprüfen Sie unsere Richtlinien für Inhalte, bevor Sie Ihren Ausdruck einreichen.",
       "shortVersion": {
-        "title": "Here's the short version:",
+        "title": "Hier ist die Kurzfassung:",
         "dos": [
           {
-            "title": "Share definitions that other people will find meaningful"
+            "title": "Teilen Sie Definitionen, die andere Menschen als sinnvoll empfinden werden"
           }
         ],
         "donts": [
           {
-            "title": "never post hate speech"
+            "title": "niemals Hassrede posten"
           },
           {
-            "title": "never post people's personal information."
+            "title": "niemals persönliche Informationen von Menschen posten."
           }
         ]
       }
     },
-    "suggestExample": "Expand our dictionary - suggest an example!",
-    "suggestSynonym": "Expand our dictionary - suggest a synonym!",
+    "suggestExample": "Erweitern Sie unser Wörterbuch – ein Beispiel vorschlagen!",
+    "suggestSynonym": "Erweitern Sie unser Wörterbuch – ein Synonym vorschlagen!",
     "form": {
-      "title": "Expression",
-      "definition": "Definition",
-      "example": "Example",
-      "cantons": "Cantons",
-      "language": "Language",
-      "gender": "Gender",
-      "type": "Type",
-      "titleTooShort": "Title must be at least 3 characters",
-      "definitionTooShort": "Definition must be at least 10 characters"
+      "title": "Ausdruck",
+      "definition": "Beschreibung",
+      "example": "Beispiel",
+      "cantons": "Kantone",
+      "language": "Sprache",
+      "gender": "Geschlecht",
+      "type": "Typ",
+      "titleTooShort": "Titel muss mindestens 3 Zeichen lang sein",
+      "definitionTooShort": "Beschreibung muss mindestens 10 Zeichen lang sein"
     }
   },
   "404Page": {
     "title": "404",
-    "description": "Oh no! The page you are looking for does not exist.",
-    "toHome": "Home Page"
+    "subtitle": "Sältigsigi Syte!",
+    "description": "Diese Syte existiert nöd — vielicht häsch dich verschriibe oder es Wort erfunde, wo's no nöd git.",
+    "toHome": "Zrugg zur Hommpage",
+    "toAtlas": "Sprachatlas entdecke"
   },
   "seo": {
     "title": "Dialektli",
-    "description": "Dialektli is a community-run dictionary for Swiss slang and dialects. It is a place where language is given a little more space to be freely explored and constructed in the moment. Current (colloquial) Swiss German words, sayings, idioms, etc. are exchanged here.",
+    "description": "Dialektli ist ein von der Community geführtes Wörterbuch für Schweizer Slang und Dialekte. Es ist ein Ort, an dem die Sprache etwas mehr Raum bekommt, um im Moment frei erforscht und konstruiert zu werden. Hier werden aktuelle (umgangssprachliche) schweizerdeutsche Wörter, Sprüche, Redewendungen usw. ausgetauscht.",
     "share": {
-      "shareButton": "Share",
-      "facebook": "Share via Facebook",
-      "twitter": "Share via Twitter",
-      "linkedin": "Share via LinkedIn",
-      "whatsapp": "Share via Whatsapp",
-      "email": "Share via Email",
-      "copyLink": "Copy Link"
+      "shareButton": "Teilen",
+      "facebook": "Über Facebook teilen",
+      "twitter": "Über Twitter teilen",
+      "linkedin": "Über LinkedIn teilen",
+      "whatsapp": "Über WhatsApp teilen",
+      "email": "Per E-Mail teilen",
+      "copyLink": "Link kopieren"
     }
   },
   "bugReport": {
-    "title": "Bug Report Form",
-    "subtitle": "If you encounter a bug please do let us know by filling out the form below and we'll fix it as soon as possible.",
+    "title": "Fehlermeldeformular",
+    "subtitle": "Wenn Sie auf einen Fehler stossen, teilen Sie uns dies bitte mit, indem Sie das untenstehende Formular ausfüllen. Wir werden ihn so schnell wie möglich beheben.",
     "email": "E-Mail",
     "bugDescription": {
-      "label": "Describe the bug",
-      "helperText": "A clear and concise description of what the bug is."
+      "label": "Fehler beschreiben",
+      "helperText": "Eine klare und prägnante Beschreibung des Fehlers."
     },
     "reproductionSteps": {
-      "label": "Reproduction steps",
-      "helperText": "What are the steps we can take to reproduce the bug",
-      "placeholder": "Steps to reproduce the behavior:\n\n1. Go to '...'\n\n2. Click on '....'\n\n3. Scroll down to '....'\n\n4. See error"
+      "label": "Reproduktionsschritte",
+      "helperText": "Welche Schritte können wir unternehmen, um den Fehler zu reproduzieren",
+      "placeholder": "Schritte zum Reproduzieren des Verhaltens:\n\n1. Gehen Sie zu '...'\n\n2. Klicken Sie auf '....'\n\n3. Scrollen Sie nach unten zu '....'\n\n4. Fehler sehen"
     },
     "expectedBehavior": {
-      "label": "Expected behavior",
-      "helperText": "A clear and concise description of what you expected to happen."
+      "label": "Erwartetes Verhalten",
+      "helperText": "Eine klare und prägnante Beschreibung dessen, was Sie erwartet haben."
     },
     "desktopDescription": {
       "label": "Desktop",
-      "helperText": "OS [e.g. iOS Sonoma 14.2.1]"
+      "helperText": "Betriebssystem [z.B. iOS Sonoma 14.2.1]"
     },
     "mobileDescription": {
       "label": "Smartphone",
-      "helperText": "Device [e.g. iPhone6], OS [e.g. iOS8.1]"
+      "helperText": "Gerät [z.B. iPhone6], Betriebssystem [z.B. iOS8.1]"
     },
     "browserDetails": {
-      "label": "Browser details",
+      "label": "Browserdetails",
       "whatismybrowserUrl": "https://www.whatismybrowser.com/",
-      "helperText": "Go to whatismybrowser.com. Click 'Copy URL to Clipboard' and paste that URL here."
+      "helperText": "Gehen Sie zu whatismybrowser.com. Klicken Sie auf 'URL in die Zwischenablage kopieren' und fügen Sie die URL hier ein."
     },
     "additionalContext": {
-      "label": "Additional context",
-      "helperText": "Add any other context about the problem here."
+      "label": "Zusätzlicher Kontext",
+      "helperText": "Fügen Sie hier weiteren Kontext zum Problem hinzu."
     },
-    "submit": "Submit",
-    "thankYou": "Thank you for submitting a bug report!"
+    "submit": "Absenden",
+    "thankYou": "Vielen Dank für Ihre Fehlermeldung!"
   },
   "contactUs": {
-    "title": "Contact Us",
+    "title": "Kontaktiere uns",
     "name": "Name",
     "email": "E-Mail",
-    "subject": "Subject",
-    "message": "Message",
-    "subtitle": "Have questions, suggestions, or feedback? We'd love to hear from you!",
-    "thankYou": "Thank you for reaching out! We will get back to you as soon as possible."
+    "subject": "Betreff",
+    "message": "Nachricht",
+    "subtitle": "Haben Sie Fragen, Anregungen oder Feedback? Wir freuen uns von Ihnen zu hören!",
+    "thankYou": "Vielen Dank für Ihre Nachricht! Wir werden uns so schnell wie möglich bei Ihnen melden."
   },
   "about": {
     "title": "Über Dialektli",
@@ -483,7 +485,7 @@
       },
       "updates": {
         "title": "Aktualisiert",
-        "updated": "Updated: February 2024",
+        "updated": "Aktualisiert: Februar 2024",
         "copyrights": "Urheberrecht © 2024 Dialektli. Alle Rechte vorbehalten."
       }
     },
@@ -571,7 +573,7 @@
         "content": "Dialektli wird die Konten von Benutzern kündigen, die als wiederholte Urheberrechtsverletzer identifiziert werden."
       }
     },
-    "lastUpdated": "Last updated"
+    "lastUpdated": "Zuletzt aktualisiert"
   },
   "accessibility": {
     "title": "Barrierefreiheitserklärung",
