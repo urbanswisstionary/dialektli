@@ -25,7 +25,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Pencil, Check, X, Loader2, Bookmark } from "lucide-react"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import {
   useExpressionsQuery,
   useMyBookmarksQuery,
@@ -48,18 +48,12 @@ export default function ProfilePage() {
   const [bioValue, setBioValue] = useState("")
 
   const viewParam = searchParams.get("view") as ViewType | null
-  const [activeView, setActiveView] = useState<ViewType>("profile")
 
-  useEffect(() => {
-    if (
-      viewParam === "expressions" ||
-      viewParam === "users" ||
-      viewParam === "favorites"
-    ) {
-      setActiveView(viewParam)
-    } else {
-      setActiveView("profile")
-    }
+  const activeView = useMemo(() => {
+    const validViews = ["profile", "expressions", "favorites", "users"]
+
+    if (validViews.includes(viewParam)) return viewParam
+    else return "profile"
   }, [viewParam])
 
   const { data: expressionsData, loading: loadingExpressions } =
@@ -81,7 +75,6 @@ export default function ProfilePage() {
   }, [loadingMe, me, router])
 
   const handleViewChange = (newValue: string) => {
-    setActiveView(newValue as ViewType)
     router.push(`/account/profile?view=${newValue}`)
   }
 
@@ -96,6 +89,7 @@ export default function ProfilePage() {
       await updateUser({ id: me.id, name: nameValue.trim() })
       setEditingName(false)
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error("Failed to update name:", error)
     }
   }
