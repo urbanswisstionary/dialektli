@@ -71,7 +71,10 @@ export default function SprachatlasPage() {
     },
   )
 
-  const cantonOverview = overviewData?.cantonOverview ?? []
+  const cantonOverview = useMemo(
+    () => overviewData?.cantonOverview ?? [],
+    [overviewData?.cantonOverview],
+  )
   const highlightedCantons = cantonOverview.map((c) => c.canton)
   const expressions = expressionsData?.expressionsByCanton ?? []
 
@@ -111,7 +114,7 @@ export default function SprachatlasPage() {
         <p className="mt-1 text-muted-foreground">{ts("subtitle")}</p>
       </div>
 
-      <div className="mb-4 max-w-[200px]">
+      <div className="mb-4 max-w-50">
         <Select
           value={language}
           onValueChange={(value) => {

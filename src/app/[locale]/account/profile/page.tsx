@@ -110,6 +110,7 @@ export default function ProfilePage() {
       await updateUser({ id: me.id, bio: bioValue.trim() || null })
       setEditingBio(false)
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error("Failed to update bio:", error)
     }
   }
