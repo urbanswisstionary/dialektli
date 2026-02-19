@@ -291,8 +291,10 @@
   },
   "404Page": {
     "title": "404",
-    "description": "Oh no! The page you are looking for does not exist.",
-    "toHome": "Home Page"
+    "subtitle": "Lost in translation!",
+    "description": "This page doesn't exist — maybe you mistyped it or invented a word that hasn't been defined yet.",
+    "toHome": "Back to Homepage",
+    "toAtlas": "Explore the Atlas"
   },
   "seo": {
     "title": "Dialektli",

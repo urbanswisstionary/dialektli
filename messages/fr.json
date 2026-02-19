@@ -293,8 +293,10 @@
   },
   "404Page": {
     "title": "404",
-    "description": "La page que vous recherchez n'a pas été trouvée.",
-    "toHome": "Retour à la page d'accueil"
+    "subtitle": "Perdu en traduction!",
+    "description": "Cette page n'existe pas — peut-être avez-vous fait une faute de frappe ou inventé un mot qui n'a pas encore été défini.",
+    "toHome": "Retour à l'accueil",
+    "toAtlas": "Explorer l'Atlas"
   },
   "seo": {
     "title": "Dialektli",
