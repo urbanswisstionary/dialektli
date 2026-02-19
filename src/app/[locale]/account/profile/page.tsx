@@ -52,7 +52,7 @@ export default function ProfilePage() {
   const activeView = useMemo(() => {
     const validViews = ["profile", "expressions", "favorites", "users"]
 
-    if (validViews.includes(viewParam)) return viewParam
+    if (viewParam && validViews.includes(viewParam)) return viewParam
     else return "profile"
   }, [viewParam])
 
