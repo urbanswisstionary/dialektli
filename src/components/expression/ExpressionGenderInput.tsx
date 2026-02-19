@@ -29,7 +29,7 @@ const ExpressionGenderInput: FC<ExpressionGenderInputProps> = ({
   const t = useTranslations()
 
   return (
-    <div className={cn("space-y-2", className)}>
+    <div className={cn("space-y-2 space-x-1", className)}>
       {label && <Label>{label}</Label>}
       <div className="inline-flex gap-1">
         {expressionGenders.map((gender) => (

@@ -9,10 +9,17 @@ interface DebouncedTextareaProps {
   onChange: (_value: string) => void
   debounce?: number
   minRows?: number
-  maxRows?: number
   className?: string
   disabled?: boolean
-  [key: string]: any
+  placeholder?: string
+  id?: string
+  name?: string
+  autoFocus?: boolean
+  readOnly?: boolean
+  required?: boolean
+  maxLength?: number
+  "aria-label"?: string
+  "aria-describedby"?: string
 }
 
 const DebouncedTextarea: FC<DebouncedTextareaProps> = ({
@@ -20,7 +27,6 @@ const DebouncedTextarea: FC<DebouncedTextareaProps> = ({
   onChange,
   debounce = 500,
   minRows = 4,
-  maxRows = 6,
   className,
   disabled,
   ...props

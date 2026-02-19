@@ -34,7 +34,6 @@ const ExpressionDefinitionInput: FC<ExpressionDefinitionInputProps> = ({
     <DebouncedTextarea
       value={value}
       onChange={(value) => onChange(value)}
-      rows={4}
       disabled={disabled}
       className="resize-y min-h-[100px] max-h-[200px]"
     />

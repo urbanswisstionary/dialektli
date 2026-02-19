@@ -162,22 +162,21 @@ export default function NewExpressionPage() {
             value={type}
             onChange={(newType) => setType(newType ?? null)}
           />
-          <DebouncedTextarea
-            label={t("expression.form.example")}
-            value={example}
-            onChange={setExample}
-            helperText={t("expression.examplesFieldHelperText")}
-            fullWidth
-          />
+          <div className="flex flex-col gap-1.5">
+            <label className="text-sm font-medium">
+              {t("expression.form.example")}
+            </label>
+            <DebouncedTextarea value={example} onChange={setExample} />
+            <p className="text-xs text-muted-foreground">
+              {t("expression.examplesFieldHelperText")}
+            </p>
+          </div>
           {example.trim() && (
             <SelectMultipleLocation
               mode="canton"
-              label={
-                t("expression.form.cantons") +
-                " (" +
-                t("expression.example") +
-                ")"
-              }
+              label={`${t("expression.form.cantons")} (${t(
+                "expression.example",
+              )})`}
               value={exampleCantons}
               onChange={setExampleCantons}
               groupOptions

@@ -14,7 +14,6 @@ import {
   ExpressionGender,
   ExpressionType,
   UpdateExpressionInput,
-  ExpressionFragmentFragment,
 } from "@/generated/graphql"
 import { getFragmentData } from "@/generated"
 import { Loader2 } from "lucide-react"
