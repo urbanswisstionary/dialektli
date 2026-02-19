@@ -1,8 +1,10 @@
+import { routing } from "@/i18n/routing"
 import type { MetadataRoute } from "next"
+import { type Locale } from "next-intl"
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://dialektli.ch"
-  const locales = ["de", "en", "fr"] as const
+  const locales = routing.locales as readonly Locale[]
 
   const routes: MetadataRoute.Sitemap = []
 
