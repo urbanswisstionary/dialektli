@@ -1,41 +1,102 @@
-"use client"
+import type { Metadata } from "next"
 
-import { Loader2 } from "lucide-react"
-import { useTranslations } from "next-intl"
-import { useParams } from "next/navigation"
+import { routing } from "@/i18n/routing"
+import prisma from "@/lib/prisma"
 
-import ExpressionCard from "@/components/expression/ExpressionCard"
-import { getFragmentData } from "@/generated"
-import { useExpression, ExpressionFragment } from "@/hooks/useExpressions"
-import { useMe } from "@/hooks/useUsers"
+import ExpressionDetailClient from "./ExpressionDetailClient"
 
-export default function ExpressionDetailPage() {
-  const t = useTranslations()
-  const params = useParams()
-  const expressionId = params.id as string
+type Props = {
+  params: Promise<{ id: string; locale: string }>
+}
 
-  const { me, loading: loadingMe } = useMe()
-  const { data, loading: loadingExpression } = useExpression(
-    expressionId,
-    !expressionId,
-  )
+const BASE_URL = "https://dialektli.ch"
 
-  const loading = loadingMe || loadingExpression
-  const expression = data?.expression
-    ? getFragmentData(ExpressionFragment, data.expression)
-    : null
+function expressionUrl(locale: string, id: string): string {
+  const prefix = locale === routing.defaultLocale ? "" : `/${locale}`
+  return `${BASE_URL}${prefix}/expressions/${id}`
+}
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center my-10">
-        <Loader2 className="h-15 w-15 animate-spin text-muted-foreground" />
-      </div>
-    )
-  }
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id, locale } = await params
+
+  const expression = await prisma.expression.findUnique({
+    where: { id },
+    select: { title: true, definition: true },
+  })
 
   if (!expression) {
-    return <>{t("noData")}</>
+    return { title: "Expression not found" }
   }
 
-  return <ExpressionCard expression={expression} disableActions={!me} />
+  const title = expression.title
+  const description = expression.definition
+    ? expression.definition.slice(0, 160)
+    : `${title} — Swiss dialect expression on Dialektli`
+
+  const canonicalUrl = expressionUrl(locale, id)
+
+  const alternates: Record<string, string> = {
+    "x-default": expressionUrl(routing.defaultLocale, id),
+  }
+  for (const l of routing.locales) {
+    alternates[l] = expressionUrl(l, id)
+  }
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: canonicalUrl,
+      languages: alternates,
+    },
+    openGraph: {
+      title: `${title} | Dialektli`,
+      description,
+      type: "article",
+      url: canonicalUrl,
+    },
+    twitter: {
+      card: "summary",
+      title: `${title} | Dialektli`,
+      description,
+    },
+  }
+}
+
+export default async function ExpressionDetailPage({ params }: Props) {
+  const { id, locale } = await params
+
+  const expression = await prisma.expression.findUnique({
+    where: { id },
+    select: { title: true, definition: true },
+  })
+
+  const jsonLd = expression
+    ? JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "DefinedTerm",
+        name: expression.title,
+        description: expression.definition ?? undefined,
+        url: expressionUrl(locale, id),
+        inDefinedTermSet: {
+          "@type": "DefinedTermSet",
+          name: "Dialektli",
+          url: BASE_URL,
+        },
+        inLanguage: "de-CH",
+      })
+    : null
+
+  return (
+    <>
+      {jsonLd && (
+        <script
+          id="json-ld-expression"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLd }}
+        />
+      )}
+      <ExpressionDetailClient expressionId={id} />
+    </>
+  )
 }

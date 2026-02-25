@@ -10,9 +10,9 @@ import Layout from "@/components/layout/Layout"
 import ApolloProvider from "@/components/providers/ApolloProvider"
 import SessionProvider from "@/components/providers/SessionProvider"
 import ThemeProvider from "@/components/providers/ThemeProvider"
-
-import { locales } from "../../i18n/request"
+import { cn } from "@/lib/utils"
 import "@/app/globals.css"
+import { locales } from "../../i18n/request"
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -44,21 +44,12 @@ export const metadata: Metadata = {
     title: "Dialektli - Swiss Dialect Dictionary",
     description:
       "Community-driven platform for Swiss expressions, words, and idioms",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Dialektli - Swiss Dialect Dictionary",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Dialektli - Swiss Dialect Dictionary",
     description:
       "Community-driven platform for Swiss expressions, words, and idioms",
-    images: ["/og-image.png"],
   },
   robots: {
     index: true,
@@ -92,7 +83,11 @@ export default async function LocaleLayout({ children, params }: Props) {
   const messages = await getMessages()
 
   return (
-    <html lang={locale} className={roboto.variable} suppressHydrationWarning>
+    <html
+      lang={locale}
+      className={cn(roboto.variable, "scroll-smooth")}
+      suppressHydrationWarning
+    >
       <body>
         <SessionProvider>
           <ThemeProvider
