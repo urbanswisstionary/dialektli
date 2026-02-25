@@ -314,7 +314,8 @@
       "linkedin": "Über LinkedIn teilen",
       "whatsapp": "Über WhatsApp teilen",
       "email": "Per E-Mail teilen",
-      "copyLink": "Link kopieren"
+      "copyLink": "Link kopieren",
+      "copied": "Kopiert!"
     }
   },
   "bugReport": {

@@ -311,7 +311,8 @@
       "linkedin": "Share via LinkedIn",
       "whatsapp": "Share via Whatsapp",
       "email": "Share via Email",
-      "copyLink": "Copy Link"
+      "copyLink": "Copy Link",
+      "copied": "Copied!"
     }
   },
   "bugReport": {

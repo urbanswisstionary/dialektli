@@ -313,7 +313,8 @@
       "linkedin": "Partager via LinkedIn",
       "whatsapp": "Partager via Whatsapp",
       "email": "Partager par e-mail",
-      "copyLink": "Copier le lien"
+      "copyLink": "Copier le lien",
+      "copied": "Copié !"
     }
   },
   "bugReport": {
