@@ -3702,7 +3702,32 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@radix-ui/react-toggle@npm:^1.1.10":
+"@radix-ui/react-toggle-group@npm:^1.1.11":
+  version: 1.1.11
+  resolution: "@radix-ui/react-toggle-group@npm:1.1.11"
+  dependencies:
+    "@radix-ui/primitive": "npm:1.1.3"
+    "@radix-ui/react-context": "npm:1.1.2"
+    "@radix-ui/react-direction": "npm:1.1.1"
+    "@radix-ui/react-primitive": "npm:2.1.3"
+    "@radix-ui/react-roving-focus": "npm:1.1.11"
+    "@radix-ui/react-toggle": "npm:1.1.10"
+    "@radix-ui/react-use-controllable-state": "npm:1.2.2"
+  peerDependencies:
+    "@types/react": "*"
+    "@types/react-dom": "*"
+    react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    "@types/react-dom":
+      optional: true
+  checksum: 10c0/c8cbccda3e25754ed9f3145c67792df2d5d0ee1a910bde6dc07c4577ab508d4b939f145569d4e2af5b17dc4a5c701473380d8695248f8620cf0a372c05b8e958
+  languageName: node
+  linkType: hard
+
+"@radix-ui/react-toggle@npm:1.1.10, @radix-ui/react-toggle@npm:^1.1.10":
   version: 1.1.10
   resolution: "@radix-ui/react-toggle@npm:1.1.10"
   dependencies:
@@ -5811,6 +5836,7 @@ __metadata:
     "@radix-ui/react-tabs": "npm:^1.1.13"
     "@radix-ui/react-toast": "npm:^1.2.15"
     "@radix-ui/react-toggle": "npm:^1.1.10"
+    "@radix-ui/react-toggle-group": "npm:^1.1.11"
     "@radix-ui/react-tooltip": "npm:^1.2.8"
     "@tailwindcss/postcss": "npm:^4.2.1"
     "@types/lodash": "npm:^4.17.24"
@@ -8196,29 +8222,29 @@ __metadata:
   linkType: hard
 
 "minimatch@npm:^10.2.2":
-  version: 10.2.3
-  resolution: "minimatch@npm:10.2.3"
+  version: 10.2.4
+  resolution: "minimatch@npm:10.2.4"
   dependencies:
     brace-expansion: "npm:^5.0.2"
-  checksum: 10c0/d9ae5f355e8bb77a42dd8c20b950141cec8773ef8716a2bb6df7a6840cc44a00ed828883884e4f1c7b5cb505fa06a17e3ea9ca2edb18fd1dec865ea7f9fcf0e5
+  checksum: 10c0/35f3dfb7b99b51efd46afd378486889f590e7efb10e0f6a10ba6800428cf65c9a8dedb74427d0570b318d749b543dc4e85f06d46d2858bc8cac7e1eb49a95945
   languageName: node
   linkType: hard
 
 "minimatch@npm:^3.1.2, minimatch@npm:^3.1.3":
-  version: 3.1.4
-  resolution: "minimatch@npm:3.1.4"
+  version: 3.1.5
+  resolution: "minimatch@npm:3.1.5"
   dependencies:
     brace-expansion: "npm:^1.1.7"
-  checksum: 10c0/868aab7e5f52570107eb283f021383be111cfeee0817a615f2a9ffe61fdc8fb86d535b9bf169fb8882261e7cb9da22b4d7b6f8b3402037f63558bab173f82212
+  checksum: 10c0/2ecbdc0d33f07bddb0315a8b5afbcb761307a8778b48f0b312418ccbced99f104a2d17d8aca7573433c70e8ccd1c56823a441897a45e384ea76ef401a26ace70
   languageName: node
   linkType: hard
 
 "minimatch@npm:^9.0.5":
-  version: 9.0.7
-  resolution: "minimatch@npm:9.0.7"
+  version: 9.0.8
+  resolution: "minimatch@npm:9.0.8"
   dependencies:
     brace-expansion: "npm:^5.0.2"
-  checksum: 10c0/e90f8d8dd1dd3e1257b29c8cb31f554e74e2b89d52391b3903b566a28a287b59e2077a25552bc90a31bbbb79113a59e7422c7783ed9f968fe21c2ccb3c67bdef
+  checksum: 10c0/963e435e30546a5dd09900f916c785efa78aea3b416f0c7b3f5876b23538fecd8056c619b8b00ab545c1bcedbc385566e46735461e45a44e864710f86ed4ed23
   languageName: node
   linkType: hard
 
@@ -9172,19 +9198,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pg-pool@npm:^3.11.0":
-  version: 3.11.0
-  resolution: "pg-pool@npm:3.11.0"
+"pg-pool@npm:^3.12.0":
+  version: 3.12.0
+  resolution: "pg-pool@npm:3.12.0"
   peerDependencies:
     pg: ">=8.0"
-  checksum: 10c0/4b104b48a47257a0edad0c62e5ea1908b72cb79386270264b452e69895e9e4c589d00cdbf6e46d4e9c05bc7e7d191656b66814b5282d65f33b12648a21df3c7f
+  checksum: 10c0/b09da392ae2d0dae7bdf62b8557d3643bb7d84335894bc536f16ddd0da116b44c2f2770c88ff71a80252988ca115ec95a480cc047a75df34fbbbb2432b3a75da
   languageName: node
   linkType: hard
 
-"pg-protocol@npm:*, pg-protocol@npm:^1.11.0":
-  version: 1.11.0
-  resolution: "pg-protocol@npm:1.11.0"
-  checksum: 10c0/93e83581781418c9173eba4e4545f73392cfe66b78dd1d3624d7339fbd37e7f4abebaf2615e68e0701a9bf0edf5b81a4ad533836f388f775fe25fa24a691c464
+"pg-protocol@npm:*, pg-protocol@npm:^1.12.0":
+  version: 1.12.0
+  resolution: "pg-protocol@npm:1.12.0"
+  checksum: 10c0/577f33c756f6503682d9ac17fd813f9edbe4a1716e497f17d36b6edaf9bf8383accaf8cd7422c49e2fbe4eb28ef275bc52fbd8287e154d4510f50b9ccefe4165
   languageName: node
   linkType: hard
 
@@ -9202,13 +9228,13 @@ __metadata:
   linkType: hard
 
 "pg@npm:^8.16.3, pg@npm:^8.18.0":
-  version: 8.18.0
-  resolution: "pg@npm:8.18.0"
+  version: 8.19.0
+  resolution: "pg@npm:8.19.0"
   dependencies:
     pg-cloudflare: "npm:^1.3.0"
     pg-connection-string: "npm:^2.11.0"
-    pg-pool: "npm:^3.11.0"
-    pg-protocol: "npm:^1.11.0"
+    pg-pool: "npm:^3.12.0"
+    pg-protocol: "npm:^1.12.0"
     pg-types: "npm:2.2.0"
     pgpass: "npm:1.0.5"
   peerDependencies:
@@ -9219,7 +9245,7 @@ __metadata:
   peerDependenciesMeta:
     pg-native:
       optional: true
-  checksum: 10c0/9525e34d603ee5d715b8952269b2fa9fdd350a55fc5a3360104e7613724441858e57d52eed435fb16e993d028b45d8175dc277d270d31f69e5746987a549f772
+  checksum: 10c0/7713d6ef9f32746370f2bd599ebfa54d22bbdbb3a256a64b76997dd8a7279a5734dde260d6a1da22047171604fba88bd273d570c77b16f08ebe32a47ffbe2aba
   languageName: node
   linkType: hard
 

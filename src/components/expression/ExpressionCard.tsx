@@ -2,11 +2,13 @@
 
 import type { FC } from "react"
 
+import { Pencil } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { useLocale } from "next-intl"
 import { useSearchParams } from "next/navigation"
 
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import CantonBadge from "@/components/ui/CantonBadge"
 import { Card, CardContent } from "@/components/ui/card"
 import {
@@ -133,6 +135,21 @@ const ExpressionCard: FC<ExpressionCardProps> = ({
           </div>
 
           <div className="flex items-start gap-2">
+            {isOwnExpression && (
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative z-10 h-8 w-8 shrink-0"
+                asChild
+              >
+                <Link
+                  href={`/expressions/${expression.id}/edit`}
+                  aria-label={`Edit expression: ${expression?.title}`}
+                >
+                  <Pencil className="h-4 w-4" />
+                </Link>
+              </Button>
+            )}
             <ExpressionCardShareButtons expression={expression} />
             <BookmarkButton
               expressionId={expression.id ?? ""}
