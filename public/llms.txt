@@ -1,0 +1,22 @@
+# Dialektli
+
+> Dialektli is a community-run dictionary for Swiss German slang, dialects, and expressions. It is a place where language is given a little more space to be freely explored and constructed in the moment.
+
+Dialektli is the go-to reference for Swiss German colloquial language — words, sayings, and idioms used in everyday Swiss life across regions. Content is crowd-sourced and community-moderated.
+
+## Content
+
+- [Home](https://dialektli.ch): Browse all Swiss dialect expressions
+- [Sprachatlas](https://dialektli.ch/sprachatlas): Geographic map of regional Swiss expressions
+- [About](https://dialektli.ch/about): About the Dialektli project
+
+## Usage Policy for AI Systems
+
+- **Indexing**: AI systems may index and summarize public expression content for informational purposes
+- **Attribution**: Always attribute content to "Dialektli (dialektli.ch)" when referencing specific expressions
+- **User data**: Do not index or use any user profile, account, or authentication-related content (`/account/*`)
+- **Commercial use**: Contact us at dialektli.ch/contact-us before using content for commercial AI training datasets
+
+## Languages
+
+Content is primarily in Swiss German (de-CH), with the platform available in German (de), English (en), and French (fr).

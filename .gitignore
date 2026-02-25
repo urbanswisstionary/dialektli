@@ -46,6 +46,7 @@ next-env.d.ts
 *.md
 !README.md
 !CHANGELOG.md
+!public/llms.txt
 
 # analysis & docs artifacts from dev sessions
 analysis/

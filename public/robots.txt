@@ -4,4 +4,4 @@ User-agent: *
 Allow: /
 Disallow: /account/
 
-Sitemap: https://www.dialektli.ch/sitemap.xml
+Sitemap: https://dialektli.ch/sitemap.xml
