@@ -113,13 +113,13 @@
       "email": "E-Mail",
       "resetPassword": "Passwort zurücksetzen"
     },
-    "passwordFieldLabel": "Password",
+    "passwordFieldLabel": "Passwort",
     "profile": {
       "welcome": {
-        "title": "Welcome Aboard! 🎉 ",
-        "description": "You are now signed in. There's just one more step to truly make your mark, what name would you like to be known by?",
-        "helperText": "Please choose a unique name. it needs to be at least 3 characters long.",
-        "error": "Sorry, this name is already taken."
+        "title": "Willkommen! 🎉 ",
+        "description": "Du bist jetzt angemeldet. Es fehlt nur noch ein kleiner Schritt, bevor du richtig loslegen kannst: Wie möchtest du genannt werden?",
+        "helperText": "Bitte wähle einen einzigartigen Namen. Er muss mindestens 3 Zeichen lang sein.",
+        "error": "Dieser Name ist leider schon vergeben."
       },
       "title": "Persönliche Informationen",
       "description": "Passen Sie an, wie Ihre Profilinformationen in den Netzwerken angezeigt werden.",
@@ -135,7 +135,7 @@
         "role": "Rolle",
         "canton": "Kanton",
         "expressions": "Ausdrücke",
-        "likes": "Likes"
+        "likes": "Gefällt mir"
       },
       "name": "Name",
       "email": "E-Mail",
@@ -352,7 +352,8 @@
       "helperText": "Fügen Sie hier weiteren Kontext zum Problem hinzu."
     },
     "submit": "Absenden",
-    "thankYou": "Vielen Dank für Ihre Fehlermeldung!"
+    "thankYou": "Vielen Dank für Ihre Fehlermeldung!",
+    "errorMessage": "Etwas ist schiefgelaufen. Bitte versuchen Sie es später erneut."
   },
   "contactUs": {
     "title": "Kontaktiere uns",
@@ -361,14 +362,15 @@
     "subject": "Betreff",
     "message": "Nachricht",
     "subtitle": "Haben Sie Fragen, Anregungen oder Feedback? Wir freuen uns von Ihnen zu hören!",
-    "thankYou": "Vielen Dank für Ihre Nachricht! Wir werden uns so schnell wie möglich bei Ihnen melden."
+    "thankYou": "Vielen Dank für Ihre Nachricht! Wir werden uns so schnell wie möglich bei Ihnen melden.",
+    "errorMessage": "Etwas ist schiefgelaufen. Bitte versuchen Sie es später erneut."
   },
   "about": {
     "title": "Über Dialektli",
     "paragraph1": "Hoi zame!",
     "paragraph2": "Dialektli möchte eine Plattform bieten, um die vielfältigen Schweizer Ausdrücke, Wörter und Redewendungen zu feiern und zu teilen.",
     "paragraph3": "Inspiriert vom Geist gemeinschaftsgetriebener Plattformen wie Urban Dictionary nimmt Dialektli die Graswurzelnatur der Sprachentwicklung an. Benutzer tragen ihre eigenen einzigartigen Ausdrücke, Anekdoten und sprachlichen Einblicke bei.",
-    "paragraph4": "Wir erkennen an, dass eine Sprache, die ausschliesslich mündlich bleibt, mit der Zeit in Vergessenheit geraten kann. Wir schöpfen Motivation aus den akribischen Dokumentationsbemühungen wie dem Idiotikon, dem Swiss Dialects Atlas Project und dem Kleiner Sprachatlas der deutschen Schweiz, die sich seit langem der Katalogisierung und Bewahrung der Schweizer Dialekte sowie des sprachlichen und kulturellen Erbes widmen.",
+    "paragraph4": "Wir erkennen an, dass eine Sprache, die ausschliesslich mündlich bleibt, mit der Zeit in Vergessenheit geraten kann. Wir schöpfen Motivation aus den akribischen Dokumentationsbemühungen wie dem Idiotikon, dem Schweizer Dialektatlas-Projekt und dem Kleiner Sprachatlas der deutschen Schweiz, die sich seit langem der Katalogisierung und Bewahrung der Schweizer Dialekte sowie des sprachlichen und kulturellen Erbes widmen.",
     "paragraph5": "Die Bedeutung einer schriftlichen Form für eine Sprache kann nicht hoch genug eingeschätzt werden. Das Schreiben dient als wichtiges Werkzeug für die Bewahrung und Weitergabe von Sprache über Generationen hinweg. Es ermöglicht die Aufzeichnung historischer Ereignisse, Traditionen und kultureller Praktiken und bietet zukünftigen Generationen eine greifbare Verbindung zur Vergangenheit, die sie erforschen und verstehen können. Darüber hinaus erleichtert das Schreiben die Kommunikation über geografische Grenzen hinweg und ermöglicht es Sprechern der Sprache, sich über verschiedene Regionen und Gemeinschaften hinweg zu verbinden und auszutauschen.",
     "paragraph6": "Darüber hinaus trägt eine schriftliche Form einer Sprache zu ihrem Prestige und ihrer Anerkennung bei, sowohl national als auch international. Sie eröffnet Möglichkeiten für Literatur, Bildung und wissenschaftliche Forschung und fördert ein tieferes Verständnis und eine grössere Wertschätzung des reichen sprachlichen Erbes der Sprache.",
     "paragraph7": "Dialektli möchte das Beste aus beiden Welten vereinen, indem es einen dynamischen und interaktiven Raum bietet, in dem Benutzer zur Schweizer Sprache und Kultur beitragen, sie erkunden und sich mit ihr auseinandersetzen können. Egal, ob Sie daran interessiert sind, die Ursprünge eines bestimmten Schweizerdeutschen Ausdrucks zu entdecken, einen geliebten regionalen Ausdruck zu teilen oder in die reiche sprachliche Landschaft der Schweiz einzutauchen – Dialektli ist die perfekte Plattform für Sprachbegeisterte und Kulturliebhaber gleichermassen.",
