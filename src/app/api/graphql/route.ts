@@ -1,13 +1,25 @@
 import { ApolloServer } from "@apollo/server"
+import { ApolloServerPluginLandingPageDisabled } from "@apollo/server/plugin/disabled"
+import { ApolloServerPluginLandingPageLocalDefault } from "@apollo/server/plugin/landingPage/default"
 import { startServerAndCreateNextHandler } from "@as-integrations/next"
 import { schema } from "@/graphql/schema"
 import type { Context } from "@/graphql/builder"
 import { getServerSession } from "next-auth"
-import type { NextRequest } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { authOptions } from "@@/auth"
+import { Ratelimit } from "@upstash/ratelimit"
+import { Redis } from "@upstash/redis"
+
+const isProd = process.env.NODE_ENV === "production"
 
 const server = new ApolloServer<Context>({
   schema,
+  introspection: !isProd,
+  plugins: [
+    isProd
+      ? ApolloServerPluginLandingPageDisabled()
+      : ApolloServerPluginLandingPageLocalDefault(),
+  ],
 })
 
 const handler = startServerAndCreateNextHandler(server, {
@@ -26,5 +38,23 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  if (
+    process.env.UPSTASH_REDIS_REST_URL &&
+    process.env.UPSTASH_REDIS_REST_TOKEN
+  ) {
+    const ratelimit = new Ratelimit({
+      redis: Redis.fromEnv(),
+      limiter: Ratelimit.slidingWindow(60, "1 m"),
+      analytics: true,
+    })
+    const ip = request.headers.get("x-forwarded-for") ?? "127.0.0.1"
+    const { success } = await ratelimit.limit(ip)
+    if (!success) {
+      return NextResponse.json(
+        { errors: [{ message: "Too many requests" }] },
+        { status: 429 },
+      )
+    }
+  }
   return handler(request)
 }
