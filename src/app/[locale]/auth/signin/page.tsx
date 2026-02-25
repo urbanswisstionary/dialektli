@@ -34,7 +34,7 @@ export default function SignInPage() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-background">
-      <Card className="max-w-[400px] w-full mx-2">
+      <Card className="max-w-100 w-full mx-2">
         <CardContent className="p-6">
           <h1 className="text-2xl font-bold text-center mb-1">
             {t("auth.signinPage.title")}
@@ -81,6 +81,7 @@ export default function SignInPage() {
                     <div className="space-y-2">
                       <Label htmlFor="email">
                         {t("auth.signinPage.email")}
+                        <span className="text-destructive ml-1">*</span>
                       </Label>
                       <Input
                         id="email"
@@ -94,6 +95,7 @@ export default function SignInPage() {
                     <div className="space-y-2">
                       <Label htmlFor="password">
                         {t("auth.signinPage.password")}
+                        <span className="text-destructive ml-1">*</span>
                       </Label>
                       <Input
                         id="password"

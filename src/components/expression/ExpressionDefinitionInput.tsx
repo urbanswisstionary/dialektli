@@ -35,7 +35,7 @@ const ExpressionDefinitionInput: FC<ExpressionDefinitionInputProps> = ({
       value={value}
       onChange={(value) => onChange(value)}
       disabled={disabled}
-      className="resize-y min-h-[100px] max-h-[200px]"
+      className="resize-y min-h-25 max-h-50"
     />
   </div>
 )
