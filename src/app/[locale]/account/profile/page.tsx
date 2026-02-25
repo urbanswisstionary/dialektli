@@ -29,10 +29,10 @@ import { useEffect, useMemo, useState } from "react"
 import {
   useExpressionsQuery,
   useMyBookmarksQuery,
+  ExpressionFragment,
 } from "@/hooks/useExpressions"
 import ExpressionCard from "@/components/expression/ExpressionCard"
 import { getFragmentData } from "@/generated"
-import type { ExpressionFragmentFragment } from "@/generated/graphql"
 
 type ViewType = "profile" | "expressions" | "favorites" | "users"
 
@@ -323,10 +323,10 @@ export default function ProfilePage() {
                 <Loader2 className="h-15 w-15 animate-spin text-muted-foreground" />
               </div>
             ) : expressions.length > 0 ? (
-              expressions.map((expression: ExpressionFragmentFragment) => (
+              expressions.map((expression) => (
                 <ExpressionCard
-                  key={expression.id}
-                  expression={expression}
+                  key={getFragmentData(ExpressionFragment, expression).id}
+                  expression={getFragmentData(ExpressionFragment, expression)}
                   disableActions={false}
                 />
               ))
@@ -345,10 +345,10 @@ export default function ProfilePage() {
                 <Loader2 className="h-15 w-15 animate-spin text-muted-foreground" />
               </div>
             ) : bookmarks.length > 0 ? (
-              bookmarks.map((expression: ExpressionFragmentFragment) => (
+              bookmarks.map((expression) => (
                 <ExpressionCard
-                  key={expression.id}
-                  expression={expression}
+                  key={getFragmentData(ExpressionFragment, expression).id}
+                  expression={getFragmentData(ExpressionFragment, expression)}
                   disableActions={false}
                 />
               ))

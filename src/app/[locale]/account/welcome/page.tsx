@@ -76,7 +76,7 @@ export default function WelcomePage() {
 
   return (
     <div className="flex items-center justify-center py-10">
-      <Card className="max-w-[500px] w-full">
+      <Card className="max-w-125 w-full">
         <CardContent className="p-6">
           <div className="flex flex-col gap-6">
             <h1 className="text-2xl font-bold text-center">
@@ -89,7 +89,10 @@ export default function WelcomePage() {
             <form onSubmit={handleSubmit}>
               <div className="flex flex-col gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">{t("auth.profile.name")}</Label>
+                  <Label htmlFor="name">
+                    {t("auth.profile.name")}
+                    <span className="text-destructive ml-1">*</span>
+                  </Label>
                   <Input
                     id="name"
                     value={name}

@@ -99,7 +99,9 @@ export default function EditExpressionPage() {
 
   const disableFields =
     !authorized ||
-    (loadingUpdateExpression && !!updateExpressionData?.updateExpression?.id)
+    (loadingUpdateExpression &&
+      updateExpressionData?.updateExpression?.__typename ===
+        "MutationUpdateExpressionSuccess")
   const preventSubmit =
     !authorized ||
     loadingUpdateExpression ||

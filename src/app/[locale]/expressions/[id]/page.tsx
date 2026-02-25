@@ -1,11 +1,12 @@
 "use client"
 
 import { useParams } from "next/navigation"
-import { useExpression } from "@/hooks/useExpressions"
+import { useExpression, ExpressionFragment } from "@/hooks/useExpressions"
 import { useMe } from "@/hooks/useUsers"
 import { Loader2 } from "lucide-react"
 import { useTranslations } from "next-intl"
 import ExpressionCard from "@/components/expression/ExpressionCard"
+import { getFragmentData } from "@/generated"
 
 export default function ExpressionDetailPage() {
   const t = useTranslations()
@@ -20,6 +21,8 @@ export default function ExpressionDetailPage() {
 
   const loading = loadingMe || loadingExpression
   const expression = data?.expression
+    ? getFragmentData(ExpressionFragment, data.expression)
+    : null
 
   if (loading) {
     return (
