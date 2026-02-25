@@ -136,8 +136,23 @@ export const useCreateExpressionMutation = () => {
     graphql(/* GraphQL */ `
       mutation CreateExpression($data: CreateExpressionInput!) {
         createExpression(data: $data) {
-          id
-          ...AdminExpressionFragment
+          __typename
+          ... on MutationCreateExpressionSuccess {
+            data {
+              id
+              ...AdminExpressionFragment
+            }
+          }
+          ... on BaseError {
+            message
+          }
+          ... on ValidationError {
+            message
+            issues {
+              message
+              path
+            }
+          }
         }
       }
     `),
@@ -151,17 +166,25 @@ export const useCreateExpressionMutation = () => {
       createExpression({
         variables: { data },
         onCompleted: (data) => {
-          if (onCompletedCallback && data.createExpression?.id)
-            onCompletedCallback(data.createExpression.id)
+          if (
+            onCompletedCallback &&
+            data.createExpression?.__typename ===
+              "MutationCreateExpressionSuccess"
+          )
+            onCompletedCallback(data.createExpression.data.id)
         },
         update: (cache, { data }) => {
-          if (data?.createExpression) {
+          if (
+            data?.createExpression?.__typename ===
+            "MutationCreateExpressionSuccess"
+          ) {
+            const newExpression = data.createExpression.data
             cache.modify({
               fields: {
                 expressionsQuery: (existingExpressions) => ({
                   ...existingExpressions,
                   expressions: [
-                    data.createExpression,
+                    newExpression,
                     ...existingExpressions.expressions,
                   ],
                   count: existingExpressions.count + 1,
@@ -169,7 +192,7 @@ export const useCreateExpressionMutation = () => {
                 adminExpressions: (existingExpressions) => ({
                   ...existingExpressions,
                   expressions: [
-                    data.createExpression,
+                    newExpression,
                     ...existingExpressions.expressions,
                   ],
                   count: existingExpressions.count + 1,
@@ -188,7 +211,22 @@ export const useUpdateExpressionMutation = () => {
     graphql(/* GraphQL */ `
       mutation UpdateExpression($data: UpdateExpressionInput!) {
         updateExpression(data: $data) {
-          id
+          __typename
+          ... on MutationUpdateExpressionSuccess {
+            data {
+              id
+            }
+          }
+          ... on BaseError {
+            message
+          }
+          ... on ValidationError {
+            message
+            issues {
+              message
+              path
+            }
+          }
         }
       }
     `),
@@ -207,7 +245,13 @@ export const useUpdateExpressionMutation = () => {
           {
             query: ExpressionQuery,
             variables: {
-              data: { expressionId: data?.updateExpression?.id },
+              data: {
+                expressionId:
+                  data?.updateExpression?.__typename ===
+                  "MutationUpdateExpressionSuccess"
+                    ? data.updateExpression.data.id
+                    : null,
+              },
             },
           },
         ],
@@ -221,7 +265,15 @@ export const useDeleteExpressionMutation = () => {
     graphql(/* GraphQL */ `
       mutation DeleteExpression($data: ExpressionIdInput!) {
         deleteExpression(data: $data) {
-          id
+          __typename
+          ... on MutationDeleteExpressionSuccess {
+            data {
+              id
+            }
+          }
+          ... on BaseError {
+            message
+          }
         }
       }
     `),
@@ -238,22 +290,24 @@ export const useDeleteExpressionMutation = () => {
           if (onCompletedCallback) onCompletedCallback()
         },
         update: (cache, { data }) => {
-          if (data?.deleteExpression) {
+          if (
+            data?.deleteExpression?.__typename ===
+            "MutationDeleteExpressionSuccess"
+          ) {
+            const deletedId = data.deleteExpression.data.id
             cache.modify({
               fields: {
                 expressionsQuery: (existingExpressions, { readField }) => ({
                   ...existingExpressions,
                   expressions: existingExpressions.expressions.filter(
-                    (e: Expression) =>
-                      readField("id", e) !== data.deleteExpression?.id,
+                    (e: Expression) => readField("id", e) !== deletedId,
                   ),
                   count: existingExpressions.count - 1,
                 }),
                 adminExpressions: (existingExpressions, { readField }) => ({
                   ...existingExpressions,
                   expressions: existingExpressions.expressions.filter(
-                    (e: Expression) =>
-                      readField("id", e) !== data.deleteExpression?.id,
+                    (e: Expression) => readField("id", e) !== deletedId,
                   ),
                   count: existingExpressions.count - 1,
                 }),
@@ -287,7 +341,15 @@ export const useExpressionAction = (expressionId: string) => {
   const [expressionAction, mutationResult] = useMutation(
     graphql(/* GraphQL */ `
       mutation ExpressionAction($data: ExpressionActionInput!) {
-        expressionAction(data: $data)
+        expressionAction(data: $data) {
+          __typename
+          ... on MutationExpressionActionSuccess {
+            data
+          }
+          ... on BaseError {
+            message
+          }
+        }
       }
     `),
   )
@@ -315,8 +377,23 @@ export const useCreateExpressionExampleMutation = () => {
     graphql(/* GraphQL */ `
       mutation CreateExpressionExample($data: CreateExpressionExampleInput!) {
         createExpressionExample(data: $data) {
-          id
-          expressionId
+          __typename
+          ... on MutationCreateExpressionExampleSuccess {
+            data {
+              id
+              expressionId
+            }
+          }
+          ... on BaseError {
+            message
+          }
+          ... on ValidationError {
+            message
+            issues {
+              message
+              path
+            }
+          }
         }
       }
     `),
@@ -338,10 +415,16 @@ export const useCreateExpressionExampleMutation = () => {
             query: ExpressionQuery,
             variables: {
               data: {
-                expressionId: data?.createExpressionExample?.expressionId,
+                expressionId:
+                  data?.createExpressionExample?.__typename ===
+                  "MutationCreateExpressionExampleSuccess"
+                    ? data.createExpressionExample.data.expressionId
+                    : null,
               },
             },
-            skip: !data?.createExpressionExample?.expressionId,
+            skip:
+              data?.createExpressionExample?.__typename !==
+              "MutationCreateExpressionExampleSuccess",
           },
         ],
       }),
@@ -354,8 +437,23 @@ export const useUpdateExpressionExampleMutation = () => {
     graphql(/* GraphQL */ `
       mutation UpdateExpressionExample($data: UpdateExpressionExampleInput!) {
         updateExpressionExample(data: $data) {
-          id
-          expressionId
+          __typename
+          ... on MutationUpdateExpressionExampleSuccess {
+            data {
+              id
+              expressionId
+            }
+          }
+          ... on BaseError {
+            message
+          }
+          ... on ValidationError {
+            message
+            issues {
+              message
+              path
+            }
+          }
         }
       }
     `),
@@ -377,10 +475,16 @@ export const useUpdateExpressionExampleMutation = () => {
             query: ExpressionQuery,
             variables: {
               data: {
-                expressionId: data?.updateExpressionExample?.expressionId,
+                expressionId:
+                  data?.updateExpressionExample?.__typename ===
+                  "MutationUpdateExpressionExampleSuccess"
+                    ? data.updateExpressionExample.data.expressionId
+                    : null,
               },
             },
-            skip: !data?.updateExpressionExample?.expressionId,
+            skip:
+              data?.updateExpressionExample?.__typename !==
+              "MutationUpdateExpressionExampleSuccess",
           },
         ],
       }),
@@ -393,8 +497,16 @@ export const useDeleteExpressionExampleMutation = () => {
     graphql(/* GraphQL */ `
       mutation DeleteExpressionExample($data: DeleteExpressionExampleInput!) {
         deleteExpressionExample(data: $data) {
-          id
-          expressionId
+          __typename
+          ... on MutationDeleteExpressionExampleSuccess {
+            data {
+              id
+              expressionId
+            }
+          }
+          ... on BaseError {
+            message
+          }
         }
       }
     `),
@@ -416,10 +528,16 @@ export const useDeleteExpressionExampleMutation = () => {
             query: ExpressionQuery,
             variables: {
               data: {
-                expressionId: data?.deleteExpressionExample?.expressionId,
+                expressionId:
+                  data?.deleteExpressionExample?.__typename ===
+                  "MutationDeleteExpressionExampleSuccess"
+                    ? data.deleteExpressionExample.data.expressionId
+                    : null,
               },
             },
-            skip: !data?.deleteExpressionExample?.expressionId,
+            skip:
+              data?.deleteExpressionExample?.__typename !==
+              "MutationDeleteExpressionExampleSuccess",
           },
         ],
       }),

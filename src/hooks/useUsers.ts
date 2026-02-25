@@ -92,7 +92,22 @@ export const useUpdateUserMutation = () => {
     graphql(/* GraphQL */ `
       mutation UpdateUser($data: UpdateUserInput!) {
         updateUser(data: $data) {
-          ...MeFragment
+          __typename
+          ... on MutationUpdateUserSuccess {
+            data {
+              ...MeFragment
+            }
+          }
+          ... on BaseError {
+            message
+          }
+          ... on ValidationError {
+            message
+            issues {
+              message
+              path
+            }
+          }
         }
       }
     `),
@@ -119,7 +134,15 @@ export const useChangeUserRoleMutation = () => {
     graphql(/* GraphQL */ `
       mutation ChangeUserRole($userId: String!, $role: Role!) {
         changeUserRole(userId: $userId, role: $role) {
-          ...MeFragment
+          __typename
+          ... on MutationChangeUserRoleSuccess {
+            data {
+              ...MeFragment
+            }
+          }
+          ... on BaseError {
+            message
+          }
         }
       }
     `),
@@ -138,7 +161,15 @@ export const useDeleteUserMutation = () => {
     graphql(/* GraphQL */ `
       mutation DeleteUser($data: UserIdInput!) {
         deleteUser(data: $data) {
-          id
+          __typename
+          ... on MutationDeleteUserSuccess {
+            data {
+              id
+            }
+          }
+          ... on BaseError {
+            message
+          }
         }
       }
     `),
