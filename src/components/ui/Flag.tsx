@@ -15,7 +15,7 @@ const Flag: FC<FlagProps> = ({ code, mode }) => {
       ? `https://flagcdn.com/w20/${code?.toLowerCase()}.png`
       : code in cantonsFlags
         ? // ? cantonsFlags[code as keyof typeof cantonsFlags]
-          `/assets/cantons/${code}.svg`
+          `/assets/cantons/${code.toLowerCase()}.svg`
         : ""
 
   const srcSet = `${src} 1x, ${src} 2x`
