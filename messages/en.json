@@ -1,0 +1,634 @@
+{
+  "true": "True",
+  "false": "False",
+  "noData": "No Data",
+  "redirecting": "Redirecting...",
+  "selectLanguage": {
+    "title": "Select Language",
+    "en": "English",
+    "de": "German",
+    "fr": "French",
+    "EN": "English",
+    "DE": "German",
+    "FR": "French",
+    "IT": "Italian"
+  },
+  "layout": {
+    "sidebar": {
+      "signIn": "Sign In",
+      "signOut": "Sign Out",
+      "home": "Home",
+      "sprachatlas": "Dialect Atlas",
+      "support": "Support",
+      "profile": "My Profile",
+      "expressions": "My Expressions",
+      "favorites": "My Favorites",
+      "users": "Users",
+      "createNewUser": "Create New User",
+      "rolesAndPermissions": "Roles & Permissions"
+    },
+    "footer": {
+      "sections": {
+        "about": "About",
+        "legal": "Legal",
+        "connect": "Connect"
+      },
+      "about": "About Us",
+      "contact": "Contact Us",
+      "termsOfService": "Terms of Service",
+      "privacyPolicy": "Privacy Policy",
+      "dmca": "DMCA",
+      "accessibility": "Accessibility",
+      "bugReport": "Report a bug"
+    }
+  },
+  "filterBy": {
+    "canton": "Filter by Canton",
+    "firstChar": "Filter by First Character",
+    "language": "Filter by Language"
+  },
+  "newExpressionButton": {
+    "newExpression": "New Expression"
+  },
+  "actions": {
+    "search": "Search",
+    "open": "Open",
+    "close": "Close",
+    "clear": "Clear",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "expand": "Expand",
+    "collapse": "Collapse",
+    "save": "Save",
+    "flag": "Flag",
+    "like": "Like",
+    "dislike": "Dislike",
+    "publish": "Publish",
+    "unpublish": "Unpublish",
+    "select": "Select",
+    "confirmation": "Confirmation",
+    "confirmDelete": "Are you sure you want to delete",
+    "toggleColorScheme": "Toggle Color Scheme",
+    "option": "Option",
+    "options": "Options",
+    "selectImage": "Select Image",
+    "bookmark": "Bookmark",
+    "addBookmark": "Add Bookmark",
+    "removeBookmark": "Remove Bookmark",
+    "colorScheme": {
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    }
+  },
+  "errors": {
+    "imageSizeExceeded": "The file size must not exceed 1.5 MB"
+  },
+  "auth": {
+    "signinPage": {
+      "title": "Sign In",
+      "subtitle": "Sign in to contribute to Dialektli",
+      "withGoogle": "Sign in with Google",
+      "withTestAccount": "Sign in with Test Account",
+      "developmentOnly": "Development Only",
+      "email": "Email",
+      "password": "Password",
+      "testCredentialsHint": "Use test@example.com / password",
+      "forgotPassword": "Forgot your password?"
+    },
+    "signupPage": {
+      "title": "Sign Up",
+      "alreadyHaveAccount": "Already have an account?",
+      "signIn": "Sign In!",
+      "or": "or",
+      "withGoogle": "Continue with Google",
+      "name": "Name",
+      "email": "Email",
+      "weWillNeverShareYourInfo": "We will never share your information."
+    },
+    "resetPasswordPage": {
+      "title": "Reset Password",
+      "email": "Email",
+      "resetPassword": "Reset password"
+    },
+    "passwordFieldLabel": "Password",
+    "profile": {
+      "welcome": {
+        "title": "Welcome Aboard! 🎉 ",
+        "description": "You are now signed in. There's just one more step to truly make your mark, what name would you like to be known by?",
+        "helperText": "Please choose a unique name. it needs to be at least 3 characters long.",
+        "error": "Sorry, this name is already taken."
+      },
+      "title": "Personal Information",
+      "description": "Customize how your profile information will apper to the networks.",
+      "statistics": "Statistics",
+      "publishedExpressions": "Published Expressions",
+      "unpublishedExpressions": "Unpublished Expressions",
+      "noExpressionsFound": "No expressions found",
+      "noFavoritesFound": "No bookmarked expressions yet",
+      "noUsersFound": "No users found",
+      "tableHeaders": {
+        "name": "Name",
+        "email": "Email",
+        "role": "Role",
+        "canton": "Canton",
+        "expressions": "Expressions",
+        "likes": "Likes"
+      },
+      "name": "Name",
+      "email": "Email",
+      "country": "Country",
+      "canton": "Canton",
+      "bio": "Bio",
+      "bioPlaceholder": "Add a short bio",
+      "noBio": "No bio yet",
+      "bioHelperText": "Write a short introduction to be displayed on your profile",
+      "bioCharLeft": "character left",
+      "bioCharsLeft": "characters left",
+      "deleteAccount": "Delete Account",
+      "deleteAccountConfirmation": "Are you sure you want to delete your account? All your data will be deleted and cannot be restored!",
+      "noUserFound": "No user found, please try to sign in again"
+    }
+  },
+  "guidelinesPage": {
+    "title": "Content Guidelines",
+    "description": "Dialektli is a community for everyone, including you. Anybody can post a definition, but in order to keep things fun for everyone, we ask that you follow the following ground rules:",
+
+    "dos": [
+      {
+        "title": "Write for a large audience.",
+        "description": "When defining a word, make sure to provide enough context for other people to understand what it means and how it's typically used. Need a little help? Look to our Word of the Day for some examples."
+      },
+      {
+        "title": "Be creative.",
+        "description": "Some of the best definitions on Dialektli find humorous ways to poke fun at authority, or put a clever twist on current events. Some of them are just straight up weird. We're okay with that."
+      },
+      {
+        "title": "Have fun.",
+        "description": "We are not a traditional dictionary. This is a place where language has a little more space to be explored and constructed freely, in the moment."
+      }
+    ],
+    "donts": [
+      {
+        "title": "Don't post personal information.",
+        "description": "That includes obvious things like last names and addresses, but we will also remove definitions containing first names or user handles if they can be used to identify and target specific individuals for harassment."
+      },
+      {
+        "title": "Don't be an asshole.",
+        "description": "We are okay with people defining offensive words. After all, people use offensive words in the real world and a resource for understanding what those words mean can be valuable. However, we are not—and never will be—okay with people using a definition to harass, discriminate, and/or directly incite violence against others."
+      }
+    ]
+  },
+  "expression": {
+    "expression": "Expression",
+    "description": "Definition",
+    "author": "Author",
+    "language": "Language",
+    "canton": "Canton",
+    "title": "Expression",
+    "status": "Status",
+    "flagged": "Flagged",
+    "published": "Published",
+    "unpublished": "Unpublished",
+    "updatedAt": "Updated At",
+    "example": "Example",
+    "examples": "Examples",
+    "synonyms": "Synonyms",
+    "gender": "Gender",
+    "genders": {
+      "M": "Masculine",
+      "F": "Feminine",
+      "N": "Neutral"
+    },
+    "type": "Type",
+    "types": {
+      "NOUN": {
+        "label": "Noun",
+        "description": "A word that represents a person, place, thing, or idea; e.g., dog, city, happiness."
+      },
+      "VERB": {
+        "label": "Verb",
+        "description": "Expresses an action, occurrence, or state of being; e.g., run, exist, happen."
+      },
+      "ADJECTIVE": {
+        "label": "Adjective",
+        "description": "Describes or modifies a noun or pronoun by providing more information about its qualities or characteristics; e.g., big, happy, green."
+      },
+      "ADVERB": {
+        "label": "Adverb",
+        "description": "Modifies or describes a verb, adjective, or other adverb, typically indicating manner, time, place, degree, or frequency; e.g., quickly, very, here, often."
+      },
+      "PRONOUN": {
+        "label": "Pronoun",
+        "description": "Acts as a substitute for a noun or noun phrase; e.g., he, she, it, they."
+      },
+      "PREPOSITION": {
+        "label": "Preposition",
+        "description": "Indicates the relationship between a noun or pronoun and other elements in a sentence, often showing location, time, direction, or manner; e.g., in, on, at, before."
+      },
+      "CONJUNCTION": {
+        "label": "Conjunction",
+        "description": "Connects words, phrases, or clauses within a sentence, indicating a relationship between different parts of the sentence; e.g., and, but, or, because."
+      },
+      "INTERJECTION": {
+        "label": "Interjection",
+        "description": "Expresses emotion, surprise, or some other sentiment, often standing alone and not grammatically connected to the rest of the sentence; e.g., wow, oh, hey."
+      },
+      "PARTICLE": {
+        "label": "Particle",
+        "description": "A word that doesn't fit neatly into traditional grammatical categories and often serves a grammatical or pragmatic function within a sentence, such as phrasal verbs; e.g., up, out, on (as in 'turn on', 'look up')."
+      }
+    },
+    "pleaseSignInForExpressionAction": "Please sign in to {action} this expression.",
+    "cannotVoteOwnExpression": "You cannot vote on your own expression",
+    "cantonFieldPlaceholder": "Select canton",
+    "countryFieldPlaceholder": "Select country",
+    "cantonFieldHelperText": "Select the cantons this expression is associated with",
+    "descriptionFieldHelperText": "Write for a large audience. Lots of people will read this, so give some background information.",
+    "examplesFieldHelperText": "Provide examples of how this expression is used in context, or how it is used in a sentence. This will help others understand the expression better.",
+    "exampleCantonFieldHelperText": "Select the cantons this example is associated with",
+    "genderFieldHelperText": "Select the gender this expression is associated with",
+    "newExpression": {
+      "title": "New Expression",
+      "description": "All the definitions were written by people just like you. Now's your chance to add your own!",
+      "newSynonym": {
+        "description": "Expand the lexicon. Add definitions."
+      }
+    },
+    "editExpression": {
+      "title": "Edit Expression",
+      "notAuthorizedWarning": "You are not authorized to edit this expression",
+      "claimOwnership": "If you contributed this expression and would like to claim ownership over this expression, please contact us.",
+      "claimOwnershipLinkHref": "mailto:urbanswisstionary@gmail.com?subject=Claim ownership over '{{expressionTitle}}', id '{{expressionId}}'&body=Hi, I would like to claim ownership over '{{expressionTitle}}', id '{{expressionId}}' and here I provide proofs of my claim.",
+      "addExample": "Add another example",
+      "deleteExample": "Delete example"
+    },
+    "reviewGuidelines": {
+      "pleaseReviewContentGuidelines": "Please review our Content Guidelines before submitting your expression.",
+      "shortVersion": {
+        "title": "Here's the short version:",
+        "dos": [
+          {
+            "title": "Share definitions that other people will find meaningful"
+          }
+        ],
+        "donts": [
+          { "title": "never post hate speech" },
+          { "title": "never post people's personal information." }
+        ]
+      }
+    },
+    "suggestExample": "Expand our dictionary - suggest an example!",
+    "suggestSynonym": "Expand our dictionary - suggest a synonym!",
+    "form": {
+      "title": "Expression",
+      "definition": "Definition",
+      "example": "Example",
+      "cantons": "Cantons",
+      "language": "Language",
+      "gender": "Gender",
+      "type": "Type",
+      "titleTooShort": "Title must be at least 3 characters",
+      "definitionTooShort": "Definition must be at least 10 characters"
+    }
+  },
+  "404Page": {
+    "title": "404",
+    "subtitle": "Lost in translation!",
+    "description": "This page doesn't exist — maybe you mistyped it or invented a word that hasn't been defined yet.",
+    "toHome": "Back to Homepage",
+    "toAtlas": "Explore the Atlas"
+  },
+  "seo": {
+    "title": "Dialektli",
+    "description": "Dialektli is a community-run dictionary for Swiss slang and dialects. It is a place where language is given a little more space to be freely explored and constructed in the moment. Current (colloquial) Swiss German words, sayings, idioms, etc. are exchanged here.",
+    "share": {
+      "shareButton": "Share",
+      "facebook": "Share via Facebook",
+      "twitter": "Share via Twitter",
+      "linkedin": "Share via LinkedIn",
+      "whatsapp": "Share via Whatsapp",
+      "email": "Share via Email",
+      "copyLink": "Copy Link",
+      "copied": "Copied!"
+    }
+  },
+  "bugReport": {
+    "title": "Bug Report Form",
+    "subtitle": "If you encounter a bug please do let us know by filling out the form below and we'll fix it as soon as possible.",
+    "email": "E-Mail",
+    "bugDescription": {
+      "label": "Describe the bug",
+      "helperText": "A clear and concise description of what the bug is."
+    },
+    "reproductionSteps": {
+      "label": "Reproduction steps",
+      "helperText": "What are the steps we can take to reproduce the bug",
+      "placeholder": "Steps to reproduce the behaviour:\n\n1. Go to '...'\n\n2. Click on '....'\n\n3. Scroll down to '....'\n\n4. See error"
+    },
+    "expectedBehavior": {
+      "label": "Expected behaviour",
+      "helperText": "A clear and concise description of what you expected to happen."
+    },
+    "desktopDescription": {
+      "label": "Desktop",
+      "helperText": "OS [e.g. iOS Sonoma 14.2.1]"
+    },
+    "mobileDescription": {
+      "label": "Smartphone",
+      "helperText": "Device [e.g. iPhone6], OS [e.g. iOS8.1]"
+    },
+    "browserDetails": {
+      "label": "Browser details",
+      "whatismybrowserUrl": "https://www.whatismybrowser.com/",
+      "helperText": "Go to whatismybrowser.com. Click 'Copy URL to Clipboard' and paste that URL here."
+    },
+    "additionalContext": {
+      "label": "Additional context",
+      "helperText": "Add any other context about the problem here."
+    },
+    "submit": "Submit",
+    "thankYou": "Thank you for submitting a bug report!",
+    "errorMessage": "Something went wrong. Please try again later."
+  },
+  "contactUs": {
+    "title": "Contact Us",
+    "name": "Name",
+    "email": "E-Mail",
+    "subject": "Subject",
+    "message": "Message",
+    "subtitle": "Have questions, suggestions, or feedback? We'd love to hear from you!",
+    "thankYou": "Thank you for reaching out! We will get back to you as soon as possible.",
+    "errorMessage": "Something went wrong. Please try again later."
+  },
+  "legal": {
+    "lastUpdated": "Last updated",
+    "companyName": "Dialektli",
+    "email": "urbanswisstionary@gmail.com",
+    "tos": {
+      "title": "Terms of use",
+      "description": {
+        "0": "Dialektli (the \"Company\") offers dialektli.ch (the \"Website\") subject to the Terms of Use set out below.",
+        "1": "The Company reserves the right to revise these Terms from time to time. We will post a notice of any material changes on the Website. Your continued use of the Site constitutes your agreement to these Terms, which are available at https://dialektli.ch/tos. Questions about the Terms of Use can be sent to urbanswisstionary@gmail.com"
+      },
+      "tableOfContent": {
+        "title": "Table of Content",
+        "list": [
+          "NO WARRANTIES",
+          "LIMITATION OF LIABILITY",
+          "Terms of Use",
+          "User Conduct",
+          "Copyright and Ownership",
+          "Disclaimer for Participation",
+          "Unsolicited Ideas Policy",
+          "TERMS AND CONDITIONS FOR SUBMITTING AN IDEA",
+          "Feedback and information",
+          "Updated"
+        ]
+      },
+      "noGuarantee": {
+        "title": "NO WARRANTIES",
+        "paragraph": "The website is provided \"as is\" and \"as available\" without warranty of any kind, either express or implied. We expressly disclaim all implied warranties of merchantability, fitness for a particular purpose, non-infringement, or that use of the website will be uninterrupted or error-free. You assume complete responsibility and risk for your use of the website."
+      },
+      "limitationOfLiabilty": {
+        "title": "LIMITATION OF LIABILITY",
+        "paragraph": "To the maximum extent permitted by applicable law, in no event and under no legal theory shall the Company, its licensors or its suppliers be liable to you or any other person for any indirect, special, incidental or consequential damages of any kind or any amount in the aggregate in excess of (1) CHF 100 or (2) the amounts paid and/or payable by you to us in connection with the Website in the twelve months preceding the applicable claim."
+      },
+      "termsOfUsage": {
+        "title": "Terms of Use",
+        "paragraph": "The website may not be suitable for all audiences as the content is presented in a crude and direct manner that some may find offensive. If you do not consider yourself a suitable user or are offended, you should not visit the website. Please note that the Website is not intended for children under the age of 18. By using the Website, you confirm that you are at least 18 years of age. You may not use the Website for illegal activities. It is prohibited to use the Website to access unauthorised information. The Company reserves the right to modify, suspend or discontinue the Website for any reason with or without notice. The Company shall not be liable for any damages or losses arising from the transmission of information such as personal messages via unencrypted networks such as e-mail through the Website. The failure of the Company to enforce or exercise any right provided for in these Terms shall not constitute a waiver of such right. If any provision of these Terms of Use is held invalid or unenforceable, the remaining provisions shall remain in full force and effect. These Terms of Use are the entire agreement between you and the Company and supersede all prior written or oral agreements, including any prior versions of the Terms of Use."
+      },
+      "userConduct": {
+        "title": "User Conduct",
+        "paragraph1": {
+          "paragraph": "Users may not post words, definitions or other information (collectively, \"Content\") on the Site that are:",
+          "list": [
+            "Illegal, threatening or defamatory content is prohibited.",
+            "The intellectual property rights of any party have been infringed.",
+            "Harmful to the quality or intended spirit of the website."
+          ]
+        },
+        "paragraph2": {
+          "paragraph": "Examples of unacceptable content or behaviour on the Website are those that we determine, in our sole discretion, to be:",
+          "list": [
+            "Abusive, harassing, threatening violence, verbal abuse, intimidation of any person or organisation, or any other threatening behaviour.",
+            "It is prohibited to engage in or contribute to illegal activities or actions that violate the rights of others",
+            "Providing information that is false, misleading or inaccurate",
+            "Hacking or modifying the website to falsely suggest an association with the company.",
+            "Implying or implying an affiliation with a company or organisation with which you are not affiliated, or misrepresenting your level of affiliation or role with an affiliated company or organisation is prohibited.",
+            "Disclosure of personal or proprietary information of another user, person or organisation."
+          ]
+        },
+        "paragraph3": "The Company has the right, but not the obligation, to restrict or revoke the usage rights of individuals if they publish unacceptable content.",
+        "paragraph4": "The Company reserves the right to refuse to publish content or to remove previously published content at its sole discretion. However, there is no obligation to restrict or monitor submissions in any way or to block users who submit inappropriate content.",
+        "paragraph5": {
+          "paragraph": "By posting content, you represent and warrant that such content:",
+          "list": [
+            "Do not infringe any third party rights, including but not limited to intellectual property and proprietary rights.",
+            "The information or items are not fraudulent, counterfeit or stolen.",
+            "Does not violate any laws, statutes or regulations.",
+            "The Company and its parent companies, subsidiaries, affiliates, successors, assigns, employees, agents, directors, officers and shareholders shall not be liable."
+          ]
+        },
+        "paragraph6": "You may not submit content using unauthorised automated methods (\"bots\").",
+        "paragraph7": "The Company has no control over any content posted by third parties on the Website. It also cannot control and does not guarantee the accuracy, integrity or quality of such content. You understand that by using the Website, you may come across content that you may find offensive, indecent, false or objectionable. You agree that under no circumstances will the Company be liable for any Content, including any errors or omissions, and for any loss or damage of any kind incurred as a result of your use of the Content. If you wish to report objectionable material, you may use the \"Report\" feature for any topic or reply. Urgent issues can be reported to urbanswisstionary@gmail.com",
+        "paragraph8": "You are solely responsible for all content that you publish on the website. You are responsible for the consequences of posting such content. You agree to indemnify, defend and hold harmless the Company, its officers, directors, employees and agents from and against all claims, losses, costs, liabilities, damages, judgements, penalties, interest and expenses (including reasonable attorneys' fees). You shall be responsible for any fees resulting from any actual or alleged breach of your representations, warranties or covenants under these Terms of Use or any actual or alleged infringement of intellectual property or proprietary rights by any content or other information posted by you on the Site.",
+        "paragraph9": "Use of the Website is subject to our Privacy Policy, which you can view at https://dialektli.ch/privacy-policy."
+      },
+      "copyrightsAndOwnership": {
+        "title": "Copyright and Ownership",
+        "paragraph1": "The Company owns intellectual property rights in the Website and all elements thereof, including but not limited to the design, graphics, functionality and documentation. You may not copy, modify or reverse any part of the Website owned by the Company To the extent that you post content to the Site, the rights to such content remain solely your property. The Company is granted only an irrevocable, perpetual, worldwide, royalty-free, fully sublicensable and non-exclusive license to copy the content. Works of your content may distributed, sold, publicly displayed, publicly performed and derived on the Website and related services on the Website and elsewhere (including, but not limited to, print, video, audio or computer media), regardless of the form of the media used. Whether such media or services already exist or will be developed in the future is uncertain. By posting Content to the Site, you hereby represent and warrant that you have all rights necessary to post such Content and grant the Company the foregoing license. The Company respects the intellectual property of others. In appropriate circumstances, it may be necessary to deactivate and/or terminate the accounts of users who repeatedly infringe the rights of others.",
+        "paragraph2": {
+          "paragraph": "If you believe that your work has been copied in a way that constitutes copyright infringement, a violation of your intellectual property rights, or is otherwise violated, please provide the following information:",
+          "list": [
+            "An electronic or physical signature of the authorized person is required to act on behalf of the owner of the copyright or other intellectual property right.",
+            "A description of the copyrighted work or other intellectual property that you claim has been infringed.",
+            "A description of where the material that you claim is infringing is located on the Site.",
+            "Your address, telephone number and email address.",
+            "A statement by you that you have a good faith belief that the disputed use is not authorized by the copyright owner, its agent, or the law.",
+            "You must make a statement, made under penalty of perjury, that the information in your notice is accurate and that you are either the copyright or intellectual property owner or authorized to act on the copyright or intellectual property owner's behalf."
+          ]
+        },
+        "paragraph3": "The Company's contact person for notice of claims of copyright infringement or other intellectual property infringement can be reached by email at urbanswisstionary@gmail.com."
+      },
+      "participationDisclaimer": {
+        "title": "Disclaimer for Participation",
+        "paragraph": "The Company does not and cannot review all of the content posted on the Website. It is not responsible in any way for either the content or the activities of users who access the Website. By providing you with the opportunity to create content, we acknowledge this. The Company serves solely as a passive conduit for displaying and distributing user-generated content on the Website. It assumes no obligation or liability with respect to the content or activities of the Website -Users. The Company's parents, subsidiaries, affiliates and successors are also excluded from this liability. Agents, employees, agents, directors, officers and shareholders have no obligation to monitor the Website for inappropriate content. The Company and its parents , subsidiaries, affiliates, successors, assigns, employees, agents, directors and officers assume no responsibility for monitoring the Site for inappropriate content. Shareholders assume no responsibility or liability for the content and any claims arising therefrom, including defamation, invasion of privacy and publicity rights, obscenity, pornography, fraud or misrepresentation."
+      },
+      "unsolicitedIdeaPolicy": {
+        "title": "Unsolicited Ideas Policy",
+        "paragraph": "Dialektli and its employees do not accept unsolicited ideas. This includes ideas for new advertising campaigns, promotions, products, technologies, product improvements, processes, materials, marketing plans, or product names. Please send Dialektli or any of its employees, any unsolicited ideas, original creative artwork, suggestions or other works (\"Submissions\") in any form. This policy is intended solely to avoid potential misunderstandings or disputes if Dialektli's products or marketing strategies may be similar to the ideas submitted to Dialektli. If you choose to send us your ideas despite our request, the following terms and conditions will apply to your submissions, regardless of the content of your letter."
+      },
+      "termsOfIdeaSubmission": {
+        "title": "TERMS AND CONDITIONS FOR SUBMITTING AN IDEA",
+        "paragraph": "You agree that: (1) your Submissions and their contents automatically become the property of Dialektli without any compensation to you; (2) Dialektli the Submissions and may use or redistribute the contents for any purpose and in any manner; (3) Dialektli is not obliged to review the submission; and (4) there is no obligation to maintain the confidentiality of the submitted contributions."
+      },
+      "feedbackAndInformation": {
+        "title": "Feedback and information",
+        "paragraph": "Any feedback you provide on this website will be considered non-confidential. Dialektli is entitled to use this information without restriction."
+      },
+      "updates": {
+        "title": "Updated",
+        "updated": "Updated: February 2024",
+        "copyrights": "Copyright © 2024 Dialektli. All rights reserved."
+      }
+    },
+    "privacyPolicy": {
+      "title": "Privacy Policy",
+      "description": {
+        "0": "This privacy policy discloses the following:",
+        "1": [
+          "When and how we collect, use and share your information",
+          "What are your data protection rights and how you can exercise them"
+        ],
+        "2": "Your use is also subject to our Terms of Use."
+      },
+      "tableOfContent": {
+        "title": "Table of Content",
+        "list": [
+          "The information we collect",
+          "How we use your information",
+          "When do we share your data?",
+          "Your privacy rights",
+          "Information requests and deletion requests",
+          "Data storage",
+          "Security",
+          "Children",
+          "Changes",
+          "Questions"
+        ]
+      },
+      "informationWeCollect": {
+        "title": "The information we collect",
+        "paragraph": "We collect (a) the email addresses of those who communicate via email communicate with us, (b) information you send to us (e.g. survey information and/or website registrations) and (c) personal data use of the website."
+      },
+      "howWeUseYourInformation": {
+        "title": "How we use your information",
+        "paragraph": "We collect your information to improve the content of our website, improve the quality of our service, identify and authenticate our users, to contact you when necessary or with your permission."
+      },
+      "whenDoWeShareYourData": {
+        "title": "When do we share your data?",
+        "paragraph": "We do not share your information with any other organization other than to to provide products or services you request, if we have your permission or in the following circumstances: If it is necessary to pass on information to investigations to carry out, prevent or take action in relation to illegal activities, suspected fraud, situations involving potential threats to a person's physical safety, Violations of our Terms of Use or as permitted by law required. If Dialektli is from another company is taken over or merged with, we will transfer your data along with the Dialektli website. Should this happen, Dialektli the transfer and the resulting changes of these Terms in advance on the Dialektli website and, if so possible to announce by email. We may give pass on information to trustworthy companies or people, exclusively for the purpose of processing personal data our name. If this happens, it will be subject to agreements that require these parties to provide this information only to us Instructions and in accordance with this Privacy Policy and appropriate confidentiality and security measures process. We may share information with a company that is controlled by Dialektli or with Dialektli is controlled together, for everyone in it Privacy Policy Permitted Purpose."
+      },
+      "yourPrivacyRights": {
+        "title": "Your privacy rights",
+        "paragraph": "You have the following rights regarding what we collect Information: The right to disclose the categories personal data and specific personal data to request information that we have collected about you. The right to know for what purpose we collect your personal data and from which sources we collect personal data. The right about to be informed about the information we collect about you. This information can be found in this Privacy Policy. The Right to delete any personal information we collect about you. The right to have inaccurate personal information we collect about you have to correct. The Right, Use and Disclosure of Your Restrict sensitive personal information. The right one above to exercise the rights mentioned without retaliatory discrimination. Please Please understand that the above rights may apply in some cases Cases are subject to exceptions and your request may needs to be checked. We will always respond to your privacy request check and verify before taking appropriate action."
+      },
+      "informationRequestsAndDeletionRequests": {
+        "title": "Information requests and deletion requests",
+        "paragraph": "You may request disclosure and/or deletion of any information we have collected about you by sending us an email to urbanswisstionary@gmail.com with the details of your request. We will contact you upon receipt of your request to verify your identity and process your request. Please note that requests are considered on a case-by-case basis and are subject to legal requirements and, in some cases, review."
+      },
+      "dataStorage": {
+        "title": "Data storage",
+        "paragraph": "Dialektli uses third party providers and hosting partners to provide the hardware, software, networking, storage and related technology necessary to operate Dialektli. Dialektli owns the code, databases and all rights to the Dialektli application."
+      },
+      "security": {
+        "title": "Security",
+        "paragraph": "We take precautions to ensure the security of your personal information. However, we cannot guarantee that hackers or unauthorized personnel will gain access to your personal information despite our efforts. Please note that when you use the Dialektli service, your data will be transferred via third-party infrastructures that are not under our control. We cannot protect, and this Privacy Policy does not apply to, any information you transmit to other users. You should never share personal or identifying information with other users."
+      },
+      "children": {
+        "title": "Children",
+        "paragraph": "The Dialektli Service is not intended for children under 18 years of age and we do not knowingly collect data from children under 18 years of age."
+      },
+      "changes": {
+        "title": "Changes",
+        "paragraph": "Dialektli may update this policy periodically. We may notify you about material changes in the way we treat personal information by placing a prominent notice on our website."
+      },
+      "questions": {
+        "title": "Questions",
+        "paragraph": "If you have any questions about this Privacy Policy, please contact urbanswisstionary@gmail.com."
+      }
+    },
+    "dmca": {
+      "section1": {
+        "title": "1. DMCA Notice",
+        "content": "Dialektli respects the intellectual property rights of others. If you believe that your copyrighted work has been copied in a way that constitutes copyright infringement, please provide our designated agent with the following information as required by the Digital Millennium Copyright Act (DMCA)."
+      },
+      "section2": {
+        "title": "2. Required Information",
+        "content": "A physical or electronic signature of the copyright owner or authorized representative; identification of the copyrighted work claimed to have been infringed; identification of the material that is claimed to be infringing; contact information including address, telephone number, and email; a statement that you have a good faith belief that the use is not authorized; and a statement of accuracy made under penalty of perjury."
+      },
+      "section3": {
+        "title": "3. Counter-Notice",
+        "content": "If you believe that your content was removed by mistake or misidentification, you may file a counter-notice with our designated agent. The counter-notice must include your contact information, identification of the removed material, a statement under penalty of perjury that the material was removed by mistake, and consent to jurisdiction."
+      },
+      "section4": {
+        "title": "4. Repeat Infringers",
+        "content": "Dialektli will terminate the accounts of users who are determined to be repeat infringers of copyright."
+      }
+    }
+  },
+  "about": {
+    "title": "About Dialektli",
+    "paragraph1": "Hoi zame!",
+    "paragraph2": "Dialektli aims to provide a platform for celebrating and sharing the diverse range of Swiss expressions, words, and idioms.",
+    "paragraph3": "Inspired by the spirit of community-driven platforms like Urban Dictionary, Dialektli embraces the grassroots nature of language evolution. Users contribute their own unique expressions, anecdotes, and linguistic insights.",
+    "paragraph4": "We recognize that a language that remains solely oral risks fading into obscurity over time, and draw motivation from the meticulous documentation efforts like Idiotikon, Swiss Dialects Atlas Project, and Kleiner Sprachatlas der deutschen Schweiz, which have long been dedicated to cataloguing and preserving Swiss dialects and linguistic and cultural heritage.",
+    "paragraph5": "The significance of having a written form for a language cannot be overstated. Writing serves as a vital tool for the preservation and transmission of language across generations. It allows for the recording of historical events, traditions, and cultural practices, providing a tangible link to the past for future generations to explore and understand. Additionally, writing facilitates communication beyond geographical boundaries, enabling speakers of the language to connect and interact across different regions and communities.",
+    "paragraph6": "Furthermore, having a written form for a language contributes to its prestige and recognition, both nationally and internationally. It opens up opportunities for literature, education, and scholarly research, fostering a deeper understanding and appreciation of the language's rich linguistic heritage.",
+    "paragraph7": "Dialektli aims to combine the best of both worlds by providing a dynamic and interactive space for users to contribute, explore, and engage with Swiss language and culture. Whether you're interested in uncovering the origins of a particular Swiss-German phrase, sharing a beloved regional expression, or immersing yourself in the rich linguistic landscape of Switzerland, Dialektli is the perfect platform for linguistic enthusiasts and cultural aficionados alike.",
+    "paragraph8": "By encouraging users to contribute to Dialektli, we aim to empower individuals to play an active role in the preservation and promotion of their linguistic heritage. Together, we can ensure that Swiss dialects continue to thrive, not just spoken, but also in written form, preserving its beauty and diversity.",
+    "paragraph9": "Finally, we extend our heartfelt gratitude to all our users and contributors, including Panter AG, M. Ruepp, M. Wettstein, R. Gulla, I. Peterkovsky, and R. Aeschbacher, who have helped shape Dialektli into the vibrant community it aims to be. Thank you for your ongoing support and dedication to preserving and celebrating the linguistic heritage of Switzerland.",
+    "paragraph10": "Join us in celebrating the beauty and diversity of Swiss language and culture.",
+    "paragraph11": "Grüezi uf Dialektli!",
+    "externalLinks": {
+      "urbanDictionary": "https://www.urbandictionary.com/",
+      "idiotikon": "https://www.idiotikon.ch/",
+      "swissDialectsAtlas": "https://sdats.ch/",
+      "kleinerSprachatlas": "https://www.kleinersprachatlas.ch/"
+    }
+  },
+  "accessibility": {
+    "title": "Accessibility Statement",
+    "commitment": {
+      "title": "Our Commitment",
+      "paragraph": "Dialektli is committed to ensuring digital accessibility for people with disabilities. We are continually improving the user experience for everyone and applying the relevant accessibility standards to ensure that our platform is accessible to all users, regardless of their abilities or the technologies they use."
+    },
+    "wcagCompliance": {
+      "title": "Standards & Compliance",
+      "paragraph": "We aim to conform to the Web Content Accessibility Guidelines (WCAG) 2.1 Level AA. These guidelines explain how to make web content more accessible for people with disabilities and provide a better user experience for everyone. While we strive to adhere to these standards, some content may not yet be fully compliant, and we are working to address these issues."
+    },
+    "features": {
+      "title": "Accessibility Features",
+      "intro": "Dialektli includes the following accessibility features:",
+      "list": [
+        "Keyboard navigation: All interactive elements can be accessed and operated using a keyboard alone, without requiring a mouse.",
+        "Screen reader compatibility: Semantic HTML structure and ARIA labels ensure that content is properly announced by assistive technologies.",
+        "Color contrast: Text and interactive elements meet WCAG AA minimum contrast ratios of 4.5:1 for normal text and 3:1 for large text.",
+        "Resizable text: Text can be resized up to 200% without loss of content or functionality.",
+        "Alternative text: All meaningful images include descriptive alt text for users who cannot see them.",
+        "Semantic HTML: Proper heading hierarchy and landmark regions help users navigate the site structure efficiently."
+      ]
+    },
+    "reportIssues": {
+      "title": "Report Accessibility Issues",
+      "paragraph": "If you encounter any accessibility barriers while using Dialektli, or if you have suggestions for improvement, please contact us. We take your feedback seriously and will work to address any issues as quickly as possible. Your input helps us create a more inclusive platform for all users."
+    },
+    "contact": {
+      "title": "Contact Information",
+      "paragraph": "For accessibility-related questions, concerns, or feedback, please reach out to us at:"
+    },
+    "ongoingEfforts": {
+      "title": "Ongoing Efforts",
+      "paragraph": "Accessibility is an ongoing effort, and we are committed to continuously evaluating and improving our platform. We regularly review our website using automated tools and manual testing with assistive technologies. We also welcome user feedback to help identify areas where we can improve accessibility. Thank you for helping us make Dialektli accessible to everyone."
+    },
+    "updated": "Last updated: February 2026"
+  },
+  "sprachatlas": {
+    "subtitle": "Explore Swiss-German expressions by canton. Click on a canton to see its expressions.",
+    "allLanguages": "All Languages",
+    "expressionSingular": "expression",
+    "expressionPlural": "expressions",
+    "cantonsWithExpressions": "{count} cantons with expressions",
+    "noExpressionsFound": "No expressions found for this canton.",
+    "clear": "Clear",
+    "mapLoadError": "Failed to load map data",
+    "mapAriaLabel": "Interactive map of Swiss cantons showing dialect expression counts",
+    "inspiredBy": "Inspired by",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "zoomReset": "Reset zoom"
+  }
+}

@@ -1,10 +1,12 @@
-import { useMutation, useQuery } from "@apollo/client"
-import { MeQuery, Role, UpdateUserInput } from "@@/generated/graphql"
-import { getFragmentData, graphql } from "@@/generated"
+"use client"
+
+import { useMutation, useQuery } from "@apollo/client/react"
 import { useSession } from "next-auth/react"
-import { AdminExpressionsQuery } from "./useExpressions"
-import { useRouter } from "next/router"
 import { useEffect } from "react"
+
+import { getFragmentData, graphql } from "@/generated"
+import { MeQuery, Role, UpdateUserInput } from "@/generated/graphql"
+import { useRouter } from "@/i18n/navigation"
 
 export const MeFragment = graphql(/* GraphQL */ `
   fragment MeFragment on User {
@@ -49,11 +51,12 @@ const useHandleNewUser = (meQuery?: MeQuery) => {
   const { me } = getMe(meQuery)
 
   useEffect(() => {
-    // if a new user signs in and has no name, redirect to welcome page so they can set their name
-    if (!!me && !me?.name.length && router.pathname !== welcomePath)
-      router?.push(welcomePath)
+    if (!!me && !me?.name?.length) {
+      router.push(welcomePath)
+    }
   }, [me, router])
 }
+
 export const useMe = () => {
   const { status: sessionStatus } = useSession()
   const { data, refetch, loading, ...rest } = useQuery(ME_QUERY, {
@@ -70,6 +73,7 @@ export const useMe = () => {
     ...rest,
   }
 }
+
 export const useVerifyUserNameIsUniqueQuery = (
   variables: { name: string },
   skip?: boolean,
@@ -88,7 +92,22 @@ export const useUpdateUserMutation = () => {
     graphql(/* GraphQL */ `
       mutation UpdateUser($data: UpdateUserInput!) {
         updateUser(data: $data) {
-          ...MeFragment
+          __typename
+          ... on MutationUpdateUserSuccess {
+            data {
+              ...MeFragment
+            }
+          }
+          ... on BaseError {
+            message
+          }
+          ... on ValidationError {
+            message
+            issues {
+              message
+              path
+            }
+          }
         }
       }
     `),
@@ -115,7 +134,15 @@ export const useChangeUserRoleMutation = () => {
     graphql(/* GraphQL */ `
       mutation ChangeUserRole($userId: String!, $role: Role!) {
         changeUserRole(userId: $userId, role: $role) {
-          ...MeFragment
+          __typename
+          ... on MutationChangeUserRoleSuccess {
+            data {
+              ...MeFragment
+            }
+          }
+          ... on BaseError {
+            message
+          }
         }
       }
     `),
@@ -134,7 +161,15 @@ export const useDeleteUserMutation = () => {
     graphql(/* GraphQL */ `
       mutation DeleteUser($data: UserIdInput!) {
         deleteUser(data: $data) {
-          id
+          __typename
+          ... on MutationDeleteUserSuccess {
+            data {
+              id
+            }
+          }
+          ... on BaseError {
+            message
+          }
         }
       }
     `),
@@ -151,7 +186,7 @@ export const useDeleteUserMutation = () => {
         onCompleted: () => {
           if (onCompletedCallback) onCompletedCallback()
         },
-        refetchQueries: [{ query: ME_QUERY }, { query: AdminExpressionsQuery }],
+        refetchQueries: [{ query: ME_QUERY }],
       }),
     ...mutationData,
   }
@@ -183,7 +218,7 @@ export const AdminUserFragment = graphql(/* GraphQL */ `
   }
 `)
 
-export const useAdminUserQuery = () =>
+export const useAdminUserQuery = (userId: string) =>
   useQuery(
     graphql(/* GraphQL */ `
       query AdminUserQuery($data: UserIdInput!) {
@@ -192,6 +227,10 @@ export const useAdminUserQuery = () =>
         }
       }
     `),
+    {
+      variables: { data: { userId } },
+      skip: !userId,
+    },
   )
 
 export const AdminUsersFragment = graphql(/* GraphQL */ `

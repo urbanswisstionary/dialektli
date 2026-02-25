@@ -1,6 +1,7 @@
 import { CodegenConfig } from "@graphql-codegen/cli"
-import { schema } from "./src/graphql/schema"
 import { printSchema } from "graphql"
+
+import { schema } from "./src/graphql/schema"
 
 const config: CodegenConfig = {
   overwrite: true,
@@ -8,18 +9,18 @@ const config: CodegenConfig = {
   documents: ["src/**/*.tsx", "src/**/*.ts", "*.graphql"],
   ignoreNoDocuments: true, // for better experience with the watcher
   generates: {
-    "generated/": {
+    "src/generated/": {
       preset: "client",
       presetConfig: {
         fragmentMasking: { unmaskFunctionName: "getFragmentData" },
       },
     },
-    "generated/schema.graphql": {
+    "src/generated/schema.graphql": {
       plugins: ["schema-ast"],
     },
   },
   hooks: {
-    afterOneFileWrite: ["prettier --write"],
+    afterOneFileWrite: ["oxfmt"],
   },
   config: {
     useTypeImports: true,

@@ -1,0 +1,33 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "arrowParens": "always",
+  "semi": false,
+  "printWidth": 80,
+  "sortPackageJson": false,
+  "ignorePatterns": [
+    ".next/",
+    ".yarn/",
+    "generated/",
+    "node_modules/",
+    "prisma/migrations/",
+    "*.md"
+  ],
+  "sortImports": {
+    "groups": [
+      "type-import",
+      ["value-builtin", "value-external"],
+      "type-internal",
+      "value-internal",
+      ["type-parent", "type-sibling", "type-index"],
+      ["value-parent", "value-sibling", "value-index"],
+      "unknown"
+    ]
+  },
+  "sortTailwindcss": {
+    "stylesheet": "./path/to/stylesheet.css",
+    "functions": ["clsx", "cn"],
+    "preserveWhitespace": true
+  }
+}

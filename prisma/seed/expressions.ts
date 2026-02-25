@@ -1,4 +1,5 @@
 import { Language, Prisma } from "@prisma/client"
+
 import prisma from "../../src/lib/prisma"
 import { anonymourUser } from "./users"
 
@@ -233,7 +234,7 @@ export const seedExpression = async () => {
       select: { id: true },
     })
     if (existingExpression) {
-      // eslint-disable-next-line no-console
+      // oxlint-disable-next-line no-console
       console.log(
         `[seed expression] Skipping ${title} as it already exists, id: ${existingExpression.id}.`,
       )
@@ -251,12 +252,12 @@ export const seedExpression = async () => {
       },
     })
     createdExpressionsCount++
-    // eslint-disable-next-line no-console
+    // oxlint-disable-next-line no-console
     console.log(`[seed expressions] ${title} was successfully seeded`, {
       createdExpression: createdExpression,
     })
   }
-  // eslint-disable-next-line no-console
+  // oxlint-disable-next-line no-console
   console.log(
     `[seed expressions]: ${skippedExpressionssCount} expressions were skipped and ${createdExpressionsCount} expressions were successfully seeded`,
   )

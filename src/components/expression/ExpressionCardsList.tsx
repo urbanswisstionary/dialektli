@@ -1,0 +1,72 @@
+"use client"
+
+import type { FC } from "react"
+
+import { Loader2, SearchX } from "lucide-react"
+import { useTranslations } from "next-intl"
+
+import ExpressionCard from "@/components/expression/ExpressionCard"
+import {
+  Empty,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty"
+import Pagination, { PaginationProps } from "@/components/ui/Pagination"
+import { FragmentType, getFragmentData } from "@/generated"
+import { ExpressionFragment } from "@/hooks/useExpressions"
+import { useMe } from "@/hooks/useUsers"
+import { cn } from "@/lib/utils"
+
+interface ExpressionsCardsListProps {
+  paginationProps?: PaginationProps
+  expressions?: FragmentType<typeof ExpressionFragment>[]
+  loading?: boolean
+  className?: string
+}
+
+const ExpressionsCardsList: FC<ExpressionsCardsListProps> = ({
+  className,
+  loading,
+  ...props
+}) => {
+  const t = useTranslations()
+  const { me } = useMe()
+  const expressions =
+    getFragmentData(ExpressionFragment, props.expressions) ?? []
+
+  const pagination = (
+    <Pagination disabled={loading} {...props.paginationProps} />
+  )
+
+  return (
+    <div className={cn("flex flex-col gap-5", className)}>
+      {pagination}
+      {loading ? (
+        <div className="flex justify-center my-10">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      ) : expressions.length ? (
+        expressions.map((expression) => (
+          <ExpressionCard
+            key={expression.id}
+            expression={expression}
+            disableActions={!me}
+          />
+        ))
+      ) : (
+        <Empty>
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <SearchX />
+            </EmptyMedia>
+            <EmptyTitle>{t("noData")}</EmptyTitle>
+          </EmptyHeader>
+        </Empty>
+      )}
+      {pagination}
+    </div>
+  )
+}
+
+export default ExpressionsCardsList

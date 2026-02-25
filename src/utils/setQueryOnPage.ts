@@ -1,39 +1,34 @@
-import { omit } from "lodash"
-import { Url } from "next/dist/shared/lib/router/router"
-import { NextRouter } from "next/router"
+"use client"
+
+import { useSearchParams } from "next/navigation"
+
+import { useRouter } from "@/i18n/navigation"
 
 type Query = {
-  [paramName: string]: string | string[] | number | number[] | null // pass null to remove query
+  [paramName: string]: string | string[] | number | number[] | null | undefined
 }
-/**
- * Sets or modifies query parameters on the current page URL using Next.js router.
- *
- * @param router - The Next.js router instance.
- * @param query - An object representing query parameters to be added or modified.
- *                Each key is the parameter name, and the value can be a string, string array,
- *                number, number array, or null to remove the query parameter.
- */
-export const setQueryOnPage = (router: NextRouter, query: Query) => {
-  // Replace null values with an empty array
-  const sanitizedQuery = Object.fromEntries(
-    Object.entries(query).map(([key, value]) => [
-      key,
-      value === null ? [] : value,
-    ]),
-  )
 
-  // Create a new URL object with the updated query parameters
-  const url: Url = {
-    pathname: router.pathname,
-    query: { ...router.query, ...sanitizedQuery },
-  }
+export const setQueryOnPage = (
+  router: ReturnType<typeof useRouter>,
+  pathname: string,
+  searchParams: ReturnType<typeof useSearchParams>,
+  query: Query,
+) => {
+  const params = new URLSearchParams(searchParams.toString())
 
-  // Create a new URL object for the `as` property (used for server-side rendering)
-  const as: Url = {
-    // Extract the pathname from the current `asPath` and remove the query string
-    pathname: router.asPath?.split("?")[0],
-    // Merge the existing query parameters excluding "slug" with the new parameters
-    query: { ...omit(router.query, ["slug"]), ...sanitizedQuery },
-  }
-  router.replace(url, as, { shallow: true, scroll: false })
+  Object.entries(query).forEach(([key, value]) => {
+    if (value === null || value === undefined) {
+      params.delete(key)
+    } else if (Array.isArray(value)) {
+      params.delete(key)
+      value.forEach((v) => params.append(key, String(v)))
+    } else {
+      params.set(key, String(value))
+    }
+  })
+
+  const queryString = params.toString()
+  const url = queryString ? `${pathname}?${queryString}` : pathname
+
+  router.replace(url, { scroll: false })
 }

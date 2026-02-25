@@ -1,5 +1,6 @@
-import { i18n } from "../next-i18next.config"
 import { NextRouter } from "next/router"
+
+import { i18n } from "../next-i18next.config"
 
 declare module "next/router" {
   export type Locale = typeof i18n.defaultLocale

@@ -1,0 +1,409 @@
+type BaseError implements Error {
+  message: String!
+}
+
+type Bookmark {
+  author: User!
+  authorId: ID!
+  createdAt: DateTime!
+  expression: Expression!
+  expressionId: ID!
+}
+
+type CantonExpression {
+  id: String!
+  language: Language
+  title: String!
+}
+
+type CantonExpressionCount {
+  canton: String!
+  count: Int!
+}
+
+type CantonExpressionDetail {
+  canton: String!
+  expressions: [CantonExpression!]!
+}
+
+input CreateExpressionExampleInput {
+  cantons: [String!]
+  definition: String!
+  expressionId: String!
+}
+
+input CreateExpressionInput {
+  cantons: [String!]
+  definition: String
+  example: String
+  exampleCantons: [String!]
+  gender: ExpressionGender
+  language: Language
+  synonymId: String
+  title: String!
+  type: ExpressionType
+}
+
+input CreateSemanticGroupInput {
+  description: String
+  expressionIds: [String!]
+  name: String!
+  nameDE: String
+  nameFR: String
+  nameIT: String
+}
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
+input DeleteExpressionExampleInput {
+  exampleId: String!
+}
+
+type Dislike {
+  author: User!
+  authorId: ID!
+  createdAt: DateTime!
+  expression: Expression!
+  expressionId: ID!
+}
+
+interface Error {
+  message: String!
+}
+
+type Expression {
+  author: User
+  bookmarkCount: Int!
+  bookmarkedByMe: Boolean!
+  bookmarks: [Bookmark!]!
+  cantons: [String!]!
+  createdAt: DateTime!
+  definition: String
+  dislikedByMe: Boolean!
+  dislikes: [Dislike!]!
+  dislikesCount: Int!
+  examples: [ExpressionExample!]!
+  flagged: [Flag!]!
+  flaggedByMe: Boolean!
+  gender: ExpressionGender
+  id: ID!
+  language: Language!
+  likedByMe: Boolean!
+  likes: [Like!]!
+  likesCount: Int!
+  published: Boolean!
+  semanticGroups: [SemanticGroup!]!
+
+  """the expressions that the parent expression is a synonym of"""
+  synonymOf: [Synonym!]!
+
+  """synonyms of the parent expression"""
+  synonyms: [Synonym!]!
+  title: String!
+  type: ExpressionType
+  updatedAt: DateTime
+}
+
+input ExpressionActionInput {
+  bookmark: Boolean
+  dislike: Boolean
+  expressionId: String!
+  flag: Boolean
+  like: Boolean
+}
+
+type ExpressionExample {
+  author: User
+  authorId: ID
+  cantons: [String!]!
+  createdAt: DateTime!
+  definition: String!
+  expression: Expression!
+  expressionId: ID!
+  id: ID!
+  updatedAt: DateTime
+}
+
+enum ExpressionGender {
+  F
+  M
+  N
+}
+
+input ExpressionIdInput {
+  expressionId: String!
+}
+
+enum ExpressionType {
+  ADJECTIVE
+  ADVERB
+  CONJUNCTION
+  INTERJECTION
+  NOUN
+  PARTICLE
+  PREPOSITION
+  PRONOUN
+  VERB
+}
+
+input ExpressionsQueryInput {
+  authorName: String
+  canton: String
+  firstChar: String
+  language: Language
+  limit: Int
+  offset: Int
+  q: String
+  sortByPopularity: Boolean
+}
+
+type ExpressionsWithCount {
+  count: Int!
+  expressions: [Expression!]!
+}
+
+type Flag {
+  author: User!
+  authorId: ID!
+  createdAt: DateTime!
+  expression: Expression!
+  expressionId: ID!
+}
+
+enum Language {
+  DE
+  FR
+  IT
+}
+
+type Like {
+  author: User!
+  authorId: ID!
+  createdAt: DateTime!
+  expression: Expression!
+  expressionId: ID!
+}
+
+type Mutation {
+  changeUserRole(role: Role!, userId: String!): MutationChangeUserRoleResult!
+  createExpression(data: CreateExpressionInput!): MutationCreateExpressionResult!
+  createExpressionExample(data: CreateExpressionExampleInput!): MutationCreateExpressionExampleResult!
+  createSemanticGroup(data: CreateSemanticGroupInput!): MutationCreateSemanticGroupResult!
+  deleteExpression(data: ExpressionIdInput!): MutationDeleteExpressionResult!
+  deleteExpressionExample(data: DeleteExpressionExampleInput!): MutationDeleteExpressionExampleResult!
+  deleteSemanticGroup(id: String!): MutationDeleteSemanticGroupResult!
+  deleteUser(data: UserIdInput!): MutationDeleteUserResult!
+  expressionAction(data: ExpressionActionInput!): MutationExpressionActionResult!
+  updateExpression(data: UpdateExpressionInput!): MutationUpdateExpressionResult!
+  updateExpressionExample(data: UpdateExpressionExampleInput!): MutationUpdateExpressionExampleResult!
+  updateSemanticGroup(data: UpdateSemanticGroupInput!): MutationUpdateSemanticGroupResult!
+  updateUser(data: UpdateUserInput!): MutationUpdateUserResult!
+}
+
+union MutationChangeUserRoleResult = BaseError | MutationChangeUserRoleSuccess
+
+type MutationChangeUserRoleSuccess {
+  data: User!
+}
+
+union MutationCreateExpressionExampleResult = BaseError | MutationCreateExpressionExampleSuccess | ValidationError
+
+type MutationCreateExpressionExampleSuccess {
+  data: ExpressionExample!
+}
+
+union MutationCreateExpressionResult = BaseError | MutationCreateExpressionSuccess | ValidationError
+
+type MutationCreateExpressionSuccess {
+  data: Expression!
+}
+
+union MutationCreateSemanticGroupResult = BaseError | MutationCreateSemanticGroupSuccess
+
+type MutationCreateSemanticGroupSuccess {
+  data: SemanticGroup!
+}
+
+union MutationDeleteExpressionExampleResult = BaseError | MutationDeleteExpressionExampleSuccess
+
+type MutationDeleteExpressionExampleSuccess {
+  data: ExpressionExample!
+}
+
+union MutationDeleteExpressionResult = BaseError | MutationDeleteExpressionSuccess
+
+type MutationDeleteExpressionSuccess {
+  data: Expression!
+}
+
+union MutationDeleteSemanticGroupResult = BaseError | MutationDeleteSemanticGroupSuccess
+
+type MutationDeleteSemanticGroupSuccess {
+  data: Boolean!
+}
+
+union MutationDeleteUserResult = BaseError | MutationDeleteUserSuccess
+
+type MutationDeleteUserSuccess {
+  data: User!
+}
+
+union MutationExpressionActionResult = BaseError | MutationExpressionActionSuccess
+
+type MutationExpressionActionSuccess {
+  data: Boolean!
+}
+
+union MutationUpdateExpressionExampleResult = BaseError | MutationUpdateExpressionExampleSuccess | ValidationError
+
+type MutationUpdateExpressionExampleSuccess {
+  data: ExpressionExample!
+}
+
+union MutationUpdateExpressionResult = BaseError | MutationUpdateExpressionSuccess | ValidationError
+
+type MutationUpdateExpressionSuccess {
+  data: Expression!
+}
+
+union MutationUpdateSemanticGroupResult = BaseError | MutationUpdateSemanticGroupSuccess
+
+type MutationUpdateSemanticGroupSuccess {
+  data: SemanticGroup!
+}
+
+union MutationUpdateUserResult = BaseError | MutationUpdateUserSuccess | ValidationError
+
+type MutationUpdateUserSuccess {
+  data: User!
+}
+
+type Query {
+  adminExpressions: ExpressionsWithCount
+  adminUser(data: UserIdInput!): User!
+  adminUsers: UsersWithCount
+  cantonOverview(language: Language): [CantonExpressionCount!]!
+  expression(data: ExpressionIdInput!): Expression
+  expressionsByCanton(canton: String!, language: Language, limit: Int, offset: Int): [CantonExpression!]!
+  expressionsQuery(data: ExpressionsQueryInput!): ExpressionsWithCount
+  me: User!
+  myBookmarks: ExpressionsWithCount
+  semanticGroupDistribution(semanticGroupId: String!): SemanticGroupWithDistribution
+  semanticGroups(data: SemanticGroupQueryInput): [SemanticGroup!]!
+  verifyUserNameIsUnique(name: String!): Boolean!
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+type SemanticGroup {
+  createdAt: DateTime!
+  description: String
+  expressionCount: Int!
+  expressions: [Expression!]!
+  id: ID!
+  name: String!
+  nameDE: String
+  nameFR: String
+  nameIT: String
+  updatedAt: DateTime
+}
+
+input SemanticGroupQueryInput {
+  limit: Int
+  offset: Int
+  q: String
+}
+
+type SemanticGroupWithDistribution {
+  cantonDistribution: [CantonExpressionCount!]!
+  cantonExpressions: [CantonExpressionDetail!]!
+  semanticGroup: SemanticGroup!
+}
+
+type Synonym {
+  """synonym of the parent expression"""
+  synonym: Expression!
+
+  """the expression that the parent expression is a synonym of"""
+  synonymOf: Expression!
+}
+
+input UpdateExpressionExampleInput {
+  cantons: [String!]
+  definition: String!
+  exampleId: String!
+}
+
+input UpdateExpressionInput {
+  cantons: [String!]
+  definition: String
+  gender: ExpressionGender
+  id: String!
+  published: Boolean
+  title: String
+  type: ExpressionType
+}
+
+input UpdateSemanticGroupInput {
+  description: String
+  expressionIds: [String!]
+  id: String!
+  name: String
+  nameDE: String
+  nameFR: String
+  nameIT: String
+}
+
+input UpdateUserInput {
+  bio: String
+  canton: String
+  country: String
+  id: String!
+  image: String
+  name: String
+}
+
+type User {
+  bio: String
+  canton: String
+  country: String
+  dislikes: [Dislike!]!
+  dislikesCount: Int!
+  email: String!
+  emailVerified: DateTime
+  expressions: [Expression!]!
+  flags: [Flag!]!
+  id: ID!
+  image: String
+  likes: [Like!]!
+  likesCount: Int!
+  myPublishedExpressionsCount: Int!
+  myUnpublishedExpressionsCount: Int!
+  name: String!
+  role: Role!
+}
+
+input UserIdInput {
+  userId: String!
+}
+
+type UsersWithCount {
+  count: Int!
+  users: [User!]!
+}
+
+type ValidationError implements Error {
+  issues: [ZodFieldError!]!
+  message: String!
+}
+
+type ZodFieldError {
+  message: String!
+  path: [String!]!
+}

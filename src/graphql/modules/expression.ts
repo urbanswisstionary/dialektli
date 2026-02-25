@@ -1,13 +1,14 @@
 import { Prisma, Role } from "@prisma/client"
-import { builder } from "../builder"
-import prisma from "../../lib/prisma"
-import { allow } from "graphql-shield"
-import * as permissions from "../permissions"
-import { ApolloError } from "@apollo/client"
-import { Language } from "./language"
+import { GraphQLError } from "graphql"
+import { z } from "zod"
+
+import prisma from "@/lib/prisma"
+
+import { builder, ValidationError } from "../builder"
+import { randomPick } from "../utils/randomPick"
 import { ExpressionGender } from "./expressionGender"
 import { ExpressionType } from "./expressionType"
-import { randomPick } from "../utils/randomPick"
+import { Language } from "./language"
 
 builder.prismaObject("Synonym", {
   fields: (t) => ({
@@ -25,12 +26,12 @@ const Expression = builder.prismaObject("Expression", {
     id: t.exposeID("id"),
     title: t.exposeString("title"),
     definition: t.exposeString("definition", { nullable: true }),
-    examples: t.relation("examples"),
+    examples: t.relation("examples", {}),
     published: t.exposeBoolean("published"),
     createdAt: t.expose("createdAt", { type: "DateTime" }),
     updatedAt: t.expose("updatedAt", { type: "DateTime", nullable: true }),
-    author: t.relation("author"),
-    likes: t.relation("likes"),
+    author: t.relation("author", { nullable: true }),
+    likes: t.relation("likes", {}),
     likesCount: t.int({
       resolve: ({ id }) => prisma.like.count({ where: { expressionId: id } }),
     }),
@@ -43,7 +44,7 @@ const Expression = builder.prismaObject("Expression", {
           : false
       },
     }),
-    dislikes: t.relation("dislikes"),
+    dislikes: t.relation("dislikes", {}),
     dislikesCount: t.int({
       resolve: ({ id }) =>
         prisma.dislike.count({ where: { expressionId: id } }),
@@ -57,10 +58,24 @@ const Expression = builder.prismaObject("Expression", {
           : false
       },
     }),
-    flagged: t.relation("flagged"),
+    flagged: t.relation("flagged", {}),
     flaggedByMe: t.boolean({
       resolve: async ({ id }, _args, { session }) => {
         return (await prisma.flag.findFirst({
+          where: { expressionId: id, authorId: session?.user?.id },
+        }))
+          ? true
+          : false
+      },
+    }),
+    bookmarks: t.relation("bookmarks", {}),
+    bookmarkCount: t.int({
+      resolve: ({ id }) =>
+        prisma.bookmark.count({ where: { expressionId: id } }),
+    }),
+    bookmarkedByMe: t.boolean({
+      resolve: async ({ id }, _args, { session }) => {
+        return (await prisma.bookmark.findFirst({
           where: { expressionId: id, authorId: session?.user?.id },
         }))
           ? true
@@ -77,6 +92,7 @@ const Expression = builder.prismaObject("Expression", {
     }),
     gender: t.expose("gender", { type: ExpressionGender, nullable: true }),
     type: t.expose("type", { type: ExpressionType, nullable: true }),
+    semanticGroups: t.relation("semanticGroups", {}),
   }),
 })
 
@@ -94,16 +110,21 @@ const ExpressionsQueryInput = builder.inputType("ExpressionsQueryInput", {
     limit: t.int(),
     canton: t.string(),
     firstChar: t.string(),
-    slug: t.string(),
     language: t.field({ type: Language }),
     authorName: t.string(),
+    sortByPopularity: t.boolean(),
+  }),
+})
+
+const ExpressionIdInput = builder.inputType("ExpressionIdInput", {
+  fields: (t) => ({
+    expressionId: t.string({ required: true }),
   }),
 })
 
 builder.queryFields((t) => ({
   expression: t.prismaField({
     type: "Expression",
-    shield: allow,
     nullable: true,
     args: {
       data: t.arg({ type: ExpressionIdInput, required: true }),
@@ -113,7 +134,6 @@ builder.queryFields((t) => ({
   }),
   expressionsQuery: t.field({
     type: ExpressionsWithCountType,
-    shield: allow,
     nullable: true,
     args: { data: t.arg({ type: ExpressionsQueryInput, required: true }) },
     resolve: async (_root, { data }) => {
@@ -123,9 +143,9 @@ builder.queryFields((t) => ({
         limit,
         canton,
         firstChar,
-        slug,
         language,
         authorName,
+        sortByPopularity,
       } = data
       const expressionsWhere: Prisma.ExpressionFindManyArgs = {
         where: {
@@ -133,11 +153,9 @@ builder.queryFields((t) => ({
             {
               published: true,
               cantons: canton ? { has: canton } : undefined,
-              title: slug
-                ? { contains: slug, mode: "insensitive" }
-                : firstChar
-                  ? { startsWith: firstChar, mode: "insensitive" }
-                  : undefined,
+              title: firstChar
+                ? { startsWith: firstChar, mode: "insensitive" }
+                : undefined,
               language: language ?? undefined,
               author: authorName ? { name: authorName } : undefined,
             },
@@ -170,9 +188,11 @@ builder.queryFields((t) => ({
           where: expressionsWhere.where,
           skip: offset ?? undefined,
           take: limit ?? undefined,
-          orderBy: q
-            ? { title: "asc" }
-            : { [orderBy]: randomPick([`asc`, `desc`]) },
+          orderBy: sortByPopularity
+            ? { likes: { _count: "desc" } }
+            : q
+              ? { title: "asc" }
+              : { [orderBy]: randomPick([`asc`, `desc`]) },
         }),
         prisma.expression.count({ where: expressionsWhere.where }),
       ])
@@ -182,18 +202,20 @@ builder.queryFields((t) => ({
   }),
   adminExpressions: t.field({
     type: ExpressionsWithCountType,
-    shield: permissions.isAdminOrMe,
     nullable: true,
     args: {},
     resolve: async (_root, _args, { session }, _info) => {
-      try {
-        if (!session?.user) return null
+      if (!session?.user) {
+        throw new GraphQLError("Not authenticated")
+      }
 
+      if (session.user.role !== Role.ADMIN) {
+        throw new GraphQLError("Not authorized")
+      }
+
+      try {
         const expressionsWhere: Prisma.ExpressionFindManyArgs = {
-          where: {
-            authorId:
-              session.user.role === Role.ADMIN ? undefined : session.user.id,
-          },
+          where: {},
         }
         const [expressions, count] = await prisma.$transaction([
           prisma.expression.findMany({
@@ -205,8 +227,33 @@ builder.queryFields((t) => ({
 
         return { expressions, count }
       } catch (error) {
-        // eslint-disable-next-line no-console
+        // oxlint-disable-next-line no-console
         console.error(error)
+        return null
+      }
+    },
+  }),
+  myBookmarks: t.field({
+    type: ExpressionsWithCountType,
+    nullable: true,
+    resolve: async (_root, _args, { session }) => {
+      if (!session?.user) {
+        throw new GraphQLError("Not authenticated")
+      }
+
+      try {
+        const bookmarks = await prisma.bookmark.findMany({
+          where: { authorId: session.user.id },
+          orderBy: { createdAt: "desc" },
+          include: { expression: true },
+        })
+
+        const expressions = bookmarks.map((b) => b.expression)
+        return { expressions, count: expressions.length }
+      } catch (error) {
+        // oxlint-disable-next-line no-console
+        console.error(error)
+        return null
       }
     },
   }),
@@ -244,14 +291,10 @@ const ExpressionActionInput = builder.inputType("ExpressionActionInput", {
     like: t.boolean(),
     dislike: t.boolean(),
     flag: t.boolean(),
+    bookmark: t.boolean(),
   }),
 })
 
-const ExpressionIdInput = builder.inputType("ExpressionIdInput", {
-  fields: (t) => ({
-    expressionId: t.string({ required: true }),
-  }),
-})
 const CreateExpressionExampleInput = builder.inputType(
   "CreateExpressionExampleInput",
   {
@@ -286,9 +329,21 @@ const DeleteExpressionExampleInput = builder.inputType(
 builder.mutationFields((t) => ({
   createExpression: t.prismaField({
     type: "Expression",
-    shield: permissions.isAuthenticated,
-    nullable: true,
-    args: { data: t.arg({ type: CreateExpressionInput, required: true }) },
+    errors: {
+      types: [Error, ValidationError],
+    },
+    args: {
+      data: t.arg({
+        type: CreateExpressionInput,
+        required: true,
+        validate: {
+          schema: z.object({
+            title: z.string().min(2).max(100),
+            definition: z.string().min(2).max(2000).optional().nullable(),
+          }),
+        },
+      }),
+    },
     resolve: async (
       query,
       _root,
@@ -307,9 +362,12 @@ builder.mutationFields((t) => ({
       },
       { session },
     ) => {
+      if (!session?.user) {
+        throw new GraphQLError("Not authenticated")
+      }
+
       try {
-        const author = session?.user
-        if (!author) throw new ApolloError({ errorMessage: "Not allowed" })
+        const author = session.user
         const newExpression = await prisma.expression.create({
           ...query,
           data: {
@@ -342,16 +400,38 @@ builder.mutationFields((t) => ({
         }
         return newExpression
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error(error)
+        // oxlint-disable-next-line no-console
+        console.error("Failed to create expression:", error)
+        throw new Error(
+          error instanceof Error
+            ? error.message
+            : "Failed to create expression",
+        )
       }
     },
   }),
   updateExpression: t.prismaField({
     type: "Expression",
-    shield: permissions.isAdminOrMe,
-    nullable: true,
-    args: { data: t.arg({ type: UpdateExpressionInput, required: true }) },
+    errors: {
+      types: [Error, ValidationError],
+    },
+    args: {
+      data: t.arg({
+        type: UpdateExpressionInput,
+        required: true,
+        validate: {
+          schema: z.object({
+            id: z.string(),
+            title: z.string().min(2).max(100).optional().nullable(),
+            definition: z.string().min(2).max(2000).optional().nullable(),
+            published: z.boolean().optional().nullable(),
+            cantons: z.array(z.string()).optional().nullable(),
+            gender: z.any().optional().nullable(),
+            type: z.any().optional().nullable(),
+          }),
+        },
+      }),
+    },
     resolve: async (
       query,
       _root,
@@ -359,9 +439,11 @@ builder.mutationFields((t) => ({
       { session },
       _info,
     ) => {
+      if (!session?.user) {
+        throw new GraphQLError("Not authenticated")
+      }
+
       try {
-        if (!session?.user)
-          throw new ApolloError({ errorMessage: "Not allowed" })
         const expression = await prisma.expression.findUnique({
           where: { id },
           select: { authorId: true },
@@ -369,8 +451,9 @@ builder.mutationFields((t) => ({
         if (
           expression?.authorId !== session.user.id &&
           session.user.role !== Role.ADMIN
-        )
-          throw new ApolloError({ errorMessage: "Not allowed" })
+        ) {
+          throw new GraphQLError("Not authorized")
+        }
 
         return prisma.expression.update({
           ...query,
@@ -385,18 +468,24 @@ builder.mutationFields((t) => ({
           },
         })
       } catch (error) {
-        // eslint-disable-next-line no-console
+        if (error instanceof GraphQLError) throw error
+        // oxlint-disable-next-line no-console
         console.error(error)
+        throw new Error("Failed to update expression")
       }
     },
   }),
   deleteExpression: t.prismaField({
     type: "Expression",
-    shield: permissions.isAdminOrMe,
-    nullable: true,
+    errors: {
+      types: [Error],
+    },
     args: { data: t.arg({ type: ExpressionIdInput, required: true }) },
     resolve: async (query, _root, { data: { expressionId } }, { session }) => {
-      if (!session?.user) throw new ApolloError({ errorMessage: "Not allowed" })
+      if (!session?.user) {
+        throw new GraphQLError("Not authenticated")
+      }
+
       try {
         const expression = await prisma.expression.findFirstOrThrow({
           where: { id: expressionId },
@@ -405,21 +494,26 @@ builder.mutationFields((t) => ({
         if (
           expression?.authorId !== session.user.id &&
           session.user.role !== Role.ADMIN
-        )
-          throw new ApolloError({ errorMessage: "Not allowed" })
+        ) {
+          throw new GraphQLError("Not authorized")
+        }
 
         return prisma.expression.delete({
           ...query,
           where: { id: expressionId },
         })
       } catch (error) {
-        // eslint-disable-next-line no-console
+        if (error instanceof GraphQLError) throw error
+        // oxlint-disable-next-line no-console
         console.error(error)
+        throw new Error("Failed to delete expression")
       }
     },
   }),
   expressionAction: t.boolean({
-    shield: permissions.isAuthenticated,
+    errors: {
+      types: [Error],
+    },
     args: {
       data: t.arg({ type: ExpressionActionInput, required: true }),
     },
@@ -428,22 +522,27 @@ builder.mutationFields((t) => ({
       { data: { expressionId, ...data } },
       { session },
     ) => {
-      try {
-        if (!session?.user) return false
+      if (!session?.user) {
+        throw new GraphQLError("Not authenticated")
+      }
 
+      try {
         const authorId = session.user.id
 
         const expression = await prisma.expression.findUnique({
           where: { id: expressionId },
           select: {
+            authorId: true,
             likes: { where: { authorId } },
             dislikes: { where: { authorId } },
             flagged: { where: { authorId } },
+            bookmarks: { where: { authorId } },
           },
         })
 
-        if (!expression)
-          throw new ApolloError({ errorMessage: "Expression not found" })
+        if (!expression) {
+          throw new Error("Expression not found")
+        }
 
         const action =
           "like" in data
@@ -452,7 +551,16 @@ builder.mutationFields((t) => ({
               ? "dislike"
               : "flag" in data
                 ? "flag"
-                : null
+                : "bookmark" in data
+                  ? "bookmark"
+                  : null
+
+        if (
+          (action === "like" || action === "dislike") &&
+          expression.authorId === authorId
+        ) {
+          throw new Error("Cannot vote on your own expression")
+        }
         const expressionId_authorId = { expressionId, authorId }
 
         switch (action) {
@@ -511,22 +619,50 @@ builder.mutationFields((t) => ({
             })
             return !!updatedExpression
           }
+          case "bookmark": {
+            const updatedExpression = await prisma.expression.update({
+              where: { id: expressionId },
+              data: expression.bookmarks.length
+                ? { bookmarks: { delete: { expressionId_authorId } } }
+                : {
+                    bookmarks: {
+                      connectOrCreate: {
+                        create: { authorId },
+                        where: { expressionId_authorId },
+                      },
+                    },
+                  },
+            })
+            return !!updatedExpression
+          }
           default:
             return false
         }
       } catch (error) {
-        // eslint-disable-next-line no-console
+        if (error instanceof GraphQLError) throw error
+        // oxlint-disable-next-line no-console
         console.log(error)
-        return false
+        throw new Error("Expression action failed")
       }
     },
   }),
   createExpressionExample: t.prismaField({
     type: "ExpressionExample",
-    shield: permissions.isAuthenticated,
-    nullable: true,
+    errors: {
+      types: [Error, ValidationError],
+    },
     args: {
-      data: t.arg({ type: CreateExpressionExampleInput, required: true }),
+      data: t.arg({
+        type: CreateExpressionExampleInput,
+        required: true,
+        validate: {
+          schema: z.object({
+            expressionId: z.string(),
+            definition: z.string().min(2).max(2000),
+            cantons: z.array(z.string()).optional().nullable(),
+          }),
+        },
+      }),
     },
     resolve: async (
       query,
@@ -534,36 +670,67 @@ builder.mutationFields((t) => ({
       { data: { expressionId, definition, cantons } },
       { session },
     ) => {
+      if (!session?.user) {
+        throw new GraphQLError("Not authenticated")
+      }
+
       try {
         return prisma.expressionExample.create({
           ...query,
           data: {
             expressionId,
             definition,
-            authorId: session?.user?.id,
+            authorId: session.user.id,
             cantons: cantons ?? undefined,
           },
         })
       } catch (error) {
-        // eslint-disable-next-line no-console
+        // oxlint-disable-next-line no-console
         console.log(error)
-        return null
+        throw new Error("Failed to create example")
       }
     },
   }),
   updateExpressionExample: t.prismaField({
     type: "ExpressionExample",
-    shield: permissions.isAuthenticated,
-    nullable: true,
+    errors: {
+      types: [Error, ValidationError],
+    },
     args: {
-      data: t.arg({ type: UpdateExpressionExampleInput, required: true }),
+      data: t.arg({
+        type: UpdateExpressionExampleInput,
+        required: true,
+        validate: {
+          schema: z.object({
+            exampleId: z.string(),
+            definition: z.string().min(2).max(2000),
+            cantons: z.array(z.string()).optional().nullable(),
+          }),
+        },
+      }),
     },
     resolve: async (
       query,
       _root,
       { data: { exampleId, definition, cantons } },
-      _ctx,
+      { session },
     ) => {
+      if (!session?.user) {
+        throw new GraphQLError("Not authenticated")
+      }
+
+      const existingExample = await prisma.expressionExample.findUnique({
+        where: { id: exampleId },
+        select: { authorId: true },
+      })
+      if (!existingExample) throw new Error("Example not found")
+      if (
+        existingExample.authorId !== session.user.id &&
+        session.user.role !== Role.ADMIN
+      ) {
+        throw new GraphQLError("Not authorized")
+      }
+
       try {
         return prisma.expressionExample.update({
           ...query,
@@ -574,29 +741,46 @@ builder.mutationFields((t) => ({
           },
         })
       } catch (error) {
-        // eslint-disable-next-line no-console
+        // oxlint-disable-next-line no-console
         console.log(error)
-        return null
+        throw new Error("Failed to update example")
       }
     },
   }),
   deleteExpressionExample: t.prismaField({
     type: "ExpressionExample",
-    shield: permissions.isAuthenticated,
-    nullable: true,
+    errors: {
+      types: [Error],
+    },
     args: {
       data: t.arg({ type: DeleteExpressionExampleInput, required: true }),
     },
-    resolve: async (query, _root, { data: { exampleId } }, _ctx) => {
+    resolve: async (query, _root, { data: { exampleId } }, { session }) => {
+      if (!session?.user) {
+        throw new GraphQLError("Not authenticated")
+      }
+
+      const existingExample = await prisma.expressionExample.findUnique({
+        where: { id: exampleId },
+        select: { authorId: true },
+      })
+      if (!existingExample) throw new Error("Example not found")
+      if (
+        existingExample.authorId !== session.user.id &&
+        session.user.role !== Role.ADMIN
+      ) {
+        throw new GraphQLError("Not authorized")
+      }
+
       try {
         return prisma.expressionExample.delete({
           ...query,
           where: { id: exampleId },
         })
       } catch (error) {
-        // eslint-disable-next-line no-console
+        // oxlint-disable-next-line no-console
         console.log(error)
-        return null
+        throw new Error("Failed to delete example")
       }
     },
   }),
