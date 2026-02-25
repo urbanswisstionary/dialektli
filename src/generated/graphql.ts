@@ -178,7 +178,6 @@ export type ExpressionsQueryInput = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   q?: InputMaybe<Scalars['String']['input']>;
-  slug?: InputMaybe<Scalars['String']['input']>;
   sortByPopularity?: InputMaybe<Scalars['Boolean']['input']>;
 };
 

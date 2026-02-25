@@ -76,7 +76,12 @@
     "selectImage": "Select Image",
     "bookmark": "Bookmark",
     "addBookmark": "Add Bookmark",
-    "removeBookmark": "Remove Bookmark"
+    "removeBookmark": "Remove Bookmark",
+    "colorScheme": {
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    }
   },
   "errors": {
     "imageSizeExceeded": "The file size must not exceed 1.5 MB"
@@ -618,6 +623,9 @@
     "clear": "Clear",
     "mapLoadError": "Failed to load map data",
     "mapAriaLabel": "Interactive map of Swiss cantons showing dialect expression counts",
-    "inspiredBy": "Inspired by"
+    "inspiredBy": "Inspired by",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "zoomReset": "Reset zoom"
   }
 }

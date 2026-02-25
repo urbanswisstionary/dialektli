@@ -92,7 +92,12 @@ export default async function LocaleLayout({ children, params }: Props) {
     <html lang={locale} className={roboto.variable} suppressHydrationWarning>
       <body>
         <SessionProvider>
-          <ThemeProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
             <ApolloProvider>
               <NextIntlClientProvider messages={messages}>
                 <Layout>{children}</Layout>

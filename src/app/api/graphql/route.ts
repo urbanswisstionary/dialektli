@@ -11,7 +11,7 @@ const server = new ApolloServer<Context>({
 })
 
 const handler = startServerAndCreateNextHandler(server, {
-  context: async (req: NextRequest) => {
+  context: async (_req: NextRequest) => {
     const session = await getServerSession(authOptions)
 
     return {

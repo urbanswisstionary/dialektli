@@ -9,8 +9,10 @@ interface SelectLocationOptionProps {
   label: string
   flagCode: string
   selected?: boolean
+  focused?: boolean
   onClick?: () => void
   className?: string
+  id?: string
 }
 
 const SelectLocationOption: FC<SelectLocationOptionProps> = ({
@@ -18,16 +20,20 @@ const SelectLocationOption: FC<SelectLocationOptionProps> = ({
   label,
   flagCode,
   selected,
+  focused,
   onClick,
   className,
+  id,
 }) => (
   <div
+    id={id}
     role="option"
     aria-selected={selected}
     onClick={onClick}
     className={cn(
       "flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm hover:bg-accent",
       selected && "bg-accent",
+      focused && "bg-accent outline-none ring-1 ring-ring",
       className,
     )}
   >

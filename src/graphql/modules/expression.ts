@@ -107,7 +107,6 @@ const ExpressionsQueryInput = builder.inputType("ExpressionsQueryInput", {
     limit: t.int(),
     canton: t.string(),
     firstChar: t.string(),
-    slug: t.string(),
     language: t.field({ type: Language }),
     authorName: t.string(),
     sortByPopularity: t.boolean(),
@@ -141,7 +140,6 @@ builder.queryFields((t) => ({
         limit,
         canton,
         firstChar,
-        slug,
         language,
         authorName,
         sortByPopularity,
@@ -232,6 +230,7 @@ builder.queryFields((t) => ({
 
         return { expressions, count }
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error(error)
         return null
       }
@@ -255,6 +254,7 @@ builder.queryFields((t) => ({
         const expressions = bookmarks.map((b) => b.expression)
         return { expressions, count: expressions.length }
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error(error)
         return null
       }
@@ -390,6 +390,7 @@ builder.mutationFields((t) => ({
         }
         return newExpression
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error("Failed to create expression:", error)
         throw new GraphQLError(
           error instanceof Error
@@ -439,6 +440,7 @@ builder.mutationFields((t) => ({
           },
         })
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error(error)
         return null
       }
@@ -470,6 +472,7 @@ builder.mutationFields((t) => ({
           where: { id: expressionId },
         })
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error(error)
         return null
       }
@@ -601,6 +604,7 @@ builder.mutationFields((t) => ({
             return false
         }
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.log(error)
         return false
       }
@@ -633,6 +637,7 @@ builder.mutationFields((t) => ({
           },
         })
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.log(error)
         return null
       }
@@ -664,6 +669,7 @@ builder.mutationFields((t) => ({
           },
         })
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.log(error)
         return null
       }
@@ -686,6 +692,7 @@ builder.mutationFields((t) => ({
           where: { id: exampleId },
         })
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.log(error)
         return null
       }

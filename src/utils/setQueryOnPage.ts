@@ -1,7 +1,6 @@
 "use client"
 
-import { omit } from "lodash"
-import { useRouter, usePathname } from "@/i18n/navigation"
+import { useRouter } from "@/i18n/navigation"
 import { useSearchParams } from "next/navigation"
 
 type Query = {

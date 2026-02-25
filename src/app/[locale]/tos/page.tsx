@@ -19,7 +19,7 @@ export default function TOSPage() {
   }
 
   return (
-    <div className="mx-auto flex max-w-[900px] flex-col gap-6 px-6 py-8">
+    <div className="mx-auto flex max-w-225 flex-col gap-6 px-6 py-8">
       <Card>
         <CardContent className="p-6 md:p-10">
           <h1 className="mb-8 text-3xl font-semibold text-primary">
@@ -36,11 +36,13 @@ export default function TOSPage() {
               {t("legal.tos.tableOfContent.title")}
             </h2>
             <ol className="mt-4 pl-6">
-              {[...Array(10)].map((_, index) => (
-                <li key={index} className="mb-2">
-                  <p>{t(`legal.tos.tableOfContent.list.${index}` as any)}</p>
-                </li>
-              ))}
+              {(t.raw("legal.tos.tableOfContent.list") as string[]).map(
+                (_, index) => (
+                  <li key={index} className="mb-2">
+                    <p>{t(`legal.tos.tableOfContent.list.${index}` as any)}</p>
+                  </li>
+                ),
+              )}
             </ol>
           </div>
 
@@ -75,23 +77,12 @@ export default function TOSPage() {
           <p className="mb-2 leading-[1.8]">
             {t("legal.tos.userConduct.paragraph1.paragraph")}
           </p>
-          {renderListItems([
-            t("legal.tos.userConduct.paragraph1.list.0" as any),
-            t("legal.tos.userConduct.paragraph1.list.1" as any),
-            t("legal.tos.userConduct.paragraph1.list.2" as any),
-          ])}
+          {renderListItems(t.raw("legal.tos.userConduct.paragraph1.list"))}
 
           <p className="mt-4 mb-2 leading-[1.8]">
             {t("legal.tos.userConduct.paragraph2.paragraph")}
           </p>
-          {renderListItems([
-            t("legal.tos.userConduct.paragraph2.list.0" as any),
-            t("legal.tos.userConduct.paragraph2.list.1" as any),
-            t("legal.tos.userConduct.paragraph2.list.2" as any),
-            t("legal.tos.userConduct.paragraph2.list.3" as any),
-            t("legal.tos.userConduct.paragraph2.list.4" as any),
-            t("legal.tos.userConduct.paragraph2.list.5" as any),
-          ])}
+          {renderListItems(t.raw("legal.tos.userConduct.paragraph2.list"))}
 
           <p className="mt-4 mb-4 leading-[1.8]">
             {t("legal.tos.userConduct.paragraph3")}
@@ -104,12 +95,7 @@ export default function TOSPage() {
           <p className="mb-2 leading-[1.8]">
             {t("legal.tos.userConduct.paragraph5.paragraph")}
           </p>
-          {renderListItems([
-            t("legal.tos.userConduct.paragraph5.list.0" as any),
-            t("legal.tos.userConduct.paragraph5.list.1" as any),
-            t("legal.tos.userConduct.paragraph5.list.2" as any),
-            t("legal.tos.userConduct.paragraph5.list.3" as any),
-          ])}
+          {renderListItems(t.raw("legal.tos.userConduct.paragraph5.list"))}
 
           <p className="mt-4 mb-4 leading-[1.8]">
             {t("legal.tos.userConduct.paragraph6")}
@@ -138,14 +124,9 @@ export default function TOSPage() {
           <p className="mb-2 leading-[1.8]">
             {t("legal.tos.copyrightsAndOwnership.paragraph2.paragraph")}
           </p>
-          {renderListItems([
-            t("legal.tos.copyrightsAndOwnership.paragraph2.list.0" as any),
-            t("legal.tos.copyrightsAndOwnership.paragraph2.list.1" as any),
-            t("legal.tos.copyrightsAndOwnership.paragraph2.list.2" as any),
-            t("legal.tos.copyrightsAndOwnership.paragraph2.list.3" as any),
-            t("legal.tos.copyrightsAndOwnership.paragraph2.list.4" as any),
-            t("legal.tos.copyrightsAndOwnership.paragraph2.list.5" as any),
-          ])}
+          {renderListItems(
+            t.raw("legal.tos.copyrightsAndOwnership.paragraph2.list"),
+          )}
 
           <p className="mt-4 mb-6 leading-[1.8]">
             {t("legal.tos.copyrightsAndOwnership.paragraph3")}

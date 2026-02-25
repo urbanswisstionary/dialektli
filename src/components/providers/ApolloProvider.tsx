@@ -1,7 +1,13 @@
 "use client"
 
-import { ApolloClient, InMemoryCache, HttpLink, from } from "@apollo/client"
-import { onError } from "@apollo/client/link/error"
+import {
+  ApolloClient,
+  ApolloLink,
+  InMemoryCache,
+  HttpLink,
+} from "@apollo/client"
+import { CombinedGraphQLErrors } from "@apollo/client/errors"
+import { ErrorLink } from "@apollo/client/link/error"
 import { ApolloProvider as ApolloProviderLib } from "@apollo/client/react"
 import type { ReactNode } from "react"
 
@@ -9,22 +15,22 @@ const httpLink = new HttpLink({
   uri: "/api/graphql",
 })
 
-const errorLink = onError((errorResponse) => {
-  const errors = (errorResponse as any).graphQLErrors
-  const networkErr = (errorResponse as any).networkError
-
-  if (errors) {
-    errors.forEach((error: any) => {
+const errorLink = new ErrorLink(({ error }) => {
+  if (CombinedGraphQLErrors.is(error)) {
+    error.errors.forEach(({ message, locations, path }) => {
+      // eslint-disable-next-line no-console
       console.error(
-        `[GraphQL error]: Message: ${error.message}, Location: ${JSON.stringify(error.locations)}, Path: ${error.path}`,
+        `[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(locations)}, Path: ${path}`,
       )
     })
+  } else {
+    // eslint-disable-next-line no-console
+    console.error(`[Network error]: ${error}`)
   }
-  if (networkErr) console.error(`[Network error]: ${networkErr}`)
 })
 
 const client = new ApolloClient({
-  link: from([errorLink, httpLink]),
+  link: ApolloLink.from([errorLink, httpLink]),
   cache: new InMemoryCache(),
 })
 

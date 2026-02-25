@@ -1,6 +1,13 @@
 "use client"
 
-import { type FC, useMemo, useState, useRef, useEffect } from "react"
+import {
+  type FC,
+  useMemo,
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+} from "react"
 import { type LocationOption, getOptions } from "./helper"
 import SelectLocationOption from "./SelectLocationOption"
 import SelectMultipleLocationTag from "./SelectMultipleLocationTag"
@@ -40,6 +47,7 @@ const SelectMultipleLocation: FC<SelectMultipleLocationProps> = ({
   const t = useTranslations()
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState("")
+  const [focusedIndex, setFocusedIndex] = useState(-1)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const options = useMemo(() => {
@@ -76,10 +84,60 @@ const SelectMultipleLocation: FC<SelectMultipleLocationProps> = ({
   useEffect(() => {
     if (open) {
       setTimeout(() => inputRef.current?.focus(), 0)
-    } else {
-      setSearch("")
+      setFocusedIndex(-1)
     }
   }, [open])
+
+  useEffect(() => {
+    setFocusedIndex(-1)
+  }, [search])
+
+  useEffect(() => {
+    if (focusedIndex >= 0) {
+      document
+        .getElementById(`location-option-multi-${focusedIndex}`)
+        ?.scrollIntoView({ block: "nearest" })
+    }
+  }, [focusedIndex])
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (!open) return
+      const totalItems = filtered.length
+      switch (e.key) {
+        case "ArrowDown":
+          e.preventDefault()
+          setFocusedIndex((prev) => (prev + 1) % totalItems)
+          break
+        case "ArrowUp":
+          e.preventDefault()
+          setFocusedIndex((prev) => (prev - 1 + totalItems) % totalItems)
+          break
+        case "Enter": {
+          e.preventDefault()
+          if (focusedIndex === -1) break
+          const option = filtered[focusedIndex]
+          if (option) {
+            toggleOption(option.code)
+            // after selection the list shrinks by 1:
+            // prefer the item before, fall back to the item after (same index), else no focus
+            setFocusedIndex((prev) => {
+              const newLength = filtered.length - 1
+              if (newLength === 0) return -1
+              return Math.max(0, prev - 1)
+            })
+          }
+          break
+        }
+        case "Escape":
+          e.preventDefault()
+          setOpen(false)
+          break
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [open, filtered, focusedIndex],
+  )
 
   const toggleOption = (code: string) => {
     const current = value ?? []
@@ -112,7 +170,13 @@ const SelectMultipleLocation: FC<SelectMultipleLocationProps> = ({
           ))}
         </div>
       )}
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover
+        open={open}
+        onOpenChange={(o) => {
+          setOpen(o)
+          if (!o) setSearch("")
+        }}
+      >
         <PopoverTrigger asChild>
           <button
             type="button"
@@ -128,7 +192,7 @@ const SelectMultipleLocation: FC<SelectMultipleLocationProps> = ({
           </button>
         </PopoverTrigger>
         <PopoverContent
-          className="w-[var(--radix-popover-trigger-width)] p-0"
+          className="w-(--radix-popover-trigger-width) p-0"
           align="start"
         >
           <div className="p-2">
@@ -137,17 +201,25 @@ const SelectMultipleLocation: FC<SelectMultipleLocationProps> = ({
               placeholder={t("actions.search")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
+              onKeyDown={handleKeyDown}
               className="h-8"
+              aria-activedescendant={
+                focusedIndex >= 0
+                  ? `location-option-multi-${focusedIndex}`
+                  : undefined
+              }
             />
           </div>
           <div className="max-h-60 overflow-y-auto px-1 pb-1" role="listbox">
-            {filtered.map((option) => (
+            {filtered.map((option, i) => (
               <SelectLocationOption
                 key={option.code}
+                id={`location-option-multi-${i}`}
                 mode={mode}
                 label={option.label}
                 flagCode={option.code}
                 selected={false}
+                focused={focusedIndex === i}
                 onClick={() => toggleOption(option.code)}
               />
             ))}

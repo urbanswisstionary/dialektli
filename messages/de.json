@@ -76,7 +76,12 @@
     "selectImage": "Bild auswählen",
     "bookmark": "Lesezeichen",
     "addBookmark": "Lesezeichen hinzufügen",
-    "removeBookmark": "Lesezeichen entfernen"
+    "removeBookmark": "Lesezeichen entfernen",
+    "colorScheme": {
+      "light": "Hell",
+      "dark": "Dunkel",
+      "system": "System"
+    }
   },
   "errors": {
     "imageSizeExceeded": "Die Dateigrösse darf 1.5 MB nicht überschreiten"
@@ -385,7 +390,7 @@
       "title": "Nutzungsbedingungen",
       "description": {
         "0": "Dialektli (das „Unternehmen“) bietet dialektli.ch (die „Website“) gemäß den unten aufgeführten Nutzungsbedingungen an.",
-        "1": "Das Unternehmen behält sich das Recht vor, diese Bedingungen von Zeit zu Zeit zu überarbeiten. Wir werden eine Mitteilung über alle wesentlichen Änderungen auf der Website veröffentlichen. Durch Ihre fortgesetzte Nutzung der Website erklären Sie sich mit diesen Bedingungen einverstanden, die unter <0>https://dialektli.ch/tos</0> verfügbar sind. Fragen zu den Nutzungsbedingungen können an die folgende E-Mail-Adresse gesendet werden: <1>urbanswisstionary@gmail.com</1>"
+        "1": "Das Unternehmen behält sich das Recht vor, diese Bedingungen von Zeit zu Zeit zu überarbeiten. Wir werden eine Mitteilung über alle wesentlichen Änderungen auf der Website veröffentlichen. Durch Ihre fortgesetzte Nutzung der Website erklären Sie sich mit diesen Bedingungen einverstanden, die unter https://dialektli.ch/tos verfügbar sind. Fragen zu den Nutzungsbedingungen können an die folgende E-Mail-Adresse gesendet werden: urbanswisstionary@gmail.com"
       },
       "tableOfContent": {
         "title": "Inhaltsverzeichnis",
@@ -447,9 +452,9 @@
           ]
         },
         "paragraph6": "Sie dürfen Inhalte nicht mit nicht autorisierten automatisierten Methoden („Bots“) übermitteln.",
-        "paragraph7": "Das Unternehmen hat keine Kontrolle über alle Inhalte, die von Dritten auf der Website veröffentlicht werden. Es kann auch keine Kontrolle ausüben und übernimmt keine Garantie für die Richtigkeit, Integrität oder Qualität dieser Inhalte. Sie verstehen, dass Sie durch die Nutzung der Website möglicherweise auf Inhalte stoßen, die Sie als beleidigend, unanständig, falsch oder anstößig empfinden könnten. Sie stimmen zu, dass das Unternehmen unter keinen Umständen für Inhalte haftbar gemacht wird, einschließlich etwaiger Fehler oder Auslassungen, und für Verluste oder Schäden jeglicher Art, die durch Ihre Nutzung der Inhalte entstehen. Wenn Sie anstößige Materialien melden möchten, können Sie für jedes Thema oder jede Antwort die Funktion „Zur Überprüfung melden“ verwenden. Dringende Probleme können an folgende Adresse gemeldet werden: <0>urbanswisstionary@gmail.com</0>",
+        "paragraph7": "Das Unternehmen hat keine Kontrolle über alle Inhalte, die von Dritten auf der Website veröffentlicht werden. Es kann auch keine Kontrolle ausüben und übernimmt keine Garantie für die Richtigkeit, Integrität oder Qualität dieser Inhalte. Sie verstehen, dass Sie durch die Nutzung der Website möglicherweise auf Inhalte stoßen, die Sie als beleidigend, unanständig, falsch oder anstößig empfinden könnten. Sie stimmen zu, dass das Unternehmen unter keinen Umständen für Inhalte haftbar gemacht wird, einschließlich etwaiger Fehler oder Auslassungen, und für Verluste oder Schäden jeglicher Art, die durch Ihre Nutzung der Inhalte entstehen. Wenn Sie anstößige Materialien melden möchten, können Sie für jedes Thema oder jede Antwort die Funktion \"Zur Überprüfung melden\" verwenden. Dringende Probleme können an folgende Adresse gemeldet werden: urbanswisstionary@gmail.com",
         "paragraph8": "Sie tragen die alleinige Verantwortung für alle Inhalte, die Sie auf der Website veröffentlichen. Sie sind für die Folgen der Veröffentlichung dieser Inhalte verantwortlich. Sie erklären sich damit einverstanden, das Unternehmen, seine leitenden Angestellten, Direktoren, Mitarbeiter und Vertreter von allen Ansprüchen, Verlusten, Kosten, Verbindlichkeiten, Schäden, Urteilen, Strafen, Zinsen und Ausgaben (einschließlich angemessener Anwaltskosten) zu entschädigen, zu verteidigen und schadlos zu halten. Gebühren, die sich aus einer tatsächlichen oder angeblichen Verletzung Ihrer Zusicherungen, Gewährleistungen oder Verpflichtungen gemäß diesen Nutzungsbedingungen oder aus einer tatsächlichen oder angeblichen Verletzung von geistigem Eigentum oder Eigentumsrechten durch von Ihnen auf der Website veröffentlichte Inhalte oder andere Informationen ergeben, sind von Ihnen zu tragen.",
-        "paragraph9": "Die Nutzung der Website unterliegt unserer Datenschutzrichtlinie, welche Sie unter <0>https://dialektli.ch/privacy-policy</0> einsehen können."
+        "paragraph9": "Die Nutzung der Website unterliegt unserer Datenschutzrichtlinie, welche Sie unter https://dialektli.ch/privacy-policy einsehen können."
       },
       "copyrightsAndOwnership": {
         "title": "Urheberrecht und Eigentum",
@@ -465,7 +470,7 @@
             "Sie müssen eine eidesstattliche Erklärung abgeben, dass die Informationen in Ihrer Mitteilung korrekt sind und dass Sie entweder der Inhaber des Urheberrechts oder des geistigen Eigentums sind oder berechtigt sind, im Namen des Inhabers des Urheberrechts oder des geistigen Eigentums zu handeln."
           ]
         },
-        "paragraph3": " Der Ansprechpartner des Unternehmens für die Meldung von Ansprüchen wegen Urheberrechtsverletzungen oder anderen Verletzungen des geistigen Eigentums ist per E-Mail unter <0>urbanswisstionary@gmail.com</0> erreichbar."
+        "paragraph3": " Der Ansprechpartner des Unternehmens für die Meldung von Ansprüchen wegen Urheberrechtsverletzungen oder anderen Verletzungen des geistigen Eigentums ist per E-Mail unter urbanswisstionary@gmail.com erreichbar."
       },
       "participationDisclaimer": {
         "title": "Haftungsausschluss zur Teilnahme",
@@ -497,7 +502,7 @@
           "Wann und wie wir Ihre Daten erfassen, verwenden und weitergeben",
           "Was sind Ihre Datenschutzrechte und wie Sie diese ausüben können"
         ],
-        "2": "Ihre Nutzung unterliegt auch unseren <0>Nutzungsbedingungen</0>."
+        "2": "Ihre Nutzung unterliegt auch unseren Nutzungsbedingungen."
       },
       "tableOfContent": {
         "title": "Inhaltsverzeichnis",
@@ -532,7 +537,7 @@
       },
       "informationRequestsAndDeletionRequests": {
         "title": "Auskunftsanfragen und Löschanfragen",
-        "paragraph": "Sie können die Offenlegung und/oder Löschung aller von uns über Sie gesammelten Informationen beantragen, indem Sie uns eine E-Mail mit den Einzelheiten Ihrer Anfrage an <0>urbanswisstionary@gmail.com</0> senden. Wir werden uns nach Erhalt Ihrer Anfrage mit Ihnen in Verbindung setzen, um Ihre Identität zu überprüfen und Ihre Anfrage zu bearbeiten. Bitte beachten Sie, dass Anfragen im Einzelfall geprüft werden und rechtlichen Anforderungen und in einigen Fällen einer Überprüfung unterliegen."
+        "paragraph": "Sie können die Offenlegung und/oder Löschung aller von uns über Sie gesammelten Informationen beantragen, indem Sie uns eine E-Mail mit den Einzelheiten Ihrer Anfrage an urbanswisstionary@gmail.com senden. Wir werden uns nach Erhalt Ihrer Anfrage mit Ihnen in Verbindung setzen, um Ihre Identität zu überprüfen und Ihre Anfrage zu bearbeiten. Bitte beachten Sie, dass Anfragen im Einzelfall geprüft werden und rechtlichen Anforderungen und in einigen Fällen einer Überprüfung unterliegen."
       },
       "dataStorage": {
         "title": "Datenspeicher",
@@ -552,7 +557,7 @@
       },
       "questions": {
         "title": "Fragen",
-        "paragraph": "Bei Fragen zu dieser Datenschutzrichtlinie wenden Sie sich bitte an <0>urbanswisstionary@gmail.com</0>."
+        "paragraph": "Bei Fragen zu dieser Datenschutzrichtlinie wenden Sie sich bitte an urbanswisstionary@gmail.com."
       }
     },
     "dmca": {
@@ -621,6 +626,9 @@
     "clear": "Zurücksetzen",
     "mapLoadError": "Kartendaten konnten nicht geladen werden",
     "mapAriaLabel": "Interaktive Karte der Schweizer Kantone mit Dialektausdrücken",
-    "inspiredBy": "Inspiriert von"
+    "inspiredBy": "Inspiriert von",
+    "zoomIn": "Heranzoomen",
+    "zoomOut": "Herauszoomen",
+    "zoomReset": "Zoom zurücksetzen"
   }
 }

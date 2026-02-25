@@ -76,7 +76,12 @@
     "selectImage": "Sélectionnez une image",
     "bookmark": "Marque-page",
     "addBookmark": "Ajouter un marque-page",
-    "removeBookmark": "Supprimer le marque-page"
+    "removeBookmark": "Supprimer le marque-page",
+    "colorScheme": {
+      "light": "Clair",
+      "dark": "Sombre",
+      "system": "Système"
+    }
   },
   "errors": {
     "imageSizeExceeded": "La taille du fichier ne doit pas dépasser 1.5 Mo"
@@ -619,6 +624,9 @@
     "clear": "Effacer",
     "mapLoadError": "Échec du chargement des données cartographiques",
     "mapAriaLabel": "Carte interactive des cantons suisses montrant les expressions dialectales",
-    "inspiredBy": "Inspiré par"
+    "inspiredBy": "Inspiré par",
+    "zoomIn": "Zoomer",
+    "zoomOut": "Dézoomer",
+    "zoomReset": "Réinitialiser le zoom"
   }
 }

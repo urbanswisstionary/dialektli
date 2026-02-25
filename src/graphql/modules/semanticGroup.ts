@@ -279,6 +279,7 @@ builder.mutationFields((t) => ({
           },
         })
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error("Failed to create semantic group:", error)
         throw new GraphQLError(
           error instanceof Error
@@ -326,6 +327,7 @@ builder.mutationFields((t) => ({
           },
         })
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error("Failed to update semantic group:", error)
         throw new GraphQLError(
           error instanceof Error
@@ -353,6 +355,7 @@ builder.mutationFields((t) => ({
         await prisma.semanticGroup.delete({ where: { id } })
         return true
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error("Failed to delete semantic group:", error)
         return false
       }

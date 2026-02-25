@@ -52,3 +52,8 @@ _old_backup/
 # kleiner sprachatlas research snapshots
 kleiner_atlas_*
 kleiner_snapshot_*
+
+
+# AI tooling
+.agents/
+skills-lock.json

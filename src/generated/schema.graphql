@@ -158,7 +158,6 @@ input ExpressionsQueryInput {
   limit: Int
   offset: Int
   q: String
-  slug: String
   sortByPopularity: Boolean
 }
 
