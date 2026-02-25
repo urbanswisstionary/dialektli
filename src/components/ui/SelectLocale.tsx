@@ -1,19 +1,22 @@
 "use client"
 
 import type { FC } from "react"
-import { useTranslations, useLocale } from "next-intl"
+
 import { Globe } from "lucide-react"
-import { useRouter, usePathname } from "@/i18n/navigation"
-import { routing } from "@/i18n/routing"
-import Flag from "./Flag"
+import { useTranslations, useLocale } from "next-intl"
+
+import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button"
+import { useRouter, usePathname } from "@/i18n/navigation"
+import { routing } from "@/i18n/routing"
 import { cn } from "@/lib/utils"
+
+import Flag from "./Flag"
 
 type Locale = (typeof routing.locales)[number]
 

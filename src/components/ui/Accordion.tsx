@@ -1,9 +1,11 @@
 "use client"
 
 import type { FC, PropsWithChildren } from "react"
-import { useState } from "react"
+
 import { ChevronDown } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { useState } from "react"
+
 import { cn } from "@/lib/utils"
 
 type AccordionContent = PropsWithChildren<{

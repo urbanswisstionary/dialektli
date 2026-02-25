@@ -1,18 +1,19 @@
 "use client"
 
+import { Loader2 } from "lucide-react"
+import { useTranslations } from "next-intl"
+import { useEffect, useState } from "react"
+
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import {
   useMe,
   useUpdateUserMutation,
   useVerifyUserNameIsUniqueQuery,
 } from "@/hooks/useUsers"
 import { useRouter } from "@/i18n/navigation"
-import { useTranslations } from "next-intl"
-import { Card, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Button } from "@/components/ui/button"
-import { Loader2 } from "lucide-react"
-import { useEffect, useState } from "react"
 
 export default function WelcomePage() {
   const t = useTranslations()
@@ -100,7 +101,6 @@ export default function WelcomePage() {
                       setName(e.target.value)
                       setError("")
                     }}
-                    autoFocus
                     required
                   />
                   <p

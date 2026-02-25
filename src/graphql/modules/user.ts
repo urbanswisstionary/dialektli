@@ -1,8 +1,10 @@
 import { Prisma, Role } from "@prisma/client"
-import { builder, ValidationError } from "../builder"
-import prisma from "@/lib/prisma"
 import { GraphQLError } from "graphql"
 import { z } from "zod"
+
+import prisma from "@/lib/prisma"
+
+import { builder, ValidationError } from "../builder"
 
 const RoleEnum = builder.enumType(Role, {
   name: "Role",
@@ -119,7 +121,7 @@ builder.queryFields((t) => ({
         ])
         return { users, count }
       } catch (error) {
-        // eslint-disable-next-line no-console
+        // oxlint-disable-next-line no-console
         console.error(error)
       }
     },

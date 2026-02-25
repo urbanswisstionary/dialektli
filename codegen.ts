@@ -1,6 +1,7 @@
 import { CodegenConfig } from "@graphql-codegen/cli"
-import { schema } from "./src/graphql/schema"
 import { printSchema } from "graphql"
+
+import { schema } from "./src/graphql/schema"
 
 const config: CodegenConfig = {
   overwrite: true,
@@ -19,7 +20,7 @@ const config: CodegenConfig = {
     },
   },
   hooks: {
-    afterOneFileWrite: ["prettier --write"],
+    afterOneFileWrite: ["oxfmt"],
   },
   config: {
     useTypeImports: true,

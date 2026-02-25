@@ -1,10 +1,12 @@
 "use client"
 
 import type { FC } from "react"
-import { Separator } from "@/components/ui/separator"
-import { Link, usePathname } from "@/i18n/navigation"
+
 import { useTranslations } from "next-intl"
+
+import { Separator } from "@/components/ui/separator"
 import { companyName } from "@/config/constants"
+import { Link, usePathname } from "@/i18n/navigation"
 
 const footerSections = {
   about: [{ href: "/about", label: "about" }],

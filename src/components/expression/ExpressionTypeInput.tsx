@@ -1,8 +1,8 @@
 "use client"
 
-import { type FC, useMemo } from "react"
-import { ExpressionType } from "@/generated/graphql"
 import { useTranslations } from "next-intl"
+import { type FC, useMemo } from "react"
+
 import { Label } from "@/components/ui/label"
 import {
   Select,
@@ -11,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { ExpressionType } from "@/generated/graphql"
 import { cn } from "@/lib/utils"
 
 export const expressionTypes = Object.values(ExpressionType)

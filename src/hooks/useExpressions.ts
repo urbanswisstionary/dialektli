@@ -1,5 +1,7 @@
 "use client"
 
+import { useMutation, useQuery } from "@apollo/client/react"
+
 import { graphql } from "@/generated"
 import {
   CreateExpressionExampleInput,
@@ -9,7 +11,6 @@ import {
   UpdateExpressionInput,
   Expression,
 } from "@/generated/graphql"
-import { useMutation, useQuery } from "@apollo/client/react"
 
 export const ExpressionExampleFragment = graphql(/* GraphQL */ `
   fragment ExpressionExampleFragment on ExpressionExample {

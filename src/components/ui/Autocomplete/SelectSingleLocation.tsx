@@ -1,5 +1,6 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import {
   type FC,
   useMemo,
@@ -8,17 +9,18 @@ import {
   useEffect,
   useCallback,
 } from "react"
+
 import Flag from "@/components/ui/Flag"
-import SelectLocationOption from "./SelectLocationOption"
-import { getOptions } from "./helper"
-import { useTranslations } from "next-intl"
+import { Input } from "@/components/ui/input"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
+
+import { getOptions } from "./helper"
+import SelectLocationOption from "./SelectLocationOption"
 
 interface SelectSingleLocationProps {
   value: string | null | undefined
@@ -207,6 +209,13 @@ const SelectSingleLocation: FC<SelectSingleLocationProps> = ({
                   onChange(null)
                   setOpen(false)
                   setSearch("")
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    onChange(null)
+                    setOpen(false)
+                    setSearch("")
+                  }
                 }}
                 className={cn(
                   "flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-muted-foreground hover:bg-accent",

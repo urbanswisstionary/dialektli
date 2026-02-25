@@ -1,5 +1,7 @@
 "use client"
 
+import type { ReactNode } from "react"
+
 import {
   ApolloClient,
   ApolloLink,
@@ -9,7 +11,6 @@ import {
 import { CombinedGraphQLErrors } from "@apollo/client/errors"
 import { ErrorLink } from "@apollo/client/link/error"
 import { ApolloProvider as ApolloProviderLib } from "@apollo/client/react"
-import type { ReactNode } from "react"
 
 const httpLink = new HttpLink({
   uri: "/api/graphql",
@@ -18,13 +19,13 @@ const httpLink = new HttpLink({
 const errorLink = new ErrorLink(({ error }) => {
   if (CombinedGraphQLErrors.is(error)) {
     error.errors.forEach(({ message, locations, path }) => {
-      // eslint-disable-next-line no-console
+      // oxlint-disable-next-line no-console
       console.error(
         `[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(locations)}, Path: ${path}`,
       )
     })
   } else {
-    // eslint-disable-next-line no-console
+    // oxlint-disable-next-line no-console
     console.error(`[Network error]: ${error}`)
   }
 })

@@ -1,7 +1,9 @@
 import type { NextAuthOptions } from "next-auth"
-import Google from "next-auth/providers/google"
-import Credentials from "next-auth/providers/credentials"
+
 import { Role } from "@prisma/client"
+import Credentials from "next-auth/providers/credentials"
+import Google from "next-auth/providers/google"
+
 import prisma from "@/lib/prisma"
 
 const providers = []

@@ -1,8 +1,9 @@
 "use client"
 
-import { useEffect } from "react"
-import Link from "next/link"
 import { TriangleAlert, RotateCcw, Home } from "lucide-react"
+import Link from "next/link"
+import { useEffect } from "react"
+
 import { Button } from "@/components/ui/button"
 
 export default function Error({
@@ -13,7 +14,7 @@ export default function Error({
   reset: () => void
 }) {
   useEffect(() => {
-    // eslint-disable-next-line no-console
+    // oxlint-disable-next-line no-console
     console.error(error)
   }, [error])
 

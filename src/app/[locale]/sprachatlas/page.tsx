@@ -1,14 +1,11 @@
 "use client"
 
-import { useMemo, useState } from "react"
-import { graphql } from "@/generated"
-import { Language } from "@/generated/graphql"
 import { useQuery } from "@apollo/client/react"
-import { CantonMap } from "@/components/map/CantonMap"
-import { getCantonName } from "@/config/cantons"
-import { Link } from "@/i18n/navigation"
-import { useTranslations, useLocale } from "next-intl"
 import { Loader2, X } from "lucide-react"
+import { useTranslations, useLocale } from "next-intl"
+import { useMemo, useState } from "react"
+
+import { CantonMap } from "@/components/map/CantonMap"
 import { Badge } from "@/components/ui/badge"
 import CantonBadge from "@/components/ui/CantonBadge"
 import {
@@ -18,6 +15,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { getCantonName } from "@/config/cantons"
+import { graphql } from "@/generated"
+import { Language } from "@/generated/graphql"
+import { Link } from "@/i18n/navigation"
 
 const CantonOverviewQuery = graphql(/* GraphQL */ `
   query CantonOverview($language: Language) {

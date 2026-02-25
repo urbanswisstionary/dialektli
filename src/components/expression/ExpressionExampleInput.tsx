@@ -1,12 +1,13 @@
 "use client"
 
-import { useRef, type FC, useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
-import { useTranslations } from "next-intl"
-import SelectMultipleLocation from "@/components/ui/Autocomplete/SelectMultipleLocation"
 import isEqual from "lodash/isEqual"
 import { Trash2 } from "lucide-react"
+import { useTranslations } from "next-intl"
+import { useRef, type FC, useState } from "react"
+
+import SelectMultipleLocation from "@/components/ui/Autocomplete/SelectMultipleLocation"
+import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
 
 export const exampleMaxLength = 440
@@ -52,7 +53,11 @@ const ExpressionExampleInput: FC<ExpressionExampleInputProps> = ({
       <div className="space-y-2">
         <div
           className="flex justify-between items-center"
+          role="presentation"
           onClick={() => textareaRef.current?.focus()}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") textareaRef.current?.focus()
+          }}
         >
           <span
             className={cn(

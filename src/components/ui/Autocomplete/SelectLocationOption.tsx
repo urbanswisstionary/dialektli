@@ -1,6 +1,7 @@
 "use client"
 
 import type { FC } from "react"
+
 import Flag from "@/components/ui/Flag"
 import { cn } from "@/lib/utils"
 
@@ -30,6 +31,9 @@ const SelectLocationOption: FC<SelectLocationOptionProps> = ({
     role="option"
     aria-selected={selected}
     onClick={onClick}
+    onKeyDown={(e) => {
+      if (e.key === "Enter" || e.key === " ") onClick?.()
+    }}
     className={cn(
       "flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm hover:bg-accent",
       selected && "bg-accent",

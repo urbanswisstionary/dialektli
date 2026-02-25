@@ -2,6 +2,7 @@
 
 /* eslint-disable @next/next/no-img-element */
 import type { FC } from "react"
+
 import { companyName } from "@/config/constants"
 import { cn } from "@/lib/utils"
 

@@ -1,8 +1,10 @@
-import NextAuth, { type NextAuthOptions } from "next-auth"
 import { PrismaAdapter } from "@auth/prisma-adapter"
-import prisma from "@/lib/prisma"
-import authConfig from "./auth.config"
 import { Role } from "@prisma/client"
+import NextAuth, { type NextAuthOptions } from "next-auth"
+
+import prisma from "@/lib/prisma"
+
+import authConfig from "./auth.config"
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma) as any,

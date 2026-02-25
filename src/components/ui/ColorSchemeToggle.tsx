@@ -1,11 +1,12 @@
 "use client"
 
 import type { FC } from "react"
+
 import { Sun, Moon, Check } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import { useTranslations } from "next-intl"
 import { useTheme } from "next-themes"
 
+import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,

@@ -1,14 +1,17 @@
+import type { Metadata } from "next"
+import type { ReactNode } from "react"
+
 import { NextIntlClientProvider } from "next-intl"
 import { getMessages } from "next-intl/server"
-import { notFound } from "next/navigation"
-import { locales } from "../../i18n/request"
-import type { ReactNode } from "react"
-import type { Metadata } from "next"
-import ThemeProvider from "@/components/providers/ThemeProvider"
-import ApolloProvider from "@/components/providers/ApolloProvider"
-import Layout from "@/components/layout/Layout"
-import SessionProvider from "@/components/providers/SessionProvider"
 import { Roboto } from "next/font/google"
+import { notFound } from "next/navigation"
+
+import Layout from "@/components/layout/Layout"
+import ApolloProvider from "@/components/providers/ApolloProvider"
+import SessionProvider from "@/components/providers/SessionProvider"
+import ThemeProvider from "@/components/providers/ThemeProvider"
+
+import { locales } from "../../i18n/request"
 import "@/app/globals.css"
 
 const roboto = Roboto({

@@ -1,8 +1,11 @@
 "use client"
 
 import type { FC } from "react"
+
 import { useTranslations } from "next-intl"
+
 import { ExpressionFragmentFragment } from "@/generated/graphql"
+
 import ExpressionCardContentList from "./ExpressionCardContentList"
 
 type ExpressionCardExamplesProps = {

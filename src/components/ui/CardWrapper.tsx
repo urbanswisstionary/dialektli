@@ -1,6 +1,11 @@
 "use client"
 
 import type { FC, ReactNode } from "react"
+
+import { Trash2 } from "lucide-react"
+import { useTranslations } from "next-intl"
+
+import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -9,10 +14,7 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
-import { Trash2 } from "lucide-react"
-import { useTranslations } from "next-intl"
 
 type ActionButtonProps = {
   disabled?: boolean

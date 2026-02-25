@@ -39,7 +39,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    // eslint-disable-next-line no-console
+    // oxlint-disable-next-line no-console
     console.error("Contact form email error:", error)
     return NextResponse.json(
       { error: "Failed to send message" },

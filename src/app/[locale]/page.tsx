@@ -1,5 +1,11 @@
 "use client"
 
+import { useTranslations } from "next-intl"
+import dynamic from "next/dynamic"
+import { useSearchParams } from "next/navigation"
+import { useMemo } from "react"
+
+import SelectSingleLocation from "@/components/ui/Autocomplete/SelectSingleLocation"
 import SearchExpressionsInput from "@/components/ui/SearchExpressionsInput"
 import {
   Select,
@@ -8,17 +14,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { useExpressionsQuery } from "@/hooks/useExpressions"
-import SelectSingleLocation from "@/components/ui/Autocomplete/SelectSingleLocation"
-import { useRouter, usePathname } from "@/i18n/navigation"
-import { useSearchParams } from "next/navigation"
-import { setQueryOnPage } from "@/utils/setQueryOnPage"
-import { usePaginationState } from "@/hooks/usePaginationState"
-import { useTranslations } from "next-intl"
-import { useMemo } from "react"
-import { sanitizeCanton, sanitizeFirstChar } from "@/utils/sanitizeQueries"
 import { Language } from "@/generated/graphql"
-import dynamic from "next/dynamic"
+import { useExpressionsQuery } from "@/hooks/useExpressions"
+import { usePaginationState } from "@/hooks/usePaginationState"
+import { useRouter, usePathname } from "@/i18n/navigation"
+import { sanitizeCanton, sanitizeFirstChar } from "@/utils/sanitizeQueries"
+import { setQueryOnPage } from "@/utils/setQueryOnPage"
 
 const SelectLetter = dynamic(
   () => import("@/components/ui/Select/SelectLetter"),

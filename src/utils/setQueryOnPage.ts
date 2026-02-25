@@ -1,7 +1,8 @@
 "use client"
 
-import { useRouter } from "@/i18n/navigation"
 import { useSearchParams } from "next/navigation"
+
+import { useRouter } from "@/i18n/navigation"
 
 type Query = {
   [paramName: string]: string | string[] | number | number[] | null | undefined

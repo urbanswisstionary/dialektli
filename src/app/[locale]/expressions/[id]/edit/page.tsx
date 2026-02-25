@@ -1,32 +1,33 @@
 "use client"
 
-import { useState, useMemo, useEffect, type FormEventHandler } from "react"
+import isEqual from "lodash/isEqual"
+import { Loader2 } from "lucide-react"
+import { useTranslations } from "next-intl"
 import { useRouter, useParams } from "next/navigation"
-import { useMe } from "@/hooks/useUsers"
-import {
-  useExpression,
-  useUpdateExpressionMutation,
-  useDeleteExpressionMutation,
-  ExpressionFragment,
-} from "@/hooks/useExpressions"
+import { useState, useMemo, useEffect, type FormEventHandler } from "react"
+
+import ExpressionDefinitionInput from "@/components/expression/ExpressionDefinitionInput"
+import ExpressionGenderInput from "@/components/expression/ExpressionGenderInput"
+import ExpressionInput from "@/components/expression/ExpressionInput"
+import ExpressionTypeInput from "@/components/expression/ExpressionTypeInput"
+import SelectMultipleLocation from "@/components/ui/Autocomplete/SelectMultipleLocation"
+import Card from "@/components/ui/CardWrapper"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Label } from "@/components/ui/label"
+import { getFragmentData } from "@/generated"
 import {
   Language,
   ExpressionGender,
   ExpressionType,
   UpdateExpressionInput,
 } from "@/generated/graphql"
-import { getFragmentData } from "@/generated"
-import { Loader2 } from "lucide-react"
-import { useTranslations } from "next-intl"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Label } from "@/components/ui/label"
-import ExpressionInput from "@/components/expression/ExpressionInput"
-import ExpressionDefinitionInput from "@/components/expression/ExpressionDefinitionInput"
-import SelectMultipleLocation from "@/components/ui/Autocomplete/SelectMultipleLocation"
-import ExpressionGenderInput from "@/components/expression/ExpressionGenderInput"
-import ExpressionTypeInput from "@/components/expression/ExpressionTypeInput"
-import Card from "@/components/ui/CardWrapper"
-import isEqual from "lodash/isEqual"
+import {
+  useExpression,
+  useUpdateExpressionMutation,
+  useDeleteExpressionMutation,
+  ExpressionFragment,
+} from "@/hooks/useExpressions"
+import { useMe } from "@/hooks/useUsers"
 
 type EditExpressionState = {
   title?: string | null

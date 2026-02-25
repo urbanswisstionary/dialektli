@@ -1,12 +1,12 @@
 "use client"
 
 import { useMutation, useQuery } from "@apollo/client/react"
-import { MeQuery, Role, UpdateUserInput } from "@/generated/graphql"
-import { getFragmentData, graphql } from "@/generated"
 import { useSession } from "next-auth/react"
-
-import { useRouter } from "@/i18n/navigation"
 import { useEffect } from "react"
+
+import { getFragmentData, graphql } from "@/generated"
+import { MeQuery, Role, UpdateUserInput } from "@/generated/graphql"
+import { useRouter } from "@/i18n/navigation"
 
 export const MeFragment = graphql(/* GraphQL */ `
   fragment MeFragment on User {

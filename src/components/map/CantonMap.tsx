@@ -1,19 +1,21 @@
 "use client"
 
+import { ZoomIn, ZoomOut, RotateCcw } from "lucide-react"
+import { useLocale, useTranslations } from "next-intl"
 import { useState, useMemo, useRef, useCallback, useEffect } from "react"
 import useSWR from "swr"
+
+import { Skeleton } from "@/components/ui/skeleton"
+import { getCantonName, CANTON_COLORS } from "@/config/cantons"
 import {
   type CantonPathData,
   computeCentroidFromPath,
   computeBoundingBox,
 } from "@/lib/canton-utils"
-import { getCantonName, CANTON_COLORS } from "@/config/cantons"
-import { CantonTooltip } from "./CantonTooltip"
-import { Skeleton } from "@/components/ui/skeleton"
-import { useLocale, useTranslations } from "next-intl"
-import { ZoomIn, ZoomOut, RotateCcw } from "lucide-react"
 import { cn } from "@/lib/utils"
+
 import { Button } from "../ui/button"
+import { CantonTooltip } from "./CantonTooltip"
 
 const fetcher = (url: string) =>
   fetch(url).then((res) => {
@@ -306,6 +308,7 @@ export function CantonMap({
   return (
     <div
       ref={containerRef}
+      role="application"
       className="relative"
       onMouseMove={handleMouseMove}
       onMouseDown={handleMouseDown}
@@ -338,6 +341,7 @@ export function CantonMap({
               onMouseEnter={() => setHoveredCanton(canton.id)}
               onMouseLeave={() => setHoveredCanton(null)}
               className={cn("outline-none", zoom <= 1 && "cursor-pointer")}
+              // oxlint-disable-next-line jsx_a11y/prefer-tag-over-role
               role="button"
               tabIndex={0}
               aria-label={`${getCantonName(canton.id, locale)}: ${counts[canton.id] || 0} ${(counts[canton.id] || 0) === 1 ? t("expressionSingular") : t("expressionPlural")}`}
@@ -367,7 +371,6 @@ export function CantonMap({
               ))}
               {offset ? (
                 <g
-                  role="button"
                   onMouseEnter={() => setHoveredCanton(canton.id)}
                   onMouseLeave={() => setHoveredCanton(null)}
                 >

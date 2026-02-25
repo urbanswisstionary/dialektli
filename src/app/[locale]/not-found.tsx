@@ -1,7 +1,8 @@
-import { getTranslations } from "next-intl/server"
-import { Link } from "@/i18n/navigation"
 import { MapPin, Home, Map } from "lucide-react"
+import { getTranslations } from "next-intl/server"
+
 import { Button } from "@/components/ui/button"
+import { Link } from "@/i18n/navigation"
 
 export default async function NotFound() {
   const t = await getTranslations("404Page")

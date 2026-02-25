@@ -1,6 +1,5 @@
 "use client"
 
-import { useState, type FC } from "react"
 import {
   Plus,
   Search,
@@ -12,7 +11,13 @@ import {
   Users,
   BookOpen,
 } from "lucide-react"
+import { signOut } from "next-auth/react"
+import { useTranslations } from "next-intl"
+import { useState, type FC } from "react"
+
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
+import ColorSchemeToggle from "@/components/ui/ColorSchemeToggle"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,18 +25,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import Logo from "@/components/ui/Logo"
-import ColorSchemeToggle from "@/components/ui/ColorSchemeToggle"
-import SelectLocale from "@/components/ui/SelectLocale"
 import SearchExpressionsInput from "@/components/ui/SearchExpressionsInput"
-import MobileDrawer from "./MobileDrawer"
-import { Link, usePathname } from "@/i18n/navigation"
-import { useMe } from "@/hooks/useUsers"
-import { useTranslations } from "next-intl"
-import { signOut } from "next-auth/react"
+import SelectLocale from "@/components/ui/SelectLocale"
 import { companyName } from "@/config/constants"
+import { useMe } from "@/hooks/useUsers"
+import { Link, usePathname } from "@/i18n/navigation"
 import { cn } from "@/lib/utils"
+
+import MobileDrawer from "./MobileDrawer"
 
 function getInitials(name: string): string {
   return name

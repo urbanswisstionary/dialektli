@@ -1,9 +1,10 @@
 "use client"
 
 import { signIn } from "next-auth/react"
+import { useTranslations } from "next-intl"
 import { useSearchParams } from "next/navigation"
 import { useState } from "react"
-import { useTranslations } from "next-intl"
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"

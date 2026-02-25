@@ -1,6 +1,7 @@
+import type { Language } from "@/generated/graphql"
+
 import { getOptions, languages } from "@/components/ui/Autocomplete/helper"
 import { allLetters } from "@/components/ui/Select/helper"
-import type { Language } from "@/generated/graphql"
 
 export const sanitizeCanton = (canton?: string): string | undefined => {
   const cantonsList = getOptions("canton").map((canton) => canton.code)

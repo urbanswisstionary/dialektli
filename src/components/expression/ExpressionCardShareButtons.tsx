@@ -1,8 +1,12 @@
 "use client"
 
-import { useState } from "react"
 import type { FC } from "react"
-import { ExpressionFragmentFragment } from "@/generated/graphql"
+
+import { Share2, Copy } from "lucide-react"
+import { useTranslations } from "next-intl"
+import dynamic from "next/dynamic"
+import { useState } from "react"
+
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -10,9 +14,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import dynamic from "next/dynamic"
-import { Share2, Copy } from "lucide-react"
-import { useTranslations } from "next-intl"
+import { ExpressionFragmentFragment } from "@/generated/graphql"
 
 const EmailShareButton = dynamic(
   () => import("react-share").then((module) => module.EmailShareButton),

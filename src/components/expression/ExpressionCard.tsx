@@ -1,31 +1,33 @@
 "use client"
 
 import type { FC } from "react"
-import { Card, CardContent } from "@/components/ui/card"
+
+import { useTranslations } from "next-intl"
+import { useLocale } from "next-intl"
+import { useSearchParams } from "next/navigation"
+
 import { Badge } from "@/components/ui/badge"
+import CantonBadge from "@/components/ui/CantonBadge"
+import { Card, CardContent } from "@/components/ui/card"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { getFragmentData } from "@/generated"
 import { ExpressionFragmentFragment } from "@/generated/graphql"
-import ExpressionCardExamples from "./ExpressionCardExamples"
-import CantonBadge from "@/components/ui/CantonBadge"
-import { useTranslations } from "next-intl"
+import { ExpressionExampleFragment } from "@/hooks/useExpressions"
+import { useMe } from "@/hooks/useUsers"
 import { useRouter, usePathname, Link } from "@/i18n/navigation"
-import { useSearchParams } from "next/navigation"
+import { formatExpressionDate } from "@/utils/formatExpressionDate"
 import { setQueryOnPage } from "@/utils/setQueryOnPage"
+
+import BookmarkButton from "./BookmarkButton"
+import ExpressionCardExamples from "./ExpressionCardExamples"
 import ExpressionCardShareButtons from "./ExpressionCardShareButtons"
 import ExpressionCardSynonyms from "./ExpressionCardSynonyms"
-import { formatExpressionDate } from "@/utils/formatExpressionDate"
-import { useLocale } from "next-intl"
-import { useMe } from "@/hooks/useUsers"
-
 import LikeDislikeButtons from "./LikeDislikeButtons"
-import BookmarkButton from "./BookmarkButton"
-import { getFragmentData } from "@/generated"
-import { ExpressionExampleFragment } from "@/hooks/useExpressions"
 
 type ExpressionCardProps = {
   expression: ExpressionFragmentFragment

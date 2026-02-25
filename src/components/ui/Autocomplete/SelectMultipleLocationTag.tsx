@@ -1,9 +1,12 @@
 "use client"
 
 import type { FC } from "react"
-import Flag from "@/components/ui/Flag"
-import { Badge } from "@/components/ui/badge"
+
 import { X } from "lucide-react"
+
+import { Badge } from "@/components/ui/badge"
+import Flag from "@/components/ui/Flag"
+
 import type { LocationOption } from "./helper"
 
 interface SelectMultipleLocationTagProps {

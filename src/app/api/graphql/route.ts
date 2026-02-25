@@ -1,14 +1,16 @@
+import { authOptions } from "@@/auth"
 import { ApolloServer } from "@apollo/server"
 import { ApolloServerPluginLandingPageDisabled } from "@apollo/server/plugin/disabled"
 import { ApolloServerPluginLandingPageLocalDefault } from "@apollo/server/plugin/landingPage/default"
 import { startServerAndCreateNextHandler } from "@as-integrations/next"
-import { schema } from "@/graphql/schema"
-import type { Context } from "@/graphql/builder"
-import { getServerSession } from "next-auth"
-import { NextRequest, NextResponse } from "next/server"
-import { authOptions } from "@@/auth"
 import { Ratelimit } from "@upstash/ratelimit"
 import { Redis } from "@upstash/redis"
+import { getServerSession } from "next-auth"
+import { NextRequest, NextResponse } from "next/server"
+
+import type { Context } from "@/graphql/builder"
+
+import { schema } from "@/graphql/schema"
 
 const isProd = process.env.NODE_ENV === "production"
 

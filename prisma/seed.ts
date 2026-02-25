@@ -1,6 +1,6 @@
-/* eslint-disable no-console */
-import { PrismaClient } from "@prisma/client"
+// oxlint-disable no-console
 import { PrismaPg } from "@prisma/adapter-pg"
+import { PrismaClient } from "@prisma/client"
 import pg from "pg"
 
 const pool = new pg.Pool({

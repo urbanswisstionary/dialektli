@@ -1,13 +1,17 @@
+import type { Session } from "next-auth"
+
 import SchemaBuilder from "@pothos/core"
 import ErrorsPlugin from "@pothos/plugin-errors"
-import ZodPlugin from "@pothos/plugin-zod"
 import PrismaPlugin from "@pothos/plugin-prisma"
 import SimpleObjectsPlugin from "@pothos/plugin-simple-objects"
-import type PrismaTypes from "../../generated/pothos-types"
-import { getDatamodel } from "../../generated/pothos-types"
-import prisma from "@/lib/prisma"
-import type { Session } from "next-auth"
+import ZodPlugin from "@pothos/plugin-zod"
 import { DateTimeResolver } from "graphql-scalars"
+
+import prisma from "@/lib/prisma"
+
+import type PrismaTypes from "../../generated/pothos-types"
+
+import { getDatamodel } from "../../generated/pothos-types"
 
 export type Context = {
   session: Session | null

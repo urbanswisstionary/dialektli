@@ -1,24 +1,25 @@
 "use client"
 
-import { useState, FC, useRef } from "react"
-import { useRouter, usePathname } from "@/i18n/navigation"
-import { useSearchParams } from "next/navigation"
-import { setQueryOnPage } from "@/utils/setQueryOnPage"
 import { useQuery } from "@apollo/client/react"
-import { getFragmentData, graphql } from "@/generated"
-import {
-  ExpressionOptionFragmentFragment,
-  ExpressionsQueryInput,
-} from "@/generated/graphql"
+import { Search } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { useSearchParams } from "next/navigation"
+import { useState, FC, useRef } from "react"
+
+import { Input } from "@/components/ui/input"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { Input } from "@/components/ui/input"
-import { Search } from "lucide-react"
+import { getFragmentData, graphql } from "@/generated"
+import {
+  ExpressionOptionFragmentFragment,
+  ExpressionsQueryInput,
+} from "@/generated/graphql"
+import { useRouter, usePathname } from "@/i18n/navigation"
 import { cn } from "@/lib/utils"
+import { setQueryOnPage } from "@/utils/setQueryOnPage"
 
 const ExpressionOptionFragment = graphql(/* GraphQL */ `
   fragment ExpressionOptionFragment on Expression {
@@ -130,7 +131,7 @@ const SearchExpressionsInput: FC<SearchExpressionsInputProps> = ({
           </div>
         </PopoverTrigger>
         <PopoverContent
-          className="w-[var(--radix-popover-trigger-width)] p-0"
+          className="w-(--radix-popover-trigger-width) p-0"
           align="start"
           onOpenAutoFocus={(e) => e.preventDefault()}
         >
@@ -146,6 +147,10 @@ const SearchExpressionsInput: FC<SearchExpressionsInputProps> = ({
                     role="option"
                     aria-selected={selectedOption?.id === option.id}
                     onClick={() => handleSelect(option)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ")
+                        handleSelect(option)
+                    }}
                     className={cn(
                       "cursor-pointer rounded-sm px-2 py-1.5 text-sm hover:bg-accent",
                       selectedOption?.id === option.id && "bg-accent",

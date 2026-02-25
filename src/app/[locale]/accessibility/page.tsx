@@ -1,6 +1,7 @@
 "use client"
 
 import { useTranslations } from "next-intl"
+
 import { Card, CardContent } from "@/components/ui/card"
 
 export default function AccessibilityPage() {

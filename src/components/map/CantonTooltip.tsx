@@ -1,6 +1,7 @@
 "use client"
 
 import { useTranslations } from "next-intl"
+
 import CantonBadge from "@/components/ui/CantonBadge"
 
 interface CantonTooltipProps {

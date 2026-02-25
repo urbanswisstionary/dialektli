@@ -1,5 +1,6 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import {
   type FC,
   useMemo,
@@ -8,17 +9,18 @@ import {
   useEffect,
   useCallback,
 } from "react"
-import { type LocationOption, getOptions } from "./helper"
-import SelectLocationOption from "./SelectLocationOption"
-import SelectMultipleLocationTag from "./SelectMultipleLocationTag"
-import { useTranslations } from "next-intl"
+
+import { Input } from "@/components/ui/input"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
+
+import { type LocationOption, getOptions } from "./helper"
+import SelectLocationOption from "./SelectLocationOption"
+import SelectMultipleLocationTag from "./SelectMultipleLocationTag"
 
 interface SelectMultipleLocationProps {
   value: string[] | null | undefined

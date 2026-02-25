@@ -1,12 +1,15 @@
 "use client"
 
 import type { FC } from "react"
+
 import { useTranslations } from "next-intl"
-import { ExpressionFragmentFragment } from "@/generated/graphql"
+
 import Flag from "@/components/ui/Flag"
-import { Link } from "@/i18n/navigation"
-import ExpressionCardContentList from "./ExpressionCardContentList"
 import { Separator } from "@/components/ui/separator"
+import { ExpressionFragmentFragment } from "@/generated/graphql"
+import { Link } from "@/i18n/navigation"
+
+import ExpressionCardContentList from "./ExpressionCardContentList"
 
 type ExpressionCardSynonymsProps = {
   expression: ExpressionFragmentFragment

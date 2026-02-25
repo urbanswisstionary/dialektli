@@ -1,10 +1,12 @@
 "use client"
 
 import type { FC } from "react"
+
+import { useTranslations } from "next-intl"
+
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { ExpressionGender } from "@/generated/graphql"
-import { useTranslations } from "next-intl"
 import { cn } from "@/lib/utils"
 
 export const expressionGenders = Object.values(ExpressionGender)

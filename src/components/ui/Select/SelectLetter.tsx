@@ -1,8 +1,10 @@
 "use client"
 
 import type { FC } from "react"
-import { allLetters } from "./helper"
+
 import { cn } from "@/lib/utils"
+
+import { allLetters } from "./helper"
 
 interface SelectLetterProps {
   value?: string
@@ -29,7 +31,6 @@ const SelectLetter: FC<SelectLetterProps> = ({
           <button
             key={i}
             type="button"
-            role="button"
             aria-label={letter}
             onClick={() => {
               if (onChange) onChange(letter)

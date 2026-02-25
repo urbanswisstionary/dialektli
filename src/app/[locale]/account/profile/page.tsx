@@ -1,21 +1,16 @@
 "use client"
 
-import {
-  useMe,
-  useAdminUsersQuery,
-  AdminUsersFragment,
-  useUpdateUserMutation,
-} from "@/hooks/useUsers"
-import { useSearchParams } from "next/navigation"
-import { useRouter } from "@/i18n/navigation"
+import { Pencil, Check, X, Loader2, Bookmark } from "lucide-react"
 import { useTranslations } from "next-intl"
-import { Card, CardContent } from "@/components/ui/card"
+import { useSearchParams } from "next/navigation"
+import { useEffect, useMemo, useState } from "react"
+
+import ExpressionCard from "@/components/expression/ExpressionCard"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
 import {
   Table,
   TableBody,
@@ -24,15 +19,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Pencil, Check, X, Loader2, Bookmark } from "lucide-react"
-import { useEffect, useMemo, useState } from "react"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Textarea } from "@/components/ui/textarea"
+import { getFragmentData } from "@/generated"
 import {
   useExpressionsQuery,
   useMyBookmarksQuery,
   ExpressionFragment,
 } from "@/hooks/useExpressions"
-import ExpressionCard from "@/components/expression/ExpressionCard"
-import { getFragmentData } from "@/generated"
+import {
+  useMe,
+  useAdminUsersQuery,
+  AdminUsersFragment,
+  useUpdateUserMutation,
+} from "@/hooks/useUsers"
+import { useRouter } from "@/i18n/navigation"
 
 type ViewType = "profile" | "expressions" | "favorites" | "users"
 
@@ -89,7 +90,7 @@ export default function ProfilePage() {
       await updateUser({ id: me.id, name: nameValue.trim() })
       setEditingName(false)
     } catch (error) {
-      // eslint-disable-next-line no-console
+      // oxlint-disable-next-line no-console
       console.error("Failed to update name:", error)
     }
   }
@@ -110,7 +111,7 @@ export default function ProfilePage() {
       await updateUser({ id: me.id, bio: bioValue.trim() || null })
       setEditingBio(false)
     } catch (error) {
-      // eslint-disable-next-line no-console
+      // oxlint-disable-next-line no-console
       console.error("Failed to update bio:", error)
     }
   }
@@ -162,7 +163,6 @@ export default function ProfilePage() {
                     <Input
                       value={nameValue}
                       onChange={(e) => setNameValue(e.target.value)}
-                      autoFocus
                       className="flex-1 h-8"
                     />
                     <Button
@@ -205,7 +205,6 @@ export default function ProfilePage() {
                   <Textarea
                     value={bioValue}
                     onChange={(e) => setBioValue(e.target.value)}
-                    autoFocus
                     className="flex-1"
                     rows={2}
                     placeholder={t("auth.profile.bioPlaceholder")}

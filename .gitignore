@@ -57,3 +57,5 @@ kleiner_snapshot_*
 # AI tooling
 .agents/
 skills-lock.json
+
+.vscode/

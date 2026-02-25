@@ -1,6 +1,5 @@
 "use client"
 
-import { useState, type FC } from "react"
 import {
   Menu,
   Map,
@@ -12,7 +11,15 @@ import {
   Users,
   BookOpen,
 } from "lucide-react"
+import { signOut } from "next-auth/react"
+import { useTranslations } from "next-intl"
+import { useState, type FC } from "react"
+
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
+import ColorSchemeToggle from "@/components/ui/ColorSchemeToggle"
+import SelectLocale from "@/components/ui/SelectLocale"
+import { Separator } from "@/components/ui/separator"
 import {
   Sheet,
   SheetContent,
@@ -20,15 +27,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import { Separator } from "@/components/ui/separator"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Link } from "@/i18n/navigation"
-import { useMe } from "@/hooks/useUsers"
-import { useTranslations } from "next-intl"
-import { signOut } from "next-auth/react"
 import { companyName } from "@/config/constants"
-import SelectLocale from "@/components/ui/SelectLocale"
-import ColorSchemeToggle from "@/components/ui/ColorSchemeToggle"
+import { useMe } from "@/hooks/useUsers"
+import { Link } from "@/i18n/navigation"
 
 function getInitials(name: string): string {
   return name

@@ -1,13 +1,15 @@
 "use client"
 
 import type { FC } from "react"
+
+import { Loader2 } from "lucide-react"
+import { useTranslations } from "next-intl"
+
 import ExpressionCard from "@/components/expression/ExpressionCard"
 import Pagination, { PaginationProps } from "@/components/ui/Pagination"
 import { FragmentType, getFragmentData } from "@/generated"
 import { ExpressionFragment } from "@/hooks/useExpressions"
 import { useMe } from "@/hooks/useUsers"
-import { Loader2 } from "lucide-react"
-import { useTranslations } from "next-intl"
 import { cn } from "@/lib/utils"
 
 interface ExpressionsCardsListProps {

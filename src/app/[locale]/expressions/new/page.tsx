@@ -1,20 +1,21 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { useRouter } from "@/i18n/navigation"
-import { useMe } from "@/hooks/useUsers"
-import { useCreateExpressionMutation } from "@/hooks/useExpressions"
-import { Language, ExpressionGender, ExpressionType } from "@/generated/graphql"
 import { Loader2 } from "lucide-react"
 import { useTranslations } from "next-intl"
-import ExpressionInput from "@/components/expression/ExpressionInput"
-import { HoneypotField } from "@/components/ui/HoneypotField"
+import { useState, useEffect } from "react"
+
 import ExpressionDefinitionInput from "@/components/expression/ExpressionDefinitionInput"
-import SelectMultipleLocation from "@/components/ui/Autocomplete/SelectMultipleLocation"
 import ExpressionGenderInput from "@/components/expression/ExpressionGenderInput"
+import ExpressionInput from "@/components/expression/ExpressionInput"
 import ExpressionTypeInput from "@/components/expression/ExpressionTypeInput"
-import DebouncedTextarea from "@/components/ui/DebouncedTextarea"
+import SelectMultipleLocation from "@/components/ui/Autocomplete/SelectMultipleLocation"
 import Card from "@/components/ui/CardWrapper"
+import DebouncedTextarea from "@/components/ui/DebouncedTextarea"
+import { HoneypotField } from "@/components/ui/HoneypotField"
+import { Language, ExpressionGender, ExpressionType } from "@/generated/graphql"
+import { useCreateExpressionMutation } from "@/hooks/useExpressions"
+import { useMe } from "@/hooks/useUsers"
+import { useRouter } from "@/i18n/navigation"
 
 export default function NewExpressionPage() {
   const t = useTranslations()

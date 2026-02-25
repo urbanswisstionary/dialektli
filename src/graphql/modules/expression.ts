@@ -1,12 +1,14 @@
 import { Prisma, Role } from "@prisma/client"
 import { GraphQLError } from "graphql"
 import { z } from "zod"
-import { builder, ValidationError } from "../builder"
+
 import prisma from "@/lib/prisma"
-import { Language } from "./language"
+
+import { builder, ValidationError } from "../builder"
+import { randomPick } from "../utils/randomPick"
 import { ExpressionGender } from "./expressionGender"
 import { ExpressionType } from "./expressionType"
-import { randomPick } from "../utils/randomPick"
+import { Language } from "./language"
 
 builder.prismaObject("Synonym", {
   fields: (t) => ({
@@ -225,7 +227,7 @@ builder.queryFields((t) => ({
 
         return { expressions, count }
       } catch (error) {
-        // eslint-disable-next-line no-console
+        // oxlint-disable-next-line no-console
         console.error(error)
         return null
       }
@@ -249,7 +251,7 @@ builder.queryFields((t) => ({
         const expressions = bookmarks.map((b) => b.expression)
         return { expressions, count: expressions.length }
       } catch (error) {
-        // eslint-disable-next-line no-console
+        // oxlint-disable-next-line no-console
         console.error(error)
         return null
       }
@@ -398,7 +400,7 @@ builder.mutationFields((t) => ({
         }
         return newExpression
       } catch (error) {
-        // eslint-disable-next-line no-console
+        // oxlint-disable-next-line no-console
         console.error("Failed to create expression:", error)
         throw new Error(
           error instanceof Error
@@ -467,7 +469,7 @@ builder.mutationFields((t) => ({
         })
       } catch (error) {
         if (error instanceof GraphQLError) throw error
-        // eslint-disable-next-line no-console
+        // oxlint-disable-next-line no-console
         console.error(error)
         throw new Error("Failed to update expression")
       }
@@ -502,7 +504,7 @@ builder.mutationFields((t) => ({
         })
       } catch (error) {
         if (error instanceof GraphQLError) throw error
-        // eslint-disable-next-line no-console
+        // oxlint-disable-next-line no-console
         console.error(error)
         throw new Error("Failed to delete expression")
       }
@@ -638,7 +640,7 @@ builder.mutationFields((t) => ({
         }
       } catch (error) {
         if (error instanceof GraphQLError) throw error
-        // eslint-disable-next-line no-console
+        // oxlint-disable-next-line no-console
         console.log(error)
         throw new Error("Expression action failed")
       }
@@ -683,7 +685,7 @@ builder.mutationFields((t) => ({
           },
         })
       } catch (error) {
-        // eslint-disable-next-line no-console
+        // oxlint-disable-next-line no-console
         console.log(error)
         throw new Error("Failed to create example")
       }
@@ -739,7 +741,7 @@ builder.mutationFields((t) => ({
           },
         })
       } catch (error) {
-        // eslint-disable-next-line no-console
+        // oxlint-disable-next-line no-console
         console.log(error)
         throw new Error("Failed to update example")
       }
@@ -776,7 +778,7 @@ builder.mutationFields((t) => ({
           where: { id: exampleId },
         })
       } catch (error) {
-        // eslint-disable-next-line no-console
+        // oxlint-disable-next-line no-console
         console.log(error)
         throw new Error("Failed to delete example")
       }
