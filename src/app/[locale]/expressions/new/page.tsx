@@ -8,6 +8,7 @@ import { Language, ExpressionGender, ExpressionType } from "@/generated/graphql"
 import { Loader2 } from "lucide-react"
 import { useTranslations } from "next-intl"
 import ExpressionInput from "@/components/expression/ExpressionInput"
+import { HoneypotField } from "@/components/ui/HoneypotField"
 import ExpressionDefinitionInput from "@/components/expression/ExpressionDefinitionInput"
 import SelectMultipleLocation from "@/components/ui/Autocomplete/SelectMultipleLocation"
 import ExpressionGenderInput from "@/components/expression/ExpressionGenderInput"
@@ -28,6 +29,7 @@ export default function NewExpressionPage() {
   const [example, setExample] = useState("")
   const [exampleCantons, setExampleCantons] = useState<string[] | null>(null)
   const [submitError, setSubmitError] = useState("")
+  const [honeypot, setHoneypot] = useState("")
 
   const titleError =
     title.length > 0 && title.trim().length < 3
@@ -64,6 +66,7 @@ export default function NewExpressionPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!canSubmit) return
+    if (honeypot) return
     setSubmitError("")
 
     try {
@@ -183,6 +186,7 @@ export default function NewExpressionPage() {
               helperText={t("expression.exampleCantonFieldHelperText")}
             />
           )}
+          <HoneypotField value={honeypot} onChange={setHoneypot} />
         </Card>
       </form>
     </div>
