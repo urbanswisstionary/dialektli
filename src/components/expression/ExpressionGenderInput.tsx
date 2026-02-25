@@ -4,8 +4,8 @@ import type { FC } from "react"
 
 import { useTranslations } from "next-intl"
 
-import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { ExpressionGender } from "@/generated/graphql"
 import { cn } from "@/lib/utils"
 
@@ -31,26 +31,27 @@ const ExpressionGenderInput: FC<ExpressionGenderInputProps> = ({
   const t = useTranslations()
 
   return (
-    <div className={cn("space-y-2 space-x-1", className)}>
+    <div className={cn("flex flex-col gap-y-2", className)}>
       {label && <Label>{label}</Label>}
-      <div className="inline-flex gap-1">
+      <ToggleGroup
+        type="single"
+        value={value ?? ""}
+        onValueChange={(val) => {
+          if (onChange) onChange(val ? (val as ExpressionGender) : undefined)
+        }}
+        disabled={disabled}
+        className="w-fit"
+      >
         {expressionGenders.map((gender) => (
-          <Button
-            key={gender}
-            size="sm"
-            variant={gender === value ? "default" : "outline"}
-            disabled={disabled}
-            onClick={() => {
-              if (onChange) onChange(gender !== value ? gender : undefined)
-            }}
-          >
+          <ToggleGroupItem key={gender} value={gender}>
             {t(`expression.genders.${gender}`)}
-          </Button>
+          </ToggleGroupItem>
         ))}
-      </div>
-      {helperText && (
-        <p className="text-sm text-muted-foreground">{helperText}</p>
-      )}
+      </ToggleGroup>
+      {helperText ||
+        (!helperText && (
+          <p className="text-sm text-muted-foreground">{"helperText"}</p>
+        ))}
     </div>
   )
 }

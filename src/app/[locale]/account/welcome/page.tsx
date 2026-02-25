@@ -89,7 +89,7 @@ export default function WelcomePage() {
 
             <form onSubmit={handleSubmit}>
               <div className="flex flex-col gap-4">
-                <div className="space-y-2">
+                <div className="flex flex-col gap-y-2">
                   <Label htmlFor="name">
                     {t("auth.profile.name")}
                     <span className="text-destructive ml-1">*</span>

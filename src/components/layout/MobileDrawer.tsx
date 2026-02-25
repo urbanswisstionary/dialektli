@@ -10,6 +10,7 @@ import {
   Home,
   Users,
   BookOpen,
+  Bookmark,
 } from "lucide-react"
 import { signOut } from "next-auth/react"
 import { useTranslations } from "next-intl"
@@ -57,7 +58,7 @@ const MobileDrawer: FC = () => {
           <Menu className="h-5 w-5" />
         </Button>
       </SheetTrigger>
-      <SheetContent side="right" className="w-72 p-0">
+      <SheetContent side="right" className="w-72 p-0 overflow-y-auto">
         <SheetHeader className="border-b border-border p-4">
           <SheetTitle className="text-left text-lg font-bold">
             {companyName}
@@ -130,6 +131,14 @@ const MobileDrawer: FC = () => {
               >
                 <BookOpen className="h-4 w-4 text-muted-foreground" />
                 {t("layout.sidebar.expressions")}
+              </Link>
+              <Link
+                href="/account/profile?view=favorites"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-3 rounded-md px-3 py-2.5 text-sm text-foreground transition-colors hover:bg-accent"
+              >
+                <Bookmark className="h-4 w-4 text-muted-foreground" />
+                {t("layout.sidebar.favorites")}
               </Link>
               {isAdmin && (
                 <Link

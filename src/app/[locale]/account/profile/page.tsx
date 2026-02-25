@@ -1,6 +1,14 @@
 "use client"
 
-import { Pencil, Check, X, Loader2, Bookmark } from "lucide-react"
+import {
+  Pencil,
+  Check,
+  X,
+  Loader2,
+  Bookmark,
+  FileText,
+  BookmarkX,
+} from "lucide-react"
 import { useTranslations } from "next-intl"
 import { useSearchParams } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
@@ -10,6 +18,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import {
+  Empty,
+  EmptyContent,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty"
 import { Input } from "@/components/ui/input"
 import {
   Table,
@@ -33,7 +48,7 @@ import {
   AdminUsersFragment,
   useUpdateUserMutation,
 } from "@/hooks/useUsers"
-import { useRouter } from "@/i18n/navigation"
+import { useRouter, Link } from "@/i18n/navigation"
 
 type ViewType = "profile" | "expressions" | "favorites" | "users"
 
@@ -330,9 +345,24 @@ export default function ProfilePage() {
                 />
               ))
             ) : (
-              <p className="text-base text-muted-foreground text-center">
-                {t("auth.profile.noExpressionsFound")}
-              </p>
+              <Empty>
+                <EmptyHeader>
+                  <EmptyMedia variant="icon">
+                    <FileText />
+                  </EmptyMedia>
+                  <EmptyTitle>
+                    {t("auth.profile.noExpressionsFound")}
+                  </EmptyTitle>
+                </EmptyHeader>
+                <EmptyContent>
+                  <Link
+                    href="/expressions/new"
+                    className="text-sm text-primary underline-offset-4 hover:underline"
+                  >
+                    {t("newExpressionButton.newExpression")}
+                  </Link>
+                </EmptyContent>
+              </Empty>
             )}
           </div>
         </TabsContent>
@@ -352,9 +382,14 @@ export default function ProfilePage() {
                 />
               ))
             ) : (
-              <p className="text-base text-muted-foreground text-center">
-                {t("auth.profile.noFavoritesFound")}
-              </p>
+              <Empty>
+                <EmptyHeader>
+                  <EmptyMedia variant="icon">
+                    <BookmarkX />
+                  </EmptyMedia>
+                  <EmptyTitle>{t("auth.profile.noFavoritesFound")}</EmptyTitle>
+                </EmptyHeader>
+              </Empty>
             )}
           </div>
         </TabsContent>

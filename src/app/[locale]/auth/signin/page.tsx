@@ -79,7 +79,7 @@ export default function SignInPage() {
                 </div>
                 <form onSubmit={handleCredentialsSignIn}>
                   <div className="flex flex-col gap-4">
-                    <div className="space-y-2">
+                    <div className="flex flex-col gap-y-2">
                       <Label htmlFor="email">
                         {t("auth.signinPage.email")}
                         <span className="text-destructive ml-1">*</span>
@@ -93,7 +93,7 @@ export default function SignInPage() {
                         required
                       />
                     </div>
-                    <div className="space-y-2">
+                    <div className="flex flex-col gap-y-2">
                       <Label htmlFor="password">
                         {t("auth.signinPage.password")}
                         <span className="text-destructive ml-1">*</span>

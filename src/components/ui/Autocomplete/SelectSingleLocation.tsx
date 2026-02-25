@@ -117,16 +117,20 @@ const SelectSingleLocation: FC<SelectSingleLocationProps> = ({
           e.preventDefault()
           if (focusedIndex === -1) break
           if (hasClear && focusedIndex === 0) {
-            onChange(null)
             setOpen(false)
-            setSearch("")
+            setTimeout(() => {
+              onChange(null)
+              setSearch("")
+            }, 0)
           } else {
             const optionIndex = hasClear ? focusedIndex - 1 : focusedIndex
             const option = filtered[optionIndex]
             if (option) {
-              onChange(option.code)
               setOpen(false)
-              setSearch("")
+              setTimeout(() => {
+                onChange(option.code)
+                setSearch("")
+              }, 0)
             }
           }
           break
@@ -206,19 +210,19 @@ const SelectSingleLocation: FC<SelectSingleLocationProps> = ({
                 role="option"
                 aria-selected={false}
                 onClick={() => {
-                  onChange(null)
                   setOpen(false)
+                  onChange(null)
                   setSearch("")
                 }}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
-                    onChange(null)
                     setOpen(false)
+                    onChange(null)
                     setSearch("")
                   }
                 }}
                 className={cn(
-                  "flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-muted-foreground hover:bg-accent",
+                  "flex cursor-pointer items-center rounded-sm px-2 py-1.5 my-1 text-sm text-muted-foreground hover:bg-accent",
                   focusedIndex === 0 &&
                     "bg-accent outline-none ring-1 ring-ring",
                 )}
@@ -238,8 +242,8 @@ const SelectSingleLocation: FC<SelectSingleLocationProps> = ({
                   selected={option.code === value}
                   focused={focusedIndex === idx}
                   onClick={() => {
-                    onChange(option.code)
                     setOpen(false)
+                    onChange(option.code)
                     setSearch("")
                   }}
                 />

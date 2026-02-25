@@ -10,6 +10,7 @@ import {
   Home,
   Users,
   BookOpen,
+  Bookmark,
 } from "lucide-react"
 import { signOut } from "next-auth/react"
 import { useTranslations } from "next-intl"
@@ -52,7 +53,7 @@ const Navbar: FC = () => {
   const [userMenuOpen, setUserMenuOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div className="mx-auto flex h-14 max-w-6xl items-center gap-2 px-4 md:gap-4">
         {/* Logo + Brand */}
         <Link
@@ -66,7 +67,7 @@ const Navbar: FC = () => {
         </Link>
 
         {/* Desktop Search */}
-        <div className="hidden flex-1 md:block md:max-w-[480px]">
+        <div className="hidden flex-1 md:block md:max-w-120">
           <SearchExpressionsInput className="w-full" />
         </div>
 
@@ -155,6 +156,12 @@ const Navbar: FC = () => {
                     <Link href="/account/profile?view=expressions">
                       <BookOpen className="mr-2 h-4 w-4" />
                       {t("layout.sidebar.expressions")}
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/account/profile?view=favorites">
+                      <Bookmark className="mr-2 h-4 w-4" />
+                      {t("layout.sidebar.favorites")}
                     </Link>
                   </DropdownMenuItem>
                   {isAdmin && (

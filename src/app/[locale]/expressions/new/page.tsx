@@ -64,7 +64,7 @@ export default function NewExpressionPage() {
 
   const canSubmit = title.trim().length >= 3 && definition.trim().length >= 10
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!canSubmit) return
     if (honeypot) return

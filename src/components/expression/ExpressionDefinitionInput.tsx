@@ -25,7 +25,7 @@ const ExpressionDefinitionInput: FC<ExpressionDefinitionInputProps> = ({
   required,
   error,
 }) => (
-  <div className={cn("space-y-2", className)}>
+  <div className={cn("flex flex-col gap-y-2", className)}>
     {label ? (
       <Label className={cn(error && "text-destructive")}>
         {label}

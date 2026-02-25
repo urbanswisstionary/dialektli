@@ -42,7 +42,7 @@ const ExpressionExampleInput: FC<ExpressionExampleInputProps> = ({
     definition.trim() !== exampleDefinition || !isEqual(cantons, exampleCantons)
 
   return (
-    <div className={cn("space-y-4", className)}>
+    <div className={cn("flex flex-col gap-y-4", className)}>
       <SelectMultipleLocation
         mode="canton"
         value={cantons}
@@ -50,7 +50,7 @@ const ExpressionExampleInput: FC<ExpressionExampleInputProps> = ({
         groupOptions
       />
 
-      <div className="space-y-2">
+      <div className="flex flex-col gap-y-2">
         <div
           className="flex justify-between items-center"
           role="presentation"

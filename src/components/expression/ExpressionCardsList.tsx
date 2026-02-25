@@ -2,10 +2,16 @@
 
 import type { FC } from "react"
 
-import { Loader2 } from "lucide-react"
+import { Loader2, SearchX } from "lucide-react"
 import { useTranslations } from "next-intl"
 
 import ExpressionCard from "@/components/expression/ExpressionCard"
+import {
+  Empty,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty"
 import Pagination, { PaginationProps } from "@/components/ui/Pagination"
 import { FragmentType, getFragmentData } from "@/generated"
 import { ExpressionFragment } from "@/hooks/useExpressions"
@@ -49,7 +55,14 @@ const ExpressionsCardsList: FC<ExpressionsCardsListProps> = ({
           />
         ))
       ) : (
-        <div className="text-center text-muted-foreground">{t("noData")}</div>
+        <Empty>
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <SearchX />
+            </EmptyMedia>
+            <EmptyTitle>{t("noData")}</EmptyTitle>
+          </EmptyHeader>
+        </Empty>
       )}
       {pagination}
     </div>

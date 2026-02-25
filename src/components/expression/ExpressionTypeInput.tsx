@@ -45,7 +45,7 @@ const ExpressionTypeInput: FC<ExpressionTypeInputProps> = ({
   )
 
   return (
-    <div className={cn("space-y-2", className)}>
+    <div className={cn("flex flex-col gap-y-2", className)}>
       {label && <Label>{label}</Label>}
       <Select
         disabled={disabled}
@@ -57,12 +57,12 @@ const ExpressionTypeInput: FC<ExpressionTypeInputProps> = ({
         <SelectTrigger>
           <SelectValue placeholder="Select a type" />
         </SelectTrigger>
-        <SelectContent className="w-[var(--radix-select-trigger-width)] max-w-full">
+        <SelectContent className="w-(--radix-select-trigger-width) max-w-full">
           {options.map((option) => (
             <SelectItem key={option.type} value={option.type}>
               <div className="flex flex-col gap-0.5">
                 <span className="text-sm font-medium">{option.label}</span>
-                <span className="max-w-full text-xs text-muted-foreground whitespace-normal break-words">
+                <span className="max-w-full text-xs text-muted-foreground whitespace-normal wrap-break-word">
                   {option.description}
                 </span>
               </div>

@@ -38,9 +38,9 @@ export default function TOSPage() {
             </h2>
             <ol className="mt-4 pl-6">
               {(t.raw("legal.tos.tableOfContent.list") as string[]).map(
-                (_, index) => (
+                (v, index) => (
                   <li key={index} className="mb-2">
-                    <p>{t(`legal.tos.tableOfContent.list.${index}` as any)}</p>
+                    <a href={`#${v}`}>{v}</a>
                   </li>
                 ),
               )}
@@ -48,7 +48,10 @@ export default function TOSPage() {
           </div>
 
           {/* NO WARRANTIES */}
-          <h2 className="mt-10 mb-4 text-xl font-semibold">
+          <h2
+            className="mt-10 mb-4 text-xl font-semibold"
+            id={t("legal.tos.noGuarantee.title")}
+          >
             {t("legal.tos.noGuarantee.title")}
           </h2>
           <p className="mb-6 leading-[1.8]">
@@ -56,7 +59,10 @@ export default function TOSPage() {
           </p>
 
           {/* LIMITATION OF LIABILITY */}
-          <h2 className="mt-10 mb-4 text-xl font-semibold">
+          <h2
+            className="mt-10 mb-4 text-xl font-semibold"
+            id={t("legal.tos.limitationOfLiabilty.title")}
+          >
             {t("legal.tos.limitationOfLiabilty.title")}
           </h2>
           <p className="mb-6 leading-[1.8]">
@@ -64,7 +70,10 @@ export default function TOSPage() {
           </p>
 
           {/* Terms of Usage */}
-          <h2 className="mt-10 mb-4 text-xl font-semibold">
+          <h2
+            className="mt-10 mb-4 text-xl font-semibold"
+            id={t("legal.tos.termsOfUsage.title")}
+          >
             {t("legal.tos.termsOfUsage.title")}
           </h2>
           <p className="mb-6 leading-[1.8]">
@@ -72,7 +81,10 @@ export default function TOSPage() {
           </p>
 
           {/* User Conduct */}
-          <h2 className="mt-10 mb-4 text-xl font-semibold">
+          <h2
+            className="mt-10 mb-4 text-xl font-semibold"
+            id={t("legal.tos.userConduct.title")}
+          >
             {t("legal.tos.userConduct.title")}
           </h2>
           <p className="mb-2 leading-[1.8]">
@@ -115,7 +127,10 @@ export default function TOSPage() {
           </p>
 
           {/* Copyright and Ownership */}
-          <h2 className="mt-10 mb-4 text-xl font-semibold">
+          <h2
+            className="mt-10 mb-4 text-xl font-semibold"
+            id={t("legal.tos.copyrightsAndOwnership.title")}
+          >
             {t("legal.tos.copyrightsAndOwnership.title")}
           </h2>
           <p className="mb-4 leading-[1.8]">
@@ -134,7 +149,10 @@ export default function TOSPage() {
           </p>
 
           {/* Disclaimer for Participation */}
-          <h2 className="mt-10 mb-4 text-xl font-semibold">
+          <h2
+            className="mt-10 mb-4 text-xl font-semibold"
+            id={t("legal.tos.participationDisclaimer.title")}
+          >
             {t("legal.tos.participationDisclaimer.title")}
           </h2>
           <p className="mb-6 leading-[1.8]">
@@ -142,7 +160,10 @@ export default function TOSPage() {
           </p>
 
           {/* Unsolicited Ideas Policy */}
-          <h2 className="mt-10 mb-4 text-xl font-semibold">
+          <h2
+            className="mt-10 mb-4 text-xl font-semibold"
+            id={t("legal.tos.unsolicitedIdeaPolicy.title")}
+          >
             {t("legal.tos.unsolicitedIdeaPolicy.title")}
           </h2>
           <p className="mb-6 leading-[1.8]">
@@ -150,7 +171,10 @@ export default function TOSPage() {
           </p>
 
           {/* Terms of Idea Submission */}
-          <h2 className="mt-10 mb-4 text-xl font-semibold">
+          <h2
+            className="mt-10 mb-4 text-xl font-semibold"
+            id={t("legal.tos.termsOfIdeaSubmission.title")}
+          >
             {t("legal.tos.termsOfIdeaSubmission.title")}
           </h2>
           <p className="mb-6 leading-[1.8]">
@@ -158,7 +182,10 @@ export default function TOSPage() {
           </p>
 
           {/* Feedback and Information */}
-          <h2 className="mt-10 mb-4 text-xl font-semibold">
+          <h2
+            className="mt-10 mb-4 text-xl font-semibold"
+            id={t("legal.tos.feedbackAndInformation.title")}
+          >
             {t("legal.tos.feedbackAndInformation.title")}
           </h2>
           <p className="mb-6 leading-[1.8]">
@@ -167,7 +194,10 @@ export default function TOSPage() {
 
           {/* Updated */}
           <div className="mt-12 border-t border-border pt-6">
-            <h2 className="mb-2 text-xl font-semibold">
+            <h2
+              className="mb-2 text-xl font-semibold"
+              id={t("legal.tos.updates.title")}
+            >
               {t("legal.tos.updates.title")}
             </h2>
             <p className="mb-2 text-sm italic text-muted-foreground">

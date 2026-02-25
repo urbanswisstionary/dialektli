@@ -35,6 +35,11 @@ const CANTON_LABEL_OFFSETS: Record<
   VD: { dx: -60, dy: 0, ldx: -10, ldy: 0 },
 }
 
+// Geographic correction: the SVG path data encodes Switzerland at ~2.02:1 (w:h),
+// but the true geographic proportions are ~1.57:1. Scaling Y by this factor
+// corrects the map to its proper shape.
+const GEO_Y_SCALE = 2.02 / 1.57
+
 const MIN_ZOOM = 1
 const MAX_ZOOM = 2
 const ZOOM_STEP = 0.5
@@ -103,14 +108,15 @@ export function CantonMap({
   )
 
   const baseViewBox = useMemo(() => {
-    if (cantons.length === 0) return { x: 0, y: 0, w: 1000, h: 800 }
+    if (cantons.length === 0)
+      return { x: 0, y: 0, w: 1000, h: Math.round(800 * GEO_Y_SCALE) }
     const bb = computeBoundingBox(cantons)
     const pad = 50
     return {
       x: bb.minX - pad,
-      y: bb.minY - pad,
+      y: (bb.minY - pad) * GEO_Y_SCALE,
       w: bb.maxX - bb.minX + pad * 2,
-      h: bb.maxY - bb.minY + pad * 2,
+      h: (bb.maxY - bb.minY + pad * 2) * GEO_Y_SCALE,
     }
   }, [cantons])
 
@@ -291,7 +297,10 @@ export function CantonMap({
 
   if (isLoading) {
     return (
-      <div className="flex aspect-5/3 items-center justify-center">
+      <div
+        className="flex items-center justify-center"
+        style={{ aspectRatio: `${(1 / GEO_Y_SCALE).toFixed(4)}` }}
+      >
         <Skeleton className="h-full w-full rounded-lg" />
       </div>
     )
@@ -299,7 +308,10 @@ export function CantonMap({
 
   if (error) {
     return (
-      <div className="flex aspect-5/3 items-center justify-center rounded-lg border border-destructive/20 bg-destructive/5">
+      <div
+        className="flex items-center justify-center rounded-lg border border-destructive/20 bg-destructive/5"
+        style={{ aspectRatio: `${(1 / GEO_Y_SCALE).toFixed(4)}` }}
+      >
         <p className="text-sm text-destructive">{t("mapLoadError")}</p>
       </div>
     )
@@ -324,122 +336,129 @@ export function CantonMap({
         role="img"
         aria-label={t("mapAriaLabel")}
       >
-        {cantons.map((canton) => {
-          const isHovered = hoveredCanton === canton.id
-          const isActive = isHovered || selectedCanton === canton.id
-          const offset = CANTON_LABEL_OFFSETS[canton.id]
+        <g transform={`scale(1, ${GEO_Y_SCALE})`}>
+          {cantons.map((canton) => {
+            const isHovered = hoveredCanton === canton.id
+            const isActive = isHovered || selectedCanton === canton.id
+            const offset = CANTON_LABEL_OFFSETS[canton.id]
 
-          const isFullyColored =
-            selectedCanton === canton.id || (counts[canton.id] || 0) > 0
+            const isFullyColored =
+              selectedCanton === canton.id || (counts[canton.id] || 0) > 0
 
-          return (
-            <g
-              key={canton.id}
-              onClick={() => {
-                if (!isDraggingRef.current) onCantonClick?.(canton.id)
-              }}
-              onMouseEnter={() => setHoveredCanton(canton.id)}
-              onMouseLeave={() => setHoveredCanton(null)}
-              className={cn("outline-none", zoom <= 1 && "cursor-pointer")}
-              // oxlint-disable-next-line jsx_a11y/prefer-tag-over-role
-              role="button"
-              tabIndex={0}
-              aria-label={`${getCantonName(canton.id, locale)}: ${counts[canton.id] || 0} ${(counts[canton.id] || 0) === 1 ? t("expressionSingular") : t("expressionPlural")}`}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault()
-                  onCantonClick?.(canton.id)
-                }
-              }}
-              style={{
-                filter: isActive
-                  ? `drop-shadow(0 0 8px ${CANTON_COLORS[canton.id] ?? "#6B7280"}CC)`
-                  : undefined,
-              }}
-            >
-              {canton.paths.map((d, i) => (
-                <path
-                  key={`${canton.id}-${i}`}
-                  d={d}
-                  fill={getCantonFill(canton.id)}
-                  stroke={getStrokeColor(canton.id)}
-                  strokeWidth={getStrokeWidth(canton.id)}
-                  strokeLinejoin="round"
-                  className="transition-all duration-150"
-                  pointerEvents="all"
-                />
-              ))}
-              {offset ? (
-                <g
-                  onMouseEnter={() => setHoveredCanton(canton.id)}
-                  onMouseLeave={() => setHoveredCanton(null)}
-                >
-                  <line
-                    x1={canton.centroid.x + (offset.ldx ?? 0)}
-                    y1={canton.centroid.y + (offset.ldy ?? 0)}
-                    x2={canton.centroid.x + offset.dx}
-                    y2={canton.centroid.y + offset.dy}
-                    stroke={
-                      isActive
-                        ? (CANTON_COLORS[canton.id] ?? "#6B7280")
-                        : isDark
-                          ? "hsl(220, 10%, 45%)"
-                          : "hsl(220, 10%, 65%)"
-                    }
-                    strokeWidth={0.8}
-                    className="pointer-events-none"
+            return (
+              <g
+                key={canton.id}
+                onClick={() => {
+                  if (!isDraggingRef.current) onCantonClick?.(canton.id)
+                }}
+                onMouseEnter={() => setHoveredCanton(canton.id)}
+                onMouseLeave={() => setHoveredCanton(null)}
+                className={cn("outline-none", zoom <= 1 && "cursor-pointer")}
+                // oxlint-disable-next-line jsx_a11y/prefer-tag-over-role
+                role="button"
+                tabIndex={0}
+                aria-label={`${getCantonName(canton.id, locale)}: ${counts[canton.id] || 0} ${(counts[canton.id] || 0) === 1 ? t("expressionSingular") : t("expressionPlural")}`}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault()
+                    onCantonClick?.(canton.id)
+                  }
+                }}
+                style={{
+                  filter: isActive
+                    ? `drop-shadow(0 0 8px ${CANTON_COLORS[canton.id] ?? "#6B7280"}CC)`
+                    : undefined,
+                }}
+              >
+                {canton.paths.map((d, i) => (
+                  <path
+                    key={`${canton.id}-${i}`}
+                    d={d}
+                    fill={getCantonFill(canton.id)}
+                    stroke={getStrokeColor(canton.id)}
+                    strokeWidth={getStrokeWidth(canton.id)}
+                    strokeLinejoin="round"
+                    className="transition-all duration-150"
+                    pointerEvents="all"
                   />
-                  <circle
-                    cx={canton.centroid.x + offset.dx}
-                    cy={canton.centroid.y + offset.dy}
-                    r={14}
-                    fill={
-                      isActive
-                        ? (CANTON_COLORS[canton.id] ?? "#6B7280")
-                        : isDark
-                          ? "hsl(220, 10%, 40%)"
-                          : "hsl(220, 10%, 72%)"
-                    }
-                    opacity={isActive ? 1 : 0.75}
-                  />
+                ))}
+                {offset ? (
+                  <g
+                    onMouseEnter={() => setHoveredCanton(canton.id)}
+                    onMouseLeave={() => setHoveredCanton(null)}
+                  >
+                    <line
+                      x1={canton.centroid.x + (offset.ldx ?? 0)}
+                      y1={canton.centroid.y + (offset.ldy ?? 0)}
+                      x2={canton.centroid.x + offset.dx}
+                      y2={canton.centroid.y + offset.dy}
+                      stroke={
+                        isActive
+                          ? (CANTON_COLORS[canton.id] ?? "#6B7280")
+                          : isDark
+                            ? "hsl(220, 10%, 45%)"
+                            : "hsl(220, 10%, 65%)"
+                      }
+                      strokeWidth={0.8}
+                      className="pointer-events-none"
+                    />
+                    {/* Counter-scale so circle + text render undistorted */}
+                    <g
+                      transform={`translate(${canton.centroid.x + offset.dx}, ${canton.centroid.y + offset.dy}) scale(1, ${1 / GEO_Y_SCALE}) translate(${-(canton.centroid.x + offset.dx)}, ${-(canton.centroid.y + offset.dy)})`}
+                    >
+                      <circle
+                        cx={canton.centroid.x + offset.dx}
+                        cy={canton.centroid.y + offset.dy}
+                        r={14}
+                        fill={
+                          isActive
+                            ? (CANTON_COLORS[canton.id] ?? "#6B7280")
+                            : isDark
+                              ? "hsl(220, 10%, 40%)"
+                              : "hsl(220, 10%, 72%)"
+                        }
+                        opacity={isActive ? 1 : 0.75}
+                      />
+                      <text
+                        x={canton.centroid.x + offset.dx}
+                        y={canton.centroid.y + offset.dy}
+                        textAnchor="middle"
+                        dominantBaseline="central"
+                        fill="#FFFFFF"
+                        className="select-none text-[12px] font-semibold"
+                        style={{ opacity: isActive ? 1 : 0.6 }}
+                      >
+                        {canton.id}
+                      </text>
+                    </g>
+                  </g>
+                ) : (
                   <text
-                    x={canton.centroid.x + offset.dx}
-                    y={canton.centroid.y + offset.dy}
+                    x={canton.centroid.x}
+                    y={canton.centroid.y}
                     textAnchor="middle"
                     dominantBaseline="central"
-                    fill="#FFFFFF"
-                    className="select-none text-[12px] font-semibold"
+                    fill={
+                      isFullyColored && isActive
+                        ? "#FFFFFF"
+                        : isDark
+                          ? "hsl(220, 10%, 75%)"
+                          : "hsl(220, 15%, 35%)"
+                    }
+                    className="pointer-events-none select-none text-[12px] font-semibold"
                     style={{
                       opacity: isActive ? 1 : 0.6,
+                      transform: `scaleY(${1 / GEO_Y_SCALE})`,
+                      transformOrigin: `${canton.centroid.x}px ${canton.centroid.y}px`,
                     }}
                   >
                     {canton.id}
                   </text>
-                </g>
-              ) : (
-                <text
-                  x={canton.centroid.x}
-                  y={canton.centroid.y}
-                  textAnchor="middle"
-                  dominantBaseline="central"
-                  fill={
-                    isFullyColored && isActive
-                      ? "#FFFFFF"
-                      : isDark
-                        ? "hsl(220, 10%, 75%)"
-                        : "hsl(220, 15%, 35%)"
-                  }
-                  className="pointer-events-none select-none text-[12px] font-semibold"
-                  style={{
-                    opacity: isActive ? 1 : 0.6,
-                  }}
-                >
-                  {canton.id}
-                </text>
-              )}
-            </g>
-          )
-        })}
+                )}
+              </g>
+            )
+          })}
+        </g>
       </svg>
 
       {/* Zoom controls */}
