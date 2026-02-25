@@ -14,7 +14,7 @@ const SemanticGroup = builder.prismaObject("SemanticGroup", {
     description: t.exposeString("description", { nullable: true }),
     createdAt: t.expose("createdAt", { type: "DateTime" }),
     updatedAt: t.expose("updatedAt", { type: "DateTime", nullable: true }),
-    expressions: t.relation("expressions"),
+    expressions: t.relation("expressions", {}),
     expressionCount: t.int({
       resolve: ({ id }) =>
         prisma.expression.count({
@@ -247,7 +247,9 @@ const UpdateSemanticGroupInput = builder.inputType("UpdateSemanticGroupInput", {
 builder.mutationFields((t) => ({
   createSemanticGroup: t.prismaField({
     type: "SemanticGroup",
-    nullable: true,
+    errors: {
+      types: [Error],
+    },
     args: {
       data: t.arg({ type: CreateSemanticGroupInput, required: true }),
     },
@@ -281,7 +283,7 @@ builder.mutationFields((t) => ({
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error("Failed to create semantic group:", error)
-        throw new GraphQLError(
+        throw new Error(
           error instanceof Error
             ? error.message
             : "Failed to create semantic group",
@@ -292,7 +294,9 @@ builder.mutationFields((t) => ({
 
   updateSemanticGroup: t.prismaField({
     type: "SemanticGroup",
-    nullable: true,
+    errors: {
+      types: [Error],
+    },
     args: {
       data: t.arg({ type: UpdateSemanticGroupInput, required: true }),
     },
@@ -329,7 +333,7 @@ builder.mutationFields((t) => ({
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error("Failed to update semantic group:", error)
-        throw new GraphQLError(
+        throw new Error(
           error instanceof Error
             ? error.message
             : "Failed to update semantic group",
@@ -340,6 +344,9 @@ builder.mutationFields((t) => ({
 
   deleteSemanticGroup: t.field({
     type: "Boolean",
+    errors: {
+      types: [Error],
+    },
     args: {
       id: t.arg.string({ required: true }),
     },
@@ -357,7 +364,7 @@ builder.mutationFields((t) => ({
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error("Failed to delete semantic group:", error)
-        return false
+        throw new Error("Failed to delete semantic group")
       }
     },
   }),

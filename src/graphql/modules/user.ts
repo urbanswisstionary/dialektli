@@ -1,7 +1,8 @@
 import { Prisma, Role } from "@prisma/client"
-import { builder } from "../builder"
+import { builder, ValidationError } from "../builder"
 import prisma from "@/lib/prisma"
 import { GraphQLError } from "graphql"
+import { z } from "zod"
 
 const RoleEnum = builder.enumType(Role, {
   name: "Role",
@@ -20,12 +21,12 @@ const UserType = builder.prismaObject("User", {
     bio: t.exposeString("bio", { nullable: true }),
     image: t.exposeString("image", { nullable: true }),
     role: t.expose("role", { type: RoleEnum }),
-    expressions: t.relation("expressions"),
-    likes: t.relation("likes"),
+    expressions: t.relation("expressions", {}),
+    likes: t.relation("likes", {}),
     likesCount: t.int({
       resolve: ({ id }) => prisma.like.count({ where: { authorId: id } }),
     }),
-    dislikes: t.relation("dislikes"),
+    dislikes: t.relation("dislikes", {}),
     dislikesCount: t.int({
       resolve: ({ id }) => prisma.dislike.count({ where: { authorId: id } }),
     }),
@@ -43,7 +44,7 @@ const UserType = builder.prismaObject("User", {
           where: { authorId: parent.id, published: false },
         }),
     }),
-    flags: t.relation("flags"),
+    flags: t.relation("flags", {}),
   }),
 })
 
@@ -140,17 +141,6 @@ builder.queryFields((t) => ({
   }),
 }))
 
-const CreateUserInput = builder.inputType("CreateUserInput", {
-  fields: (t) => ({
-    email: t.string({ required: true }),
-    name: t.string({ required: true }),
-    image: t.string(),
-    bio: t.string(),
-    country: t.string(),
-    canton: t.string(),
-  }),
-})
-
 const UpdateUserInput = builder.inputType("UpdateUserInput", {
   fields: (t) => ({
     id: t.string({ required: true }),
@@ -163,21 +153,32 @@ const UpdateUserInput = builder.inputType("UpdateUserInput", {
 })
 
 builder.mutationFields((t) => ({
-  createUser: t.prismaField({
-    type: "User",
-    nullable: true,
-    args: { data: t.arg({ type: CreateUserInput, required: true }) },
-    resolve: (query, _root, args) =>
-      prisma.user.create({ ...query, data: args.data }),
-  }),
   updateUser: t.prismaField({
     type: "User",
-    nullable: true,
-    args: { data: t.arg({ type: UpdateUserInput, required: true }) },
+    errors: {
+      types: [Error, ValidationError],
+    },
+    args: {
+      data: t.arg({
+        type: UpdateUserInput,
+        required: true,
+        validate: {
+          schema: z.object({
+            id: z.string(),
+            name: z.string().min(2).max(50).optional().nullable(),
+            bio: z.string().max(300).optional().nullable(),
+            image: z.string().url().optional().nullable(),
+            country: z.string().optional().nullable(),
+            canton: z.string().optional().nullable(),
+          }),
+        },
+      }),
+    },
     resolve: async (query, _root, args, { session }) => {
       if (!session?.user) {
         throw new GraphQLError("Not authenticated")
       }
+
       const { id: userId, name, country, canton, ...rest } = args.data
       const user = await prisma.user.findUnique({
         where: { id: userId },
@@ -204,7 +205,9 @@ builder.mutationFields((t) => ({
   }),
   changeUserRole: t.prismaField({
     type: "User",
-    nullable: true,
+    errors: {
+      types: [Error],
+    },
     args: {
       userId: t.arg.string({ required: true }),
       role: t.arg({ type: RoleEnum, required: true }),
@@ -225,7 +228,9 @@ builder.mutationFields((t) => ({
   }),
   deleteUser: t.prismaField({
     type: "User",
-    nullable: true,
+    errors: {
+      types: [Error],
+    },
     args: { data: t.arg({ type: UserIdInput, required: true }) },
     resolve: async (query, _root, args, { session }) => {
       if (!session?.user) {
