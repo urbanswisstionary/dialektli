@@ -7250,7 +7250,7 @@ __metadata:
     nodemailer: "npm:^8.0.1"
     oxfmt: "npm:^0.35.0"
     oxlint: "npm:^1.50.0"
-    pg: "npm:^8.18.0"
+    pg: "npm:^8.19.0"
     postcss: "npm:^8.5.6"
     prisma: "npm:^7.4.1"
     prisma-erd-generator: "npm:^2.4.2"
@@ -11118,7 +11118,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pg@npm:^8.16.3, pg@npm:^8.18.0":
+"pg@npm:^8.16.3, pg@npm:^8.19.0":
   version: 8.19.0
   resolution: "pg@npm:8.19.0"
   dependencies:
