@@ -9,9 +9,9 @@ import { DateTimeResolver } from "graphql-scalars"
 
 import prisma from "@/lib/prisma"
 
-import type PrismaTypes from "../../generated/pothos-types"
+import type PrismaTypes from "../generated/pothos-types"
 
-import { getDatamodel } from "../../generated/pothos-types"
+import { getDatamodel } from "../generated/pothos-types"
 
 export type Context = {
   session: Session | null

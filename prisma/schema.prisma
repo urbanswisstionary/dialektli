@@ -9,7 +9,7 @@ datasource db {
 generator pothos {
   provider     = "prisma-pothos-types"
   clientOutput = "@prisma/client"
-  output       = "../generated/pothos-types.ts"
+  output       = "../src/generated/pothos-types.ts"
 }
 
 model Like {
