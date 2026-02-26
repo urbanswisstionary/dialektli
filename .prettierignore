@@ -1,7 +1,0 @@
-.next/
-.yarn/
-generated/
-node_modules/
-prisma/migrations/
-
-*.md
