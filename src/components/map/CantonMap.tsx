@@ -197,6 +197,54 @@ export function CantonMap({
     setIsGrabbing(false)
   }, [])
 
+  const handleTouchStart = useCallback(
+    (e: React.TouchEvent) => {
+      if (e.touches.length !== 1) return
+      isDraggingRef.current = false
+      setIsGrabbing(true)
+      const touch = e.touches[0]
+      dragRef.current = {
+        startX: touch.clientX,
+        startY: touch.clientY,
+        startPanX: pan.x,
+        startPanY: pan.y,
+      }
+    },
+    [pan],
+  )
+
+  const handleTouchMove = useCallback(
+    (e: TouchEvent) => {
+      if (e.touches.length !== 1 || !dragRef.current) return
+      e.preventDefault()
+      isDraggingRef.current = true
+      const touch = e.touches[0]
+      const dx = touch.clientX - dragRef.current.startX
+      const dy = touch.clientY - dragRef.current.startY
+      if (!containerRef.current) return
+      const svgEl = containerRef.current.querySelector("svg")
+      if (!svgEl) return
+      const svgRect = svgEl.getBoundingClientRect()
+      const { w, h } = baseViewBox
+      const scaleX = w / zoom / svgRect.width
+      const scaleY = h / zoom / svgRect.height
+      const maxPanX = (w - w / zoom) / 2
+      const maxPanY = (h - h / zoom) / 2
+      const rawX = dragRef.current.startPanX - dx * scaleX
+      const rawY = dragRef.current.startPanY - dy * scaleY
+      setPan({
+        x: Math.max(-maxPanX, Math.min(maxPanX, rawX)),
+        y: Math.max(-maxPanY, Math.min(maxPanY, rawY)),
+      })
+    },
+    [baseViewBox, zoom],
+  )
+
+  const handleTouchEnd = useCallback(() => {
+    dragRef.current = null
+    setIsGrabbing(false)
+  }, [])
+
   const handleWheel = useCallback((e: WheelEvent) => {
     e.preventDefault()
     if (e.deltaY < 0) {
@@ -214,8 +262,12 @@ export function CantonMap({
     const el = containerRef.current
     if (!el) return
     el.addEventListener("wheel", handleWheel, { passive: false })
-    return () => el.removeEventListener("wheel", handleWheel)
-  }, [handleWheel])
+    el.addEventListener("touchmove", handleTouchMove, { passive: false })
+    return () => {
+      el.removeEventListener("wheel", handleWheel)
+      el.removeEventListener("touchmove", handleTouchMove)
+    }
+  }, [handleWheel, handleTouchMove])
 
   const hasHighlights = highlightedCantons && highlightedCantons.length > 0
 
@@ -326,6 +378,9 @@ export function CantonMap({
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      onTouchCancel={handleTouchEnd}
       style={{
         cursor: isGrabbing ? "grabbing" : zoom > 1 ? "grab" : undefined,
       }}
