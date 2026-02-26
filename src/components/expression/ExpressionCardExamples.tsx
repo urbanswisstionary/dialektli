@@ -4,7 +4,10 @@ import type { FC } from "react"
 
 import { useTranslations } from "next-intl"
 
-import { ExpressionFragmentFragment } from "@/generated/graphql"
+import type { ExpressionFragmentFragment } from "@/generated/graphql"
+
+import { getFragmentData } from "@/generated"
+import { ExpressionExampleFragment } from "@/hooks/useExpressions"
 
 import ExpressionCardContentList from "./ExpressionCardContentList"
 
@@ -18,17 +21,18 @@ const ExpressionCardExamples: FC<ExpressionCardExamplesProps> = ({
   disabled,
 }) => {
   const t = useTranslations()
-  const examples = expression.examples ?? []
+  const examples =
+    getFragmentData(ExpressionExampleFragment, expression.examples) ?? []
 
   return (
     <ExpressionCardContentList
       disabled={disabled}
       label={`${t("expression.examples")}:`}
     >
-      {examples.map((example: any, i: number) => (
+      {examples.map((example) => (
         <div key={example.id} className="py-1.5 px-2">
-          <p className="text-sm text-muted-foreground">
-            {i + 1}. {example.definition}
+          <p className="text-sm italic text-muted-foreground">
+            {example.definition}
           </p>
         </div>
       ))}

@@ -7,6 +7,8 @@ import { useTranslations } from "next-intl"
 import { useLocale } from "next-intl"
 import { useSearchParams } from "next/navigation"
 
+import type { ExpressionFragmentFragment } from "@/generated/graphql"
+
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import CantonBadge from "@/components/ui/CantonBadge"
@@ -17,9 +19,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { getFragmentData } from "@/generated"
-import { ExpressionFragmentFragment } from "@/generated/graphql"
-import { ExpressionExampleFragment } from "@/hooks/useExpressions"
 import { useMe } from "@/hooks/useUsers"
 import { useRouter, usePathname, Link } from "@/i18n/navigation"
 import { formatExpressionDate } from "@/utils/formatExpressionDate"
@@ -159,29 +158,19 @@ const ExpressionCard: FC<ExpressionCardProps> = ({
         </div>
 
         {/* Definition */}
-        <p className="text-sm leading-relaxed text-foreground/90 mb-4 line-clamp-2">
+        <p className="text-sm leading-relaxed text-foreground/90 mb-4">
           {expression?.definition}
         </p>
 
-        {/* First example preview */}
-        {expression.examples && expression.examples.length > 0 && (
-          <p className="text-sm italic text-muted-foreground line-clamp-1 mb-2">
-            {
-              getFragmentData(ExpressionExampleFragment, expression.examples[0])
-                ?.definition
-            }
-          </p>
-        )}
-
         {/* Examples section */}
-        {expression.examples && expression.examples.length > 0 && (
+        {!!expression.examples?.length && (
           <div className="mb-2">
             <ExpressionCardExamples expression={expression} />
           </div>
         )}
 
         {/* Synonyms section */}
-        {expression.synonyms && expression.synonyms.length > 0 && (
+        {!!expression.synonyms.length && (
           <div className="mb-2">
             <ExpressionCardSynonyms expression={expression} />
           </div>

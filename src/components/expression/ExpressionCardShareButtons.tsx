@@ -6,13 +6,14 @@ import { Share2, Mail, Link, Check } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { useState } from "react"
 
+import type { ExpressionFragmentFragment } from "@/generated/graphql"
+
 import { Button } from "@/components/ui/button"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { ExpressionFragmentFragment } from "@/generated/graphql"
 import { cn } from "@/lib/utils"
 
 // ─── Brand SVG Icons ──────────────────────────────────────────────────────────

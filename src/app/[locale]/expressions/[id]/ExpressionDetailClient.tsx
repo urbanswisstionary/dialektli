@@ -10,7 +10,11 @@ import { getFragmentData } from "@/generated"
 import { useExpression, ExpressionFragment } from "@/hooks/useExpressions"
 import { useMe } from "@/hooks/useUsers"
 
-const ExpressionDetailClient: FC<{ expressionId: string }> = ({
+type ExpressionDetailClientProps = {
+  expressionId: string
+}
+
+const ExpressionDetailClient: FC<ExpressionDetailClientProps> = ({
   expressionId,
 }) => {
   const t = useTranslations()

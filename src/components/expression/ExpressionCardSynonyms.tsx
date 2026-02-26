@@ -4,9 +4,10 @@ import type { FC } from "react"
 
 import { useTranslations } from "next-intl"
 
+import type { ExpressionFragmentFragment } from "@/generated/graphql"
+
 import Flag from "@/components/ui/Flag"
 import { Separator } from "@/components/ui/separator"
-import { ExpressionFragmentFragment } from "@/generated/graphql"
 import { Link } from "@/i18n/navigation"
 
 import ExpressionCardContentList from "./ExpressionCardContentList"
@@ -19,10 +20,10 @@ const ExpressionCardSynonyms: FC<ExpressionCardSynonymsProps> = ({
   expression,
 }) => {
   const t = useTranslations()
-
+  const synonyms = expression.synonyms ?? []
   return (
     <ExpressionCardContentList label={`${t("expression.synonyms")}:`}>
-      {expression.synonyms?.map(({ synonymOf: s }, i) =>
+      {synonyms.map(({ synonymOf: s }, i) =>
         s ? (
           <div key={i} className="py-1.5 px-2">
             <div className="flex items-center justify-between gap-2">
@@ -41,7 +42,7 @@ const ExpressionCardSynonyms: FC<ExpressionCardSynonymsProps> = ({
           </div>
         ) : null,
       )}
-      {expression.synonyms?.length ? <Separator className="my-1" /> : null}
+      {!!synonyms.length && <Separator className="my-1" />}
       <div className="py-1.5 px-2">
         <Link
           href={`/expressions/new?synonym=${expression.id}`}

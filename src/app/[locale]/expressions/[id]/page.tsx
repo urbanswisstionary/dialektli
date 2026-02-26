@@ -54,11 +54,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description,
       type: "article",
       url: canonicalUrl,
+      images: [
+        {
+          url: "https://dialektli.ch/assets/dialektli_logo.svg",
+          width: 1200,
+          height: 630,
+          alt: "Dialektli Logo",
+        },
+      ],
     },
     twitter: {
       card: "summary",
       title: `${title} | Dialektli`,
       description,
+      images: ["https://dialektli.ch/assets/dialektli_logo.svg"],
     },
   }
 }
