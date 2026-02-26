@@ -12,6 +12,13 @@ generator pothos {
   output       = "../src/generated/pothos-types.ts"
 }
 
+generator erd {
+  provider = "prisma-erd-generator"
+  output   = "../db.svg"
+  theme = "default"
+  includeRelationFromFields = true
+}
+
 model Like {
   expression   Expression @relation(fields: [expressionId], references: [id], onDelete: Cascade)
   expressionId String
