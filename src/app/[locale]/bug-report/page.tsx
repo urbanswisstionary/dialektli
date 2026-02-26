@@ -67,7 +67,7 @@ export default function BugReportPage() {
                 </Label>
                 <Input id="email" name="email" type="email" required />
               </div>
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-y-2">
                 <Label htmlFor="bugDescription">
                   {t("bugReport.bugDescription.label")}
                   <span className="text-destructive ml-1">*</span>
@@ -82,7 +82,7 @@ export default function BugReportPage() {
                   {t("bugReport.bugDescription.helperText")}
                 </p>
               </div>
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-y-2">
                 <Label htmlFor="reproductionSteps">
                   {t("bugReport.reproductionSteps.label")}
                   <span className="text-destructive ml-1">*</span>
@@ -99,7 +99,7 @@ export default function BugReportPage() {
                   {t("bugReport.reproductionSteps.helperText")}
                 </p>
               </div>
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-y-2">
                 <Label htmlFor="expectedBehavior">
                   {t("bugReport.expectedBehavior.label")}
                   <span className="text-destructive ml-1">*</span>
@@ -114,7 +114,7 @@ export default function BugReportPage() {
                   {t("bugReport.expectedBehavior.helperText")}
                 </p>
               </div>
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-y-2">
                 <Label htmlFor="desktopDescription">
                   {t("bugReport.desktopDescription.label")}
                 </Label>
@@ -123,7 +123,7 @@ export default function BugReportPage() {
                   {t("bugReport.desktopDescription.helperText")}
                 </p>
               </div>
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-y-2">
                 <Label htmlFor="mobileDescription">
                   {t("bugReport.mobileDescription.label")}
                 </Label>
@@ -132,7 +132,7 @@ export default function BugReportPage() {
                   {t("bugReport.mobileDescription.helperText")}
                 </p>
               </div>
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-y-2">
                 <Label htmlFor="browserDetails">
                   {t("bugReport.browserDetails.label")}
                 </Label>
@@ -141,7 +141,7 @@ export default function BugReportPage() {
                   {t("bugReport.browserDetails.helperText")}
                 </p>
               </div>
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-y-2">
                 <Label htmlFor="additionalContext">
                   {t("bugReport.additionalContext.label")}
                 </Label>
