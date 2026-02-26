@@ -244,6 +244,8 @@
     "cannotVoteOwnExpression": "Du kannst nicht für deinen eigenen Ausdruck abstimmen",
     "cantonFieldPlaceholder": "Kanton auswählen",
     "countryFieldPlaceholder": "Land auswählen",
+    "typeFieldPlaceholder": "Typ auswählen",
+    "typeFieldHelperText": "Wählen Sie den grammatikalischen Typ dieses Ausdrucks aus",
     "cantonFieldHelperText": "Wählen Sie die Kantone aus, mit denen dieser Ausdruck verbunden ist",
     "descriptionFieldHelperText": "Schreiben Sie für ein grosses Publikum. Viele Menschen werden dies lesen, also geben Sie einige Hintergrundinformationen.",
     "examplesFieldHelperText": "Geben Sie Beispiele dafür, wie dieser Ausdruck im Kontext verwendet wird, oder wie er in einem Satz verwendet wird. Dies hilft anderen, den Ausdruck besser zu verstehen.",
@@ -389,6 +391,8 @@
   "legal": {
     "companyName": "Dialektli",
     "email": "urbanswisstionary@gmail.com",
+    "lastUpdated": "Zuletzt aktualisiert",
+    "copyrights": "© {year} Dialektli. Alle Rechte vorbehalten.",
     "tos": {
       "title": "Nutzungsbedingungen",
       "description": {
@@ -492,9 +496,7 @@
         "paragraph": "Jegliches Feedback, das Sie auf dieser Website geben, wird als nicht vertraulich betrachtet. Dialektli ist berechtigt, diese Informationen uneingeschränkt zu nutzen."
       },
       "updates": {
-        "title": "Aktualisiert",
-        "updated": "Aktualisiert: Februar 2024",
-        "copyrights": "Urheberrecht © 2024 Dialektli. Alle Rechte vorbehalten."
+        "title": "Aktualisiert"
       }
     },
     "privacyPolicy": {
@@ -580,8 +582,7 @@
         "title": "4. Wiederholungstäter",
         "content": "Dialektli wird die Konten von Benutzern kündigen, die als wiederholte Urheberrechtsverletzer identifiziert werden."
       }
-    },
-    "lastUpdated": "Zuletzt aktualisiert"
+    }
   },
   "accessibility": {
     "title": "Barrierefreiheitserklärung",

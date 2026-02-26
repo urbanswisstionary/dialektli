@@ -9,7 +9,14 @@ datasource db {
 generator pothos {
   provider     = "prisma-pothos-types"
   clientOutput = "@prisma/client"
-  output       = "../generated/pothos-types.ts"
+  output       = "../src/generated/pothos-types.ts"
+}
+
+generator erd {
+  provider = "prisma-erd-generator"
+  output   = "../db.svg"
+  theme = "default"
+  includeRelationFromFields = true
 }
 
 model Like {

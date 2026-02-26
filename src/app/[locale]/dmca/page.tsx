@@ -1,11 +1,13 @@
 "use client"
 
-import { useTranslations } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 
 import { Card, CardContent } from "@/components/ui/card"
+import { formatMonthName } from "@/utils/formatMonthName"
 
 export default function DMCAPage() {
   const t = useTranslations()
+  const locale = useLocale()
 
   return (
     <div className="flex flex-col gap-6 py-8">
@@ -42,7 +44,7 @@ export default function DMCAPage() {
           </p>
 
           <p className="mt-10 text-sm italic text-muted-foreground">
-            {t("legal.lastUpdated")}: {new Date().toLocaleDateString()}
+            {t("legal.lastUpdated")}: {formatMonthName(1, { locale })} 2026
           </p>
         </CardContent>
       </Card>

@@ -5,7 +5,6 @@ import type { FC } from "react"
 import { useTranslations } from "next-intl"
 
 import { Separator } from "@/components/ui/separator"
-import { companyName } from "@/config/constants"
 import { Link, usePathname } from "@/i18n/navigation"
 
 const footerSections = {
@@ -100,7 +99,9 @@ const Footer: FC = () => {
         <Separator className="my-4" />
 
         <p className="text-center text-sm text-muted-foreground">
-          © {companyName} {new Date().getFullYear()}. All rights reserved.
+          {t("legal.copyrights", {
+            year: new Date().getFullYear(),
+          })}
         </p>
       </div>
     </footer>

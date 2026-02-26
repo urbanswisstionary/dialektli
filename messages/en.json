@@ -245,6 +245,8 @@
     "cannotVoteOwnExpression": "You cannot vote on your own expression",
     "cantonFieldPlaceholder": "Select canton",
     "countryFieldPlaceholder": "Select country",
+    "typeFieldPlaceholder": "Select type",
+    "typeFieldHelperText": "Select the grammatical type of this expression",
     "cantonFieldHelperText": "Select the cantons this expression is associated with",
     "descriptionFieldHelperText": "Write for a large audience. Lots of people will read this, so give some background information.",
     "examplesFieldHelperText": "Provide examples of how this expression is used in context, or how it is used in a sentence. This will help others understand the expression better.",
@@ -364,9 +366,10 @@
     "errorMessage": "Something went wrong. Please try again later."
   },
   "legal": {
-    "lastUpdated": "Last updated",
     "companyName": "Dialektli",
     "email": "urbanswisstionary@gmail.com",
+    "lastUpdated": "Last updated",
+    "copyrights": "© {year} Dialektli. All rights reserved.",
     "tos": {
       "title": "Terms of use",
       "description": {
@@ -470,9 +473,7 @@
         "paragraph": "Any feedback you provide on this website will be considered non-confidential. Dialektli is entitled to use this information without restriction."
       },
       "updates": {
-        "title": "Updated",
-        "updated": "Updated: February 2024",
-        "copyrights": "Copyright © 2024 Dialektli. All rights reserved."
+        "title": "Updated"
       }
     },
     "privacyPolicy": {

@@ -54,8 +54,8 @@ const ExpressionTypeInput: FC<ExpressionTypeInputProps> = ({
           if (onChange) onChange(val as ExpressionType)
         }}
       >
-        <SelectTrigger>
-          <SelectValue placeholder="Select a type" />
+        <SelectTrigger className="h-auto text-start">
+          <SelectValue placeholder={t("expression.typeFieldPlaceholder")} />
         </SelectTrigger>
         <SelectContent className="w-(--radix-select-trigger-width) max-w-full">
           {options.map((option) => (

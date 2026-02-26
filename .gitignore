@@ -63,3 +63,6 @@ kleiner_snapshot_*
 skills-lock.json
 
 .vscode/
+
+# lint cache
+.eslintcache
