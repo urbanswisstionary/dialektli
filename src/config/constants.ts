@@ -1,2 +1,2 @@
 export const companyName = "Dialektli"
-export const email = "urbanswisstionary@gmail.com"
+export const companyEmail = "urbanswisstionary@gmail.com"

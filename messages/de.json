@@ -372,21 +372,15 @@
     "title": "Über Dialektli",
     "paragraph1": "Hoi zame!",
     "paragraph2": "Dialektli möchte eine Plattform bieten, um die vielfältigen Schweizer Ausdrücke, Wörter und Redewendungen zu feiern und zu teilen.",
-    "paragraph3": "Inspiriert vom Geist gemeinschaftsgetriebener Plattformen wie Urban Dictionary nimmt Dialektli die Graswurzelnatur der Sprachentwicklung an. Benutzer tragen ihre eigenen einzigartigen Ausdrücke, Anekdoten und sprachlichen Einblicke bei.",
-    "paragraph4": "Wir erkennen an, dass eine Sprache, die ausschliesslich mündlich bleibt, mit der Zeit in Vergessenheit geraten kann. Wir schöpfen Motivation aus den akribischen Dokumentationsbemühungen wie dem Idiotikon, dem Schweizer Dialektatlas-Projekt und dem Kleiner Sprachatlas der deutschen Schweiz, die sich seit langem der Katalogisierung und Bewahrung der Schweizer Dialekte sowie des sprachlichen und kulturellen Erbes widmen.",
+    "paragraph3": "Inspiriert vom Geist gemeinschaftsgetriebener Plattformen wie <urbanDictionary>Urban Dictionary</urbanDictionary> nimmt Dialektli die Graswurzelnatur der Sprachentwicklung an. Benutzer tragen ihre eigenen einzigartigen Ausdrücke, Anekdoten und sprachlichen Einblicke bei.",
+    "paragraph4": "Wir erkennen an, dass eine Sprache, die ausschliesslich mündlich bleibt, mit der Zeit in Vergessenheit geraten kann. Wir schöpfen Motivation aus den akribischen Dokumentationsbemühungen wie dem <idiotikon>Idiotikon</idiotikon>, dem <swissDialectsAtlas>Schweizer Dialektatlas-Projekt</swissDialectsAtlas> und dem <kleinerSprachatlas>Kleiner Sprachatlas der deutschen Schweiz</kleinerSprachatlas>, die sich seit langem der Katalogisierung und Bewahrung der Schweizer Dialekte sowie des sprachlichen und kulturellen Erbes widmen.",
     "paragraph5": "Die Bedeutung einer schriftlichen Form für eine Sprache kann nicht hoch genug eingeschätzt werden. Das Schreiben dient als wichtiges Werkzeug für die Bewahrung und Weitergabe von Sprache über Generationen hinweg. Es ermöglicht die Aufzeichnung historischer Ereignisse, Traditionen und kultureller Praktiken und bietet zukünftigen Generationen eine greifbare Verbindung zur Vergangenheit, die sie erforschen und verstehen können. Darüber hinaus erleichtert das Schreiben die Kommunikation über geografische Grenzen hinweg und ermöglicht es Sprechern der Sprache, sich über verschiedene Regionen und Gemeinschaften hinweg zu verbinden und auszutauschen.",
     "paragraph6": "Darüber hinaus trägt eine schriftliche Form einer Sprache zu ihrem Prestige und ihrer Anerkennung bei, sowohl national als auch international. Sie eröffnet Möglichkeiten für Literatur, Bildung und wissenschaftliche Forschung und fördert ein tieferes Verständnis und eine grössere Wertschätzung des reichen sprachlichen Erbes der Sprache.",
     "paragraph7": "Dialektli möchte das Beste aus beiden Welten vereinen, indem es einen dynamischen und interaktiven Raum bietet, in dem Benutzer zur Schweizer Sprache und Kultur beitragen, sie erkunden und sich mit ihr auseinandersetzen können. Egal, ob Sie daran interessiert sind, die Ursprünge eines bestimmten Schweizerdeutschen Ausdrucks zu entdecken, einen geliebten regionalen Ausdruck zu teilen oder in die reiche sprachliche Landschaft der Schweiz einzutauchen – Dialektli ist die perfekte Plattform für Sprachbegeisterte und Kulturliebhaber gleichermassen.",
     "paragraph8": "Indem wir Benutzer ermutigen, zu Dialektli beizutragen, möchten wir Einzelpersonen befähigen, eine aktive Rolle bei der Bewahrung und Förderung ihres sprachlichen Erbes zu spielen. Gemeinsam können wir sicherstellen, dass Schweizer Dialekte weiterhin gedeihen – nicht nur gesprochen, sondern auch in schriftlicher Form, um ihre Schönheit und Vielfalt zu bewahren.",
     "paragraph9": "Schliesslich danken wir von Herzen allen unseren Benutzern und Mitwirkenden, einschliesslich Panter AG, M. Ruepp, M. Wettstein, R. Gulla, I. Peterkovsky und R. Aeschbacher, die dazu beigetragen haben, Dialektli zu der lebendigen Gemeinschaft zu formen, die es sein möchte. Vielen Dank für Ihre kontinuierliche Unterstützung und Ihr Engagement für die Bewahrung und Feier des sprachlichen Erbes der Schweiz.",
     "paragraph10": "Feiern Sie mit uns die Schönheit und Vielfalt der Schweizer Sprache und Kultur.",
-    "paragraph11": "Grüezi uf Dialektli!",
-    "externalLinks": {
-      "urbanDictionary": "https://www.urbandictionary.com/",
-      "idiotikon": "https://www.idiotikon.ch/",
-      "swissDialectsAtlas": "https://sdats.ch/",
-      "kleinerSprachatlas": "https://www.kleinersprachatlas.ch/"
-    }
+    "paragraph11": "Grüezi uf Dialektli!"
   },
   "legal": {
     "companyName": "Dialektli",

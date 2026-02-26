@@ -371,20 +371,15 @@
     "title": "À propos de Dialektli",
     "paragraph1": "Hoi zame !",
     "paragraph2": "Dialektli vise à fournir une plateforme pour célébrer et partager la diversité des expressions, mots et idiomes suisses.",
-    "paragraph3": "Inspiré par l'esprit des plateformes communautaires comme l'Urban Dictionary, Dialektli embrasse la nature locale de l'évolution du langage. Les utilisateurs apportent leurs propres expressions uniques, anecdotes et idées linguistiques.",
-    "paragraph4": "Nous reconnaissons qu'une langue qui reste uniquement orale risque de sombrer dans l'obscurité avec le temps. Nous tirons notre motivation des efforts de documentation méticuleux tels que l'Idiotikon et le Projet Atlas des dialectes suisses, qui se consacrent depuis longtemps au catalogage et à la préservation des dialectes suisses et du patrimoine linguistique et culturel.",
+    "paragraph3": "Inspiré par l'esprit des plateformes communautaires comme l'<urbanDictionaryurbanDictionary>Urban Dictionary</urbanDictionary>, Dialektli embrasse la nature locale de l'évolution du langage. Les utilisateurs apportent leurs propres expressions uniques, anecdotes et idées linguistiques.",
+    "paragraph4": "Nous reconnaissons qu'une langue qui demeure uniquement orale risque de tomber dans l'oubli avec le temps, et nous puisons notre motivation dans les efforts de documentation minutieux tels que <idiotikon>Idiotikon</idiotikon>, <swissDialectsAtlas>Atlas linguistique de la Suisse</swissDialectsAtlas> et <kleinerSprachatlas>Kleiner Sprachatlas der deutschen Schweiz</kleinerSprachatlas>, qui se consacrent depuis longtemps au recensement et à la préservation des dialectes suisses ainsi que du patrimoine linguistique et culturel.",
     "paragraph5": "L'importance d'avoir une forme écrite pour une langue ne peut être surestimée. L'écriture est un outil essentiel pour la préservation et la transmission de la langue à travers les générations. Elle permet d'enregistrer des événements historiques, des traditions et des pratiques culturelles, fournissant ainsi un lien tangible au passé pour que les générations futures puissent l'explorer et le comprendre. De plus, l'écriture facilite la communication au-delà des frontières géographiques, permettant aux locuteurs de se connecter et d'interagir à travers différentes régions et communautés.",
     "paragraph6": "Avoir une forme écrite pour une langue contribue également à son prestige et à sa reconnaissance, tant au niveau national qu'international. Cela ouvre des opportunités pour la littérature, l'éducation et la recherche scientifique, favorisant une compréhension et une appréciation plus profondes du riche héritage linguistique.",
     "paragraph7": "Dialektli vise à combiner le meilleur des deux mondes en offrant un espace dynamique et interactif permettant aux utilisateurs de contribuer, d'explorer et de s'impliquer dans la langue et la culture suisses. Que vous souhaitiez découvrir les origines d'une expression suisse-allemande particulière, partager une expression régionale appréciée, ou vous immerger dans le riche paysage linguistique de la Suisse, Dialektli est la plateforme idéale pour les passionnés de langues et les amoureux de la culture.",
     "paragraph8": "En encourageant les utilisateurs à contribuer à Dialektli, nous souhaitons permettre à chacun de jouer un rôle actif dans la préservation et la promotion de son patrimoine linguistique. Ensemble, nous pouvons garantir que les dialectes suisses continuent de s'épanouir, non seulement à l'oral, mais aussi sous forme écrite, en préservant leur beauté et leur diversité.",
     "paragraph9": "Enfin, nous exprimons notre sincère gratitude à tous nos utilisateurs et contributeurs (Panter AG, M. Ruepp, M. Wettstein, R. Gulla, I. Peterkovsky, R. Aeschbacher) qui ont contribué à faire de Dialektli la communauté dynamique qu'elle aspire à être. Merci pour votre soutien continu et votre dévouement à la préservation et à la célébration du patrimoine linguistique de la Suisse.",
     "paragraph10": "Rejoignez-nous pour célébrer la beauté et la diversité de la langue et de la culture suisses.",
-    "paragraph11": "Grüezi uf Dialektli !",
-    "externalLinks": {
-      "urbanDictionary": "https://www.urbandictionary.com/",
-      "idiotikon": "https://www.idiotikon.ch/",
-      "swissDialectsAtlas": "https://sdats.ch/"
-    }
+    "paragraph11": "Grüezi uf Dialektli !"
   },
   "legal": {
     "companyName": "Dialektli",

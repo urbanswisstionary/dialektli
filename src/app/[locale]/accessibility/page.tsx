@@ -3,24 +3,25 @@
 import { useTranslations } from "next-intl"
 
 import { Card, CardContent } from "@/components/ui/card"
+import { companyEmail } from "@/config/constants"
+
+const renderListItems = (items: string[]) => {
+  return (
+    <ul className="mt-2 mb-4 pl-6">
+      {items.map((item, index) => (
+        <li key={index} className="mb-1">
+          <p className="leading-[1.8]">{item}</p>
+        </li>
+      ))}
+    </ul>
+  )
+}
 
 export default function AccessibilityPage() {
   const t = useTranslations()
 
-  const renderListItems = (items: string[]) => {
-    return (
-      <ul className="mt-2 mb-4 pl-6">
-        {items.map((item, index) => (
-          <li key={index} className="mb-1">
-            <p className="leading-[1.8]">{item}</p>
-          </li>
-        ))}
-      </ul>
-    )
-  }
-
   return (
-    <div className="mx-auto flex max-w-[900px] flex-col gap-6 px-6 py-8">
+    <div className="mx-auto flex max-w-225 flex-col gap-6 px-6 py-8">
       <Card>
         <CardContent className="p-6 md:p-10">
           <h1 className="mb-8 text-3xl font-semibold text-primary">
@@ -50,14 +51,7 @@ export default function AccessibilityPage() {
           <p className="mb-2 leading-[1.8]">
             {t("accessibility.features.intro")}
           </p>
-          {renderListItems([
-            t("accessibility.features.list.0" as any),
-            t("accessibility.features.list.1" as any),
-            t("accessibility.features.list.2" as any),
-            t("accessibility.features.list.3" as any),
-            t("accessibility.features.list.4" as any),
-            t("accessibility.features.list.5" as any),
-          ])}
+          {renderListItems(t.raw("accessibility.features.list"))}
 
           {/* Report Issues */}
           <h2 className="mt-10 mb-4 text-xl font-semibold">
@@ -79,7 +73,7 @@ export default function AccessibilityPage() {
               href="mailto:urbanswisstionary@gmail.com"
               className="font-medium text-primary underline-offset-4 hover:underline"
             >
-              urbanswisstionary@gmail.com
+              {companyEmail}
             </a>
           </div>
 
