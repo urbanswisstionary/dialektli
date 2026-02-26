@@ -1,23 +1,25 @@
 "use client"
 
-import { useTranslations } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 
 import { Card, CardContent } from "@/components/ui/card"
+import { formatMonthName } from "@/utils/formatMonthName"
+
+const renderListItems = (items: string[]) => {
+  return (
+    <ul className="mt-2 mb-4 pl-6">
+      {items.map((item, index) => (
+        <li key={index} className="mb-1">
+          <p className="leading-[1.8]">{item}</p>
+        </li>
+      ))}
+    </ul>
+  )
+}
 
 export default function TOSPage() {
   const t = useTranslations()
-
-  const renderListItems = (items: string[]) => {
-    return (
-      <ul className="mt-2 mb-4 pl-6">
-        {items.map((item, index) => (
-          <li key={index} className="mb-1">
-            <p className="leading-[1.8]">{item}</p>
-          </li>
-        ))}
-      </ul>
-    )
-  }
+  const locale = useLocale()
 
   return (
     <div className="mx-auto flex max-w-225 flex-col gap-6 px-6 py-8">
@@ -201,10 +203,12 @@ export default function TOSPage() {
               {t("legal.tos.updates.title")}
             </h2>
             <p className="mb-2 text-sm italic text-muted-foreground">
-              {t("legal.tos.updates.updated")}
+              {t("legal.lastUpdated")}: {formatMonthName(1, { locale })} 2024
             </p>
             <p className="text-sm italic text-muted-foreground">
-              {t("legal.tos.updates.copyrights")}
+              {t("legal.copyrights", {
+                year: new Date().getFullYear(),
+              })}
             </p>
           </div>
         </CardContent>

@@ -1,11 +1,13 @@
 "use client"
 
-import { useTranslations } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 
 import { Card, CardContent } from "@/components/ui/card"
+import { formatMonthName } from "@/utils/formatMonthName"
 
 export default function PrivacyPolicyPage() {
   const t = useTranslations()
+  const locale = useLocale()
 
   return (
     <div className="mx-auto flex max-w-225 flex-col gap-6 px-6 py-8">
@@ -154,7 +156,7 @@ export default function PrivacyPolicyPage() {
 
           <div className="mt-12 border-t border-border pt-6">
             <p className="text-sm italic text-muted-foreground">
-              {t("legal.lastUpdated")}: February 2024
+              {t("legal.lastUpdated")}: {formatMonthName(1, { locale })} 2024
             </p>
           </div>
         </CardContent>

@@ -385,9 +385,10 @@
     }
   },
   "legal": {
-    "lastUpdated": "Dernière mise à jour",
     "companyName": "Dialektli",
     "email": "urbanswisstionary@gmail.com",
+    "lastUpdated": "Dernière mise à jour",
+    "copyrights": "© {year} Dialektli. Tous droits réservés.",
     "tos": {
       "title": "Conditions d'utilisation",
       "description": {
@@ -491,9 +492,7 @@
         "paragraph": "Tout commentaire que vous formulez sur ce site sera considéré comme non confidentiel. Dialektli est autorisé à utiliser ces informations sans restriction."
       },
       "updates": {
-        "title": "Mise à jour",
-        "updated": "Mis à jour : février 2024",
-        "copyrights": "Copyright © 2024 Dialektli. Tous droits réservés."
+        "title": "Mise à jour"
       }
     },
     "privacyPolicy": {

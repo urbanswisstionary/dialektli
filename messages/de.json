@@ -389,6 +389,8 @@
   "legal": {
     "companyName": "Dialektli",
     "email": "urbanswisstionary@gmail.com",
+    "lastUpdated": "Zuletzt aktualisiert",
+    "copyrights": "© {year} Dialektli. Alle Rechte vorbehalten.",
     "tos": {
       "title": "Nutzungsbedingungen",
       "description": {
@@ -492,9 +494,7 @@
         "paragraph": "Jegliches Feedback, das Sie auf dieser Website geben, wird als nicht vertraulich betrachtet. Dialektli ist berechtigt, diese Informationen uneingeschränkt zu nutzen."
       },
       "updates": {
-        "title": "Aktualisiert",
-        "updated": "Aktualisiert: Februar 2024",
-        "copyrights": "Urheberrecht © 2024 Dialektli. Alle Rechte vorbehalten."
+        "title": "Aktualisiert"
       }
     },
     "privacyPolicy": {
@@ -580,8 +580,7 @@
         "title": "4. Wiederholungstäter",
         "content": "Dialektli wird die Konten von Benutzern kündigen, die als wiederholte Urheberrechtsverletzer identifiziert werden."
       }
-    },
-    "lastUpdated": "Zuletzt aktualisiert"
+    }
   },
   "accessibility": {
     "title": "Barrierefreiheitserklärung",
