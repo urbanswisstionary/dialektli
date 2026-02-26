@@ -41,7 +41,7 @@ const CANTON_LABEL_OFFSETS: Record<
 const GEO_Y_SCALE = 2.02 / 1.57
 
 const MIN_ZOOM = 1
-const MAX_ZOOM = 2
+const MAX_ZOOM = 3
 const ZOOM_STEP = 0.5
 
 interface CantonMapProps {
