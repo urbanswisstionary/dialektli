@@ -10,7 +10,6 @@ import Layout from "@/components/layout/Layout"
 import ApolloProvider from "@/components/providers/ApolloProvider"
 import SessionProvider from "@/components/providers/SessionProvider"
 import ThemeProvider from "@/components/providers/ThemeProvider"
-import { cn } from "@/lib/utils"
 import "@/app/globals.css"
 import { locales } from "../../i18n/request"
 
@@ -44,12 +43,21 @@ export const metadata: Metadata = {
     title: "Dialektli - Swiss Dialect Dictionary",
     description:
       "Community-driven platform for Swiss expressions, words, and idioms",
+    images: [
+      {
+        url: "https://dialektli.ch/assets/dialektli_logo.svg",
+        width: 1200,
+        height: 630,
+        alt: "Dialektli Logo",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Dialektli - Swiss Dialect Dictionary",
     description:
       "Community-driven platform for Swiss expressions, words, and idioms",
+    images: ["https://dialektli.ch/assets/dialektli_logo.svg"],
   },
   robots: {
     index: true,
@@ -85,8 +93,9 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <html
       lang={locale}
-      className={cn(roboto.variable, "scroll-smooth")}
+      className={roboto.variable}
       suppressHydrationWarning
+      data-scroll-behavior="smooth"
     >
       <body>
         <SessionProvider>
