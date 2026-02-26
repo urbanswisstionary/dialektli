@@ -244,6 +244,8 @@
     "cannotVoteOwnExpression": "Du kannst nicht für deinen eigenen Ausdruck abstimmen",
     "cantonFieldPlaceholder": "Kanton auswählen",
     "countryFieldPlaceholder": "Land auswählen",
+    "typeFieldPlaceholder": "Typ auswählen",
+    "typeFieldHelperText": "Wählen Sie den grammatikalischen Typ dieses Ausdrucks aus",
     "cantonFieldHelperText": "Wählen Sie die Kantone aus, mit denen dieser Ausdruck verbunden ist",
     "descriptionFieldHelperText": "Schreiben Sie für ein grosses Publikum. Viele Menschen werden dies lesen, also geben Sie einige Hintergrundinformationen.",
     "examplesFieldHelperText": "Geben Sie Beispiele dafür, wie dieser Ausdruck im Kontext verwendet wird, oder wie er in einem Satz verwendet wird. Dies hilft anderen, den Ausdruck besser zu verstehen.",

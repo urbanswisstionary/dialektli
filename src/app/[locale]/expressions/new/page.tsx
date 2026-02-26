@@ -165,6 +165,7 @@ export default function NewExpressionPage() {
             label={t("expression.form.type")}
             value={type}
             onChange={(newType) => setType(newType ?? null)}
+            helperText={t("expression.typeFieldHelperText")}
           />
           <div className="flex flex-col gap-1.5">
             <label className="text-sm font-medium">

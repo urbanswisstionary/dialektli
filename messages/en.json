@@ -245,6 +245,8 @@
     "cannotVoteOwnExpression": "You cannot vote on your own expression",
     "cantonFieldPlaceholder": "Select canton",
     "countryFieldPlaceholder": "Select country",
+    "typeFieldPlaceholder": "Select type",
+    "typeFieldHelperText": "Select the grammatical type of this expression",
     "cantonFieldHelperText": "Select the cantons this expression is associated with",
     "descriptionFieldHelperText": "Write for a large audience. Lots of people will read this, so give some background information.",
     "examplesFieldHelperText": "Provide examples of how this expression is used in context, or how it is used in a sentence. This will help others understand the expression better.",
