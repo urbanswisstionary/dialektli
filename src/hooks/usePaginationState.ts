@@ -8,7 +8,7 @@ type PaginationState = {
   pageCount: number
 }
 
-const defaultState: PaginationState = {
+export const defaultState: PaginationState = {
   pageIndex: 1,
   pageSize: 5,
   pageCount: 1,

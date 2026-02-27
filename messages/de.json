@@ -5,6 +5,7 @@
   "redirecting": "Weiterleiten...",
   "selectLanguage": {
     "title": "Sprache auswählen",
+    "all": "Alle",
     "en": "English",
     "de": "Deutsch",
     "DE": "Deutsch",
@@ -12,6 +13,11 @@
     "FR": "Français",
     "it": "Italiano",
     "IT": "Italiano"
+  },
+  "selectSort": {
+    "title": "Sortieren",
+    "random": "Zufällig",
+    "popularity": "Am beliebtesten"
   },
   "layout": {
     "sidebar": {
@@ -628,5 +634,13 @@
     "zoomIn": "Heranzoomen",
     "zoomOut": "Herauszoomen",
     "zoomReset": "Zoom zurücksetzen"
+  },
+  "pagination": {
+    "firstPage": "Erste Seite",
+    "previous": "Vorherige Seite",
+    "next": "Nächste Seite",
+    "lastPage": "Letzte Seite",
+    "currentPage": "Seite {current} von {total}",
+    "perPage": "{count} pro Seite"
   }
 }

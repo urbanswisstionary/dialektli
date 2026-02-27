@@ -16,5 +16,5 @@ export const sanitizeCantons = (cantons: string[] = []): string[] => {
 export const sanitizeFirstChar = (firstChar?: string): string | undefined =>
   firstChar && allLetters.includes(firstChar[0]) ? firstChar[0] : undefined
 
-export const sanitizeLanguage = (language?: string): Language | null =>
-  languages.includes(language as Language) ? (language as Language) : null
+export const sanitizeLanguage = (language?: string): Language | undefined =>
+  languages.includes(language as Language) ? (language as Language) : undefined

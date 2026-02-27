@@ -6,6 +6,7 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from "lucide-react"
+import { useTranslations } from "next-intl"
 import { FC } from "react"
 
 import { Button } from "@/components/ui/button"
@@ -26,7 +27,7 @@ export interface PaginationProps {
   disabled?: boolean
 }
 
-const pageSizeOptions = [5, 10, 20, 50]
+const pageSizeOptions = [5, 10, 20]
 
 const Pagination: FC<PaginationProps> = ({
   pageCount = 1,
@@ -36,6 +37,7 @@ const Pagination: FC<PaginationProps> = ({
   onPageSizeChange,
   disabled,
 }) => {
+  const t = useTranslations("pagination")
   const isDisabled = disabled ?? pageCount <= 1
 
   return (
@@ -47,6 +49,7 @@ const Pagination: FC<PaginationProps> = ({
           className="hidden h-8 w-8 sm:inline-flex"
           onClick={() => onPageChange?.(1)}
           disabled={isDisabled || pageIndex <= 1}
+          aria-label={t("firstPage")}
         >
           <ChevronsLeft className="h-4 w-4" />
         </Button>
@@ -56,11 +59,12 @@ const Pagination: FC<PaginationProps> = ({
           className="h-8 w-8"
           onClick={() => onPageChange?.(pageIndex - 1)}
           disabled={isDisabled || pageIndex <= 1}
+          aria-label={t("previous")}
         >
           <ChevronLeft className="h-4 w-4" />
         </Button>
         <span className="px-2 text-sm text-muted-foreground">
-          {pageIndex} / {pageCount}
+          {t("currentPage", { current: pageIndex, total: pageCount })}
         </span>
         <Button
           variant="outline"
@@ -68,6 +72,7 @@ const Pagination: FC<PaginationProps> = ({
           className="h-8 w-8"
           onClick={() => onPageChange?.(pageIndex + 1)}
           disabled={isDisabled || pageIndex >= pageCount}
+          aria-label={t("next")}
         >
           <ChevronRight className="h-4 w-4" />
         </Button>
@@ -77,6 +82,7 @@ const Pagination: FC<PaginationProps> = ({
           className="hidden h-8 w-8 sm:inline-flex"
           onClick={() => onPageChange?.(pageCount)}
           disabled={isDisabled || pageIndex >= pageCount}
+          aria-label={t("lastPage")}
         >
           <ChevronsRight className="h-4 w-4" />
         </Button>
@@ -87,7 +93,10 @@ const Pagination: FC<PaginationProps> = ({
           onValueChange={(value) => onPageSizeChange?.(Number(value))}
           disabled={disabled}
         >
-          <SelectTrigger className="h-8 w-[70px]">
+          <SelectTrigger
+            className="h-8 w-17.5"
+            aria-label={t("perPage", { count: pageSize })}
+          >
             <SelectValue />
           </SelectTrigger>
           <SelectContent>

@@ -20,7 +20,7 @@ const Logo: FC<LogoProps> = ({ size = "large" }) => {
   return (
     <img
       src="/assets/dialektli_logo.svg"
-      alt={companyName}
+      alt={`${companyName} logo`}
       title={companyName}
       className={cn("pt-0.5", sizeClasses[size])}
     />

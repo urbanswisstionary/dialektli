@@ -9,7 +9,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar />
-      <main className="mx-auto w-full max-w-5xl flex-1 px-4 pb-4">
+      <main className="mx-auto w-full max-w-6xl flex-1 px-4 pb-4">
         {children}
       </main>
       <Footer />

@@ -4,6 +4,7 @@ import type { FC } from "react"
 
 import { cn } from "@/lib/utils"
 
+import { Button } from "../button"
 import { allLetters } from "./helper"
 
 interface SelectLetterProps {
@@ -12,6 +13,7 @@ interface SelectLetterProps {
   label?: string
   helperText?: string
   disabled?: boolean
+  clasName?: string
 }
 
 const SelectLetter: FC<SelectLetterProps> = ({
@@ -20,17 +22,19 @@ const SelectLetter: FC<SelectLetterProps> = ({
   label,
   helperText,
   disabled,
+  clasName,
 }) => {
   return (
-    <div>
+    <div className={clasName}>
       {label ? (
         <label className="mb-1 block text-sm font-medium">{label}</label>
       ) : null}
       <div className="flex flex-wrap gap-1">
         {allLetters.map((letter, i) => (
-          <button
+          <Button
             key={i}
             type="button"
+            size={"sm"}
             aria-label={letter}
             onClick={() => {
               if (onChange) onChange(letter)
@@ -45,7 +49,7 @@ const SelectLetter: FC<SelectLetterProps> = ({
             )}
           >
             {letter}
-          </button>
+          </Button>
         ))}
       </div>
       {helperText ? (

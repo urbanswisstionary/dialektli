@@ -2,10 +2,11 @@
 
 import type { FC } from "react"
 
-import { Loader2, SearchX } from "lucide-react"
+import { SearchX } from "lucide-react"
 import { useTranslations } from "next-intl"
 
 import ExpressionCard from "@/components/expression/ExpressionCard"
+import ExpressionCardSkeleton from "@/components/expression/ExpressionCardSkeleton"
 import {
   Empty,
   EmptyHeader,
@@ -15,6 +16,7 @@ import {
 import Pagination, { PaginationProps } from "@/components/ui/Pagination"
 import { FragmentType, getFragmentData } from "@/generated"
 import { ExpressionFragment } from "@/hooks/useExpressions"
+import { defaultState } from "@/hooks/usePaginationState"
 import { useMe } from "@/hooks/useUsers"
 import { cn } from "@/lib/utils"
 
@@ -43,9 +45,9 @@ const ExpressionsCardsList: FC<ExpressionsCardsListProps> = ({
     <div className={cn("flex flex-col gap-5", className)}>
       {pagination}
       {loading ? (
-        <div className="flex justify-center my-10">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        </div>
+        Array.from({
+          length: props.paginationProps?.pageSize ?? defaultState.pageSize,
+        }).map((_, i) => <ExpressionCardSkeleton key={i} />)
       ) : expressions.length ? (
         expressions.map((expression) => (
           <ExpressionCard

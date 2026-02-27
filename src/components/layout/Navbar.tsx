@@ -67,8 +67,19 @@ const Navbar: FC = () => {
         </Link>
 
         {/* Desktop Search */}
-        <div className="hidden flex-1 md:block md:max-w-120">
+        <div className="hidden flex-1 md:flex items-center gap-2 md:max-w-120">
           <SearchExpressionsInput className="w-full" />
+          {me && (
+            <Button variant="default" size="sm" asChild disabled={meLoading}>
+              <Link
+                href="/expressions/new"
+                className={cn(meLoading && "pointer-events-none opacity-50")}
+              >
+                <Plus className="h-4 w-4" />
+                {t("expression.newExpression.title")}
+              </Link>
+            </Button>
+          )}
         </div>
 
         {/* Spacer */}
@@ -105,93 +116,83 @@ const Navbar: FC = () => {
               {t("layout.sidebar.sprachatlas")}
             </Link>
           </Button>
-
-          {!meLoading && me && (
-            <Button variant="default" size="sm" asChild>
-              <Link href="/expressions/new">
-                <Plus className="mr-1.5 h-4 w-4" />
-                {t("expression.newExpression.title")}
-              </Link>
-            </Button>
-          )}
-
           <SelectLocale compact />
           <ColorSchemeToggle />
 
-          {!meLoading &&
-            (me ? (
-              <DropdownMenu open={userMenuOpen} onOpenChange={setUserMenuOpen}>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="relative h-9 w-9 rounded-full"
-                    aria-label={t("layout.sidebar.profile")}
-                  >
-                    <Avatar className="h-8 w-8">
-                      <AvatarFallback className="bg-primary text-primary-foreground text-xs font-medium">
-                        {getInitials(me.name ?? me.email ?? "U")}
-                      </AvatarFallback>
-                    </Avatar>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48">
-                  <div className="px-2 py-1.5">
-                    <p className="text-sm font-medium text-foreground">
-                      {me.name ?? me.email}
-                    </p>
-                    {me.name && (
-                      <p className="text-xs text-muted-foreground">
-                        {me.email}
-                      </p>
-                    )}
-                  </div>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
-                    <Link href="/account/profile">
-                      <User className="mr-2 h-4 w-4" />
-                      {t("layout.sidebar.profile")}
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/account/profile?view=expressions">
-                      <BookOpen className="mr-2 h-4 w-4" />
-                      {t("layout.sidebar.expressions")}
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/account/profile?view=favorites">
-                      <Bookmark className="mr-2 h-4 w-4" />
-                      {t("layout.sidebar.favorites")}
-                    </Link>
-                  </DropdownMenuItem>
-                  {isAdmin && (
-                    <DropdownMenuItem asChild>
-                      <Link href="/account/profile?view=users">
-                        <Users className="mr-2 h-4 w-4" />
-                        {t("layout.sidebar.users")}
-                      </Link>
-                    </DropdownMenuItem>
+          {me ? (
+            <DropdownMenu open={userMenuOpen} onOpenChange={setUserMenuOpen}>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="relative h-9 w-9 rounded-full"
+                  aria-label={t("layout.sidebar.profile")}
+                >
+                  <Avatar className="h-8 w-8">
+                    <AvatarFallback className="bg-primary text-primary-foreground text-xs font-medium">
+                      {getInitials(me.name ?? me.email ?? "U")}
+                    </AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <div className="px-2 py-1.5">
+                  <p className="text-sm font-medium text-foreground">
+                    {me.name ?? me.email}
+                  </p>
+                  {me.name && (
+                    <p className="text-xs text-muted-foreground">{me.email}</p>
                   )}
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    onClick={() => {
-                      setUserMenuOpen(false)
-                      signOut({ callbackUrl: "/" })
-                    }}
-                  >
-                    <LogOut className="mr-2 h-4 w-4" />
-                    {t("layout.sidebar.signOut")}
+                </div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/account/profile">
+                    <User className="mr-2 h-4 w-4" />
+                    {t("layout.sidebar.profile")}
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/account/profile?view=expressions">
+                    <BookOpen className="mr-2 h-4 w-4" />
+                    {t("layout.sidebar.expressions")}
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/account/profile?view=favorites">
+                    <Bookmark className="mr-2 h-4 w-4" />
+                    {t("layout.sidebar.favorites")}
+                  </Link>
+                </DropdownMenuItem>
+                {isAdmin && (
+                  <DropdownMenuItem asChild>
+                    <Link href="/account/profile?view=users">
+                      <Users className="mr-2 h-4 w-4" />
+                      {t("layout.sidebar.users")}
+                    </Link>
                   </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              <Button variant="outline" size="sm" asChild>
-                <Link href="/auth/signin">
-                  <LogIn className="mr-1.5 h-4 w-4" />
-                  {t("layout.sidebar.signIn")}
-                </Link>
-              </Button>
-            ))}
+                )}
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={() => {
+                    setUserMenuOpen(false)
+                    signOut({ callbackUrl: "/" })
+                  }}
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  {t("layout.sidebar.signOut")}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button variant="outline" size="sm" asChild disabled={meLoading}>
+              <Link
+                href="/auth/signin"
+                className={cn(meLoading && "pointer-events-none opacity-50")}
+              >
+                <LogIn className="mr-1.5 h-4 w-4" />
+                {t("layout.sidebar.signIn")}
+              </Link>
+            </Button>
+          )}
         </nav>
 
         {/* Mobile: search icon + dark mode + drawer */}

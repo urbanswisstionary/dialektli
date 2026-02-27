@@ -8,6 +8,8 @@ import { useState } from "react"
 
 import { cn } from "@/lib/utils"
 
+import { Button } from "./button"
+
 type AccordionContent = PropsWithChildren<{
   label?: string
   expanded?: boolean
@@ -21,7 +23,7 @@ const AccordionItem: FC<AccordionContent> = ({ children, label, expanded }) => {
 
   return (
     <div>
-      <button
+      <Button
         type="button"
         onClick={() => setOpen((o) => !o)}
         className="flex w-full items-center justify-between rounded-md border border-border bg-card px-3 py-2 text-sm hover:bg-accent"
@@ -35,7 +37,7 @@ const AccordionItem: FC<AccordionContent> = ({ children, label, expanded }) => {
           )}
           aria-label={t(`actions.${open ? "close" : "open"}`)}
         />
-      </button>
+      </Button>
       <div
         className={cn(
           "grid transition-[grid-template-rows] duration-200",

@@ -178,7 +178,7 @@ const ExpressionCard: FC<ExpressionCardProps> = ({
 
         {/* Footer: Author, Date, Actions */}
         <div className="border-t border-border pt-4 mt-4">
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-start gap-4 sm:items-center flex-col sm:flex-row ">
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
               <span className="font-medium">{t("expression.author")}:</span>
               {isOwnExpression ? (
@@ -191,7 +191,7 @@ const ExpressionCard: FC<ExpressionCardProps> = ({
                       author: expression.author?.name ?? "",
                     })
                   }}
-                  className="text-primary hover:underline relative z-10"
+                  className="text-primary cursor-pointer hover:underline relative z-10 py-3 px-1"
                   aria-label={`Filter expressions by author ${expression.author?.name}`}
                 >
                   {expression.author?.name}
