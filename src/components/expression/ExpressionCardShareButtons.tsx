@@ -125,13 +125,13 @@ const SocialIconButton: FC<{
       onClick={onShare}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="relative z-10 flex flex-col items-center gap-1.5 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-lg p-1"
+      className="relative z-10 flex cursor-pointer flex-col items-center gap-1.5 rounded-lg p-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
     >
       <span
         className={cn(
-          "w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200",
+          "flex h-12 w-12 items-center justify-center rounded-full transition-all duration-200",
           hovered && hasBrandColor
-            ? "text-white shadow-md scale-105"
+            ? "scale-105 text-white shadow-md"
             : "bg-muted text-muted-foreground",
         )}
         style={
@@ -142,7 +142,7 @@ const SocialIconButton: FC<{
       >
         {platform.icon}
       </span>
-      <span className="text-[10px] text-muted-foreground leading-none">
+      <span className="text-[10px] leading-none text-muted-foreground">
         {platform.label}
       </span>
     </button>
@@ -206,12 +206,12 @@ const ExpressionCardShareButtons: FC<{
       </PopoverTrigger>
       <PopoverContent align="end" sideOffset={6} className="w-64 p-4">
         {/* Header */}
-        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
+        <p className="mb-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase">
           Share
         </p>
 
         {/* First row: 3 icons */}
-        <div className="grid grid-cols-3 gap-1 justify-items-center mb-1">
+        <div className="mb-1 grid grid-cols-3 justify-items-center gap-1">
           {firstRow.map((platform) => (
             <SocialIconButton
               key={platform.id}
@@ -222,7 +222,7 @@ const ExpressionCardShareButtons: FC<{
         </div>
 
         {/* Second row: 2 icons centered */}
-        <div className="flex gap-1 justify-center mb-3">
+        <div className="mb-3 flex justify-center gap-1">
           {secondRow.map((platform) => (
             <SocialIconButton
               key={platform.id}
@@ -237,7 +237,7 @@ const ExpressionCardShareButtons: FC<{
           <button
             type="button"
             onClick={handleCopy}
-            className="relative z-10 w-full flex items-center gap-2.5 px-3 py-2 rounded-md text-sm text-foreground hover:bg-accent transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="relative z-10 flex w-full cursor-pointer items-center gap-2.5 rounded-md px-3 py-2 text-sm text-foreground transition-colors hover:bg-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <span
               className={cn(

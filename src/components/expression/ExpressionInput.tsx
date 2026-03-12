@@ -43,7 +43,7 @@ const ExpressionInput: FC<ExpressionInputProps> = ({
       {label ? (
         <Label className={cn(error && "text-destructive")}>
           {label}
-          {required && <span className="text-destructive ml-1">*</span>}
+          {required && <span className="ml-1 text-destructive">*</span>}
         </Label>
       ) : null}
       <Input

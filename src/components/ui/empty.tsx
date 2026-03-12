@@ -101,7 +101,7 @@ const EmptyDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={cn("text-sm text-muted-foreground max-w-xs", className)}
+    className={cn("max-w-xs text-sm text-muted-foreground", className)}
     {...props}
   />
 ))

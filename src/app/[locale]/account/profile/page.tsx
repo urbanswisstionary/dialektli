@@ -138,7 +138,7 @@ export default function ProfilePage() {
 
   if (loadingMe) {
     return (
-      <div className="flex items-center justify-center my-10">
+      <div className="my-10 flex items-center justify-center">
         <Loader2 className="h-15 w-15 animate-spin text-muted-foreground" />
       </div>
     )
@@ -163,7 +163,7 @@ export default function ProfilePage() {
     <div className="flex flex-col gap-6 py-6">
       <Card>
         <CardContent className="p-6">
-          <div className="flex flex-row gap-6 items-center">
+          <div className="flex flex-row items-center gap-6">
             <Avatar className="h-20 w-20">
               <AvatarImage
                 src={me.image ?? undefined}
@@ -171,14 +171,14 @@ export default function ProfilePage() {
               />
               <AvatarFallback className="text-lg">{initials}</AvatarFallback>
             </Avatar>
-            <div className="flex flex-col gap-2 flex-1">
+            <div className="flex flex-1 flex-col gap-2">
               <div className="flex items-center gap-2">
                 {editingName ? (
                   <>
                     <Input
                       value={nameValue}
                       onChange={(e) => setNameValue(e.target.value)}
-                      className="flex-1 h-8"
+                      className="h-8 flex-1"
                     />
                     <Button
                       variant="ghost"
@@ -292,7 +292,7 @@ export default function ProfilePage() {
             {t("layout.sidebar.expressions")}
           </TabsTrigger>
           <TabsTrigger value="favorites">
-            <Bookmark className="h-4 w-4 mr-1" />
+            <Bookmark className="mr-1 h-4 w-4" />
             {t("layout.sidebar.favorites")}
           </TabsTrigger>
           {isAdmin && (
@@ -333,7 +333,7 @@ export default function ProfilePage() {
         <TabsContent value="expressions">
           <div className="flex flex-col gap-4">
             {loadingExpressions ? (
-              <div className="flex items-center justify-center my-10">
+              <div className="my-10 flex items-center justify-center">
                 <Loader2 className="h-15 w-15 animate-spin text-muted-foreground" />
               </div>
             ) : expressions.length > 0 ? (
@@ -370,7 +370,7 @@ export default function ProfilePage() {
         <TabsContent value="favorites">
           <div className="flex flex-col gap-4">
             {loadingBookmarks ? (
-              <div className="flex items-center justify-center my-10">
+              <div className="my-10 flex items-center justify-center">
                 <Loader2 className="h-15 w-15 animate-spin text-muted-foreground" />
               </div>
             ) : bookmarks.length > 0 ? (
@@ -398,7 +398,7 @@ export default function ProfilePage() {
           <TabsContent value="users">
             <div className="flex flex-col gap-4">
               {loadingUsers ? (
-                <div className="flex items-center justify-center my-10">
+                <div className="my-10 flex items-center justify-center">
                   <Loader2 className="h-15 w-15 animate-spin text-muted-foreground" />
                 </div>
               ) : users.length > 0 ? (
@@ -462,7 +462,7 @@ export default function ProfilePage() {
                   </Table>
                 </Card>
               ) : (
-                <p className="text-base text-muted-foreground text-center">
+                <p className="text-center text-base text-muted-foreground">
                   {t("auth.profile.noUsersFound")}
                 </p>
               )}

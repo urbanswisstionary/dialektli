@@ -109,7 +109,7 @@ export default function SprachatlasPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-6">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-foreground text-balance">
+        <h1 className="text-3xl font-bold text-balance text-foreground">
           {t("layout.sidebar.sprachatlas")}
         </h1>
         <p className="mt-1 text-muted-foreground">{ts("subtitle")}</p>

@@ -37,7 +37,7 @@ const SelectLocationOption: FC<SelectLocationOptionProps> = ({
     className={cn(
       "flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm hover:bg-accent",
       selected && "bg-accent",
-      focused && "bg-accent outline-none ring-1 ring-ring",
+      focused && "bg-accent ring-1 ring-ring outline-none",
       className,
     )}
   >

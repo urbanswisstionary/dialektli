@@ -96,7 +96,7 @@ export default function AboutPage() {
               return (
                 <h2
                   key={key}
-                  className="mb-6 text-xl font-semibold italic text-foreground"
+                  className="mb-6 text-xl font-semibold text-foreground italic"
                 >
                   {text}
                 </h2>
@@ -107,7 +107,7 @@ export default function AboutPage() {
               return (
                 <h3
                   key={key}
-                  className="mt-8 text-lg font-semibold italic text-primary"
+                  className="mt-8 text-lg font-semibold text-primary italic"
                 >
                   {text}
                 </h3>

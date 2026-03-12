@@ -65,11 +65,11 @@ const ExpressionCard: FC<ExpressionCardProps> = ({
         aria-label={`View expression: ${expression?.title}`}
       />
 
-      <CardContent className="p-0 relative">
+      <CardContent className="relative p-0">
         {/* Header: Title, Cantons, Bookmark */}
-        <div className="flex justify-between items-start mb-4">
+        <div className="mb-4 flex items-start justify-between">
           <div className="flex-1">
-            <div className="flex items-center gap-2 mb-2 flex-wrap">
+            <div className="mb-2 flex flex-wrap items-center gap-2">
               <h3 className="text-lg font-bold">{expression?.title}</h3>
               {expression?.gender && (
                 <span
@@ -97,7 +97,7 @@ const ExpressionCard: FC<ExpressionCardProps> = ({
 
             {/* Canton badges */}
             {cantons.length > 0 && (
-              <div className="flex gap-1 flex-wrap mb-2">
+              <div className="mb-2 flex flex-wrap gap-1">
                 <TooltipProvider>
                   {visibleCantons.map((canton, i) => (
                     <Tooltip key={i}>
@@ -109,7 +109,7 @@ const ExpressionCard: FC<ExpressionCardProps> = ({
                               canton: canton,
                             })
                           }}
-                          className="inline-flex rounded transition-all hover:scale-105 focus:outline-primary focus:outline-2 focus:outline-offset-2"
+                          className="inline-flex rounded transition-all hover:scale-105 focus:outline-2 focus:outline-offset-2 focus:outline-primary"
                           aria-label={`Filter by canton ${canton}`}
                         >
                           <CantonBadge
@@ -158,7 +158,7 @@ const ExpressionCard: FC<ExpressionCardProps> = ({
         </div>
 
         {/* Definition */}
-        <p className="text-sm leading-relaxed text-foreground/90 mb-4">
+        <p className="mb-4 text-sm leading-relaxed text-foreground/90">
           {expression?.definition}
         </p>
 
@@ -177,8 +177,8 @@ const ExpressionCard: FC<ExpressionCardProps> = ({
         )}
 
         {/* Footer: Author, Date, Actions */}
-        <div className="border-t border-border pt-4 mt-4">
-          <div className="flex justify-between items-start gap-4 sm:items-center flex-col sm:flex-row ">
+        <div className="mt-4 border-t border-border pt-4">
+          <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center ">
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
               <span className="font-medium">{t("expression.author")}:</span>
               {isOwnExpression ? (
@@ -191,7 +191,7 @@ const ExpressionCard: FC<ExpressionCardProps> = ({
                       author: expression.author?.name ?? "",
                     })
                   }}
-                  className="text-primary cursor-pointer hover:underline relative z-10 py-3 px-1"
+                  className="relative z-10 cursor-pointer px-1 py-3 text-primary hover:underline"
                   aria-label={`Filter expressions by author ${expression.author?.name}`}
                 >
                   {expression.author?.name}

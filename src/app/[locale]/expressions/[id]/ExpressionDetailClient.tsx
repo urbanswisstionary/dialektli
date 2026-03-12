@@ -31,7 +31,7 @@ const ExpressionDetailClient: FC<ExpressionDetailClientProps> = ({
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center my-10">
+      <div className="my-10 flex items-center justify-center">
         <Loader2 className="h-15 w-15 animate-spin text-muted-foreground" />
       </div>
     )

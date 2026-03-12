@@ -63,14 +63,14 @@ export default function BugReportPage() {
               <div className="flex flex-col gap-2">
                 <Label htmlFor="email">
                   {t("bugReport.email")}
-                  <span className="text-destructive ml-1">*</span>
+                  <span className="ml-1 text-destructive">*</span>
                 </Label>
                 <Input id="email" name="email" type="email" required />
               </div>
               <div className="flex flex-col gap-y-2">
                 <Label htmlFor="bugDescription">
                   {t("bugReport.bugDescription.label")}
-                  <span className="text-destructive ml-1">*</span>
+                  <span className="ml-1 text-destructive">*</span>
                 </Label>
                 <Textarea
                   id="bugDescription"
@@ -85,7 +85,7 @@ export default function BugReportPage() {
               <div className="flex flex-col gap-y-2">
                 <Label htmlFor="reproductionSteps">
                   {t("bugReport.reproductionSteps.label")}
-                  <span className="text-destructive ml-1">*</span>
+                  <span className="ml-1 text-destructive">*</span>
                 </Label>
                 <Textarea
                   id="reproductionSteps"
@@ -102,7 +102,7 @@ export default function BugReportPage() {
               <div className="flex flex-col gap-y-2">
                 <Label htmlFor="expectedBehavior">
                   {t("bugReport.expectedBehavior.label")}
-                  <span className="text-destructive ml-1">*</span>
+                  <span className="ml-1 text-destructive">*</span>
                 </Label>
                 <Textarea
                   id="expectedBehavior"

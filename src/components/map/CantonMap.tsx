@@ -480,7 +480,7 @@ export function CantonMap({
                         textAnchor="middle"
                         dominantBaseline="central"
                         fill="#FFFFFF"
-                        className="select-none text-[12px] font-semibold"
+                        className="text-[12px] font-semibold select-none"
                         style={{ opacity: isActive ? 1 : 0.6 }}
                       >
                         {canton.id}
@@ -500,7 +500,7 @@ export function CantonMap({
                           ? "hsl(220, 10%, 75%)"
                           : "hsl(220, 15%, 35%)"
                     }
-                    className="pointer-events-none select-none text-[12px] font-semibold"
+                    className="pointer-events-none text-[12px] font-semibold select-none"
                     style={{
                       opacity: isActive ? 1 : 0.6,
                       transform: `scaleY(${1 / GEO_Y_SCALE})`,
@@ -517,7 +517,7 @@ export function CantonMap({
       </svg>
 
       {/* Zoom controls */}
-      <div className="absolute bottom-2 right-2 flex flex-col gap-1">
+      <div className="absolute right-2 bottom-2 flex flex-col gap-1">
         <Button
           variant="outline"
           size="icon"

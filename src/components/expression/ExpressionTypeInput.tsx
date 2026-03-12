@@ -62,7 +62,7 @@ const ExpressionTypeInput: FC<ExpressionTypeInputProps> = ({
             <SelectItem key={option.type} value={option.type}>
               <div className="flex flex-col gap-0.5">
                 <span className="text-sm font-medium">{option.label}</span>
-                <span className="max-w-full text-xs text-muted-foreground whitespace-normal wrap-break-word">
+                <span className="max-w-full text-xs wrap-break-word whitespace-normal text-muted-foreground">
                   {option.description}
                 </span>
               </div>

@@ -15,7 +15,7 @@ const ExpressionCardContentList: FC<
   <div className="border-t border-border">
     <div
       className={cn(
-        "border-b-2 border-border py-1 my-1 block font-medium text-sm",
+        "my-1 block border-b-2 border-border py-1 text-sm font-medium",
         disabled && "text-muted-foreground",
       )}
     >

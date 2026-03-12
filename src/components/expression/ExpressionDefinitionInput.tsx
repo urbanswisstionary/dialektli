@@ -29,14 +29,14 @@ const ExpressionDefinitionInput: FC<ExpressionDefinitionInputProps> = ({
     {label ? (
       <Label className={cn(error && "text-destructive")}>
         {label}
-        {required && <span className="text-destructive ml-1">*</span>}
+        {required && <span className="ml-1 text-destructive">*</span>}
       </Label>
     ) : null}
     <DebouncedTextarea
       value={value}
       onChange={(value) => onChange(value)}
       disabled={disabled}
-      className="resize-y min-h-25 max-h-50"
+      className="max-h-50 min-h-25 resize-y"
     />
   </div>
 )

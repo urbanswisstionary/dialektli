@@ -65,7 +65,7 @@ export default function WelcomePage() {
 
   if (loadingMe) {
     return (
-      <div className="flex items-center justify-center my-10">
+      <div className="my-10 flex items-center justify-center">
         <Loader2 className="h-15 w-15 animate-spin text-muted-foreground" />
       </div>
     )
@@ -77,13 +77,13 @@ export default function WelcomePage() {
 
   return (
     <div className="flex items-center justify-center py-10">
-      <Card className="max-w-125 w-full">
+      <Card className="w-full max-w-125">
         <CardContent className="p-6">
           <div className="flex flex-col gap-6">
-            <h1 className="text-2xl font-bold text-center">
+            <h1 className="text-center text-2xl font-bold">
               {t("auth.profile.welcome.title")}
             </h1>
-            <p className="text-base text-muted-foreground text-center">
+            <p className="text-center text-base text-muted-foreground">
               {t("auth.profile.welcome.description")}
             </p>
 
@@ -92,7 +92,7 @@ export default function WelcomePage() {
                 <div className="flex flex-col gap-y-2">
                   <Label htmlFor="name">
                     {t("auth.profile.name")}
-                    <span className="text-destructive ml-1">*</span>
+                    <span className="ml-1 text-destructive">*</span>
                   </Label>
                   <Input
                     id="name"

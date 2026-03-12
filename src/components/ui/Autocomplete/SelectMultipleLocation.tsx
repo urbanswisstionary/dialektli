@@ -185,7 +185,7 @@ const SelectMultipleLocation: FC<SelectMultipleLocationProps> = ({
             disabled={disabled}
             className={cn(
               "flex h-9 w-full items-center rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors",
-              "hover:bg-accent focus:outline-none focus:ring-1 focus:ring-ring",
+              "hover:bg-accent focus:ring-1 focus:ring-ring focus:outline-none",
               disabled && "cursor-not-allowed opacity-50",
               "text-muted-foreground",
             )}
