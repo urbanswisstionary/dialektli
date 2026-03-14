@@ -34,18 +34,18 @@ export default function SignInPage() {
   const isDevelopment = process.env.NODE_ENV === "development"
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-background">
-      <Card className="max-w-100 w-full mx-2">
+    <div className="flex min-h-screen items-center justify-center bg-background">
+      <Card className="mx-2 w-full max-w-100">
         <CardContent className="p-6">
-          <h1 className="text-2xl font-bold text-center mb-1">
+          <h1 className="mb-1 text-center text-2xl font-bold">
             {t("auth.signinPage.title")}
           </h1>
-          <p className="text-sm text-muted-foreground text-center mb-6">
+          <p className="mb-6 text-center text-sm text-muted-foreground">
             {t("auth.signinPage.subtitle")}
           </p>
           <div className="flex flex-col gap-4">
             <Button
-              className="w-full bg-[#4285F4] hover:bg-[#357ae8] text-white"
+              className="w-full bg-[#4285F4] text-white hover:bg-[#357ae8]"
               onClick={() => handleOAuthSignIn("google")}
             >
               <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
@@ -73,7 +73,7 @@ export default function SignInPage() {
               <>
                 <div className="relative my-2">
                   <Separator />
-                  <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-card px-2 text-xs text-muted-foreground">
+                  <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-card px-2 text-xs text-muted-foreground">
                     {t("auth.signinPage.developmentOnly")}
                   </span>
                 </div>
@@ -82,7 +82,7 @@ export default function SignInPage() {
                     <div className="flex flex-col gap-y-2">
                       <Label htmlFor="email">
                         {t("auth.signinPage.email")}
-                        <span className="text-destructive ml-1">*</span>
+                        <span className="ml-1 text-destructive">*</span>
                       </Label>
                       <Input
                         id="email"
@@ -96,7 +96,7 @@ export default function SignInPage() {
                     <div className="flex flex-col gap-y-2">
                       <Label htmlFor="password">
                         {t("auth.signinPage.password")}
-                        <span className="text-destructive ml-1">*</span>
+                        <span className="ml-1 text-destructive">*</span>
                       </Label>
                       <Input
                         id="password"
@@ -110,7 +110,7 @@ export default function SignInPage() {
                     <Button type="submit" variant="outline" className="w-full">
                       {t("auth.signinPage.withTestAccount")}
                     </Button>
-                    <p className="text-xs text-muted-foreground text-center">
+                    <p className="text-center text-xs text-muted-foreground">
                       {t("auth.signinPage.testCredentialsHint")}
                     </p>
                   </div>

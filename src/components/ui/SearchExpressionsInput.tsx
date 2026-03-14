@@ -112,7 +112,7 @@ const SearchExpressionsInput: FC<SearchExpressionsInputProps> = ({
       <Popover open={open && !!q} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <div className="relative">
-            <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Search className="absolute top-1/2 left-2.5 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               ref={inputRef}
               placeholder={t("actions.search")}

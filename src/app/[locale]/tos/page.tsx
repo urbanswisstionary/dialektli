@@ -202,10 +202,10 @@ export default function TOSPage() {
             >
               {t("legal.tos.updates.title")}
             </h2>
-            <p className="mb-2 text-sm italic text-muted-foreground">
+            <p className="mb-2 text-sm text-muted-foreground italic">
               {t("legal.lastUpdated")}: {formatMonthName(1, { locale })} 2024
             </p>
-            <p className="text-sm italic text-muted-foreground">
+            <p className="text-sm text-muted-foreground italic">
               {t("legal.copyrights", {
                 year: new Date().getFullYear(),
               })}

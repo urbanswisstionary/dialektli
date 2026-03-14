@@ -67,7 +67,7 @@ const Navbar: FC = () => {
         </Link>
 
         {/* Desktop Search */}
-        <div className="hidden flex-1 md:flex items-center gap-2 md:max-w-120">
+        <div className="hidden flex-1 items-center gap-2 md:flex md:max-w-120">
           <SearchExpressionsInput className="w-full" />
           {me && (
             <Button variant="default" size="sm" asChild disabled={meLoading}>
@@ -93,7 +93,7 @@ const Navbar: FC = () => {
             asChild
             className={cn(
               pathname === "/" &&
-                "bg-accent text-accent-foreground font-semibold",
+                "bg-accent font-semibold text-accent-foreground",
             )}
           >
             <Link href="/">
@@ -108,7 +108,7 @@ const Navbar: FC = () => {
             asChild
             className={cn(
               pathname === "/sprachatlas" &&
-                "bg-accent text-accent-foreground font-semibold",
+                "bg-accent font-semibold text-accent-foreground",
             )}
           >
             <Link href="/sprachatlas">
@@ -128,7 +128,7 @@ const Navbar: FC = () => {
                   aria-label={t("layout.sidebar.profile")}
                 >
                   <Avatar className="h-8 w-8">
-                    <AvatarFallback className="bg-primary text-primary-foreground text-xs font-medium">
+                    <AvatarFallback className="bg-primary text-xs font-medium text-primary-foreground">
                       {getInitials(me.name ?? me.email ?? "U")}
                     </AvatarFallback>
                   </Avatar>

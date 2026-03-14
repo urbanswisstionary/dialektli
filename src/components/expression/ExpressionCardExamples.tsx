@@ -30,8 +30,8 @@ const ExpressionCardExamples: FC<ExpressionCardExamplesProps> = ({
       label={`${t("expression.examples")}:`}
     >
       {examples.map((example) => (
-        <div key={example.id} className="py-1.5 px-2">
-          <p className="text-sm italic text-muted-foreground">
+        <div key={example.id} className="px-2 py-1.5">
+          <p className="text-sm text-muted-foreground italic">
             {example.definition}
           </p>
         </div>

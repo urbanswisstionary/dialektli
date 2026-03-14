@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server"
 import nodemailer from "nodemailer"
 
+import { env } from "@/env"
+
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: process.env.NODEMAILER_EMAIL,
-    pass: process.env.NODEMAILER_PASSWORD,
+    user: env.NODEMAILER_EMAIL,
+    pass: env.NODEMAILER_PASSWORD,
   },
 })
 
@@ -30,8 +32,8 @@ export async function POST(request: Request) {
     `
 
     await transporter.sendMail({
-      from: process.env.NODEMAILER_EMAIL,
-      to: process.env.NODEMAILER_EMAIL,
+      from: env.NODEMAILER_EMAIL,
+      to: env.NODEMAILER_EMAIL,
       replyTo: email,
       subject: `[Contact] ${subject}`,
       html,

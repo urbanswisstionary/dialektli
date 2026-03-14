@@ -9,9 +9,9 @@ const ExpressionCardSkeleton: FC = () => (
   <Card className="p-6">
     <CardContent className="p-0">
       {/* Header */}
-      <div className="flex justify-between items-start mb-4">
+      <div className="mb-4 flex items-start justify-between">
         <div className="flex-1">
-          <div className="flex items-center gap-2 mb-2">
+          <div className="mb-2 flex items-center gap-2">
             <Skeleton className="h-5 w-44" />
             <Skeleton className="h-4 w-12 rounded-full" />
             <Skeleton className="h-4 w-16 rounded-full" />
@@ -23,18 +23,18 @@ const ExpressionCardSkeleton: FC = () => (
 
       {/* Definition */}
       <div className="mb-4">
-        <Skeleton className="h-4 w-full mb-2" />
+        <Skeleton className="mb-2 h-4 w-full" />
         <Skeleton className="h-4 w-3/4" />
       </div>
 
       {/* Tags */}
-      <div className="flex gap-2 mb-4">
+      <div className="mb-4 flex gap-2">
         <Skeleton className="h-4 w-16 rounded-full" />
         <Skeleton className="h-4 w-12 rounded-full" />
       </div>
 
       {/* Footer */}
-      <div className="flex justify-between items-center pt-4 border-t border-border">
+      <div className="flex items-center justify-between border-t border-border pt-4">
         <Skeleton className="h-3 w-24" />
         <div className="flex gap-2">
           <Skeleton className="h-8 w-16 rounded" />

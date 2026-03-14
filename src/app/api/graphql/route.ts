@@ -10,6 +10,7 @@ import { NextRequest, NextResponse } from "next/server"
 
 import type { Context } from "@/graphql/builder"
 
+import { env } from "@/env"
 import { schema } from "@/graphql/schema"
 
 const isProd = process.env.NODE_ENV === "production"
@@ -40,10 +41,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  if (
-    process.env.UPSTASH_REDIS_REST_URL &&
-    process.env.UPSTASH_REDIS_REST_TOKEN
-  ) {
+  if (env.UPSTASH_REDIS_REST_URL && env.UPSTASH_REDIS_REST_TOKEN) {
     const ratelimit = new Ratelimit({
       redis: Redis.fromEnv(),
       limiter: Ratelimit.slidingWindow(60, "1 m"),

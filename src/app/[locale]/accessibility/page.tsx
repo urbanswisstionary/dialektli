@@ -87,7 +87,7 @@ export default function AccessibilityPage() {
 
           {/* Last Updated */}
           <div className="mt-12 border-t border-border pt-6">
-            <p className="text-sm italic text-muted-foreground">
+            <p className="text-sm text-muted-foreground italic">
               {t("accessibility.updated")}
             </p>
           </div>

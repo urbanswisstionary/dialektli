@@ -33,7 +33,7 @@ const SelectLanguage: FC<SelectLanguageProps> = ({
 }) => {
   const t = useTranslations()
   return (
-    <div className="w-full flex flex-col gap-y-2">
+    <div className="flex w-full flex-col gap-y-2">
       {label ? (
         <label className="mb-1 block text-sm font-medium">{label}</label>
       ) : null}

@@ -43,7 +43,7 @@ export default function DMCAPage() {
             {t("legal.dmca.section4.content")}
           </p>
 
-          <p className="mt-10 text-sm italic text-muted-foreground">
+          <p className="mt-10 text-sm text-muted-foreground italic">
             {t("legal.lastUpdated")}: {formatMonthName(1, { locale })} 2026
           </p>
         </CardContent>

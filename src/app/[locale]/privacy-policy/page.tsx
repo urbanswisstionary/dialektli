@@ -155,7 +155,7 @@ export default function PrivacyPolicyPage() {
           </p>
 
           <div className="mt-12 border-t border-border pt-6">
-            <p className="text-sm italic text-muted-foreground">
+            <p className="text-sm text-muted-foreground italic">
               {t("legal.lastUpdated")}: {formatMonthName(1, { locale })} 2024
             </p>
           </div>

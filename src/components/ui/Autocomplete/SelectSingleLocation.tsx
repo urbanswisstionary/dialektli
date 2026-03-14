@@ -165,7 +165,7 @@ const SelectSingleLocation: FC<SelectSingleLocationProps> = ({
             disabled={disabled}
             className={cn(
               "flex h-9 w-full items-center gap-2 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors",
-              "hover:bg-accent focus:outline-none focus:ring-1 focus:ring-ring",
+              "hover:bg-accent focus:ring-1 focus:ring-ring focus:outline-none",
               disabled && "cursor-not-allowed opacity-50",
               !selectedOption && "text-muted-foreground",
             )}
@@ -222,9 +222,9 @@ const SelectSingleLocation: FC<SelectSingleLocationProps> = ({
                   }
                 }}
                 className={cn(
-                  "flex cursor-pointer items-center rounded-sm px-2 py-1.5 my-1 text-sm text-muted-foreground hover:bg-accent",
+                  "my-1 flex cursor-pointer items-center rounded-sm px-2 py-1.5 text-sm text-muted-foreground hover:bg-accent",
                   focusedIndex === 0 &&
-                    "bg-accent outline-none ring-1 ring-ring",
+                    "bg-accent ring-1 ring-ring outline-none",
                 )}
               >
                 {t("actions.clear")}

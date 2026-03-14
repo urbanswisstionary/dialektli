@@ -25,7 +25,7 @@ const ExpressionCardSynonyms: FC<ExpressionCardSynonymsProps> = ({
     <ExpressionCardContentList label={`${t("expression.synonyms")}:`}>
       {synonyms.map(({ synonymOf: s }, i) =>
         s ? (
-          <div key={i} className="py-1.5 px-2">
+          <div key={i} className="px-2 py-1.5">
             <div className="flex items-center justify-between gap-2">
               <Link
                 href={`/expressions/${s.id}`}
@@ -33,7 +33,7 @@ const ExpressionCardSynonyms: FC<ExpressionCardSynonymsProps> = ({
               >
                 {s.title}
               </Link>
-              <div className="flex items-center gap-0.5 flex-wrap justify-end">
+              <div className="flex flex-wrap items-center justify-end gap-0.5">
                 {s.cantons?.map((canton: string, i: number) => (
                   <Flag key={i} mode="canton" code={canton} />
                 ))}
@@ -43,7 +43,7 @@ const ExpressionCardSynonyms: FC<ExpressionCardSynonymsProps> = ({
         ) : null,
       )}
       {!!synonyms.length && <Separator className="my-1" />}
-      <div className="py-1.5 px-2">
+      <div className="px-2 py-1.5">
         <Link
           href={`/expressions/new?synonym=${expression.id}`}
           className="text-sm font-semibold text-primary hover:underline"

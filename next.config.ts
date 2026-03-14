@@ -1,3 +1,4 @@
+import "./src/env"
 import { NextConfig } from "next"
 import createNextIntlPlugin from "next-intl/plugin"
 

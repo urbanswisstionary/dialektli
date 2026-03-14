@@ -11,7 +11,7 @@ export default async function NotFound() {
     <div className="flex flex-1 items-center justify-center px-4 py-24">
       <div className="mx-auto flex max-w-md flex-col items-center text-center">
         <div className="relative mb-6">
-          <span className="text-[8rem] font-bold leading-none tracking-tighter text-primary/10">
+          <span className="text-[8rem] leading-none font-bold tracking-tighter text-primary/10">
             {t("title")}
           </span>
           <div className="absolute inset-0 flex items-center justify-center">
@@ -21,10 +21,10 @@ export default async function NotFound() {
           </div>
         </div>
 
-        <h1 className="text-balance text-2xl font-bold text-foreground">
+        <h1 className="text-2xl font-bold text-balance text-foreground">
           {t("subtitle")}
         </h1>
-        <p className="mt-3 text-pretty text-base leading-relaxed text-muted-foreground">
+        <p className="mt-3 text-base leading-relaxed text-pretty text-muted-foreground">
           {t("description")}
         </p>
 

@@ -13,9 +13,9 @@ generator pothos {
 }
 
 generator erd {
-  provider = "prisma-erd-generator"
-  output   = "../db.svg"
-  theme = "default"
+  provider                  = "prisma-erd-generator"
+  output                    = "../db.svg"
+  theme                     = "default"
   includeRelationFromFields = true
 }
 

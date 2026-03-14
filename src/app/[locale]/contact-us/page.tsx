@@ -65,28 +65,28 @@ export default function ContactUsPage() {
               <div className="flex flex-col gap-2">
                 <Label htmlFor="name">
                   {t("contactUs.name")}
-                  <span className="text-destructive ml-1">*</span>
+                  <span className="ml-1 text-destructive">*</span>
                 </Label>
                 <Input id="name" name="name" required />
               </div>
               <div className="flex flex-col gap-2">
                 <Label htmlFor="email">
                   {t("contactUs.email")}
-                  <span className="text-destructive ml-1">*</span>
+                  <span className="ml-1 text-destructive">*</span>
                 </Label>
                 <Input id="email" name="email" type="email" required />
               </div>
               <div className="flex flex-col gap-2">
                 <Label htmlFor="subject">
                   {t("contactUs.subject")}
-                  <span className="text-destructive ml-1">*</span>
+                  <span className="ml-1 text-destructive">*</span>
                 </Label>
                 <Input id="subject" name="subject" required />
               </div>
               <div className="flex flex-col gap-2">
                 <Label htmlFor="message">
                   {t("contactUs.message")}
-                  <span className="text-destructive ml-1">*</span>
+                  <span className="ml-1 text-destructive">*</span>
                 </Label>
                 <Textarea id="message" name="message" rows={6} required />
               </div>

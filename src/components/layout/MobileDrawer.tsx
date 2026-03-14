@@ -58,7 +58,7 @@ const MobileDrawer: FC = () => {
           <Menu className="h-5 w-5" />
         </Button>
       </SheetTrigger>
-      <SheetContent side="right" className="w-72 p-0 overflow-y-auto">
+      <SheetContent side="right" className="w-72 overflow-y-auto p-0">
         <SheetHeader className="border-b border-border p-4">
           <SheetTitle className="text-left text-lg font-bold">
             {companyName}
@@ -68,7 +68,7 @@ const MobileDrawer: FC = () => {
         {!meLoading && me && (
           <div className="flex items-center gap-3 border-b border-border p-4">
             <Avatar className="h-10 w-10">
-              <AvatarFallback className="bg-primary text-primary-foreground text-sm font-medium">
+              <AvatarFallback className="bg-primary text-sm font-medium text-primary-foreground">
                 {getInitials(me.name ?? me.email ?? "U")}
               </AvatarFallback>
             </Avatar>

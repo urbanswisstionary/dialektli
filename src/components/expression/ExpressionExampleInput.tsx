@@ -52,7 +52,7 @@ const ExpressionExampleInput: FC<ExpressionExampleInputProps> = ({
 
       <div className="flex flex-col gap-y-2">
         <div
-          className="flex justify-between items-center"
+          className="flex items-center justify-between"
           role="presentation"
           onClick={() => textareaRef.current?.focus()}
           onKeyDown={(e) => {
@@ -89,7 +89,7 @@ const ExpressionExampleInput: FC<ExpressionExampleInputProps> = ({
             disabled={disabled}
             className="resize-y"
           />
-          <span className="absolute top-2 left-2 text-xs text-muted-foreground pointer-events-none">
+          <span className="pointer-events-none absolute top-2 left-2 text-xs text-muted-foreground">
             {definition.length}/{exampleMaxLength}
           </span>
         </div>

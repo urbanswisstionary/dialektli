@@ -27,10 +27,10 @@ export default function Error({
         </div>
 
         {/* Heading & description */}
-        <h1 className="text-2xl font-bold text-foreground text-balance">
+        <h1 className="text-2xl font-bold text-balance text-foreground">
           Something Went Wrong
         </h1>
-        <p className="mt-3 text-base leading-relaxed text-muted-foreground text-pretty">
+        <p className="mt-3 text-base leading-relaxed text-pretty text-muted-foreground">
           An unexpected error occurred while loading this page. Please try
           again, or return to the home page.
         </p>
