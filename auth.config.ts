@@ -4,23 +4,21 @@ import { Role } from "@prisma/client"
 import Credentials from "next-auth/providers/credentials"
 import Google from "next-auth/providers/google"
 
+import { env } from "@/env"
 import prisma from "@/lib/prisma"
 
 const providers = []
 
-if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+if (env.GOOGLE_CLIENT_ID && env.GOOGLE_CLIENT_SECRET) {
   providers.push(
     Google({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
   )
 }
 
-if (
-  process.env.NODE_ENV === "development" &&
-  process.env.ENABLE_DEV_LOGIN === "true"
-) {
+if (process.env.NODE_ENV === "development" && env.ENABLE_DEV_LOGIN === "true") {
   providers.push(
     Credentials({
       name: "Development Test User",

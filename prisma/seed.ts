@@ -1,12 +1,10 @@
-// oxlint-disable no-console
 import { PrismaPg } from "@prisma/adapter-pg"
 import { PrismaClient } from "@prisma/client"
-import pg from "pg"
 
-const pool = new pg.Pool({
-  connectionString: process.env.POSTGRES_URL,
-})
-const adapter = new PrismaPg(pool)
+// oxlint-disable no-console
+import { env } from "@/env"
+
+const adapter = new PrismaPg({ connectionString: env.POSTGRES_URL })
 const prisma = new PrismaClient({ adapter })
 
 async function main() {
@@ -228,5 +226,4 @@ main()
   })
   .finally(async () => {
     await prisma.$disconnect()
-    await pool.end()
   })
