@@ -17,7 +17,7 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:seed": "prisma db seed",
     "codegen": "SKIP_DB_CONNECTION=true npx graphql-codegen --require tsconfig-paths/register --config codegen.ts",
-    "postinstall": "husky"
+    "postinstall": "husky || true"
   },
   "dependencies": {
     "@apollo/client": "^4.1.6",
