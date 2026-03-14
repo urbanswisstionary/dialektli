@@ -16,7 +16,8 @@
     "prisma:studio": "prisma studio",
     "prisma:migrate": "prisma migrate dev",
     "prisma:seed": "prisma db seed",
-    "codegen": "SKIP_DB_CONNECTION=true npx graphql-codegen --require tsconfig-paths/register --config codegen.ts"
+    "codegen": "SKIP_DB_CONNECTION=true npx graphql-codegen --require tsconfig-paths/register --config codegen.ts",
+    "postinstall": "husky"
   },
   "dependencies": {
     "@apollo/client": "^4.1.6",
@@ -86,6 +87,7 @@
     "@types/react-dom": "^19.2.3",
     "eslint": "9.39.4",
     "eslint-config-next": "16.1.6",
+    "husky": "^9.1.7",
     "oxfmt": "^0.40.0",
     "oxlint": "^1.55.0",
     "prisma": "^7.5.0",
