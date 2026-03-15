@@ -6,6 +6,8 @@ import { Loader2 } from "lucide-react"
 import { useTranslations } from "next-intl"
 
 import ExpressionCard from "@/components/expression/ExpressionCard"
+import ExpressionCardNoData from "@/components/expression/ExpressionCardNoData"
+import ExpressionCardSkeleton from "@/components/expression/ExpressionCardSkeleton"
 import { getFragmentData } from "@/generated"
 import { useExpression, ExpressionFragment } from "@/hooks/useExpressions"
 import { useMe } from "@/hooks/useUsers"
@@ -41,7 +43,17 @@ const ExpressionDetailClient: FC<ExpressionDetailClientProps> = ({
     return <>{t("noData")}</>
   }
 
-  return <ExpressionCard expression={expression} disableActions={!me} />
+  return (
+    <div className="my-4">
+      {loading ? (
+        <ExpressionCardSkeleton />
+      ) : expression ? (
+        <ExpressionCard expression={expression} disableActions={!me} />
+      ) : (
+        <ExpressionCardNoData />
+      )}
+    </div>
+  )
 }
 
 export default ExpressionDetailClient

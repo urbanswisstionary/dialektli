@@ -14,6 +14,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import { baseUrl } from "@/config/constants"
 import { cn } from "@/lib/utils"
 
 // ─── Brand SVG Icons ──────────────────────────────────────────────────────────
@@ -161,7 +162,7 @@ const ExpressionCardShareButtons: FC<{
   const url =
     typeof window !== "undefined"
       ? `${window.location.origin}/expressions/${expression.id}`
-      : `https://dialektli.ch/expressions/${expression.id}`
+      : `${baseUrl}/expressions/${expression.id}`
 
   const title = expression.title ?? ""
 

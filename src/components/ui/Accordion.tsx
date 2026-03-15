@@ -26,7 +26,7 @@ const AccordionItem: FC<AccordionContent> = ({ children, label, expanded }) => {
       <Button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex w-full items-center justify-between rounded-md border border-border bg-card px-3 py-2 text-sm hover:bg-accent"
+        className="flex w-full items-center justify-between rounded-md border border-border bg-card px-3 py-2 text-sm text-foreground hover:bg-accent"
         aria-expanded={open}
       >
         <span className="opacity-60">{label}</span>

@@ -61,6 +61,7 @@
     "open": "Öffnen",
     "close": "Schliessen",
     "clear": "Leeren",
+    "clearFilters": "Filter leeren",
     "submit": "Einreichen",
     "cancel": "Abbrechen",
     "edit": "Bearbeiten",
@@ -642,5 +643,12 @@
     "lastPage": "Letzte Seite",
     "currentPage": "Seite {current} von {total}",
     "perPage": "{count} pro Seite"
+  },
+  "breadcrumbs": {
+    "home": "Startseite"
+  },
+  "authorPage": {
+    "title": "Einträge von {name}",
+    "description": "Alle Schweizer Dialektausdrücke von {name} auf Dialektli"
   }
 }

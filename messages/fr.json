@@ -61,6 +61,7 @@
     "open": "Ouvrir",
     "close": "Fermer",
     "clear": "Effacer",
+    "clearFilters": "Effacer les filtres",
     "submit": "Soumettre",
     "cancel": "Annuler",
     "edit": "Éditer",
@@ -641,5 +642,12 @@
     "lastPage": "Dernière page",
     "currentPage": "Page {current} sur {total}",
     "perPage": "{count} par page"
+  },
+  "breadcrumbs": {
+    "home": "Accueil"
+  },
+  "authorPage": {
+    "title": "Entrées par {name}",
+    "description": "Toutes les expressions dialectales suisses contribuées par {name} sur Dialektli"
   }
 }

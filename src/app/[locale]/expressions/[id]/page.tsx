@@ -1,19 +1,16 @@
 import type { Metadata } from "next"
 
+import { baseUrl } from "@/config/constants"
 import { routing } from "@/i18n/routing"
 import prisma from "@/lib/prisma"
 
 import ExpressionDetailClient from "./ExpressionDetailClient"
 
-type Props = {
-  params: Promise<{ id: string; locale: string }>
-}
-
-const BASE_URL = "https://dialektli.ch"
+type Props = PageProps<"/[locale]/expressions/[id]">
 
 function expressionUrl(locale: string, id: string): string {
   const prefix = locale === routing.defaultLocale ? "" : `/${locale}`
-  return `${BASE_URL}${prefix}/expressions/${id}`
+  return `${baseUrl}${prefix}/expressions/${id}`
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -56,7 +53,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url: canonicalUrl,
       images: [
         {
-          url: "https://dialektli.ch/assets/dialektli_logo.svg",
+          url: `${baseUrl}/assets/dialektli_logo.svg`,
           width: 1200,
           height: 630,
           alt: "Dialektli Logo",
@@ -67,7 +64,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: "summary",
       title: `${title} | Dialektli`,
       description,
-      images: ["https://dialektli.ch/assets/dialektli_logo.svg"],
+      images: [`${baseUrl}/assets/dialektli_logo.svg`],
     },
   }
 }
@@ -90,7 +87,7 @@ export default async function ExpressionDetailPage({ params }: Props) {
         inDefinedTermSet: {
           "@type": "DefinedTermSet",
           name: "Dialektli",
-          url: BASE_URL,
+          url: baseUrl,
         },
         inLanguage: "de-CH",
       })

@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic"
 
 import { useExpressionsFilters } from "@/components/expression/ExpressionFilters"
+import Breadcrumbs from "@/components/ui/Breadcrumbs"
 import { useExpressionsQuery } from "@/hooks/useExpressions"
 import { usePaginationState } from "@/hooks/usePaginationState"
 
@@ -21,7 +22,12 @@ const ExpressionCardsList = dynamic(
   },
 )
 
-export default function HomePage() {
+type AuthorPageClientProps = {
+  authorName: string
+}
+export default function AuthorPageClient({
+  authorName,
+}: AuthorPageClientProps) {
   const { q, canton, firstChar, language, sortByPopularity } =
     useExpressionsFilters()
   const { onDataCountChange, ...paginationProps } = usePaginationState()
@@ -31,6 +37,7 @@ export default function HomePage() {
     previousData,
     loading: loadingExpressionsQuery,
   } = useExpressionsQuery({
+    authorName,
     offset: (paginationProps.pageIndex - 1) * paginationProps.pageSize,
     limit: paginationProps.pageSize,
     q,
@@ -46,8 +53,9 @@ export default function HomePage() {
 
   return (
     <div className="mt-4 mb-6 flex flex-col gap-6">
-      <ExpressionFilters loading={loadingExpressionsQuery} />
+      <Breadcrumbs items={[{ label: authorName }]} />
 
+      <ExpressionFilters loading={loadingExpressionsQuery} />
       <ExpressionCardsList
         expressions={expressionsQuery?.expressions}
         paginationProps={paginationProps}

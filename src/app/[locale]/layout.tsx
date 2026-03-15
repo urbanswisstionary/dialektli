@@ -11,6 +11,8 @@ import ApolloProvider from "@/components/providers/ApolloProvider"
 import SessionProvider from "@/components/providers/SessionProvider"
 import ThemeProvider from "@/components/providers/ThemeProvider"
 import "@/app/globals.css"
+import { baseUrl } from "@/config/constants"
+
 import { locales } from "../../i18n/request"
 
 const roboto = Roboto({
@@ -21,7 +23,7 @@ const roboto = Roboto({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://dialektli.ch"),
+  metadataBase: new URL(baseUrl),
   title: {
     default: "Dialektli - Swiss Dialect Dictionary",
     template: "%s | Dialektli",
@@ -45,7 +47,7 @@ export const metadata: Metadata = {
       "Community-driven platform for Swiss expressions, words, and idioms",
     images: [
       {
-        url: "https://dialektli.ch/assets/dialektli_logo.svg",
+        url: `${baseUrl}/assets/dialektli_logo.svg`,
         width: 1200,
         height: 630,
         alt: "Dialektli Logo",
@@ -57,7 +59,7 @@ export const metadata: Metadata = {
     title: "Dialektli - Swiss Dialect Dictionary",
     description:
       "Community-driven platform for Swiss expressions, words, and idioms",
-    images: ["https://dialektli.ch/assets/dialektli_logo.svg"],
+    images: [`${baseUrl}/assets/dialektli_logo.svg`],
   },
   robots: {
     index: true,

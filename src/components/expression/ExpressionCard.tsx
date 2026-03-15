@@ -187,12 +187,10 @@ const ExpressionCard: FC<ExpressionCardProps> = ({
                 <button
                   onClick={(e) => {
                     e.preventDefault()
-                    setQueryOnPage(router, pathname, searchParams, {
-                      author: expression.author?.name ?? "",
-                    })
+                    router.push(`/author/${expression.author?.name ?? ""}`)
                   }}
                   className="relative z-10 cursor-pointer px-1 py-3 text-primary hover:underline"
-                  aria-label={`Filter expressions by author ${expression.author?.name}`}
+                  aria-label={`View all expressions by author ${expression.author?.name}`}
                 >
                   {expression.author?.name}
                 </button>

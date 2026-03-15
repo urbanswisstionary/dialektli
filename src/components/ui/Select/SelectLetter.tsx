@@ -41,7 +41,7 @@ const SelectLetter: FC<SelectLetterProps> = ({
             }}
             disabled={disabled}
             className={cn(
-              "flex w-[4ch] items-center justify-center rounded-md border px-2 py-1 text-sm shadow-sm transition-colors",
+              "flex w-[4ch] items-center justify-center rounded-md border px-2 py-1 text-sm text-foreground shadow-sm transition-colors",
               value?.toUpperCase() === letter
                 ? "border-primary bg-primary/10 font-medium"
                 : "border-border bg-card hover:bg-accent",
